@@ -1,0 +1,126 @@
+/* WorkingWiki extension for MediaWiki 1.13 and after
+ * Copyright (C) 2010 Lee Worden <worden.lee@gmail.com>
+ * http://lalashan.mcmaster.ca/theobio/projects/index.php/WorkingWiki
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/* workingwiki-general.css */
+
+/* this looks like MW's .editsection, but it's a little different */
+/* .editsection { float: right; margin-left: 5px; } */
+/* In the general case, just float it on the right, same as editsection */
+/* ??? why did I have margin-right:5px; ??? I took it back out, so it
+ * would look right alongside the actual .editsection */
+.ww-altlinks { float:right; margin-left:5px; font-family:sans-serif;
+               clear:right; }
+/* adjustments for altlinks within other elements */
+.mw-content-ltr .ww-altlinks,
+.mw-content-rtl .mw-content-ltr .ww-altlinks {
+	/* @noflip */ float:right;
+}
+.mw-content-rtl .ww-altlinks,
+.mw-content-ltr .mw-content-rtl .ww-altlinks {
+	/* @noflip */ float:left;
+}
+h1 .ww-altlinks { font-size:53%; }
+h2 .ww-altlinks { font-size:67%; }
+h3 .ww-altlinks { font-size:76%; font-weight:normal; }
+h4 .ww-altlinks { font-size:86%; font-weight:normal; }
+h5 .ww-altlinks { font-weight:normal; }
+h6 .ww-altlinks { font-size:125%; font-weight:normal; }
+.toc .ww-altlinks { display:none; }
+
+/* In the snazzy case where it's aligned with the LaTeX document title,
+ * it needs to be layered over it so that the title doesn't go off center. 
+ * Those cases are in the styles for the different tex translators. */
+
+/* this is the style for a piece of MathML that is a link to its log file */
+.ww-tex-math-link { color:inherit; }
+.ww-tex-math-link:visited { color:inherit; }
+.ww-tex-math-link:hover { text-decoration:none; color:#002bb8; }
+
+/* source listings with filename attached as legend */
+fieldset.ww-project-file-source
+  { border:1px dashed #2f6fab; margin:0; }
+fieldset.ww-project-file-source legend
+  { font-size:85%; padding:5px 2px 5px 2px; }
+fieldset.ww-project-file-source pre,
+fieldset.ww-project-file-source .mw-code
+  { border:none !important; 
+    padding:0; margin:0;
+  }
+/* for this part, the pre could be in a fieldset or a div */
+.ww-project-file-source pre
+  { /* http://users.tkk.fi/tkarvine/pre-wrap-css3-mozilla-opera-ie.html */
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */ 
+  }
+
+/* error reporting */
+.ww-messages { text-align:left; }
+.ww-messages .message { font-size:100% }
+.ww-messages .warning { font-size:100%; }
+.ww-messages .error { font-size:100%; }
+/* debug messages are not displayed by default.  A user can make them
+   visible via user css */
+.ww-messages .debug { display:none; }
+/* In fact, the enclosing fieldset is invisible by default if there's nothing
+   in it but debug messages. */
+.debug-only { display:none; }
+/* And don't print the messages. (is this desirable?) */
+@media print {
+  .ww-messages { display:none; }
+}
+
+/* Messages from ww-action operations */
+.ww-action-message  { font-weight:bold; color:black; }
+.ww-action-warning  { font-weight:bold; }
+.ww-action-error    { font-weight:bold; }
+.ww-action-question { font-weight:bold; }
+
+/* color-blind accessible colors from 
+http://www.btplc.com/inclusion/Gettingonline/Accessible/Adviceforwebdevelopers/colours.htm
+new colors from http://jfly.iam.u-tokyo.ac.jp/color/
+*/
+.ww-action-warning, .ww-messages .warning  { color:#d89e00; }
+.ww-action-error, .ww-messages .error    { color:#c26200; }
+.ww-action-question { color:#0072b6; }
+
+/* project search form */
+#p-Projects li { width:100em; } /* don't let the project links wrap */
+#p-Projects div { overflow:hidden; }
+/* MonoBook version */
+div.portlet #project-search 
+  { font-size:95%; margin:0; width:9.9em; margin-top:4px; }
+div.portlet #project-go
+  { font-size:95%; margin:0; width:8.6em; margin-top:4px; }
+/* Vector version */
+div.portal .project-search-form { font-size:0.7em; }
+div.portal #project-search
+  { font-size:130%; margin:0; width: 10em; }
+div.portal #project-go
+  { font-size:0.9em; margin:0 0 3px 0; width: 8em; }
+/* hmm, Vector seems to want all links in sidebar to be blue */
+#p-Projects a.new { color:#cc2200 !important; }
+
+/* This is used in multiple pages to make the make,sync,remove buttons
+   line up side-to-side instead of top-to-bottom */
+.ww-inline-form { margin:0; padding:0; display:inline; }
+

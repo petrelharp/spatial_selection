@@ -1,0 +1,33 @@
+/* WorkingWiki extension for MediaWiki 1.13 and after
+ * Copyright (C) 2010 Lee Worden <worden.lee@gmail.com>
+ * http://lalashan.mcmaster.ca/theobio/projects/index.php/WorkingWiki
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/* CSS for markup in Special:UploadProjectFiles. */
+.uploadprojectfiles-row-table { width:100%; text-align:right; }
+.import-project-files-prevnext { float:right; }
+.import-project-files-prevnext form { display:inline; }
+.ww-upf-row-2cols { width:100%; }
+.ww-upf-row-left { text-align:right; float:left; width:60% }
+.ww-upf-row-right { float: right; width:39%; }
+.ww-skip-box { padding-bottom:7px; }
+/*
+.ww-source-and-skip { position: absolute; width: 100%; }
+.ww-source-switch { float: left; text-align: left; }
+.ww-skip-box { position: absolute; bottom: 0; right: 0; }
+*/

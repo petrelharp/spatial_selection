@@ -1,0 +1,89 @@
+# ProjectEngine compute server
+# Copyright (C) 2010 Lee Worden <worden.lee@gmail.com>
+# http://lalashan.mcmaster.ca/theobio/projects/index.php/ProjectEngine
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+# http://www.gnu.org/copyleft/gpl.html
+
+#ifndef WW_READ_RESOURCES_MAKEFILE_BEFORE
+#WW_READ_RESOURCES_MAKEFILE_BEFORE = 1
+
+# makefile-before : variable definitions for WorkingWiki operations.
+#
+# this is read by make before a project's makefile(s).  It also includes
+# "site/makefile-before" if it exists, so you can put anything you want
+# to include before all the project makefile code in there.
+#
+# This is a good place for variable definitions, because they can be 
+# overridden by the project's makefile.  Pattern rules are better placed
+# in makefile-after, q.v.
+
+export PATH=/bin:/usr/bin:/usr/local/bin
+
+# WW_THIS_DIR is important for identifying which source files are
+# in this project vs. those in other projects
+WW_THIS_DIR := $(realpath $(CURDIR))
+export WW_THIS_DIR
+#$(info WW_THIS_DIR is $(WW_THIS_DIR))
+
+ifneq ($(WW_ALL_SOURCE_FILES_UNEXPANDED),)
+# WW_ALL_SOURCE_FILES_UNEXPANDED is provided by WW, but with
+# variable names in it (WW doesn't know what the values of the 
+# environment variables WW_THIS_DIR, PROJECT_DIR_Whatever are) 
+# so we expand it now
+# Oddly, it doesn't seem to need $(eval ) to expand it. Actually,
+# it seems to be expanded spontaneously, but I'm going to use
+# a second variable to be safe.
+ifeq ($(origin WW_ALL_SOURCE_FILES),undefined)
+	WW_ALL_SOURCE_FILES := $(WW_ALL_SOURCE_FILES_UNEXPANDED)
+	#export WW_ALL_SOURCE_FILES
+endif
+#$(info WW_ALL_SOURCE_FILES is $(WW_ALL_SOURCE_FILES))
+
+# for compatibility with automatic GNUmakefile
+# it defines WW_THIS_PROJECT_SOURCEFILES but doesn't export it
+# and doesn't define WW_ALL_SOURCE_FILES and WW_ALL_SOURCE_FILES_UNEXPANDED
+# don't export these things because they should be re-evaluated in case of
+# $(MAKE) -C.
+#ifeq ($(origin WW_THIS_PROJECT_SOURCE_FILES),undefined)
+	WW_THIS_PROJECT_SOURCE_FILES := $(subst $(WW_THIS_DIR)/,,$(filter $(WW_THIS_DIR)/%,$(realpath $(WW_ALL_SOURCE_FILES))))
+	#export WW_THIS_PROJECT_SOURCE_FILES
+#$(info WW_THIS_PROJECT_SOURCE_FILES is $(WW_THIS_PROJECT_SOURCE_FILES))
+endif
+
+# WW_ALL_SOURCE_FILES includes source files in our prerequisite projects
+# as well as our own source files, and the reason is so that they can make
+# things as well.  Here's how to do it.  It's probably better to use this 
+# macro than to use $(MAKE) directly, because it will take care
+# of resetting WW_THIS_DIR and WW_THIS_PROJECT_SOURCE_FILES, and including
+# the right makefiles, including the .mk files you need in that directory, 
+# and will continue to work in the future if the architecture changes.
+# Example:
+#   $(call ww-make-in-other-project,$(PROJECT_DIR_Other),target-name)
+define ww-make-in-other-project
+  $(MAKE) -C $1 -f $(RESOURCES)/makefile $2
+endef
+
+# ===== Definitions for LaTeX and LaTeXML =====
+#
+include $(RESOURCES)/makefile-before-latex
+
+# ===== Include the per-site custom rules, if present =====
+# they go last so they can override the defs in this file
+SITE_RESOURCES ?= $(RESOURCES)/site
+export SITE_RESOURCES
+-include $(SITE_RESOURCES)/makefile-before
+
+#endif # WW_READ_RESOURCES_MAKEFILE_BEFORE

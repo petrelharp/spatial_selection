@@ -1,0 +1,279 @@
+# ProjectEngine compute server
+# Copyright (C) 2010 Lee Worden <worden.lee@gmail.com>
+# http://lalashan.mcmaster.ca/theobio/projects/index.php/ProjectEngine
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+# http://www.gnu.org/copyleft/gpl.html
+#
+# See below for exceptions to these licensing terms.
+
+# ==== Rules for LaTeX =====
+
+# these rules were made from a makefile published at
+# http://www.acoustics.hut.fi/u/mairas/UltimateLatexMakefile
+# with extensive modification by Lee Worden
+
+# For latex projects, this makefile is very flexible and powerful.
+#
+# It makes filename.pdf from filename.tex using latex and bibtex
+# (the right number of times), plus makeindex if needed.  It figures
+# out what image, bibliography and included tex files the .pdf depends on
+# and remakes if any of them are newer.
+#
+# If plain latex isn't suitable for your project you can make 
+# filename.pdflatex.pdf or filename.xelatex.pdf, and you can easily
+# make filename.pdf equivalent to one of these targets rather than
+# to filename.latex.pdf by changing one line in this makefile.
+#
+# You can define make rules for your figures or other source files
+# (for instance, define a rule to make a .eps file automatically using
+# a gnuplot script and have it remake automatically when the data file
+# it reads is changed) either in this file or in another makefile that
+# you use with this one.  Remaking the .pdf will then include remaking
+# the figures before running latex.
+#
+# This makefile doesn't have rules to make .dvi, .xdv, or .ps files
+# rather than .pdf, though it does leave .dvi or .xdv files in the 
+# directory if they are created as intermediate products.  It could
+# be straightforwardly rewritten to make .ps files.
+
+# Original copyright notice:
+#
+# Copyright (c) 2005,2006 (in order of appearance):
+#	Matti Airas <Matti.Airas@hut.fi>
+# 	Rainer Jung
+#	Antoine Chambert-Loir
+#	Timo Kiravuo
+#
+# Original Makefile from http://www.math.psu.edu/elkin/math/497a/Makefile
+#
+# Please check http://www.acoustics.hut.fi/u/mairas/UltimateLatexMakefile
+# for new versions.
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions: 
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software. 
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+# CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+# TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+#
+# $Id: Makefile,v 1.18 2006-06-19 10:58:11 mairas Exp $
+
+# filename.pdf is made by making filename.latex.pdf, but it can easily be
+# changed to one of the variants.
+%.pdf : %.$(DEFAULT_LATEX).pdf
+	ln -f $< $@
+
+# pattern rule to make filename.latex.pdf
+# note that filename.latex.pdf doesn't depend only on filename.tex, but
+# also on whatever images, bibliographies and other files have been detected
+# and listed in filename.tex-dependencies
+%.latex.pdf : %.tex
+	$(run-latex)
+
+# pattern rule to make filename.pdflatex.pdf
+# same as the .latex.pdf rule except that it runs pdflatex
+%.pdflatex.pdf : %.tex
+	if [ -r $*.pdf ]; then mv $*.pdf $*.tmp.pdf; fi
+	$(call run-latex-core,$(PDFLATEX))
+	if egrep -q "Output written on .*\.dvi " $*.log; then $(DVIPDF) $*.dvi $*.pdf; fi
+	if [ -r $*.pdf ]; then mv $*.pdf $@; fi
+	if [ -r $*.tmp.pdf ]; then mv $*.tmp.pdf $*.pdf; fi
+
+# pattern rule to make filename.xelatex.pdf
+# same as above except that it runs xelatex, and looks for it to output
+# either a .xdv or .pdf file.
+%.xelatex.pdf : %.tex
+	if [ -r $*.pdf ]; then mv $*.pdf $*.tmp.pdf; fi
+	$(call run-latex-core,$(XELATEX))
+	if egrep -q "Output written on .*\.xdv " $*.log; then $(XDV2PDF) $*.xdv; fi
+	if [ -r $*.pdf ]; then mv $*.pdf $@; fi
+	if [ -r $*.tmp.pdf ]; then mv $*.tmp.pdf $*.pdf; fi
+
+# make use of the dependency files automatically generated from each .tex file,
+# if they are there.
+$(info Including $(WW_TEX_D_SUFFIX) files: $(subst $(WW_TEX_D_DIR)/,,$(WW_TEX_D_FILES)))
+-include $(WW_TEX_D_FILES)
+
+# ===== Rules for latexml =====
+
+# The pattern rule for using latexml to make .html5 from .tex.
+# WorkingWiki uses this for users with MathML-enabled browsers.
+# this rule doesn't specify in full what the .latexml.html5 depends on, 
+#  the .d file does that.  It makes it depend on all the subsidiary .tex,
+#  .bib, .eps etc. that are involved in the document.
+# creates several intermediate files - all are kept in the working directory.
+#  %.latexml.xml is the XML representation of the paper, not viewable directly
+#    (the recursive use of make for this intermediate dependency is so that
+#    it won't be removed after the make process, and can be reused in case
+#    both the html5 and the html version are to be made.)
+#  %.latexml.intermediate.1.html5 is a complete HTML document
+#  %.latexml.intermediate.2.html5 is the body of the document, wrapped in
+#    <div class="latexml-document"> for inclusion in the wiki output
+#  %.latexml.html5 is the same, but with image URLS reassigned to the absolute
+#    location where images are served.
+# Before attempting to make, we remove the old product, so we won't be confused
+#  by seeing an old version in the browser in case of failure.
+# Regarding --hackplane1, see https://trac.mathweb.org/LaTeXML/ticket/1399
+%.latexml.html5 : %.tex
+	$(call MAKEDEPEND_TEX,$<)
+	$(RM) $@
+	$(call getbx,$<) && \
+	$(MAKE) -f $(RESOURCES)/makefile $*.latexml.xml $$bibxmls && \
+	lxpost="$(LATEXMLPOST) $(HACKPLANE1) --novalidate --destination=$*.intermediate.latexml.html5 --format=html5 $$bibxargs $*.latexml.xml" && echo $$lxpost && $$lxpost
+	$(LATEXML_PL) $*.intermediate.latexml.html5 >$@
+
+# and the older rule to make .xhtml (obsolete now?)
+%.latexml.xhtml : %.tex
+	$(call MAKEDEPEND_TEX,$<)
+	$(RM) $@
+	$(call getbx,$<); \
+	$(MAKE) -f $(RESOURCES)/makefile $*.latexml.xml $$bibxmls && \
+	lxpost="$(LATEXMLPOST) $(HACKPLANE1) --novalidate --destination=$*.intermediate.latexml.xhtml --format=xhtml $$bibxargs $*.latexml.xml" && echo $$lxpost && $$lxpost
+	$(LATEXML_PL) $*.intermediate.latexml.xhtml >$@
+
+# The pattern rule for using latexml to make .html from .tex.
+# WorkingWiki uses this for users whose browsers don't handle MathML.
+# It's the same as the .html5 one, but with different --format argument.
+# This case causes latexmlpost to make all the equations into .png files and 
+# display them as images.
+%.latexml.html : %.tex
+	$(call MAKEDEPEND_TEX,$<)
+	$(RM) $@
+	$(call getbx,$<); \
+	$(MAKE) -f $(RESOURCES)/makefile $*.latexml.xml $$bibxmls && \
+	$(LATEXMLPOST) --destination=$*.intermediate.latexml.html --format=html --novalidate $$bibxargs $*.latexml.xml
+	$(LATEXML_PL) $*.intermediate.latexml.html >$@
+
+# The pattern rule to make .xml from .tex using latexml, which is used by
+# the above 3 rules in a sort of hackish way to share an intermediate target.
+%.latexml.xml : %.tex
+	$(LATEXML) $(LATEXMLFLAGS) --destination=$@ $<
+
+# the automatic rules in the 'LaTeX' section of this makefile, below, create
+# a %.d file that causes the above %.latexml.*html to depend on these 
+# .bib.xml files, so they'll be made before the above rules are called.
+# There's a .bib.xml for each .bib file used in the tex source.
+%.bib.xml : %.bib
+	$(LATEXML) $(LATEXMLBIBFLAGS) --bibtex --documentid=$(subst /,.,$(subst _,.,$*)) --destination=$@ $<
+
+# WorkingWiki puts inline latex elements (the contents of a <latex>...</latex>
+# xml tag) into .tex-inline files so that we can use a slightly different
+# process on them (mainly, we wrap them in <span> rather than <div>, and
+# do something different to extract the inside of the html content, I don't
+# remember exactly what...)
+%.tex-inline.latexml.html5 : %.tex-inline
+	$(RM) $@
+	$(MAKE) -f $(RESOURCES)/makefile $*.tex-inline.latexml.xml
+	$(LATEXMLPOST) --destination=$*.tex-inline.latexml.intermediate.1.html5 --format=html5 $(HACKPLANE1) --novalidate $*.tex-inline.latexml.xml
+	xsltproc --novalid --html $(LATEXML_INLINE_XSLT) $*.tex-inline.latexml.intermediate.1.html5 | $(LATEXML_INLINE_PL) >$@
+
+# same as above but backwards-compatible xhtml format
+%.tex-inline.latexml.xhtml : %.tex-inline
+	$(RM) $@
+	$(MAKE) -f $(RESOURCES)/makefile $*.tex-inline.latexml.xml
+	$(LATEXMLPOST) --destination=$*.tex-inline.latexml.intermediate.1.xhtml --format=xhtml $(HACKPLANE1) --novalidate $*.tex-inline.latexml.xml
+	xsltproc --novalid --html $(LATEXML_INLINE_XSLT) $*.tex-inline.latexml.intermediate.1.xhtml | $(LATEXML_INLINE_PL) >$@
+
+# Same as above, but to make non-MathML output.
+%.tex-inline.latexml.html : %.tex-inline
+	$(RM) $@
+	$(MAKE) -f $(RESOURCES)/makefile $*.tex-inline.latexml.xml
+	$(LATEXMLPOST) --destination=$*.tex-inline.latexml.intermediate.1.html --format=html --novalidate $*.tex-inline.latexml.xml
+	xsltproc --novalid --html $(LATEXML_INLINE_XSLT) $*.tex-inline.latexml.intermediate.1.html | $(LATEXML_INLINE_PL) >$@
+
+# XML intermediate target shared by the above 2 rules
+%.tex-inline.latexml.xml : %.tex-inline
+	$(LATEXML) $(LATEXMLINLINEPRELOADS) --destination=$*.tex-inline.latexml.xml $<
+
+# And for inline math elements ($$...$$, {$...$}) there is a different process
+# using latexmlmath, the special tool for processing small math expressions
+# efficiently.
+%.tex-math.latexml.html5 : %.tex-math
+	$(RM) $@
+	$(LATEXMLMATH) $(LATEXMLMATHPRELOADS) $(HACKPLANE1) - --pmml=$*.tex-math.latexml.intermediate.html5 <$<
+	$(LATEXML_MATH_PL) <$*.tex-math.latexml.intermediate.html5 >$@
+
+# same as above but backwards-compatible xhtml format
+%.tex-math.latexml.xhtml : %.tex-math
+	$(RM) $@
+	$(LATEXMLMATH) $(LATEXMLMATHPRELOADS) $(HACKPLANE1) - --pmml=$*.tex-math.latexml.intermediate.xhtml <$<
+	$(LATEXML_MATH_PL) <$*.tex-math.latexml.intermediate.xhtml >$@
+
+# same as above but render as an image, for use in plain html output.
+# the --mathimage argument adds .png to the filename it's given.
+%.tex-math.latexml.html : %.tex-math
+	$(RM) $@
+	$(LATEXMLMATH) $(LATEXMLMATHPRELOADS) - --mathimage=$< <$<
+	echo '<img src="$(PUBLISH_URL)$<.png">' >$@
+
+# Standalone HTML files from latex
+
+# the standalone HTML file is basically there, but needs a little
+# tweaking, to make relative urls into absolute ones and to link to
+# the CSS.
+%.standalone.html : %.tex %.env-vars
+	$(call MAKEDEPEND_TEX,$<)
+	$(RM) $@
+	$(call getbx,$<); \
+	$(MAKE) -f $(RESOURCES)/makefile $*.latexml.xml $$bibxmls && \
+	$(LATEXMLPOST) --destination=$*.intermediate.latexml.html --format=html --novalidate $$bibxargs $*.latexml.xml
+	$(RESOURCES)/standalone-latexml.pl $*.intermediate.latexml.html >$@
+
+%.standalone.html5 : %.tex %.env-vars
+	$(call MAKEDEPEND_TEX,$<)
+	$(RM) $@
+	$(call getbx,$<); \
+	$(MAKE) -f $(RESOURCES)/makefile $*.latexml.xml $$bibxmls && \
+	lxpost="$(LATEXMLPOST) --destination=$*.intermediate.latexml.html5 --format=html5 --hackplane1 --novalidate $$bibxargs $*.latexml.xml" && echo $$lxpost && $$lxpost
+	$(RESOURCES)/standalone-latexml.pl $*.intermediate.latexml.html5 >$@
+
+%.standalone.xhtml : %.tex %.env-vars
+	$(call MAKEDEPEND_TEX,$<)
+	$(RM) $@
+	$(call getbx,$<); \
+	$(MAKE) -f $(RESOURCES)/makefile $*.latexml.xml $$bibxmls && \
+	lxpost="$(LATEXMLPOST) --destination=$*.intermediate.latexml.xhtml --format=xhtml --hackplane1 --novalidate $$bibxargs $*.latexml.xml" && echo $$lxpost && $$lxpost
+	$(RESOURCES)/standalone-latexml.pl $*.intermediate.latexml.xhtml >$@
+
+# We have to be a little devious here because the output file depends
+# on the environment - specifically the environment variable
+# PUBLISH_URL, which is used in the output HTML, is different in a
+# preview session than outside. So the HTML generated in a preview has
+# to be outdated when we save.  We do this by comparing the environment
+# variable, and updating the 'env-vars' file if it's changed.
+%.env-vars : /proc/uptime
+	(echo $$PUBLISH_URL | diff $@ -) || (echo $$PUBLISH_URL >$@)
+
+.SECONDARY : %.env-vars
+
+# and let's have a target to just remake a .d file directly, because
+# we might want to do that now and then
+# but this is too dangerous to leave enabled, because it can cause 
+# infinite recursion when the .tex needs to be made
+#$(call WW_TEX_D_FILE,%.tex) : %.tex /proc/uptime
+#	$(call MAKEDEPEND_TEX,$<)

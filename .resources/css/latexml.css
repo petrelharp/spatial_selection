@@ -1,0 +1,306 @@
+/* This file derives from latexml, which is public domain, and this file
+ * is also released into the public domain.
+ */
+/* ======================================================================
+ * WorkingWiki css for latexml output
+ * ======================================================================
+ */
+.latexml { font-family:serif; position:relative; }
+
+/* this line is from latexml's amsart.css */
+.latexml p { text-align:justify; }
+
+/* adapted from latexml's core.css */
+/*======================================================================
+ Core CSS for LaTeXML documents converted to (X)HTML */
+
+/* Generic Page layout */
+/* Header & footer */
+/*.latexml .header:before { content:url(latexml.png); }*/
+.latexml .header, .latexml .footer   { font-size:80%; }
+.latexml .header .previous,
+.latexml .footer .previous { float:left; }
+.latexml .header .up,
+.latexml .footer           { display:block; text-align:center; }
+.latexml .header .next,
+.latexml .footer .next     { float:right; }
+.latexml .header li { padding:0.1em 0.2em 0.1em 1em;}
+
+/* Main content */
+.latexml .content { clear:both; padding-top:5px; border-top:1px solid; }
+.latexml .footer  { margin-top:5px;  border-top:1px solid; }
+
+/* if shown */
+.latexml .navbar .toc li { margin-left:-0.5em; }
+.latexml .navbar li { white-space:nowrap; display:block; overflow:hidden; }
+.latexml .navbar li .here { white-space:normal; overflow:visible; }
+
+/*======================================================================
+ Titles & Frontmatter */
+.latexml h1 { text-align:center; font-size: 150%; font-family:sans-serif;}
+.latexml h2 { font-family:sans-serif; padding-left:0.2em; margin-left:-0.5em; }   
+.latexml h3 { font-family:sans-serif; padding-left:0.2em; margin-left:-0.3em; }
+/* .latexml h6 { display:run-in; }*/
+/* Hack to simulate run-in! */
+.latexml h6 { display:inline; font-size:100%; font-family:sans-serif; }
+.latexml h6:after { content:" "; }
+.latexml h6 + div.para,
+.latexml h6 + p { display:inline; }
+
+.latexml .subtitle    { text-align:center; font-size: 120%; font-family:sans-serif;
+			padding-left:0.2em; margin-left:-0.5em; }
+.latexml .author      { text-align:center; font-family:sans-serif; }
+.latexml .author .personname  { font-size: 130%; }
+.latexml .dedicatory  { font-style:oblique; }
+.latexml .classification,
+.latexml .keywords    { font-size:90%; margin-left:4em; }
+.latexml .abstract    { margin:1em 4em 1em 4em; }
+.latexml .toc li      { list-style-type:none;  }
+
+.latexml .navbar { display: none; } /* override! */
+.latexml .main { margin:0px; padding:1em 3em 1em 2em; }
+
+/*======================================================================
+ Blocks, Lists, Floats */
+.latexml .inline-block { display:inline-block; }
+.latexml div.equation { display:block; width:95%; text-align:center; }
+.latexml .equation span.refnum.left { position:absolute; left:2em; }
+.latexml .equation span.refnum.right { position:absolute; right:2em; }
+
+.latexml .equation td { width:auto; }
+.latexml table.equation,
+.latexml table.equationgroup { width:100%; }
+/* Hide this from IE */
+.latexml tr > td.eqpad { width:50%; }
+
+.latexml dl.description dt { margin-right:0.5em; float:left;
+			     font-weight:bold; font-size:95%; }
+.latexml dl.description dd { margin-left:5em; }
+.latexml dl.description dl.description dd { margin-left:3em; }
+
+.latexml li.nobullet { list-style-type:none; }
+
+.latexml .theorem  {margin:1em 0em 1em 0em; }
+
+.latexml .bibliography dt { margin-right:0.5em; float:left; }
+.latexml .bibliography dd { margin-left:3em; }
+.latexml .biblist { list-style-type:none; }
+.latexml .bibtag { font-weight:bold; margin-left:-2em; width:3em; }
+/*.latexml .bibitem-tag + div { display:inline; }*/
+.latexml .bib-title { font-style:italic; }
+.latexml .bib-article .bib-title { font-style:normal !important; }
+.latexml .bib-journal  { font-style:italic; }
+.latexml .bib-volume { font-weight:bold; }
+
+.latexml .indexlist li { list-style-type:none;  }
+.latexml .indexlist { margin-left:1em; padding-left:1em;}
+.latexml .listing td.linenumber,
+.latexml .listingblock td.linenumber
+   { width:3em; text-align:right;}
+/*======================================================================
+ Borders and such */
+.latexml .framed  { border:1px solid black;}
+.latexml .tabular td, .latexml .tabular th { padding:0.1em 0.5em; }
+.latexml table { border-collapse:collapse; }
+/* Hmm... the star should be m:mtd */
+.latexml td.t,  .latexml th.t, .latexml *[class~="t"]  { border-top:1px solid black; }
+.latexml td.r,  .latexml th.r, .latexml *[class~="r"]  { border-right:1px solid black; }
+.latexml td.b,  .latexml th.b, .latexml *[class~="b"]  { border-bottom:1px solid black; }
+.latexml td.l,  .latexml th.l, .latexml *[class~="l"]  { border-left:1px solid black; }
+.latexml td.tt, .latexml th.tt, .latexml *[class~="tt"] { border-top:3px double black; }
+.latexml td.rr, .latexml th.rr, .latexml *[class~="rr"] { border-right:3px double black; }
+.latexml td.bb, .latexml th.bb, .latexml *[class~="bb"] { border-bottom:3px double black; }
+.latexml td.ll, .latexml th.ll, .latexml *[class~="ll"] { border-left:3px double black; }
+
+.latexml td.left,   .latexml th.left   { text-align:left; white-space:nowrap; }
+.latexml td.right,  .latexml th.right  { text-align:right; white-space:nowrap; }
+.latexml td.center, .latexml th.center { text-align:center; white-space:nowrap; }
+.latexml td.middle, .latexml th.middle, .latexml tr.middle       { vertical-align:middle; }
+.latexml td.baseline, .latexml th.baseline, .latexml tr.baseline { vertical-align:baseline; }
+
+/*======================================================================
+ Low-level Basics */
+.latexml .TINY       { font-size:50%; }
+.latexml .Tiny       { font-size:60%; }
+.latexml .tiny       { font-size:65%; }
+.latexml .script     { font-size:70%; }
+.latexml .footnote   { font-size:80%; }
+.latexml .small      { font-size:90%; }
+.latexml .normal     { font-size:100%; }
+.latexml .large      { font-size:110%; }
+.latexml .Large      { font-size:120%; }
+.latexml .LARGE      { font-size:140%; }
+.latexml .huge       { font-size:150%; }
+.latexml .Huge       { font-size:170%; }
+.latexml .HUGE       { font-size:200%; }
+.latexml .sansserif  { font-family: sans-serif; }
+.latexml .typewriter { font-family: monospace; }
+.latexml .bold       { font-weight: bold; }
+.latexml .medium     { font-weight: normal; }
+.latexml .italic     { font-style: italic; }
+.latexml .upright    { font-style: normal; }
+.latexml .slanted    { font-style: oblique; }
+.latexml .smallcaps  { font-variant: small-caps; }
+.latexml .red        { color:red; }
+.latexml .centering  { text-align:center; 
+		       margin:auto; }
+.latexml .inline-block.centering,
+.latexml img.centering  { display:block;
+			  margin:auto; }
+.latexml .flushleft  { text-align:left; }
+.latexml .flushright { text-align:right; }
+.latexml .ERROR      { color:red; }
+.latexml cite        { font-style: normal; }
+
+/*======================================================================
+ pop-up footnotes, endnote, margin */
+.latexml .note .note_content {display:none; }
+.latexml .note .note_content {
+     width: 70%; right:5%;  font-size:80%;
+     background:#E0E0E0; border:3px outset gray; }
+.latexml .note .mark { color:blue; }
+.latexml .note-type  { font-weight: bold; }
+.latexml .note:hover .note_content 
+   { display:block; position:absolute; z-index:10; }
+
+/*======================================================================
+ customizations added by LW */
+.latexml .content { padding-top:0; border:none; }
+.latexml .footer  { display:none; }
+
+.latexml .main { padding:0 0 0 0 !important; }
+
+/* stop headers from inheriting odd formatting from mediawiki headers;
+   plus put margins on both sides to keep it centered while leaving room
+   for altlinks element. */
+.latexml h1 { font-size:188%; font-family:serif; border-bottom:none;
+	      line-height:normal; width:90%; position:relative; 
+	      padding-left:5%; padding-right:5%; }
+/* it would be nice to align the altlinks with the 
+ * baseline of the first line of the title */
+.latexml h1.document-title .ww-altlinks
+  { position: absolute; bottom:3px; left:0; width:100%;
+    text-align:right; font-size:53%; z-index:2; }
+
+/* new-style latexml output puts all headers in h1, at different levels of
+ * section nesting */
+.latexml section h1 { position:inherit; }
+.latexml section section h1
+  { text-align:left; font-size: 150%; 
+    padding-left: 0; padding-right: 0; }
+.latexml section section section h1 { font-size: 125%; }
+.latexml section section section section h1
+  { font-size: 100%; font-weight: bold; }
+.latexml section.paragraph h1
+  { font-size: 100%; font-weight: bold; display:run-in; }
+/* run-in not working for me
+.latexml section.paragraph hgroup { display:inline; }
+.latexml section.paragraph h1:after { content:" " }
+.latexml section.paragraph hgroup + div { display:inline }
+.latexml section.paragraph hgroup + div p { display:inline }
+*/
+
+.latexml h2 { border-bottom:none; padding-left:0; margin-left:0;
+	      font-family:serif !important; }
+.latexml h3 { padding-left:0; margin-left:0;
+	      font-family:serif !important; }
+.latexml h4,
+  .latexml h5,
+  .latexml h6 { font-family:serif !important; }
+
+/* h5 may be run-in as well as h6
+.latexml h5.paragraph-title { display:inline; }
+.latexml h5.paragraph-title:after { content:" "; }
+.latexml h5.paragraph-title + div.para,
+  .latexml h5.paragraph-title + div.para > p,
+  .latexml h5.paragraph-title + p { display:inline; }
+ */
+.latexml h5.paragraph-title { display:run-in; }
+
+/* MediaWiki's css appends little icons to some links, like an envelope for
+ * a mailto: link, etc.  Disable those in latexml links.
+ * FIXME: do I need to do something on the left for rtl text? */
+.latexml a { background-image: none !important; padding-right: 0 !important; }
+
+/* MW puts bullet icons on list items, and indents */
+.latexml ul.biblist { list-style-image:none; margin-left:0; }
+
+/* Suppress the section and paragraph symbols, to emulate the look of latex */
+.latexml .reftype { display:none; }
+
+.latexml .author      { text-align:center; font-family:inherit; font-size:110%; }
+.latexml .author .personname  { font-size:inherit; }
+
+.latexml .dedicatory  { font-style:italic; }
+.latexml .abstract    { text-align:justify !important; }
+
+/* do not understand this bib styling.  make it simpler. */
+.latexml .bibtag { margin-left:0; }
+.latexml div.bibblock { display:inline; }
+.latexml .bibitem { padding-bottom:7px; }
+
+/* Want the equation number to be on the right margin */
+/* Unfortunately there isn't a good way to make it wrap when there's
+ * a floating figure, so we have to clear it to after the figures */
+.latexml table.equationgroup { width:100%; clear:both; }
+.latexml table.equationgroup td { width:1px; }
+.latexml table.equationgroup td.eqpad { width:auto; }
+.latexml table.equation { width:100%; clear:both; }
+.latexml table.equation td { width:1px; }
+.latexml table.equation td.eqpad { width:auto; }
+.latexml tr > td.eqpad { width:auto; }
+
+/* figure styling */
+/* fixed width regardless of the size of what's within is not ideal */
+/*                              margin-left:5px; margin-right:5px; */
+
+/* let's try taking this out and putting in one akin to MW's thumb images
+.latexml div.figure {float:right;clear:right;width:65%;
+                              margin: 1em;
+                              text-align:center;}
+.latexml .figure img.graphics {margin-left:4px; margin-right:4px;}
+.latexml .figure .caption
+  { text-align:center; border:none;
+    margin-left:auto; margin-right:auto; margin-top:5px; margin-bottom:5px; }
+.latexml div.table  {float:right;clear:right;width:65%;
+                              margin-left:5px; margin-right:5px;
+                              text-align:center;}
+.latexml .table img.graphics {margin-left:4px; margin-right:4px;}
+.latexml .table .caption
+  { text-align:center; border:none;
+    margin-left:auto; margin-right:auto; margin-top:5px; margin-bottom:5px; }
+*/
+.latexml .figure, .latexml .table
+  { float:right; clear:right; min-width:35%;
+    margin:0.5em 0 0.8em 1.4em;
+    border:1px solid #CCCCCC; background-color:#F9F9F9; font-size:94%; 
+    padding:3px !important; text-align:center; }
+/* this is invisible to IE, so IE gets the 35% */
+html>body .latexml .figure
+  { width: auto; }
+html>body .latexml .table
+  { width: auto; }
+.latexml .figure .caption, .latexml .table .caption
+  { max-width:35em; border:medium none; margin:5px auto 5px auto;
+    padding:3px !important; text-align:left; line-height:1.4em; }
+.latexml .figure img.graphics, .latexml .table img.graphics
+  { border:1px solid #CCCCCC; background-color:#FFFFFF; }
+
+.latexml .verbatim 
+  { border:medium none; background-color:#FFFFFF; padding:0;
+    margin-top:-.5em;  }
+
+/* sidenotes instead of hovering footnotes */
+.latexml .note .note_content,
+  .latexml .note:hover .note_content
+  { float:right; clear:right; width:35%; display:inline; 
+    position:relative; right:inherit; background:inherit;
+    margin:0.5em 0em 1em 1em; padding-left:0.75em; border:none;
+    border-left:1px solid gray; text-align:justify; }
+.latexml .note .mark { color:black; }
+
+/* marginnote package, format much like footnotes but red */
+.latexml .marginnote
+  { float:right; width:25%; text-align:left; font-size:80%;
+    margin:0.5em 0em 1em 1em; padding-left:0.75em;
+    border-left:1px solid red; color:red; }

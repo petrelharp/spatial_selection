@@ -1,0 +1,78 @@
+# ProjectEngine compute server
+# Copyright (C) 2010 Lee Worden <worden.lee@gmail.com>
+# http://lalashan.mcmaster.ca/theobio/projects/index.php/ProjectEngine
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+# http://www.gnu.org/copyleft/gpl.html
+
+# makefile-after : pattern rules for WorkingWiki operations.
+#
+# If your project says to make Y from X, you don't have to
+# provide a makefile for that operation if it's covered by
+# the rules in here.
+#
+# This makefile provides pattern rules only, so it shouldn't conflict with
+# any rules you write for specific files.  It's read after the project's
+# makefile(s), so a project can define pattern rules that pre-empt the ones
+# here.
+#
+# see also makefile-before.
+
+ifndef WW_READ_RESOURCES_MAKEFILE_AFTER
+WW_READ_RESOURCES_MAKEFILE_AFTER = 1
+
+# there are parts of this makefile that assume the following 
+# variables are defined in the environment:
+# PUBLISH_URL   URL for publishing project files, i.e. $(PUBLISH_URL)XX
+#                 is a valid URL that will display project file XX
+# RESOURCES     directory containing resources such as perl scripts we use
+
+# ===== Include the per-site custom rules, if present =====
+# they go before so they can override the rules in this file
+-include $(SITE_RESOURCES)/makefile-after
+
+# ===== Rules for making images into png for browsers =====
+
+%.png : %.svg
+	$(RM) $@
+	convert $< $@
+
+%.png : %.eps
+	$(RM) $@
+	convert $< $@
+
+%.png : %.pdf
+	$(RM) $@
+	convert $<[0] $@
+
+%.png : %.ps
+	$(RM) $@
+	convert $< $@
+
+# make eps into pdf for pdflatex
+# I would like to include this so people can 'make figure.pdf', but if I
+# do, then if someone's project contains both figure.eps and figure.pdf,
+# and they update the eps, then it will recreate the figure.pdf from the .eps
+# the next time the pdflatex rule runs.  This might destroy someone's data.
+# So people will have to make their own pdfs or put this rule in their
+# project makefiles.
+#%.pdf : %.eps
+#	epstopdf --outfile=$@ $<
+
+# ==== Rules for LaTeX and LaTeXML =====
+
+include $(RESOURCES)/makefile-after-latex
+
+endif # WW_READ_RESOURCES_MAKEFILE_AFTER

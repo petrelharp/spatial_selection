@@ -1,0 +1,33 @@
+/* WorkingWiki extension for MediaWiki 1.13 and after
+ * Copyright (C) 2010 Lee Worden <worden.lee@gmail.com>
+ * http://lalashan.mcmaster.ca/theobio/projects/index.php/WorkingWiki
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/* CSS for markup in Special:GetProjectFile. */
+/* directory listing */
+.ww-gpf-ls { text-align:left; width:100%; }
+.ww-gpf-ls th, .ww-gpf-ls td { padding-right:15px; }
+.ww-gpf-ls .size { text-align:right; width:1px; }
+.ww-gpf-ls .perms { width:1px; }
+.ww-gpf-ls .actions { white-space:nowrap; }
+/* :( estimating width of e.g. '2009-05-18 17:45:44 PDT' */
+.ww-gpf-ls .mtime { width:13em; white-space:nowrap; }
+.ww-gpf-ls .filename { width:auto; }
+.ww-gpf-ls .actions { text-align:right; }
+/* download button */
+.ww-dlbutton { float:right; }

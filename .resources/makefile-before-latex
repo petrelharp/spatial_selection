@@ -1,0 +1,265 @@
+# ProjectEngine compute server
+# Copyright (C) 2010 Lee Worden <worden.lee@gmail.com>
+# http://lalashan.mcmaster.ca/theobio/projects/index.php/ProjectEngine
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+# http://www.gnu.org/copyleft/gpl.html
+#
+# see below for exceptions to the above terms.
+
+# makefile-before-latex : definitions for processing .tex files
+# (including latexml processing).
+
+# ==== Definitions for LaTeX =====
+
+# this section was made from a makefile published at
+# http://www.acoustics.hut.fi/u/mairas/UltimateLatexMakefile
+# with extensive modification by Lee Worden
+
+# For latex projects, this makefile is very flexible and powerful.
+#
+# It makes filename.pdf from filename.tex using latex and bibtex
+# (the right number of times), plus makeindex if needed.  It figures
+# out what image, bibliography and included tex files the .pdf depends on
+# and remakes if any of them are newer.
+#
+# If plain latex isn't suitable for your project you can make 
+# filename.pdflatex.pdf or filename.xelatex.pdf, and you can easily
+# make filename.pdf equivalent to one of these targets rather than
+# to filename.latex.pdf by changing one line in this makefile.
+#
+# You can define make rules for your figures or other source files
+# (for instance, define a rule to make a .eps file automatically using
+# a gnuplot script and have it remake automatically when the data file
+# it reads is changed) either in this file or in another makefile that
+# you use with this one.  Remaking the .pdf will then include remaking
+# the figures before running latex.
+#
+# This makefile doesn't have rules to make .dvi, .xdv, or .ps files
+# rather than .pdf, though it does leave .dvi or .xdv files in the 
+# directory if they are created as intermediate products.  It could
+# be straightforwardly rewritten to make .ps files.
+
+# Original copyright notice:
+#
+# Copyright (c) 2005,2006 (in order of appearance):
+#	Matti Airas <Matti.Airas@hut.fi>
+# 	Rainer Jung
+#	Antoine Chambert-Loir
+#	Timo Kiravuo
+#
+# Original Makefile from http://www.math.psu.edu/elkin/math/497a/Makefile
+#
+# Please check http://www.acoustics.hut.fi/u/mairas/UltimateLatexMakefile
+# for new versions.
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions: 
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software. 
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+# CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+# TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+#
+# $Id: Makefile,v 1.18 2006-06-19 10:58:11 mairas Exp $
+
+#LATEX = latex -recorder
+LATEX     = latex
+PDFLATEX  = pdflatex
+XELATEX   = xelatex -no-pdf
+BIBTEX    = bibtex
+MAKEINDEX = makeindex
+XDVI      = xdvi -gamma 4
+DVIPS     = dvips
+DVIPDF    = dvipdf
+XDV2PDF   = xdvipdfmx
+
+# when you say \includegraphics{timeseries} it means timeseries.eps
+# except if you're using pdflatex it means timeseries.pdf
+LATEX_IMPLICIT_FIGURETYPE = eps
+
+# make %.pdf is equivalent to make %.latex.pdf if this is 'latex'.
+DEFAULT_LATEX = latex
+
+# project authors can add to or change this
+LATEXFLAGS = -interaction=nonstopmode
+
+# Messages that we look for in the output of latex
+RERUN = "(There were undefined references|Rerun to get (citations|cross-references|the bars) (correct|right))"
+RERUNBIB = "No file.*\.bbl|Citation.*undefined"
+MAKEIDX = "^[^%]*\\makeindex"
+#MPRINT = "^[^%]*print"
+#USETHUMBS = "^[^%]*thumbpdf"
+
+COPY = if [ -r $(<:%.tex=%.$(1)) ]; then cp $(<:%.tex=%.$(1)) $(<:%.tex=%.$(1).bak); fi 
+#OUTDATED = echo "EPS-file is out-of-date!" && false
+
+# these rules look inside a tex file to find out what it depends on.
+# they skip filenames that include '\', because they're not that sophisticated.
+# they require $*.tex to be a .tex file.
+
+# set $deps to list of tex files referenced by \include and \input commands
+# (recursively)
+define get_dependencies
+	files="$(1) "; deps=""; while [ ! "$$files" = "" ]; do deps="$$deps$$files"; files=`perl -ne '($$_)=/^[^%]*\\\(?:include|input)(?:\s+|\{)([^\\\\]*?)(?:\}|\s+|$$)/;@_=split /,/;foreach $$t (@_) { if($$t =~ /.tex$$/) { print "$$t "; } else { print "$$t.tex " } }' $$files`; done
+endef
+
+# set $bibs to list of .bib files referenced by \bibliography in the tex files
+# $(1) is the list of tex files
+define getbibs
+	bibs=`perl -ne '($$_)=/^[^%]*\\\bibliography\{([^\\\\]*?)\}/;@_=split /,/;foreach $$b (@_) { $$b =~ s/\.bib$$//; print "$$b.bib "}' $(1)`
+endef
+
+# for latexml: set $bibxmls to list of .bib.xml files, one for each .bib
+# in $bibs; set $bibxargs to list containing --bibliography=X.bib.xml for each
+# .bib in $bibs, suitable for the argument list of latexmlpost.
+# $(1) is the list of tex files
+define getbx
+	bibxmls=`perl -ne '($$_)=/^[^%]*\\\bibliography\{([^\\\\]*?)\}/;@_=split /,/;foreach $$b (@_) { $$b =~ s/\.bib$$//; print "$$b.bib.xml "}' $(1)`;\
+	bibxargs=`perl -ne '($$_)=/^[^%]*\\\bibliography\{([^\\\\]*?)\}/;@_=split /,/;foreach $$b (@_) { $$b =~ s/\.bib$$//; print "--bibliography=$$b.bib.xml "}' $(1)`
+endef
+
+# set $figs to list of all image files referenced by \includegraphics or
+# \psfig in the tex files
+# $(1) is the list of tex files
+# $(2) is the default figuretype: in latex \includegraphics{filename} is
+# usually a shorthand for filename.eps, while in pdflatex it's filename.pdf
+# it's possible to reconfigure this default in the latex source, in which
+# case this makefile will guess wrong what image files are dependencies.
+# TODO: second argument of \movie macro?
+define getfigs
+	$(2)figs=`perl -ne '@foo=/^[^%]*\\\(?:includegraphics|psfig)(?:\[.*?\])?\{(?:figure=)?([^\\\\#]+?)[\},]/g;if (defined($$foo[0])) { if ($$foo[0] =~ /\./ or "$(2)" eq "") { print "$$foo[0] "; } else { print "$$foo[0].$(2) "; }}' $(1)`
+endef
+
+# there was a $(manconf) command here, that looks in a file called $*.cnf
+# for a list of additional files that $*.pdf should depend on, and I didn't
+# see why so I took it out
+
+WW_TEX_D_DIR = .workingwiki
+WW_TEX_D_SUFFIX = tex.d
+define WW_TEX_D_FILE
+	$(WW_TEX_D_DIR)/$(subst /,_,$(1:%.tex=%.$(WW_TEX_D_SUFFIX)))
+endef
+
+# make a .d file for a .tex file, declaring all the files it uses as
+# prerequisites for remaking its output.
+# $(1) is the .tex file
+# TODO: sift out redundant files from $$epsfigs and $$pdffigs
+define MAKEDEPEND_TEX
+	@echo Updating $(call WW_TEX_D_FILE,$(1))
+	@mkdir -p $(WW_TEX_D_DIR)
+	@$(RM) $(call WW_TEX_D_FILE,$(1))
+	@$(call get_dependencies,$(1)); \
+	$(call getbibs,$$deps); \
+	$(call getbx,$$deps); \
+	$(call getfigs,$$deps,eps); \
+	echo "$(1:%.tex=%.latex.pdf) : $$deps"`echo $$epsfigs | tr ' ' '\n' | sort -u` >> $(call WW_TEX_D_FILE,$(1));\
+	$(call getfigs,$$deps,pdf); \
+	echo "$(1:%.tex=%.pdflatex.pdf) $(1:%.tex=%.xelatex.pdf) : $$deps"`echo $$pdffigs | tr ' ' '\n' | sort -u` >> $(call WW_TEX_D_FILE,$(1));\
+	if [ ! -z "$$bibs" ]; then (echo "$(1:%.tex=%.pdf) $(1:%.tex=%.latex.pdf) $(1:%.tex=%.pdflatex.pdf) $(1:%.tex=%.xelatex.pdf) : $(1:%.tex=%.bbl)" ; echo "$(1:%.tex=%.bbl) :: $$bibs; \$$(run-bibtex)") ; else echo "$(1:%.tex=%.bbl) :: " ; fi >> $(call WW_TEX_D_FILE,$(1));\
+	echo "$(1:%.tex=%.latexml.xhtml) $(1:%.tex=%.latexml.html5) $(1:%.tex=%.latexml.html) : $$deps$$bibxmls" >> $(call WW_TEX_D_FILE,$(1));\
+	$(call getfigs,$$deps,);\
+	echo "$(1:%.tex=%.latexml.xml) : $$deps"`echo $$figs | tr ' ' '\n' | sort -u` >> $(call WW_TEX_D_FILE,$(1)); \
+	echo "$$deps"` echo $$epsfigs$$pdffigs$$figs | tr ' ' '\n' | sort -u`" $$bibs$$bibxmls:" >> $(call WW_TEX_D_FILE,$(1))
+endef
+
+# the command to run bibtex.
+# it doesn't do anything if the .aux file isn't there, so that it won't
+# cause a failure by running bibtex before latex the first time, but will
+# run bibtex before latex if the .bib file is changed and not the .tex.
+# minus sign in front lets us proceed if bibtex chokes on some bad input.
+define run-bibtex
+	-if egrep -q bibdata $(@:%.bbl=%.aux) ; then $(BIBTEX) $(@:%.bbl=%) ; fi
+endef
+
+# the core command sequence to run latex and variants of latex.
+# we keep a copy of the .toc file in order to rerun latex if it is changed.
+# we also run bibtex and/or makeindex if the output of latex indicates that
+# it's needed, and rerun latex once or more if it outputs a message indicating
+# that we should.
+# $(1) is the name of the latex executable we are using.
+# $< is the tex file we're running it on, $@ is the target to make.
+define run-latex-core
+	$(call MAKEDEPEND_TEX,$<)
+	-$(RM) $@
+	$(call COPY,toc);
+	$(call COPY,aux);
+	-$(1) $(LATEXFLAGS) -output-directory $(dir $<) $<
+	if egrep -q $(RERUNBIB) $*.log || (diff $*.aux $*.aux.bak | egrep -q '(bibstyle|citation)'); then $(RM) $*.bbl; $(MAKE) -f $(RESOURCES)/makefile $*.bbl ; fi
+	-if egrep -q $(MAKEIDX) $< ; then $(MAKEINDEX) $*; $(call COPY,toc); $(1) $(LATEXFLAGS) -output-directory $(dir $<) $< ; fi
+	-if egrep -q $(RERUN) $*.log || (diff $*.aux $*.aux.bak | egrep -q bibstyle); then $(call COPY,toc); $(1) $(LATEXFLAGS) -output-directory $(dir $<) $< ; fi
+	-if egrep -q $(RERUN) $*.log ; then $(call COPY,toc); $(1) $(LATEXFLAGS) -output-directory $(dir $<) $< ; fi
+	-if [ ! -r $*.toc ] || cmp -s $*.toc $*.toc.bak; then true; else $(1) $(LATEXFLAGS) -output-directory $(dir $<) $<; fi
+	$(RM) $*.toc.bak $*.aux.bak
+endef
+
+# the full command sequence for running latex, as distinct from the other
+# variants.  this makes filename.latex.pdf from filename.tex.  it makes sure
+# to leave any preexisting filename.pdf undisturbed (which might be an 
+# unrelated file).  it produces a .pdf file correctly whether latex outputs a
+# .dvi file (the default) or a .pdf file (if it is a pdflatex-compatible 
+# latex and the source file contains a \pdfoutput command).
+# this is defined as a separate run-latex command for (mostly backward)
+# compatibility  with projects that invoke $(run-latex) from their own
+# makefiles.
+define run-latex
+	if [ -r $*.pdf ]; then mv $*.pdf $*.tmp.pdf; fi
+	$(call run-latex-core,$(LATEX))
+	if egrep -q "Output written on .*\.dvi " $*.log; then $(DVIPDF) $*.dvi $*.pdf; fi
+	if [ -r $*.pdf ]; then mv $*.pdf $*.latex.pdf; fi
+	if [ -r $*.tmp.pdf ]; then mv $*.tmp.pdf $*.pdf; fi
+endef
+
+# construct the list of .d files that will be included.  We do this here
+# and use it in makefile-after, so that site and project makefiles have the
+# opportunity to change it.
+# TODO: can we just include the one .d file when we are actually making a 
+# PDF or HTML output file?
+# we no longer use *.tex, now only those that are registered as source files
+#WW_ALL_TEX_FILES = $(filter %.tex,$(WW_THIS_PROJECT_SOURCE_FILES))
+# a weird little trick to exclude any .tex files in subdirectories
+#WW_TEX_FILES = $(filter $(WW_ALL_TEX_FILES),$(subst /, ,$(WW_ALL_TEX_FILES)))
+WW_TEX_D_FILES := $(wildcard $(WW_TEX_D_DIR)/*.$(WW_TEX_D_SUFFIX))
+
+# ===== Executables for latexml =====
+
+LATEXML     = latexml
+LATEXMLPOST = latexmlpost
+LATEXMLMATH = latexmlmath
+
+LATEXML_PL          = $(RESOURCES)/wiki-inclusion.latexml.pl
+LATEXML_INLINE_PL   = $(RESOURCES)/wiki-inline.latexml.pl
+LATEXML_INLINE_XSLT = $(RESOURCES)/wiki-inline.latexml.xslt
+LATEXML_MATH_PL     = $(RESOURCES)/wiki-math.latexml.pl
+
+# packages to use with .tex-inline and .tex-math files
+LATEXMLINLINEPRELOADS = --preload=amsmath.sty --preload=amssymb.sty --preload=color.sty --preload=latexml.sty
+LATEXMLMATHPRELOADS = --preload=amsmath.sty --preload=amssymb.sty --preload=color.sty --preload=latexml.sty
+
+# this is a variable because it needs to be turned off for older versions
+# of latexml
+HACKPLANE1 = --hackplane1
+

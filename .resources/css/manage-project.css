@@ -1,0 +1,49 @@
+/* WorkingWiki extension for MediaWiki 1.13 and after
+ * Copyright (C) 2010 Lee Worden <worden.lee@gmail.com>
+ * http://lalashan.mcmaster.ca/theobio/projects/index.php/WorkingWiki
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/* CSS for markup in Special:ManageProject. */
+/* dot-separated links top and bottom, a bit padded
+.ww-mp-action-links { padding-top:0px; padding-bottom:2px; } */
+/* pretty gray heading lines */
+.ww-mpf-h4
+  { background-color: #dcdcdc; padding: 2px; margin-top: 1em; }
+/* Source files table and form, project files tables and forms */
+.ww-managesourcefiles, .ww-manageprojectoptions, .ww-managearchived,
+  .ww-manageappearances, div.ww-manageprerequisites
+  { text-align:left; width:100%; padding-top:10px; padding-bottom:10px; }
+table.ww-manageprerequisites  { width:100%; }
+/* .ww-manageappearances .filename
+  { padding-right:10px; } */
+/* buttons at the right margin of the page */
+.ww-actions { text-align:right; white-space:nowrap; width:1px; }
+.ww-manageprerequisites td.varname    { width:16em; }
+.ww-manageprerequisites td.readonly   { width:16em; }
+.ww-manageprerequisites td.ww-actions { width:1px; }
+
+.ww-addsourcefile, .ww-add-archived-project-file, .ww-make,
+  .ww-add-prerequisite-project
+  { text-align:left; padding-bottom:10px; }
+.ww-addsourcefile th, .ww-add-archived-project-file th, .ww-make th,
+  .ww-add-prerequisite-project th
+  { font-size:83%; }
+/* Messages from the program */
+.ww-mf-error { font-weight:bold; color:red; }
+.ww-mf-message { font-weight:bold; color:green; }
+.ww-mf-confirm { font-weight:bold; color:#800000; }
