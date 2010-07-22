@@ -1,5 +1,17 @@
 \documentclass{article}
+\usepackage{amsmath,amssymb}
+
+\newcommand{\var}{\mathop{\mbox{Var}}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\one}{\mathbf{1}}
+
+
 \begin{document}
+
+
+\section{Size of inflorescences}
 
 Let the local rate of growth at location $x$ and time $t$ be given by $f(x,t)$,
 and for each $x$ and $t$ let $(X^{(x,t)}_{s})_{s \ge t}$ have the distribution of a branching process begun at $x$ and time $t$,
@@ -20,7 +32,7 @@ Suppose that $Z$ has total lifetime $\tau$ and that $\tau$ is finite almost sure
 If we treat each inflorescence as a point mass, then the set of (location, mass) coordinates $(x,z)$
 are Poisson with intensity $dx \otimes q(z) dz$ where
 \[  
-  q(z) = \E \left[ \int_0^\tau \bone(Z_t = z) dt \right] .
+  q(z) = \E \left[ \int_0^\tau \one(Z_t = z) dt \right] .
 \]
 We will be interested in the probability that the offspring of any of the initial (assumed to be small) number of individuals in an inflorescence survive,
 which is $1 - \widetilde q(1-p_s)$, where $p_s$ is the probability of survival (so $p_s \approx 2s/\sigma^2$) and
