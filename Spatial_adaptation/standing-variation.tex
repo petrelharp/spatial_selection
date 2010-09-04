@@ -96,16 +96,16 @@ Setting $\beta = \lambda_0^{1/d}$ and $\alpha = \lambda / \lambda_0$, this is ma
 \subsection{Constant speed}
 
 Now let $f(t) = vt$, so $h(t) = \frac{ \omega_d v^d }{ d+1 } t^{d+1}$.
-The integrals that appear above are of the following form, for $\alpha$, $\beta$, $a$, $b$, and $c$ all nonnegative:
+The integrals that appear above are of the following form:
 \begin{align}
   \int_0^\infty t^c \exp \left( - \alpha t^a - \beta t^b \right) dt 
             &= \left( b^{-1} \beta^{ (1-c)/b } \right) \int_0^\infty u^{(c+1-b)/b} \exp\left( - \alpha \beta^{-a/b} u^{a/b} - u \right) du ,
 \end{align}
 so it suffices to learn something about the function
 \begin{equation}
-    G(a,b,x) := \int_0^\infty  t^a \exp\left( -x t^b - t \right) dt ,
+    G(a,b,x) := \int_0^\infty  t^a \exp\left( -x t^b - t \right) dt .
 \end{equation}
-for $a$, $b$, and $x$ nonnegative.  We will only be interested in this as a function of $x$; 
+We will only be interested in this as a function of $x$; 
 the coefficients $a$ and $b$ will merely depend on the dimension and what quantity we are calculating.
 We can construct a power series for $G$ in $x$:
 \begin{align}
@@ -139,10 +139,19 @@ Therefore, setting $n = mc+\ell$,
 \begin{align}
     G(a,b,x) &= \sum_{\ell=0}^{c-1} \sum_{m \ge 0} \frac{(-x)^{mc+\ell}}{(mc+\ell)!} \Gamma(a+\ell b'/c+mb'+1) \\
             &= \sum_{\ell=0}^{c-1} \sum_{m \ge 0} \frac{(-x)^{mc+\ell}}{(mc+\ell)!} (a+\ell b')_{mb'} \Gamma(a + \ell b') \\
-            &= \sum_{\ell=0}^{c-1} \frac{ (-x)^{\ell} }{ \ell! } \sum_{m \ge 0} ( (-cx)^c / (b')^{b'} )^m 
-                    \frac{ \prod_{j=0}^{b'-1} (\frac{ a+b'\ell+j }{ c b' } )_m }{ \prod_{k=0}^{c-1} (\frac{\ell+1+k}{c})_m } ,
+            &= \sum_{\ell=0}^{c-1} \frac{ (-x)^{\ell} }{ \ell! } \Gamma(a + \ell b') \sum_{m \ge 0} ( (-cx)^c / (b')^{b'} )^m 
+                    \frac{ \prod_{j=0}^{b'-1} (\frac{ a+b'\ell+j }{ b' } )_m }{ \prod_{k=0}^{c-1} (\frac{\ell+1+k}{c})_m } ,
 \end{align}
-which is the sum of $c$ (generalized) hypergeometric functions.
+which is the sum of $c$ (generalized) hypergeometric series.
+For these to converge, we need $b' \le c$, e.g.\ $b\le 1$.
+
+In particular, if we let $A=\lambda_0 \omega_d v^d $ and $B=\lambda h(1)$, then 
+\begin{align}
+    \E[\tau] &= \int_0^\infty e^{-A t^d - B t^{d+1} dt \\
+            &= \frac{B^{1/(d+1)}}{d+1} \int_0^\infty u^{-d/(d+1))} \exp\left( -AB^{-d/(d+1))} u^{d/(d+1)} -u \right) du \\
+            &= \frac{B^{1/(d+1)}}{d+1} G \left(-d/(d+1), d/(d+1), A B^{-d/(d+1)} \right) .
+\end{align}
+
 
 
 \section{Poisson--Vorono\u\i\ facts}
