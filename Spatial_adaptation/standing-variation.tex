@@ -56,6 +56,95 @@ and more generally, $F$ solves
    \partial_t F(a,t) = \phi(F(a,t)) - F(a,t).
 \]
 
+
+\section{Properties of the mixed model}
+
+Suppose that there are (point masses of) mutations present at time 0 as a Poisson process of rate $\lambda_0$ (calculated above),
+and that after time 0 mutations arise at rate $\lambda$.
+Suppose that the mutations spread distance $f(t)$ in time $t$, 
+and that the volume of the cone of height $t$ is given by $h(t) = \int_0^t \omega_d f(s)^d ds$.
+
+Let $\tau$ denote the time until the origin is adapted.
+Then
+\begin{align}
+   \P \{ \tau > t \} &= \exp \left\{ - \lambda_0 \omega_d f(t)^d - \lambda h(t) \right\}, \quad \mbox{and} \\
+   \E [ \tau ] &= \int_0^\infty \exp \left\{ - \lambda_0 \omega_d f(t)^d - \lambda h(t) \right\} .
+\end{align}
+As before, the mean density $\nu$ is equal to $1/\E[\tau]$.
+
+Let $z_0$ be the mean proportion of space covered by mutations present at time 0.
+Then, by the general result on competing inhomogeneous exponentials,
+\begin{align}
+    z_0 &= \P\{ \mbox{origin reached by mutations from $\lambda_0$ before $\lambda$} \} \\
+        &= \int_0^\infty \lambda_0 d \omega_d f'(t) f(t)^{d-1} \exp \left\{ - \lamba_0 \omega_d f(t)^d - \lambda h(t) \right\} dt .
+\end{align}
+The mean density of new mutations that would have taken off but were prevented by standing variation is
+\begin{align}
+    \nu_* = \int_0^\infty \lambda \exp\{ - \lambda h(t) \} \left( 1 - \exp\{ -\lambda_0 \omega_d f(t)^d \} \right) dt
+\end{align}
+and so the mean proportion of new mutations that would be successful in the absence of standing variation, but are prevented by standing variation,
+is 
+\begin{align}
+    \z_* = \frac{ \int_0^\infty \lambda \exp\{ - \lambda h(t) \} \left( 1 - \exp\{ -\lambda_0 \omega_d f(t)^d \} \right) dt }
+                { \int_0^\infty \lambda \exp\{ - \lambda h(t) \} dt } .
+\end{align}
+
+If we rescale time by $\alpha$ and space by $\beta$, 
+then this transforms $(\lambda_0, \lambda, f(\cdot))$ into $(\lambda_0/\beta^d, \lambda/(\alpha \beta^d), f(\cdot/\alpha)/\beta)$.  
+Setting $\beta = \lambda_0^{1/d}$ and $\alpha = \lambda / \lambda_0$, this is mapped to $(1,1,f(\cdot \lambda_0/\lambda)/\lambda_0^{1/d})$.
+
+\subsection{Constant speed}
+
+Now let $f(t) = vt$, so $h(t) = \frac{ \omega_d v^d }{ d+1 } t^{d+1}$.
+The integrals that appear above are of the following form, for $\alpha$, $\beta$, $a$, $b$, and $c$ all nonnegative:
+\begin{align}
+  \int_0^\infty t^c \exp \left( - \alpha t^a - \beta t^b \right) dt 
+            &= \left( b^{-1} \beta^{ (1-c)/b } \int_0^\infty u^{(c+1-b)/b} \exp\left( - \alpha \beta^{-a/b} u^{a/b} - u \right) du ,
+\end{align}
+so it suffices to learn something about the function
+\begin{equation}
+    G(a,b,x) := \int_0^\infty  t^a \exp\left( -x t^b - t ) dt ,
+\end{equation}
+for $a$, $b$, and $x$ nonnegative.  We will only be interested in this as a function of $x$; 
+the coefficients $a$ and $b$ will merely depend on the dimension and what quantity we are calculating.
+We can construct a power series for $G$ in $x$:
+\begin{align}
+    \partial_x^n G(a,b,x) &= \int_0^\infty (-1)^n t^{a+nb} \exp\left( -x t^b - t ) dt \\
+            &= (-1)^n G(a+nb,b,x) , \quad \mbox{so} \\
+    \partial_x^n G(a,b,x) \vert_{x=0} &= \Gamma(a+nb+1) .
+\end{align}
+So, if everything works out, we will have that
+\begin{align}
+    G(a,b,x) = \sum_{n \ge 0} \frac{(-x)^n}{n!} \Gamma(a+nb+1) .
+\end{align}
+
+A few facts, first.
+Using repeatedly the identity $\Gamma(x+1) = x\Gamma(x)$
+and the Pochammer symbol $(x)_n = x(x+1)\cdots(x+n-1)$,
+note that for $m \in \N$,
+\[
+    \Gamma(m+y) = (y)_m \Gamma(y).
+\]
+Also note that for $c$ and $m$ integers,
+\[
+    (y)_{cm} = c^{cm} \prod_{k=0}^{c-1} (\frac{y+k}{c})_{m} ,
+\]
+and in particular, that
+\[
+    (cm+\ell)! = \ell! (\ell+1)_{cm} = \ell! c^{cm} \prod_{k=0}^{c-1} (\frac{\ell+1+k}{c})_m .
+\]
+
+Now suppose that $b$ is rational (as will be the case), letting $b = b'/c$ with $b'$ and $c$ positive integers.
+Therefore, setting $n = mc+\ell$,
+\begin{align}
+    G(a,b,x) &= \sum_{\ell=0}^{c-1} \sum_{m \ge 0} \frac{(-x)^{mc+\ell}}{(mc+\ell)!} \Gamma(a+\ell b'/c+mb'+1) \\
+            &= \sum_{\ell=0}^{c-1} \sum_{m \ge 0} \frac{(-x)^{mc+\ell}}{(mc+\ell)!} (a+\ell b')_{mb'} \Gamma(a + \ell b') \\
+            &= \sum_{\ell=0}^{c-1} \frac{ (-x)^{\ell} }{ \ell! } \sum_{m \ge 0} ( (-cx)^c / (b')^{b'} )^m 
+                    \frac{ \prod_{j=0}^{b'-1} (\frac{ a+b'\ell+j }{ c b' } )_m }{ \prod_{k=0}^{c-1} (\frac{\ell+1+k}{c})_m } ,
+\end{align}
+which is the sum of $c$ (generalized) hypergeometric functions.
+
+
 \section{Poisson--Vorono\u\i\ facts}
 
 Fill in some facts about PV tesselations.
