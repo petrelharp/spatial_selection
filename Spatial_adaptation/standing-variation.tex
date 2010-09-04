@@ -5,6 +5,7 @@
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
 \newcommand{\one}{\mathbf{1}}
 
 
@@ -147,7 +148,7 @@ For these to converge, we need $b' \le c$, e.g.\ $b\le 1$.
 
 In particular, if we let $A=\lambda_0 \omega_d v^d $ and $B=\lambda h(1)$, then 
 \begin{align}
-    \E[\tau] &= \int_0^\infty e^{-A t^d - B t^{d+1} dt \\
+    \E[\tau] &= \int_0^\infty e^{-A t^d - B t^{d+1}} dt \\
             &= \frac{B^{1/(d+1)}}{d+1} \int_0^\infty u^{-d/(d+1))} \exp\left( -AB^{-d/(d+1))} u^{d/(d+1)} -u \right) du \\
             &= \frac{B^{1/(d+1)}}{d+1} G \left(-d/(d+1), d/(d+1), A B^{-d/(d+1)} \right) .
 \end{align}
