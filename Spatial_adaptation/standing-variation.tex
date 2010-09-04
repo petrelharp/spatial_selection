@@ -76,7 +76,7 @@ Let $z_0$ be the mean proportion of space covered by mutations present at time 0
 Then, by the general result on competing inhomogeneous exponentials,
 \begin{align}
     z_0 &= \P\{ \mbox{origin reached by mutations from $\lambda_0$ before $\lambda$} \} \\
-        &= \int_0^\infty \lambda_0 d \omega_d f'(t) f(t)^{d-1} \exp \left\{ - \lamba_0 \omega_d f(t)^d - \lambda h(t) \right\} dt .
+        &= \int_0^\infty \lambda_0 d \omega_d f'(t) f(t)^{d-1} \exp \left\{ - \lambda_0 \omega_d f(t)^d - \lambda h(t) \right\} dt .
 \end{align}
 The mean density of new mutations that would have taken off but were prevented by standing variation is
 \begin{align}
@@ -85,7 +85,7 @@ The mean density of new mutations that would have taken off but were prevented b
 and so the mean proportion of new mutations that would be successful in the absence of standing variation, but are prevented by standing variation,
 is 
 \begin{align}
-    \z_* = \frac{ \int_0^\infty \lambda \exp\{ - \lambda h(t) \} \left( 1 - \exp\{ -\lambda_0 \omega_d f(t)^d \} \right) dt }
+    z_* = \frac{ \int_0^\infty \lambda \exp\{ - \lambda h(t) \} \left( 1 - \exp\{ -\lambda_0 \omega_d f(t)^d \} \right) dt }
                 { \int_0^\infty \lambda \exp\{ - \lambda h(t) \} dt } .
 \end{align}
 
@@ -99,17 +99,17 @@ Now let $f(t) = vt$, so $h(t) = \frac{ \omega_d v^d }{ d+1 } t^{d+1}$.
 The integrals that appear above are of the following form, for $\alpha$, $\beta$, $a$, $b$, and $c$ all nonnegative:
 \begin{align}
   \int_0^\infty t^c \exp \left( - \alpha t^a - \beta t^b \right) dt 
-            &= \left( b^{-1} \beta^{ (1-c)/b } \int_0^\infty u^{(c+1-b)/b} \exp\left( - \alpha \beta^{-a/b} u^{a/b} - u \right) du ,
+            &= \left( b^{-1} \beta^{ (1-c)/b } \right) \int_0^\infty u^{(c+1-b)/b} \exp\left( - \alpha \beta^{-a/b} u^{a/b} - u \right) du ,
 \end{align}
 so it suffices to learn something about the function
 \begin{equation}
-    G(a,b,x) := \int_0^\infty  t^a \exp\left( -x t^b - t ) dt ,
+    G(a,b,x) := \int_0^\infty  t^a \exp\left( -x t^b - t \right) dt ,
 \end{equation}
 for $a$, $b$, and $x$ nonnegative.  We will only be interested in this as a function of $x$; 
 the coefficients $a$ and $b$ will merely depend on the dimension and what quantity we are calculating.
 We can construct a power series for $G$ in $x$:
 \begin{align}
-    \partial_x^n G(a,b,x) &= \int_0^\infty (-1)^n t^{a+nb} \exp\left( -x t^b - t ) dt \\
+    \partial_x^n G(a,b,x) &= \int_0^\infty (-1)^n t^{a+nb} \exp\left( -x t^b - t \right) dt \\
             &= (-1)^n G(a+nb,b,x) , \quad \mbox{so} \\
     \partial_x^n G(a,b,x) \vert_{x=0} &= \Gamma(a+nb+1) .
 \end{align}
