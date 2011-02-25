@@ -39,23 +39,26 @@ and $q$ solves $L q(y,z) = y \sum_k p_k (q(y+k-1,z)-q(y,z)) = \delta_{y=z}$.
 If we are interested in the density of ultimately successful influorescences,
 we need to futhermore weight by the probability that the offspring of any of the initial (assumed to be small) number of individuals in an inflorescence survive.
 If $p_s$ is the probability of survival in the new selective regime,
-this leads to the mean measure for successful influorescences
+since the probability that an influorescence of size $z$ survives in the new selective regime is $1 - (1-p_s)^z$,
+the mean measure for successful influorescences is
 \[
-   dx \int_0^\infty F(p_s,t) dt ,
+   \mu dx \int_0^\infty (1-F(1-p_s,t)) dt ,
 \]
-where $F$ is the generating function for $Z_t$,
+where $F$ is the generating function for $Z_t$ (in the old selective regime),
 \[
-  F(a,t) = \E[a^{Z_t}] ,
+  F(a,t) = \E[a^{Z_t} \; | \; Z_0 = 1] .
 \]
-and let $\phi$ be the generating function for the offspring distribution,
-\[
-  \phi(a) = \sum_k p_k a^k .
-\]
-Now, $p_s$ is the minimal solution to $\phi(a) = a$,
-and more generally, $F$ solves
+Note that 
+if $\phi$ be the generating function for the offspring distribution in the old selective regime,
+then $F$ solves
 \[
    \partial_t F(a,t) = \phi(F(a,t)) - F(a,t).
 \]
+If $\phi_+$ be the generating function for the offspring distribution in the new selective regime,
+\[
+  \phi_+(a) = \sum_k p_k a^k .
+\]
+Now, $p_s$ is the minimal solution to $\phi_+(a) = a$.
 
 
 \section{Properties of the mixed model}
