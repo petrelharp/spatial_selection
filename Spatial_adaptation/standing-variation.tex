@@ -60,6 +60,30 @@ If $\phi_+$ be the generating function for the offspring distribution in the new
 \]
 Now, $p_s$ is the minimal solution to $\phi_+(a) = a$.
 
+\section{Notes on branching process approximation}
+
+The branching process approximation will be good as long as the probability of "interactions" are small,
+i.e.\ we can couple the branching process with the actual density--regulated model.
+Let $Z_t(x)$ be the numbers of selected individuals in deme $x$.
+If we assume that $Z_t$ is smooth enough, 
+the numbers of nearby individuals to interact with is approximately $Z_t(x) \sigma^d$,
+and the total number of individuals is about $\rho \sigma^d$,
+so the rate of interactions is about $(Z_t(x) \sigma^d)^2/(\rho \sigma^d)$.
+Now if $Z$ is a spatial branching process beginning from a single individual at $x=0$ at $t=0$, 
+and growing at rate $r$, then 
+\[ 
+    Z_t(x) \approx \exp(rt - \|x\|^2/(2\sigma^2 t))/ (2 \pi \sigma^2)^{d/2} 
+        \le e^{rt} / ( \sigma^2 t)^{d/2}
+\]
+and so we need $t$ such that
+\[
+    e^{2rt} t^{-d} << \rho \sigma^{3d} .
+\]
+or equivalently,
+\[
+    e^{2rt/d} t^{-1} << \rho^{1/d} \sigma^3 .
+\]
+This will be true if $t$ is of smaller order than the logarithm of the effective population density, $\log \rho \sigma^d$.
 
 \section{Properties of the mixed model}
 

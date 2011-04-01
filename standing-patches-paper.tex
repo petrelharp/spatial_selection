@@ -29,7 +29,7 @@ is a homogenous, two-dimensional region.  (results for a one-dimensional region 
 There are two selective types -- the neutral type, and the mutated type.
 We assume that different mutations are distinguishable --
 either as selectively equivalent mutations, or by linked variation.
-At first, the mutated type is at a seletive disadvantage, for long enough to be at selection-mutation equilibrium,
+At first, the mutated type is at a selective disadvantage, for long enough to be at selection-mutation equilibrium,
 but at a certain time the selective regime changes, so that the mutated type has a selective advantage and quickly spreads to fixation.
 After fixation, alleles are either descended
 from families of mutants present as standing variation when the selective regime changed,
@@ -40,9 +40,37 @@ the mutant type has fitness $1-s_d$ relative to the neutral type,
 and that after time $t=0$,
 the mutant type has fitness $1+s_b$,
 for positive numbers $s_d$ and $s_b$.
-We assume that diploid fitness is additive, or at lesat that the important dynamics are determined by the haploid fitness.
-If the mutation is recessive, XXX more complicated things happen.
-More concretely, suppose that the species occupies an area with mean density
+We assume that diploid fitness is additive, or at least that the important dynamics are determined by the haploid fitness.
+(If the mutation is recessive, XXX more complicated things happen.)
+
+For the other parameters,
+suppose that each offspring of a neutral parent is of the mutant type with probability $\mu$,
+and that the XXX dispersal variance is $\sigma^2$.
+The species occupies an area with mean density
+$\rho$ chromosomes per unit area.
+(XXX or do diploid? below is haploid.)
+
+We make use of the commonly used approximation
+that neglects spatial structure and competition between relatives,
+treating the offspring of a new mutant that appears in an area not already occupied by the mutated type
+as a (nonspatial) branching process.
+After $t=0$, the offspring of a single mutant form (approximately) a branching process with growth rate $s_b$,
+so each new mutant establishes locally with probability $p_s \approx 2s_b$.
+Therefore, the total rate at which new mutants appear and establish locally after $t=0$ in areas not already occupied by the mutant type
+is approximately $\lambda = 2 \mu \rho s_b$.
+Before $t=0$, the mutation is deleterious, so the genetic descendents of each new mutation are doomed to extinction,
+but may persist for some time.
+Consider a mutation that arose at time $-T<0$, and let $Z_s$ be the number of its descendants at time $s-T$.
+At time $t=0$, there are $Z_T$ individuals present with the mutation,
+and each has probability $p_s \approx 2s_b$ of establishing, approximately independently.
+Therefore, the probability that some descendants of this mutation establish and fix locally is
+$1-(1-p_s)^Z_T$, XXX continue here
+
+If $Z_t$ is a branching process with $Z_0 = 1$ and $\E[Z_t] = \exp(-s_d t)$, then
+
+
+
+For $t \ge 0$, new mutations appear at rate approximately $\lambda = 4 \mu \rho s_b$.
 
 rescale to two parameters
 -- a characteristic length of regions and a proportion of haplotypes (or of space?) that are from standing variation
