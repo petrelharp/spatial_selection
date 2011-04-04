@@ -85,6 +85,31 @@ or equivalently,
 \]
 This will be true if $t$ is of smaller order than the logarithm of the effective population density, $\log \rho \sigma^d$.
 
+\subsection{On the random delay}
+
+Let $Y_t$ be the total number of offspring coming from a single individual
+(in the spatial, density-regulated model).
+Then we know that $(Y_t/t)^{1/d} \to v$, 
+but we saw from simulations that it looked like $Y_t^{1/d} \approx v(t-\tau)$,
+where $\tau$ is the (random) establishment time.
+(It would be useful to look at the coefficient of variation of $\tau$.)
+Well, we know that at first, $Y_t \approx W e^{rt}$, 
+where $W= \lim e^{-rt} Z_t$, and $Z_t$ is the associated branching process,
+and $r$ is the growth rate (er, $r=s$?).
+And eventually, $\partial_t Y_t^{1/d} \approx v$.
+If this switchover happened at a fixed size $C$,
+the size at which wavelike behavior took over,
+i.e.\ when $W e^{rt} = C$,
+then for $\tau = \frac{1}{r}\log(C/W)$ we'd have 
+\[
+    Y_t = \begin{cases}
+        W e^{rt} \quad & t \le \tau \\
+        (v (t-\tau))^d + C \quad & t > \tau ,
+\]
+which if $C$ is small relative to the scale we look on will look as described above.
+So the random delay is $(1/r)\log(C/W)$; and so the mean delay is something like $(1/r)\log C$
+and the randomness is determined by $(1/r)\log W$.
+
 \section{Properties of the mixed model}
 
 Suppose that there are (point masses of) mutations present at time 0 as a Poisson process of rate $\lambda_0$ (calculated above),
