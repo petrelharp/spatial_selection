@@ -111,6 +111,16 @@ which if $C$ is small relative to the scale we look on will look as described ab
 So the random delay is $(1/r)\log(C/W)$; and so the mean delay is something like $(1/r)\log C$
 and the randomness is determined by $(1/r)\log (1/W)$.
 
+What about how much variance is left in the branching process?
+Well, since $Z_{t+s} = \sum_{k=1}^{Z_t} Z^k_{s}$, where $Z^k_s$ are iid copies of $Z_s$,
+we have that $\var[Z_{t+s}|Z_t] = Z_t \var[Z_s]$,
+and so the coefficient of variation of $Z_{t+s}$ given $Z_t$ is
+\[
+   \mathop{CV}[Z_{t+s}|Z_t] &= \frac{\sqrt{Z_t \var[Z_s]}}{ Z_t \E[Z_s] } \\
+        &= e^{-rs} \sqrt{ \var[Z_s] } Z^{-1/2} \\
+        &\simeq e^{-rt/2} \sqrt{ \var[W] } .
+\]
+
 \section{Properties of the mixed model}
 
 Suppose that there are (point masses of) mutations present at time 0 as a Poisson process of rate $\lambda_0$ (calculated above),
