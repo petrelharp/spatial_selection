@@ -152,6 +152,20 @@ is
                 { \int_0^\infty \lambda \exp\{ - \lambda h(t) \} dt } .
 \end{align}
 
+Let $X$ be the distance to the eventually enclosing mutation and $R=f(\tau)$ (see first paper).
+Then if $g(t) = lambda_0 \omega_d f(t)^d + \lambda h(t)$ then $(X,R)$ has density
+\[
+    d \omega_d x^{d-1} \exp(-g(f^{-1}(r)) dx dr,
+\]
+so integrating over $r$,
+\[
+    \P\{ X \in dx \} = dx d \omega_d x^{d-1} \int_x^\infty \exp( - g(f^{-1}(r)) ) dr ,
+\]
+and
+\[
+    \E[ X^n ] = \frac{d\omega_d}{n+d} \int_0^\infty r^{n+d} \exp( - g(f^{-1}(r)) ) dr .
+\]
+
 If we rescale time by $\alpha$ and space by $\beta$, 
 then this transforms $(\lambda_0, \lambda, f(\cdot))$ into $(\lambda_0/\beta^d, \lambda/(\alpha \beta^d), f(\cdot/\alpha)/\beta)$.  
 Setting $\beta = \lambda_0^{1/d}$ and $\alpha = \lambda / \lambda_0$, this is mapped to $(1,1,f(\cdot \lambda_0/\lambda)/\lambda_0^{1/d})$.
