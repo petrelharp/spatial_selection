@@ -250,9 +250,9 @@ Then
 \[
     1 = \lambda_0 \omega_d \chi^d + \lambda \omega_d f^{-1}(\chi) \chi^d ,
 \]
-and so we choose $\chi$ to be the smallest solution to
+and so we choose $\chi$ to be the unique positive solution to 
 \[
-    f\left( \frac{1 - \lambda_0 \omega_d}{\lambda \chi^d \omega_d} \right) = \chi.
+    f\left( \frac{1 - \lambda_0 \chi^d \omega_d}{\lambda \chi^d \omega_d} \right) = \chi.
 \]
 
 As for the proportion of mutations coming from standing variation,
@@ -265,14 +265,15 @@ which is using the definition of $\chi$,
 \end{align*}
 
 Now, if $f(t) = vt$, then $f^{-1}(r) = r/v$,
-and so we have
+and so we have $\chi$ the positive root of
 \[
-    \chi = \frac{ v (1-\lambda_0 \omega_d) }{ \lambda \chi^d \omega_d } = \left( \frac{ v(1-\lambda_0 \omega_d) }{ \lambda \omega_d } \right)^{1/(d+1)} ,
+  \omega_d \chi^d (\lambda_0 + \lambda v \chi) = 1 .
 \]
-and 
+If $d=1$ then this is
 \[
-    \pi_0 = \frac{\lambda_0}{\lambda} v^{d/(d+1)} (1-\lambda_0 \omega_d)^{d/(d+1)} (\lambda \omega_d)^{1/(d+1)} .
+    \chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda v } - 2 \lambda_0 }{ 4 \lambda v } .
 \]
+In $d=2$ ??
 
 
 \section{General relationship between various quantities}
