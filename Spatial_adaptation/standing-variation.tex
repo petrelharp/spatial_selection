@@ -60,6 +60,66 @@ If $\phi_+$ be the generating function for the offspring distribution in the new
 \]
 Now, $p_s$ is the minimal solution to $\phi_+(a) = a$.
 
+\section{Notes on branching process approximation}
+
+The branching process approximation will be good as long as the probability of "interactions" are small,
+i.e.\ we can couple the branching process with the actual density--regulated model.
+Let $Z_t(x)$ be the numbers of selected individuals in deme $x$.
+If we assume that $Z_t$ is smooth enough, 
+the numbers of nearby individuals to interact with is approximately $Z_t(x) \sigma^d$,
+and the total number of individuals is about $\rho \sigma^d$,
+so the rate of interactions is about $(Z_t(x) \sigma^d)^2/(\rho \sigma^d)$.
+Now if $Z$ is a spatial branching process beginning from a single individual at $x=0$ at $t=0$, 
+and growing at rate $r$, then 
+\[ 
+    Z_t(x) \approx \exp(rt - \|x\|^2/(2\sigma^2 t))/ (2 \pi \sigma^2)^{d/2} 
+        \le e^{rt} / ( \sigma^2 t)^{d/2}
+\]
+and so we need $t$ such that
+\[
+    e^{2rt} t^{-d} << \rho \sigma^{3d} .
+\]
+or equivalently,
+\[
+    e^{2rt/d} t^{-1} << \rho^{1/d} \sigma^3 .
+\]
+This will be true if $t$ is of smaller order than the logarithm of the effective population density, $\log \rho \sigma^d$.
+
+\subsection{On the random delay}
+
+Let $Y_t$ be the total number of offspring coming from a single individual
+(in the spatial, density-regulated model).
+Then we know that $(Y_t/t)^{1/d} \to v$, 
+but we saw from simulations that it looked like $Y_t^{1/d} \approx v(t-\tau)$,
+where $\tau$ is the (random) establishment time.
+(It would be useful to look at the coefficient of variation of $\tau$.)
+Well, we know that at first, $Y_t \approx W e^{rt}$, 
+where $W= \lim e^{-rt} Z_t$, and $Z_t$ is the associated branching process,
+and $r$ is the growth rate (er, $r=s$?).
+And eventually, $\partial_t Y_t^{1/d} \approx v$.
+If this switchover happened at a fixed size $C$,
+the size at which wavelike behavior took over,
+i.e.\ when $W e^{rt} = C$,
+then for $\tau = \frac{1}{r}\log(C/W)$ we'd have 
+\[
+    Y_t = \begin{cases}
+        W e^{rt} \quad & t \le \tau \\
+        (v (t-\tau))^d + C \quad & t > \tau ,
+\end{cases}
+\]
+which if $C$ is small relative to the scale we look on will look as described above.
+So the random delay is $(1/r)\log(C/W)$; and so the mean delay is something like $(1/r)\log C$
+and the randomness is determined by $(1/r)\log (1/W)$.
+
+What about how much variance is left in the branching process?
+Well, since $Z_{t+s} = \sum_{k=1}^{Z_t} Z^k_{s}$, where $Z^k_s$ are iid copies of $Z_s$,
+we have that $\var[Z_{t+s}|Z_t] = Z_t \var[Z_s]$,
+and so the coefficient of variation of $Z_{t+s}$ given $Z_t$ is
+\[
+   \mathop{CV}[Z_{t+s}|Z_t] &= \frac{\sqrt{Z_t \var[Z_s]}}{ Z_t \E[Z_s] } \\
+        &= e^{-rs} \sqrt{ \var[Z_s] } Z^{-1/2} \\
+        &\simeq e^{-rt/2} \sqrt{ \var[W] } .
+\]
 
 \section{Properties of the mixed model}
 
@@ -74,7 +134,6 @@ Then
    \P \{ \tau > t \} &= \exp \left\{ - \lambda_0 \omega_d f(t)^d - \lambda h(t) \right\}, \quad \mbox{and} \\
    \E [ \tau ] &= \int_0^\infty \exp \left\{ - \lambda_0 \omega_d f(t)^d - \lambda h(t) \right\} .
 \end{align}
-As before, the mean density $\nu$ is equal to $1/\E[\tau]$.
 
 Let $z_0$ be the mean proportion of space covered by mutations present at time 0.
 Then, by the general result on competing inhomogeneous exponentials,
@@ -92,6 +151,20 @@ is
     z_* = \frac{ \int_0^\infty \lambda \exp\{ - \lambda h(t) \} \left( 1 - \exp\{ -\lambda_0 \omega_d f(t)^d \} \right) dt }
                 { \int_0^\infty \lambda \exp\{ - \lambda h(t) \} dt } .
 \end{align}
+
+Let $X$ be the distance to the eventually enclosing mutation and $R=f(\tau)$ (see first paper).
+Then if $g(t) = \lambda_0 \omega_d f(t)^d + \lambda h(t)$ then $(X,R)$ has density
+\[
+    d \omega_d x^{d-1} \exp(-g(f^{-1}(r)) dx dr,
+\]
+so integrating over $r$,
+\[
+    \P\{ X \in dx \} = dx d \omega_d x^{d-1} \int_x^\infty \exp( - g(f^{-1}(r)) ) dr ,
+\]
+and
+\[
+    \E[ X^n ] = \frac{d\omega_d}{n+d} \int_0^\infty r^{n+d} \exp( - g(f^{-1}(r)) ) dr .
+\]
 
 If we rescale time by $\alpha$ and space by $\beta$, 
 then this transforms $(\lambda_0, \lambda, f(\cdot))$ into $(\lambda_0/\beta^d, \lambda/(\alpha \beta^d), f(\cdot/\alpha)/\beta)$.  
@@ -175,6 +248,80 @@ And in $d=2$, since
                     -x \Gamma(4/3) {}_1F_1(7/6;4/3;-\frac{27x^2}{4})
                        -\frac{1}{2}x^2 \Gamma(10/3) {}_1F_1(13/6;4/3;-\frac{27x^2}{4}) .
 \end{align}
+
+
+\section{Characteristic lengths}
+
+How to pick appropriate rule-of-thumb parameters?
+Recall that before we had $\chi$ being the smallest solution to
+\[
+    f\left( \frac{1}{\lambda \chi^d \omega_d} \right) = \chi.
+\]
+Now, suppose we draw a cylinder in space-time with radius $\chi$ and height $t=f^{-1}(\chi)$;
+as before we choose $\chi$ so that the mean number of points in this cylinder is unity.
+Then
+\[
+    1 = \lambda_0 \omega_d \chi^d + \lambda \omega_d f^{-1}(\chi) \chi^d ,
+\]
+and so we choose $\chi$ to be the unique positive solution to 
+\[
+    f\left( \frac{1 - \lambda_0 \chi^d \omega_d}{\lambda \chi^d \omega_d} \right) = \chi.
+\]
+
+As for the proportion of mutations coming from standing variation,
+it seems a natural measure would be the mean number of such mutations in such a cylinder,
+which is using the definition of $\chi$,
+\begin{align*}
+    \pi_0 &= \frac{\lambda_0 \omega_d \chi^d }{ \lambda_0 \omega_d \chi^d + \lambda \omega_d f^{-1}(\chi) \chi^d} \\
+        & = \frac{ 1 }{ 1 + \lambda f^{-1}(\chi) / \lambda_0 } \\
+        &= \lambda_0 \omega_d \chi^d .
+\end{align*}
+
+Now, if $f(t) = vt$, then $f^{-1}(r) = r/v$,
+and so we have $\chi$ the positive root of
+\[
+  \omega_d \chi^d (\lambda_0 + \lambda v \chi) = 1 .
+\]
+If $d=1$ then this is
+\[
+    \chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda v } - 2 \lambda_0 }{ 4 \lambda v } .
+\]
+In $d=2$ ??
+
+
+\section{General relationship between various quantities}
+
+We know that there are $\lambda_0$ successful standing variants per unit area;
+suppose that there are $\nu_+$ successful new mutants per unit area.
+Therefore, $\lambda_0+\nu_+$ is the mean number of successful mutants per unit area (duh),
+and $1/(\lambda_0+\nu_+)$ is the mean area associated with a randomly chosen patch.
+Let $p_0$ be the proportion of space occupied by standing variants, 
+let $a_0$ be the mean area associated with a randomly chosen standing variant,
+and let $a_+$ be the mean area associated with a randomly chosen new variant,
+so that
+\[
+    p_0 = \frac{ \lambda_0 a_0 }{ \lambda_0 a_0 + \nu_+ a_+ } = \lambda_0 a_0 ,
+\]
+since the denominator is equal to 1.
+
+We know how to calculate $p_0$, above, from thinking about the competing exponentials,
+which allows us to find $a_0$.
+
+Now, as in the first paper, the mean density of new patches is easy to calculate -- 
+$\lambda \nu_+ = \E[\tau]$, where $\tau$ is the mean adaptation time of a point;
+this is because 
+\begin{align*}
+    \P\{ \tau > t \} &= \P\{ \mbox{no points in $t$-cone} \} \\
+            &= (1/\lambda) \P\{ \mbox{new successful adaptation arises in non-occupied $(t+dt,x+dx)$} \} ;
+\end{align*}
+integrating over $t$ produces the result.
+
+Finally, the proportion of patches that come from new mutation is $\nu_+ / (\nu_+ + \lambda_0)$,
+and we know that, conditioning on the type of a randomly chosen patch,
+\[
+    \frac{1}{\lambda_0+\nu_+} = \frac{\lambda_0}{\lambda_0+\nu_+} a_0 + \frac{\nu_+}{\lambda_0+\nu_+} a_+ .
+\]
+So, given $\lambda_0$, $\nu_+$, and $a_0$, we can find $a_+$.
 
 
 \section{Poisson--Vorono\u\i\ facts}
