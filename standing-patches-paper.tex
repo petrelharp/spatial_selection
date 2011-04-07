@@ -1,6 +1,16 @@
 \documentclass{article}
 \usepackage{fullpage}
 \usepackage{amsmath,amssymb}
+\usepackage{natbib}
+\usepackage{marginnote}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{latexml} % for \iflatexml
+
+\newcommand{\var}{\mathop{\mbox{Var}}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
 
 \begin{document}
 
@@ -18,116 +28,222 @@ Question assumptions of no standing variation and homogenous selection
 
 Stick to constant-speed waves.
 
+\section{General model}
+
+outline here assumptions common to both models.
+
 \section{Standing variation}
 
-\subsection{Model}
+\subsection{The set-up}
 
-selection pressure changes at $t=0$ from $1-s_d$ to $1+s_b$ -- homogeneous
+% selection pressure changes at $t=0$ from $1-s_d$ to $1+s_b$ -- homogeneous
 
 For now we ignore geographic hetergeneity, and assume that the species range
-is a homogenous, two-dimensional region.  (results for a one-dimensional region also appear)
-There are two selective types -- the neutral type, and the mutated type.
+is a homogenous, one- or two-dimensional region. 
+There are two selective classes -- the {\em neutral} type, and the {\em mutated} type.
 We assume that different mutations are distinguishable --
 either as selectively equivalent mutations, or by linked variation.
-At first, the mutated type is at a selective disadvantage, for long enough to be at selection-mutation equilibrium,
+For a long time in the past, the mutated type has been at a selective disadvantage (long enough to be at selection-mutation equilibrium),
 but at a certain time the selective regime changes, so that the mutated type has a selective advantage and quickly spreads to fixation.
 After fixation, alleles are either descended
 from families of mutants present as standing variation when the selective regime changed,
 or from new mutants arising since that time.
 
-We will suppose that before time $t=0$,
+For concreteness, suppose that before time $t=0$,
 the mutant type has fitness $1-s_d$ relative to the neutral type,
 and that after time $t=0$,
 the mutant type has fitness $1+s_b$,
-for positive numbers $s_d$ and $s_b$.
+where $s_d$ and $s_b$ are positive numbers.
 We assume that diploid fitness is additive, or at least that the important dynamics are determined by the haploid fitness.
 (If the mutation is recessive, XXX more complicated things happen.)
-
-For the other parameters,
+As for the other parameters,
 suppose that each offspring of a neutral parent is of the mutant type with probability $\mu$,
-and that the XXX dispersal variance is $\sigma^2$.
+and that the mean squared distance between parent and child is $\sigma^2$ (the {\em dispersal variance}).
 The species occupies an area with mean density
-$\rho$ chromosomes per unit area.
-(XXX or do diploid? below is haploid.)
+$\rho$ haploid individuals (or chromosomes) per unit area.
+\marginnote{XXX or do diploid? below is haploid.}
 
-We make use of the commonly used approximation
-that neglects spatial structure and competition between relatives,
+% Branching-process-sized point mass approx to local groups present at $t=0$
+% -- depends on local population density large enough relative to migration (to be "branching")
+% -- and migration not too large (since we approximate as a point mass).
+% Find mean density of clusters of successful standing mutants. 
+% Is greater-than-one size of clusters likely to make a difference? 
+
+We make use of the commonly used approximation that neglects competition between relatives,
 treating the offspring of a new mutant that appears in an area not already occupied by the mutated type
-as a (nonspatial) branching process.
+as a branching process.
 After $t=0$, the offspring of a single mutant form (approximately) a branching process with growth rate $s_b$,
 so each new mutant establishes locally with probability $p_s \approx 2s_b$.
-Therefore, the total rate at which new mutants appear and establish locally after $t=0$ in areas not already occupied by the mutant type
+As in \cite{ralphcoop2010}, each new offspring has a very small probability of being a mutant and establishing locally,
+so the collections of times and locations at which mutants appear and establish locally 
+is well--approximated by a Poisson process in space and time.
+This the rate of this Poisson process, 
+the rate per unit area at which new mutants appear and establish locally after $t=0$ in areas not already occupied by the mutant type
 is approximately $\lambda = 2 \mu \rho s_b$.
-Before $t=0$, the mutation is deleterious, so the genetic descendents of each new mutation are doomed to extinction,
+
+Before $t=0$, on the other hand, the mutation is deleterious, so the genetic descendents of each new mutation are (with high probability) doomed to extinction,
 but may persist for some time.
-Consider a mutation that arose at time $-T<0$, and let $Z_s$ be the number of its descendants at time $s-T$.
+Since the times and locations of mutants before $t=0$ also well-approximated by a Poisson process with rate $\mu \rho$,
+the locations of all mutant families extant at $t=0$ whose descendents are destined to fix locally is also,
+by the Mapping theorem, a Poisson process with rate we define to be $\lambda_0$.
+If we assume that the descendants of at most only a few members of any extant mutant family at $t=0$ will survive,
+and that these progenitors are near to each other in space, we can then treat each such family as a single mutant,
+equivalent to the mutants arising later.
+(The approximation will be good if the log of the size of an extant families is small relative to the establishment time,
+and the spatial distribution of the family is small relative to the spread between them.)
+To find $\lambda_0$, consider a mutation that arose at time $-T<0$, and let $Z_s$ be the number of its descendants at time $s-T$.
 At time $t=0$, there are $Z_T$ individuals present with the mutation,
 and each has probability $p_s \approx 2s_b$ of establishing, approximately independently.
-Therefore, the probability that some descendants of this mutation establish and fix locally is
-$1-(1-p_s)^Z_T$, XXX continue here
+Therefore, the probability that some descendants of this mutation establish and fix locally is $1-(1-p_s)^{Z_T}$,
+so defining $\zeta(u,t) = \E[u^{Z_t} | Z_0=1 ]$ to be the generating function of $Z_T$,
+the rate is
+\begin{align*}
+    \mu \rho \int_0^\infty \left( 1- \zeta(1-p_s,T) \right) dT .
+\end{align*}
+Now for $s_b$ small, and using $p_s \approx 2s_b$,
+we know that $\zeta(1-2s_b,T) \approx 1-2s_b \E[Z_T] = 1-2s_b e^{-Ts_d}$,
+resulting in the approximation
+\begin{align}
+    \lambda_0 &= \mu \rho \int_0^\infty 2s_b e^{-s_d T} dT \\
+        &= \frac{ 2 \mu \rho s_b }{ s_d } .
+\end{align}
 
-If $Z_t$ is a branching process with $Z_0 = 1$ and $\E[Z_t] = \exp(-s_d t)$, then
+XXX More discussion on whether this is a good approximation?  
+Compute typical size and radius of a standing cluster?
 
-
-
-For $t \ge 0$, new mutations appear at rate approximately $\lambda = 4 \mu \rho s_b$.
-
-rescale to two parameters
--- a characteristic length of regions and a proportion of haplotypes (or of space?) that are from standing variation
-
-Branching-process-sized point mass approx to local groups present at $t=0$
--- depends on local population density large enough relative to migration (to be "branching")
--- and migration not too large (since we approximate as a point mass).
-Find mean density of clusters of successful standing mutants. 
-Is greater-than-one size of clusters likely to make a difference? 
- 
 recall PPP computations; draw cones of opportunity for new mutations 
- 
+
+\subsection{Characteristic parameters}
+
+% a characteristic length of regions and a proportion of haplotypes (or of space?) that are from standing variation
+
+In \citet{ralphcoop2010}, studying the model without standing variation,
+we defined a {\em characteristic length} which gave the spatial scale across with mutants with distinct origins would establish.
+This was proportional to the mean distance between neighboring established mutants,
+but had the advantage of being easier to calculate.
+Furthermore, the time scale over which adaptation occurred could be found by dividing the characteristic length 
+by the speed at which the mutants spread.
+We will define the characteristic length for this model,
+as well as a similar compound parameter describing the relative importance of standing variation to the process of adaptation.
+
+Suppose we fix our attention on a particular new mutation that happens to be the first to occur in some region.
+As it spreads, it will cover a distance $L$ in time $L/v$, where $v = \sigma \sqrt{2s}$ is the speed of the wave of advance.
+The number of other mutations appearing in the circle it has covered up until this time is Poisson with mean
+$\lambda_0 \pi L^2 + \lambda \pi L^3 /v$ in two dimensions
+(and $\lambda_0 2 L + \lambda \pi L^2 /v$ in one dimension).
+% $\lambda_0 \omega_d L^d + \lambda \omega_d L^{d+1} /v$ in $d$ dimensions
+Therefore, if we define $\chi$ to be the unique positive solution to
+$\lambda_0 \pi \chi^2 + \lambda \pi \chi^3 /v = 1$,
+then $\chi$ gives the distance spread unobstructed by the descendants of a new mutant
+before it is expected that one other successful mutation would have arisen in the area covered so far.
+If we define $u = 2 \pi^3 \lambda_0^3 - 27 \pi^2 v^2 \lambda^2$,
+The solution to this is {\bf XXX what?}
+(In one dimension the characteristic length is $\chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda v } - 2 \lambda_0 }{ 4 \lambda v }$.)
+
+By the above calculation, we know that the relevant mutations occur about distance $\chi$ apart, 
+and occur within the first $\chi/v$ generations.
+Said another way, if we look in a circular region of space of radius $\chi$ over $\chi/d$ generations,
+we expect to find one mutational origin;
+we denote the probability that this mutation is from standing variation by $\pi_0$.
+Therefore, $\pi_0$ is roughly the proportion of establishing mutations that come from standing variation,
+and it is an elementary consequence of the Poisson process that
+\begin{align} \label{eqn:pizero}
+    \pi_0 = \lambda_0 \pi \chi^2 .
+\end{align}
+\marginnote{put in value of $\chi$ computed above.}
+(In one dimension, $\pi_0 = 2 \lambda_0 \chi$.)
+
 \subsection{Results} 
- 
-proportion of haplotypes (or of space?) that are from standing variation 
- 
-mean (and variance?) of distance between haplotypes 
- 
+
+The quantity that is perhaps easiest to compute is the mean time until adaptation.
+Fix some geographic location, and let $\tau\ge0$ be the time at which the point is reached by the advantageous mutations.
+Then, as shown in Figure XX,
+$\tau > t$ if and only if the cone with point at $(x,t)$ and slope $v$ extending back to $t=0$ is empty of successful mutations.
+Since we assume these are a Poisson process, 
+\[
+    \P\{ \tau > t \} = \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 \right) ,
+\]
+and so we have
+\begin{align}
+    \E[\tau] % &= \int_0^\infty \P\{ \tau > t \} dt \\
+        &= \int_0^\infty \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 \right) dt .
+\end{align}
+
+% proportion of haplotypes (and of space) that are from standing variation 
+
+We have defined $\lambda_0$ to be the mean density of standing variants that reach local fixation.
+Define $\nu_+$ to be the mean density of new mutants whose offspring fix locally.
+Since the probability that a mutant arising at $(x,t)$ is lucky enough to be born in a location not already occupied by mutants
+is $\P\{ \tau > t \}$,
+we can see  $\nu_+ = \int_0^\infty \lambda \P\{\tau>t\} dt$, and hence
+\begin{equation}
+    \nu_+ = (\mbox{mean density of new patches}) = \lambda \E[\tau] .
+\end{equation}
+Since the mean proportion of patches that come from standing variation is $\lambda_0 / (\lambda_0 + \nu_+)$,
+this gives us the exact quantity corresponding to $\pi_0$ from \eqref{eqn:pizero}.
+There are $\lambda_0 + \nu_+$ patches per unit area, so
+the typical patch (i.e.\ with distribution given by the Palm measure) occupies area $1/(\lambda_0 + \nu_+)$.
+
+We can also find the mean proportion of space covered by standing variants.
+If by time $t$ a geographic location has not yet been reached by the mutation,
+the probability it will be reached by time $t+dt$ 
+by a standing variant is approximately $2 \lambda_0 \pi vt dt$, 
+and the probability it is reached by a new variant is $\lambda \pi v^2 t^2 dt$.
+Therefore, as is standard for competing exponentials,
+the probability a given location is reached first by a standing variant,
+and therefore the mean proportion of space covered  by standing variants,
+is
+\begin{equation}
+    z_0 = \int_0^\infty {2 \lambda_0 \pi v t} \exp \left( - 2 \lambda_0 \pi v t - \lambda \pi v^2 t^2 \right) dt .
+\end{equation}
+
+Furthermore, if we define $a_0$ to be the mean area occupied by a typical standing variant, 
+then $a_0$ is given by the proportion of the range occupied by standing variants over the mean density of unique standing variants,
+i.e.\ $a_0 = z_0 / \lambda_0$.
+We can compare this to the corresponding quantity $a_+$ for a new variant, since the formula
+$a_0 / a_+ = z_0 / (1-z_0)$.
+
+\marginnote{do mean (and variance?) of distance between haplotypes?}
+
 influence of migration on things -- plot these versus migration 
- 
- 
+
+
 \section{Patchy selection} 
- 
+
 \subsection{Model} 
- 
+
 patches where selection is $1+s_b$ separated by $1-s_d$ -- separation large relative to migration.   
 (or relative to $s_d/m$?) 
- 
+
 Describe simple discrete model. 
- 
+
 Approximation in continuous model by branching Brownian motion with killing to find migration rate between patches -- 
 good approximation neglecting interaction (if local population size is large). 
 Look at Barton. 
- 
+
 \subsection{Results} 
- 
+
 Pull out results from other paper on discrete model. 
- 
+
 when are patches effectively isolated? 
- 
+
 \section{Applications} 
- 
+
 Look at some human parameters? 
- 
+
 \section{Discussion} 
- 
+
 if populations and mutation rates are large enough, parallel adaptation is likely, aided by geography. 
 recall others' work. 
- 
+
 patchy selection helps this happen; 
 effective migration rate looks like what; 
 strength of (positive?) selection suprisingly does not affect results (?) 
- 
+
 standing variation will be important under these circumstances; 
 migration rate (and so geographic structure) will not affect numbers of types if this is true; 
 however migration always affcts spatial patterns. 
- 
+
 discussion of applications. 
- 
+
 \end{document} 
