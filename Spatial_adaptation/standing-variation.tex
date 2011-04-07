@@ -194,6 +194,13 @@ So, if everything works out, we will have that
 \begin{align}
     G(a,b,x) = \sum_{n \ge 0} \frac{(-x)^n}{n!} \Gamma(a+nb+1) .
 \end{align}
+To check for convergence, note that by Stirling's formula $\Gamma(z) \simeq \sqrt{2\pi/z} (z/e)^z$,
+\begin{align}
+    \left( \frac{x^n \Gamma(a+nb+1) }{ n! } \right)^{1/n} &\simeq x \frac{ (a+nb+1)^{b+(a+1)/n} }{ (n+1)^{1+1/n} } e^{(1-b)-a/n} \\
+        &\simeq C n^{b-1} b^b \\
+        &\to 0  \quad \mbox{as } n \to \infty ,
+\end{align}
+so that the sum converges for all $x$ if $b<1$ (which is the case for us as $b=d/(d+1)$).
 Something simliar is noted at the Wikipedia page on the Gaussian integral, and claims such integrals show up in quantum field theory.
 
 

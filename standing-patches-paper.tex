@@ -166,8 +166,9 @@ Since we assume these are a Poisson process,
 and so we have
 \begin{align}
     \E[\tau] % &= \int_0^\infty \P\{ \tau > t \} dt \\
-        &= \int_0^\infty \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 \right) dt .
+        &= \int_0^\infty \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 \right) dt.
 \end{align}
+For means of evaluting this integral, see Appendix \ref{apx:integrals}.
 
 % proportion of haplotypes (and of space) that are from standing variation 
 
@@ -196,11 +197,12 @@ is
 \begin{equation}
     z_0 = \int_0^\infty {2 \lambda_0 \pi v t} \exp \left( - 2 \lambda_0 \pi v t - \lambda \pi v^2 t^2 \right) dt .
 \end{equation}
+To evaluate this integral, again see Appendix \ref{apx:integrals}.
 
 Furthermore, if we define $a_0$ to be the mean area occupied by a typical standing variant, 
 then $a_0$ is given by the proportion of the range occupied by standing variants over the mean density of unique standing variants,
 i.e.\ $a_0 = z_0 / \lambda_0$.
-We can compare this to the corresponding quantity $a_+$ for a new variant, since the formula
+We can compare this to the corresponding quantity $a_+$ for a new variant through the formula
 $a_0 / a_+ = z_0 / (1-z_0)$.
 
 \marginnote{do mean (and variance?) of distance between haplotypes?}
@@ -245,5 +247,38 @@ migration rate (and so geographic structure) will not affect numbers of types if
 however migration always affcts spatial patterns. 
 
 discussion of applications. 
+
+\appendix
+
+\section{Integrals appearing in the text}
+    \label{apx:integrals}
+
+In the text at several points appear integrals of the form
+\begin{align}
+  \int_0^\infty t^c \exp \left( - \alpha t^d - \beta t^{d+1} \right) dt 
+\end{align}
+where $c$ is a positive integer, $d$ is the dimension, and $\alpha$ and $\beta$ are positive real numbers.
+This could be evaluated through standard numerical methods; below we describe a power series expansion.
+Changing variables to $u = \beta t^{d+1}$, this becomes
+\begin{align}
+    \left( {d+1}^{-1} \beta^{ (1-c)/(d+1) } \right) \int_0^\infty u^{(c+1-d)/(d+1)} \exp\left( - \alpha \beta^{-d/(d+1)} u^{d/(d+1)} - u \right) du ,
+\end{align}
+so it suffices to evaluate the function
+\begin{equation}
+    G(a,b,x) := \int_0^\infty  t^a \exp\left( -x t^b - t \right) dt ,
+\end{equation}
+in the case that $a=(c-d+1)/(d+1)$, $b=d/(d+1)$, and $x$ is a function of the demographic paramters.
+Since $a$ and $b$ only depend on the dimension and the quantity being computed,
+we are interested in $G$ as a function of $x$.
+At least in the case $b=d/(d+1)$ it is possible to express $G$ as a finite sum of gamma functions,
+but we proceed with a simpler method.
+Note that $\partial_x G(a,b,x) = -G(a+b,b,x)$,
+and that at $x=0$, the function $G$ is the gamma function $G(a,b,0) = \Gamma(a+1)$.
+Therefore, a Taylor series for $G$ would be
+\[
+    G(a,b,x) = \sum_{n \ge 0} = \sum_{n \ge 0} \frac{(-x)^n}{n!} \Gamma(a+nb+1) .
+\]
+It is easy to check using Stirling's formula that $\limsup_{n \to \infty} ( x^n \Gamma(a+nb+1)/n! )^{1/n} = 0$
+if $b<1$, so the sum converges.
 
 \end{document} 
