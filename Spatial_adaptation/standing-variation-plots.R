@@ -1,4 +1,6 @@
 
+source("Spatial_adaptation/standing-variation-fns.R")
+
 # playing around
 mu <- 10^(-8)
 rho <- 10
