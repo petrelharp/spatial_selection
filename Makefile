@@ -1,4 +1,4 @@
 
 proportion-by-sigma.eps: standing-variation-plots.R
-    nice -19 R --vanilla < $< 
+	nice -19 R --vanilla < $< 
 
