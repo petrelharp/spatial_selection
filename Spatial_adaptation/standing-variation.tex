@@ -256,6 +256,27 @@ And in $d=2$, since
                        -\frac{1}{2}x^2 \Gamma(10/3) {}_1F_1(13/6;4/3;-\frac{27x^2}{4}) .
 \end{align}
 
+\subsection{Mathematica says}
+
+...that 
+\begin{align}
+    \int_0^\infty \exp\left( - \lambda \pi v^2 (t^2/s_d + t^3) \right) dt 
+       = \frac{ 1 }{ 27 s_d } \left(
+            \exp\left( - \frac{2 \pi v^2 \lambda}{27 s_d^3} \right) 2 \sqrt{3} \pi 
+                \left( I_{-1/3}\left( \frac{2 \pi v^2 \lambda}{27 s_d^3} \right) 
+                    + I_{1/3}\left( \frac{2 \pi v^2 \lambda}{27 s_d^3} \right) 
+            \right)
+            - {}_2F_2\left(\frac{1}{2},1;\frac{2}{3},\frac{4}{3};-\frac{4 \pi v^2 \lambda}{27 s_d^3}\right)
+        \right) ,
+\end{align}
+where $I_n(x)$ is the modified Bessel function of the first kind (solves $z^2 y''(z) + z y'(z) - (z^2 + n^2) y = 0$),
+and ${}_2F_2(\cdot)$ is the generalized hypergeometric function.
+
+...and
+\begin{align}
+    \int_0^\infty \frac{2\lambda \pi v}{s_d} t \exp\left( - \lambda \pi v^2 (t^2/s_d + t^3) \right) dt \right) dt 
+        = \frac{1}{v s_d} - \frac{1}{2 s_d^2} \exp{ \frac{\pi v^2 \lambda}{4 s_d^2} \pi \sqrt{\lambda} \left( 1 - \Phi\left( \frac{ v \sqrt{\pi v} }{ 2 s_d } \right) \right) .
+\end{align}
 
 \section{Characteristic lengths}
 
