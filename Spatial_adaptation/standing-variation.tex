@@ -115,11 +115,11 @@ What about how much variance is left in the branching process?
 Well, since $Z_{t+s} = \sum_{k=1}^{Z_t} Z^k_{s}$, where $Z^k_s$ are iid copies of $Z_s$,
 we have that $\var[Z_{t+s}|Z_t] = Z_t \var[Z_s]$,
 and so the coefficient of variation of $Z_{t+s}$ given $Z_t$ is
-\[
+\begin{align}
    \mathop{CV}[Z_{t+s}|Z_t] &= \frac{\sqrt{Z_t \var[Z_s]}}{ Z_t \E[Z_s] } \\
         &= e^{-rs} \sqrt{ \var[Z_s] } Z^{-1/2} \\
         &\simeq e^{-rt/2} \sqrt{ \var[W] } .
-\]
+\end{align}
 
 \section{Properties of the mixed model}
 
@@ -243,8 +243,9 @@ So, if $d=1$, then we have {\bf (verify this by usual methods!)}, with $x = AB^{
             &= \frac{\lambda^{1/(2)}}{2} \left\{ \Gamma(-1/2) \sum_{m\ge0} (4x^2)^m \frac{ (-1/2)_m }{ (1/2)_m (1)_m } 
                         - x \Gamma(1/2) \sum_{m\ge0} (4x^2)^m \frac{ (1/2)_m }{ (1)_m (3/2)_m }  \right\} \\
             &=  \frac{\lambda^{1/(2)}}{2} \left\{ \Gamma(-1/2) {}_1F_1(-1/2;1/2;4x^2) - x \Gamma(1/2) {}_1F_1(1/2;3/2;4x^2) \right\} \\
-            &= \frac{\lambda^{1/(2)}}{2} \left\{ - \Gamma(-1/2) (1/x) \gamma(-1/2,4x^2) - \Gamma(1/2) (1/x) (\sqrt{\pi}/8) \erf(4x^2) \right\} .
+            &= \frac{\lambda^{1/(2)}}{2} \left\{ - \Gamma(-1/2) (1/x) \gamma(-1/2,4x^2) - \Gamma(1/2) (1/x) (\sqrt{\pi}/8) (1-\Phi(4x^2)) \right\} .
 \end{align}
+where $\Phi$ is the error function.
 
 And in $d=2$, since
 \begin{align}
@@ -274,7 +275,7 @@ and ${}_2F_2(\cdot)$ is the generalized hypergeometric function.
 
 ...and
 \begin{align}
-    \int_0^\infty \frac{2\lambda \pi v}{s_d} t \exp\left( - \lambda \pi v^2 (t^2/s_d + t^3) \right) dt \right) dt 
+    \int_0^\infty \frac{2\lambda \pi v}{s_d} t \exp\left( - \lambda \pi v^2 (t^2/s_d + t^3) \right) dt 
         = \frac{1}{v s_d} - \frac{1}{2 s_d^2} \exp\left( \frac{\pi v^2 \lambda}{4 s_d^2} \pi \sqrt{\lambda} \left( 1 - \Phi\left( \frac{ v \sqrt{\pi v} }{ 2 s_d } \right) \right) \right) .
 \end{align}
 
