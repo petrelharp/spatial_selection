@@ -12,6 +12,8 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
 
+\bibliographystyle{plain}
+
 \begin{document}
 
 \section{Introduction}
@@ -134,12 +136,24 @@ $\lambda_0 \pi L^2 + \lambda \pi L^3 /v$ in two dimensions
 (and $\lambda_0 2 L + \lambda \pi L^2 /v$ in one dimension).
 % $\lambda_0 \omega_d L^d + \lambda \omega_d L^{d+1} /v$ in $d$ dimensions
 Therefore, if we define $\chi$ to be the unique positive solution to
-$\lambda_0 \pi \chi^2 + \lambda \pi \chi^3 /v = 1$,
+\[
+    $\lambda_0 \pi \chi^2 + \lambda \pi \chi^3 /v = 1$,
+\]
 then $\chi$ gives the distance spread unobstructed by the descendants of a new mutant
 before it is expected that one other successful mutation would have arisen in the area covered so far.
-If we define $u = 2 \pi^3 \lambda_0^3 - 27 \pi^2 v^2 \lambda^2$,
-The solution to this is {\bf XXX what?}
-(In one dimension the characteristic length is $\chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda v } - 2 \lambda_0 }{ 4 \lambda v }$.)
+The explicit formula for $\chi$ is cumbersome but straightforward; here we omit the lengthy expression.
+(This is in two dimensions; in one dimension the characteristic length is $\chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda v } - 2 \lambda_0 }{ 4 \lambda v }$.)
+This can be rewritten 
+\begin{equation} \label{eqn:defines_chi}
+    s_d^{-1} (\sqrt{2s_b} \chi)^2 + \sigma (\sqrt{2s_b} \chi)^2 = (\pi \rho \mu)^{-1} .
+\end{equation}
+From this we see that $\chi$ increases linearly with $\sqrt{s_b}$,
+and that the relative sizes of $\sigma$ and $1/s_d$ determine the relative contributions of new and standing variants, respectively.
+If $\sigma s_d \gg 1$, then standing variation is relatively unimportant, 
+and this reduces to the characteristic length of \citet{ralphcoop2010}, $\chi_+ = (v/\lambda \pi)^{1/3}$.
+On the other hand, if $\sigma s_d \ll 1$, then most adaptation come from standing variation, 
+and the solution to \eqref{eqn:defines_chi} is close to $\chi_0 = (\lambda_0 \pi)^{-2}$. 
+% More generally, as $\sigma s_d$ goes from $0$ to $\infty$, the positive solution to \eqref{eqn:defines_chi} moves continuously between the two.
 
 By the above calculation, we know that the relevant mutations occur about distance $\chi$ apart, 
 and occur within the first $\chi/v$ generations.
@@ -262,6 +276,8 @@ migration rate (and so geographic structure) will not affect numbers of types if
 however migration always affcts spatial patterns. 
 
 discussion of applications. 
+
+\bibliography{standing_patches_refs}
 
 \appendix
 
