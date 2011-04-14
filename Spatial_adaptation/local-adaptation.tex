@@ -11,43 +11,6 @@
 
 \begin{document}
 
-Here is one idea for computing the migration rate.
-Suppose that there is a patch at the origin with $N$ individuals,
-and we want to find the ``migration rate'' to another patch at distance $r$.
-Each generation, offspring are divided into two classes:
-those living in the good patch (i.e.\ replacing some of those $N$ individuals)
-and new migrants, that might eventually make it to the other patch.
-Suppose that in $dy$ there are approximately $m(y) dy$ of these latter.
-Let $p(y,r)$ be the probability that the branching process begun at $y$ survives
-{\em in the selective environment with all patches except the one at $r$ erased}.
-If we can assume that the two are independent,
-we can approximate the probability that the new patch is colonized by ``new migrants'' in a certain generation by
-$\int m(y) p(y,r) dy$.
-
-Here is another.  
-\[
-    \partial_t \P\{ Z_t(A) = 0 \} \approx - \sum_x (1+s(x)) \kappa(x,A) \E[Z_t(x) \one_{Z_t(A)=0}] ,
-\]
-so if $\E[Z_t(x) | {Z_t(A)=0}] \approx \E[Z_t(x)]$ 
-then a good approximation for the rate may be
-\[
-    \int (1+s(x)) \kappa(x,A) \E[Z_t(x)] dx .
-\]
-{\bf Or,} let $\hat Z_t$ be the process with $s(A)=-\infty$.
-Then $\E[ \hat Z_t(A) ] \approx \E[Z_t(A) \one_{Z_t(A)=0}]$,
-so
-\[
-    \partial_t \P\{ Z_t(A) = 0 \} \approx - \sum_x (1+s(x)) \kappa(x,A) \E[\hat Z_t(x)] \P\{ Z_t(A) = 0\},
-\]
-and the approximation is
-\[
-    \int (1+s(x)) \kappa(x,A) \E[\hat Z_t(x)] dx ,
-\]
-which could by found as in Slatkin.
-
-
-
-What about the stable distribution?
 Suppose that mutants have selective (dis-)advantage $s(x)$ at location $x$,
 that the symmetric dispersal kernel is $\kappa(\cdot)$, and that the mean-squared dispersal distance is $\sum_y y^2 \kappa(y) = \sigma^2$.
 Then in the large population limit, if $\phi(t,x)$ is the proportion mutants at location $x$ at time $t$,
@@ -58,9 +21,5 @@ if $s$ and $\sigma^2$ are of the same (small) order,
             + \sum_y \kappa(y-x) (1-\frac{1}{N}\one_{x=y}) (\phi(t,x)-\phi(t,y))  \\
         &\approx s(x) \phi(t,x) (1-\phi(t,x)) + \frac{1}{2} \sigma^2 \partial_x^2 \phi(t,x) .
 \end{align}
-...
-
-{\bf Note:} In some applications, 
-it may be better to begin with the migration rates rather than using the theory above to estimate them.
 
 \end{document}
