@@ -22,4 +22,21 @@ if $s$ and $\sigma^2$ are of the same (small) order,
         &\approx s(x) \phi(t,x) (1-\phi(t,x)) + \frac{1}{2} \sigma^2 \partial_x^2 \phi(t,x) .
 \end{align}
 
+Note that if $\tau$ is the first time that the new patch $A$ is occupied,
+and $Z_t$ is the state of the proces, then
+\[
+    \partial_t \P\{ \tau > t \} = \int \int_A s(x) \kappa(y-x) \E[ Z_t(dx) | \tau > t ] dy \P\{ \tau > t \}
+\]
+... so we want to find the first integral (and show that for $t>\epsilon$ it is approximately constant).
+Since we are also taking the small-dispersal limit, this seems tricky.
+
+Another option: we are trying to find the first time that a mutant appears in patch $A$ {\em and fixes locally};
+if the benefit is small then there may be many unsuccessful migrants first.
+Suppose we modify the process so that offspring appearing in $A$ have distribution {\em conditioned on local extinction};
+then we suppose that each such individual has probability ${}\approx 2s_b$ of fixation,
+so that the mean number of such offspring per generation times $2s_b$ gives us the rate we are looking for.
+A supercritical branching process conditioned on extinction is a subcritical branching process,
+with mean offspring number $\partial_z \E[z^N]\vert_{z=p}$, where $N$ is the offspring number and $p$ is the probability of extinction.
+In the case of a binomial (check this?) branching, this changes $s$ to $-s$.
+
 \end{document}
