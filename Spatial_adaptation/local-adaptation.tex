@@ -39,4 +39,76 @@ A supercritical branching process conditioned on extinction is a subcritical bra
 with mean offspring number $\partial_z \E[z^N]\vert_{z=p}$, where $N$ is the offspring number and $p$ is the probability of extinction.
 In the case of a binomial (check this?) branching, this changes $s$ to $-s$.
 
+\section{On solving FKPP with varying selection}
+
+Let $p(t,x)$ be the proportion of the allele under spatially varying selection $s(x)$ in one dimension,
+so that (setting $\sigma^2=2$)
+\[
+    \partial_t p(t,x) = \partial_x^2 p(t,x) + s(x) p(t,x) (1-p(t,x)) .
+\]
+The stable distribution $\phi(x) = \lim_{t\to\infty} p(t,x)$ then solves
+\begin{align} \label{eqn:definingphi}
+    \partial_x^2 \phi(x) = - s(x) \phi(x) (1-\phi(x)) ,
+\end{align}
+with appropriate boundary conditions.
+If we now assume that $s(x)$ is piecewise constant,
+$s(x) = s_i$ for $x \in [x_i,x_{i+1})$, with $x_0=-\infty$ and $x_{n+2}=\infty$,
+then the equation is integrable: if we multiply through by $\partial_x \phi(x)$ and integrate, then we get that
+\begin{align} \label{eqn:conservation}
+    ( \partial_x \phi(x) )^2  &= - \int^{x} s(x) \phi(x) (1-\phi(x)) \partial_x \phi(x) dx \\
+        &= - \frac{1}{2} s_i \phi(x)^2 \left( 1 - \frac{1}{3} \phi(x) \right) - K_i \quad \mbox{for } x \in [x_i,x_{i+1}) \\
+        &:= - V_i(\phi(x)) \quad \mbox{for } x \in [x_i,x_{i+1}) ,
+\end{align}
+where $K_i$ is a constant of integration and we define
+\[
+        V_i(\phi) = \frac{1}{2} s_i \phi^2 \left( 1 - \frac{1}{3} \phi \right) + K_i .
+\]
+Note that $V_i'(0)=V_i'(1)=0$, that $V_i(0)=K_i$ and $V_i(1) = K_i-s_i/6$.  
+We will always have that $V(\phi) \le 0$.
+(We have then that $\phi'' = - \partial_\phi V(\phi)$, the equation of motion of a particle in potential $V$.
+Also note that this implies ``conservation of energy'', i.e.\ $( \partial_x \phi(x) )^2 + V(\phi(x))$ is constant.)
+Rearranging, we get that $dx = d\phi / \sqrt{-V(\phi)}$, so where $\phi(x)$ is monotone, the inverse is
+\[
+    x(\phi) = x(\phi_0) \pm \int_{\phi_0}^\phi \frac{ d\psi }{ \sqrt{ -V(\psi) } } .
+\]
+For each $i$ then define the elliptic function
+\[
+    F_i(\phi) = \int_{\phi_i^*}^\phi \frac{ d\psi }{ \sqrt{ -V(\psi) } } ,
+\]
+where take the positive branch of the square root, and $\phi_i^*$ will be chosen later.
+Then we have that
+$x(\phi) - x(\phi_0) = \pm( F(\phi) - F(\phi_0))$,
+or for an appropriate $x_0$,
+\[
+    \phi(x) = F^{-1}\left( F(\phi(x_0)) \pm (x - x_0) \right).
+\]
+
+We clearly want $\lim_{x \to \infty} \partial_x \phi(\pm x) = 0$, 
+and $\lim_{x \to \infty} \phi(\pm x)$ to be zero or one depending on the sign of $s_0$ and $s_{n+1}$.
+Since $(\partial_x \phi(x))^2 = -V(x)$, this implies that if $s_0<0$, then $K_0 = 0$,
+while if $s_0>0$ then $K_0 = s_0/6$; and likewise for $K_{n+1}$.
+
+We also require that $\phi(x)$ and $\phi'(x)$ are continuous.
+Continuity of $\phi'(x)$ is equivalent to $V_i(x_{i+1}) = V_{i+1}(x_{i+1})$,
+which we can rearrange to find an equation for $K_{i+1}$ in terms of $K_i$ and $\phi(x_{i+1})$:
+\[
+    K_{i+1} - K_i = (s_i - s_{i+1}) \frac{1}{2} \phi(x_{i+1})^2 (1-\phi(x_{i+1})/3) .
+\]
+What about $\phi(x_i)$?  Well, if $\phi(x)$ is monotone on $[x_i,x_{i+1})$ then we can wolog take $\phi_i^*=0$ or $1$ depending on the sign of $s_i$.
+Otherwise, let $\phi_i^*$ be the (unique) root of $V_i$ in $[x_i,x_{i+1})$, so $V_i(\phi_i^*)=0$.
+In this case, $\phi_i^*$ is the maximum or minimum of $\phi$ in the interval:
+if $s>0$, then $\phi_i = \max\{ \phi(x) : x \in [x_i,x_{i+1})\}$. 
+Recall we defined $F_i$ using $\phi_i^*$; now using the fact that $\phi$ is monotone with the opposite sign on either side of $\phi_i^*$,
+$x_{i+1} - x_i = F(\phi(x_{i+1})) - F(\phi_i^*) + F(\phi(x_{i})) - F(\phi_i^*)$,
+and that $F(\phi_i^*) = 0$,
+we know that the length of the $i$th stretch is
+\[
+    x_{i+1} - x_i = \pm \left( F(\phi(x_i)) + F(\phi(x_{i+1})) \right).
+\]
+
+If we knew $\phi(x_1)$ and $\phi'(x_1)$, then we'd be all set.
+Unfortunately, we are given $\phi(-\infty)$ and $\phi(\infty)$,
+
+
+
 \end{document}
