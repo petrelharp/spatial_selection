@@ -103,11 +103,48 @@ $x_{i+1} - x_i = F(\phi(x_{i+1})) - F(\phi_i^*) + F(\phi(x_{i})) - F(\phi_i^*)$,
 and that $F(\phi_i^*) = 0$,
 we know that the length of the $i$th stretch is
 \[
-    x_{i+1} - x_i = \pm \left( F(\phi(x_i)) + F(\phi(x_{i+1})) \right).
+    x_{i+1} - x_i = \pm \left( F_i(\phi(x_i)) + F_i(\phi(x_{i+1})) \right).
 \]
 
+Note that all the $\pm{}$'s are easily relatable to the signs of $s_i$.
 If we knew $\phi(x_1)$ and $\phi'(x_1)$, then we'd be all set.
-Unfortunately, we are given $\phi(-\infty)$ and $\phi(\infty)$,
+Unfortunately, we are given $\phi(-\infty)$ and $\phi(\infty)$, and have to work inwards from the ends.
+Monty deals with this by using symmetry, so he knows $\phi(0)$ and $\phi'(0)$.
+
+We are interested in the following case:
+\[
+    s(x) = \begin{cases}
+        +s_b \qquad \mbox{for } |x|<\epsilon \\
+        -s_d \qquad \mbox{for } x<-\epsilon \; \mbox{or}\; \epsilon \le x \le R \\
+        -s_* \qquad \mbox{for } R < x < R+2\epsilon \\
+        -s_d \qquad \mbox{for } x>R+2\epsilon .
+    \end{cases}
+\]
+We can solve the case with $s_* = s_d$, since $\phi'(0) = 0$ (as can Monty, although he doesn't say what it is).
+We should be able to argue that if $R$ is large then the value of $s_*$ won't make much difference.
+
+\subsection{Doing the integrals}
+
+This from ``NEQwiki, the nonlinear equations encyclopedia'', \url{http://www.primat.mephi.ru/wiki/ow.asp?Korteweg-de_Vries_equation}.
+We want to integrate
+\[
+    \int \frac{ d\phi }{ \sqrt{-V(\phi)} } = 
+        \sqrt{2}{s} \int \frac{ d\phi }{ \sqrt{ \phi^2 (1-\phi/3) + C } } ,
+\]
+with $C=2K/s$.
+Let $\phi^2(1-\phi/3)+C = (\alpha-\phi)(\phi-\beta)(\phi-\gamma)$,
+and change variables first to $y^2=(\alpha-\phi$, 
+and then to $x = y/\sqrt{\alpha-\beta}$, so that
+\begin{align*}
+    \frac{ d\phi }{ \sqrt{ \phi^2 (1-\phi/3) + C } } 
+        = \frac{ - 2 dy }{ \sqrt{ (\alpha-\beta-y^2) (\alpha-\gamma-p^2) } } \\
+        = \frac{ - 2 dx }{ \sqrt{\alpha-\gamma} \sqrt{ (1-x^2) (1-S^2 x^2) } } ,
+\end{align*}
+with $S^2 = (\alpha-\beta)/(\alpha-\gamma)$.
+Now Jacobi's ``incomplete elliptic integral of the first kind'' is
+\[
+    F(x;k) = \int_0^x \frac{dt}{\sqrt{ (1-t^2)(1-k^2t^2) } .
+\]
 
 
 
