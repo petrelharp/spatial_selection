@@ -246,17 +246,22 @@ influence of migration on things -- plot these versus migration
 patches where selection is $1+s_b$ separated by $1-s_d$ -- separation large relative to migration.   
 (or relative to $s_d/m$?) 
 
-Describe simple discrete model. 
+Describe simple discrete model, for general migration rates.
 
-Approximation in continuous model by branching Brownian motion with killing to find migration rate between patches -- 
-good approximation neglecting interaction (if local population size is large). 
-Look at Barton. 
+Get migration and mutation rates from a homogeneous continuous model:
+The migration rate from patch $i$ to a patch at distance $r$ is $C_i \exp(-\gamma r \sqrt{s} /\sigma)$,
+where $C_i$ depends on the size of the patch and (to a lesser degree?) the local structural details of the selective difference.
+The mutation rate is more or less (size of patch) times $\mu$; 
+more accurately we can integrate using Barton assuming step selection.
 
 \subsection{Results} 
 
-Pull out results from other paper on discrete model. 
+Pull out results from other paper on discrete model:
+if migration rates are equal then we get Chinese Restaurant/Ewens;
+in any case is independent of selection.
 
-when are patches effectively isolated? 
+when are patches effectively isolated?   
+This occurs when the effective migration rate is much smaller than the mutation rate, namely...
 
 \section{Applications} 
 
