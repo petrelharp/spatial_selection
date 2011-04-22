@@ -151,32 +151,5 @@ and the Jacobian elliptic function $\sn(x;k)$ is the inverse: $F(\sn(x;k);k) = x
 
 As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)$.
 
-\section{Mutation rates}
-
-
-Barton (Gen Res 87), has expressions for the probability of establishment as a function of spatial location in fixed landscape of advantageous pockets:
-The probability of establishment beginning at state p is <latex>F(p) = 1 - \exp(-4Ns\int \phi(x) p(dx))</latex>,
-where 
-\[ \phi(x)^2 = L\phi(x) ; \qquad \mbox{and| \qquad \frac{\partial \phi}{\partial x} = 0 \qquad \mbox{as}\; x \to \infty .\]
-Here $L\phi = \Delta\phi + f\phi$, where $$sf(x)$$ is the selective advantage is location $x$.
-This form follows by assuming that the offspring of each individual go extinct independently (as in a branching process),
-and so the probability of extinction is a product over the extant individuals;
-there are $2N p(x) dx$ individuals at $x$
-and the probability of exinction of a single individual at $x$ is $\exp (2s \phi(x))$;
-Barton says this is derived by [http://www.bibsonomy.org/bibtex/23c3cf150aea743a3bfe52155d00cbf7b/peter.ralph Pollack] (J Appl Prob '66) using branching processes (and assuming Poisson offspring); 
-Pollack actually does it in a discrete world; Barton is (silently) taking a continuum limit.
-Barton also motivates by linearizing about establishment, and solves some interesting cases.
-
-So, let $f(x) = s(x)/s_b$ be the rescaled selective benefit, and we want to solve
-\[
-    \phi''(x) = - f(x) \phi(x) + \phi(x)^2 .
-\]
-This fits into the framework above, if $f(x)$ is piecewise constant,
-since
-\[
-    d \phi = \pm dx \sqrt{ K + f \phi + \phi^2 } .
-\]
-Barton gives the example we want...
-
 
 \end{document}
