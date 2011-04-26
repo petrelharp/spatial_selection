@@ -145,14 +145,16 @@ The explicit formula for $\chi$ is cumbersome but straightforward; here we omit 
 (This is in two dimensions; in one dimension the characteristic length is $\chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda v } - 2 \lambda_0 }{ 4 \lambda v }$.)
 This can be rewritten 
 \begin{equation} \label{eqn:defines_chi}
-    s_d^{-1} (\sqrt{2s_b} \chi)^2 + \sigma (\sqrt{2s_b} \chi)^2 = (\pi \rho \mu)^{-1} .
+    s_d^{-1} (\sqrt{2s_b} \chi)^2 + \sigma (\sqrt{2s_b} \chi)^3 = (\pi \rho \mu)^{-1} .
 \end{equation}
-From this we see that $\chi$ increases linearly with $\sqrt{s_b}$,
+From this we see that $\chi$ increases linearly with $1/\sqrt{s_b}$,
 and that the relative sizes of $\sigma$ and $1/s_d$ determine the relative contributions of new and standing variants, respectively.
 If $\sigma s_d \gg 1$, then standing variation is relatively unimportant, 
 and this reduces to the characteristic length of \citet{ralphcoop2010}, $\chi_+ = (v/\lambda \pi)^{1/3}$.
 On the other hand, if $\sigma s_d \ll 1$, then most adaptation come from standing variation, 
-and the solution to \eqref{eqn:defines_chi} is close to $\chi_0 = (\lambda_0 \pi)^{-2}$. 
+and the solution to \eqref{eqn:defines_chi} is close to $\chi_0 = (\lambda_0 \pi)^{-1/2}$. 
+\marginnote{XXX check this from below.}
+% Note also substituting $z = \chi (\sqrt{2s_b} / (s_d \sigma)$ gets $z^2 + z^3 = (s_d^3 \sigma^2)/(\pi \rho \mu)$.
 % More generally, as $\sigma s_d$ goes from $0$ to $\infty$, the positive solution to \eqref{eqn:defines_chi} moves continuously between the two.
 
 By the above calculation, we know that the relevant mutations occur about distance $\chi$ apart, 
@@ -176,12 +178,12 @@ Then, as shown in Figure XX,
 $\tau > t$ if and only if the cone with point at $(x,t)$ and slope $v$ extending back to $t=0$ is empty of successful mutations.
 Since we assume these are a Poisson process, 
 \[
-    \P\{ \tau > t \} = \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 \right) ,
+    \P\{ \tau > t \} = \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 / 3 \right) ,
 \]
 and so we have
 \begin{align}
     \E[\tau] % &= \int_0^\infty \P\{ \tau > t \} dt \\
-        &= \int_0^\infty \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 \right) dt.
+        &= \int_0^\infty \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 / 3 \right) dt.
 \end{align}
 For means of evaluting this integral, see Appendix \ref{apx:integrals}.
 
