@@ -52,11 +52,13 @@ from families of mutants present as standing variation when the selective regime
 or from new mutants arising since that time.
 
 For concreteness, suppose that before time $t=0$,
-the mutant type has fitness $1-s_d$ relative to the neutral type,
+the mutant type has fitness $1-s_d$ relative to the neutral type
+(i.e.\ it produces on average $1-s_d$ times the number of offspring per generation),
 and that after time $t=0$,
 the mutant type has fitness $1+s_b$,
-where $s_d$ and $s_b$ are positive numbers.
+where $0<s_d<1$, and $s_b>0$ will usually be assumed to be small.
 We assume that diploid fitness is additive, or at least that the important dynamics are determined by the haploid fitness.
+The number of offspring has finite variance, which to keep the formulas simple we assume to be equal to one.
 (If the mutation is recessive, XXX more complicated things happen.)
 As for the other parameters,
 suppose that each offspring of a neutral parent is of the mutant type with probability $\mu$,
@@ -141,25 +143,29 @@ Therefore, if we define $\chi$ to be the unique positive solution to
 \]
 then $\chi$ gives the distance spread unobstructed by the descendants of a new mutant
 before it is expected that one other successful mutation would have arisen in the area covered so far.
-The explicit formula for $\chi$ is cumbersome but straightforward; here we omit the lengthy expression.
+The explicit formula for $\chi$ is cumbersome; here we omit it.
 (This is in two dimensions; in one dimension the characteristic length is $\chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda v } - 2 \lambda_0 }{ 4 \lambda v }$.)
 This can be rewritten 
 \begin{equation} \label{eqn:defines_chi}
-    s_d^{-1} (\sqrt{2s_b} \chi)^2 + \sigma (\sqrt{2s_b} \chi)^3 = (\pi \rho \mu)^{-1} .
+%    s_d^{-1} (\sqrt{2s_b} \chi)^2 + \sigma (\sqrt{2s_b} \chi)^3 = (\pi \rho \mu)^{-1} .
+\left( \chi s_d \sigma \sqrt{2s_b} \right)^2 + \left( \chi s_d \sigma \sqrt{2s_b} \right)^3 
+        = (s_d^3 \sigma^2)/(\pi \rho \mu).
 \end{equation}
-From this we see that $\chi$ increases linearly with $1/\sqrt{s_b}$,
-and that the relative sizes of $\sigma$ and $1/s_d$ determine the relative contributions of new and standing variants, respectively.
-If $\sigma s_d \gg 1$, then standing variation is relatively unimportant, 
-and this reduces to the characteristic length of \citet{ralphcoop2010}, $\chi_+ = (v/\lambda \pi)^{1/3}$.
-On the other hand, if $\sigma s_d \ll 1$, then most adaptation come from standing variation, 
-and the solution to \eqref{eqn:defines_chi} is close to $\chi_0 = (\lambda_0 \pi)^{-1/2}$. 
-\marginnote{XXX check this from below.}
-% Note also substituting $z = \chi (\sqrt{2s_b} / (s_d \sigma)$ gets $z^2 + z^3 = (s_d^3 \sigma^2)/(\pi \rho \mu)$.
+From this we see that $\chi$ increases {\em linearly} with $1/\sqrt{s_b}$,
+and decreases with $\rho$ and $\mu$.
+Furthermore, the relative sizes of $\sigma$ and $1/s_d$ determine the relative contributions of new and standing variants, respectively.
+If $\sigma^3 \s_d^3/(\pi \rho \mu)$ is small, then $\chi \approx \sqrt{ s_d / (2 s_b \pi \rho \mu)} = 1/\sqrt{\pi \lambda_0}$,
+% + O( \gamma ) with $\gamma = \sigma^3 \s_d^3/(\pi \rho \mu)$
+and nearly all mutants come from standing variation (note that $\sigma$ does not enter into it).
+On the other hand, if $\sigma^3 \s_d^3/(\pi \rho \mu)$ is large, then $\chi \approx (2s_b)^{-1/2} \left( \sigma \pi \rho \mu)\right)^{-1/3}$,
+% + O( 1 ) .
+the characteristic length from \citet{ralphcoop2010},
+in which case standing variation is relatively unimportant.
 % More generally, as $\sigma s_d$ goes from $0$ to $\infty$, the positive solution to \eqref{eqn:defines_chi} moves continuously between the two.
 
 By the above calculation, we know that the relevant mutations occur about distance $\chi$ apart, 
 and occur within the first $\chi/v$ generations.
-Said another way, if we look in a circular region of space of radius $\chi$ over $\chi/d$ generations,
+Said another way, if we look in a circular region of space of radius $\chi$ over $\chi/v$ generations,
 we expect to find one mutational origin;
 we denote the probability that this mutation is from standing variation by $\pi_0$.
 Therefore, $\pi_0$ is roughly the proportion of establishing mutations that come from standing variation,
@@ -200,7 +206,7 @@ Using that $\lambda_0 = \lambda / s_d$, this gives us that
     \nu_+ = (\mbox{mean density of new patches}) = \frac{1}{1+s_d \E[\tau]} .
 \end{equation}
 Since the mean proportion of patches that come from standing variation is $\lambda_0 / (\lambda_0 + \nu_+)$,
-this gives us the exact quantity corresponding to $\pi_0$ from \eqref{eqn:pizero}.
+this gives us the exact quantity we approximated by $\pi_0$ in \eqref{eqn:pizero}.
 There are $\lambda_0 + \nu_+$ patches per unit area, so
 the typical patch (i.e.\ with distribution given by the Palm measure) occupies area $1/(\lambda_0 + \nu_+)$.
 
