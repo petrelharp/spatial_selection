@@ -1,0 +1,60 @@
+\documentclass{article}
+\input{Spatial_adaptation/preamble}
+\section{Characteristic lengths}
+
+How to pick appropriate rule-of-thumb parameters?
+Recall that before we had $\chi$ being the smallest solution to
+\[
+    f\left( \frac{1}{\lambda \chi^d \omega_d} \right) = \chi.
+\]
+Now, suppose we draw a cylinder in space-time with radius $\chi$ and height $t=f^{-1}(\chi)$;
+as before we choose $\chi$ so that the mean number of points in this cylinder is unity.
+Then
+\[
+    1 = \lambda_0 \omega_d \chi^d + \lambda \omega_d f^{-1}(\chi) \chi^d ,
+\]
+and so we choose $\chi$ to be the unique positive solution to 
+\[
+    f\left( \frac{1 - \lambda_0 \chi^d \omega_d}{\lambda \chi^d \omega_d} \right) = \chi.
+\]
+
+As for the proportion of mutations coming from standing variation,
+it seems a natural measure would be the mean number of such mutations in such a cylinder,
+which is using the definition of $\chi$,
+\begin{align*}
+    \pi_0 &= \frac{\lambda_0 \omega_d \chi^d }{ \lambda_0 \omega_d \chi^d + \lambda \omega_d f^{-1}(\chi) \chi^d} \\
+        & = \frac{ 1 }{ 1 + \lambda f^{-1}(\chi) / \lambda_0 } \\
+        &= \lambda_0 \omega_d \chi^d .
+\end{align*}
+
+Now, if $f(t) = vt$, then $f^{-1}(r) = r/v$,
+and so we have $\chi$ the positive root of
+\[
+  \omega_d \chi^d (\lambda_0 + \lambda \chi/v) = 1 .
+\]
+If $d=1$ then this is
+\[
+    \chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda/v } - 2 \lambda_0 }{ 4 \lambda/v } .
+\]
+In $d=2$ ??
+
+\subsection{Mathematica Says}
+
+... (and Wikipedia too) that the solutions to $ax^2 + bx^3 = 1$ are:
+let 
+\[
+   u = \left( -2a^3 + 27b^2 + 3 \sqrt{3} \sqrt{ -4a^3b^2+27b^4} \right)
+\]
+and $(1, r, \bar r)$ are the cube roots of $1$, with $r=(1+i\sqrt{3})/2$ then
+\[
+    x = \begin{cases} 
+        -\frac{a}{3b} + \frac{ 2^{1/3} a^2 }{ 3 b u^{1/3} } + \frac{ u^{1/3} }{ 3 b 2^{1/3} } \\
+        -\frac{a}{3b} + r \frac{ 2^{1/3} a^2 }{ 3 b u^{1/3} } + \bar r \frac{ u^{1/3} }{ 3 b 2^{1/3} } \\
+        -\frac{a}{3b} + \bar r \frac{ 2^{1/3} a^2 }{ 3 b u^{1/3} } + r \frac{ u^{1/3} }{ 3 b 2^{1/3} }  .
+    \end{cases}
+\]
+Plugging in $a=\pi \lambda_0$ and $b=\pi \lambda/v$ we get
+$u = - 2 \pi^3 \lambda_0^3 + 3 \pi^2 \left( 9 v^{-2} \lambda^2 + \sqrt{ 81 b^4 \lambda^4 - 12 \pi v^{-2} \lambda^2 \lambda_0^3 } \right)$
+... and the whole expression is ugly.
+
+\end{document}
