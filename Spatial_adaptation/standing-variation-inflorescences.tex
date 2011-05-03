@@ -1,0 +1,55 @@
+\documentclass{article}
+\input{Spatial_adaptation/preamble}
+
+\begin{document}
+
+\section{Size of inflorescences}
+
+Let the local rate of growth at location $x$ and time $t$ be given by $f(x,t)$,
+and for each $x$ and $t$ let $(X^{(x,t)}_{s})_{s \ge t}$ have the distribution of a branching process begun with one individual at $x$ and time $t$,
+and let $\kappa^{(x,t)}_s(dz) = \P\{ |X^{(x,t)}_s| \in dz \}$  be the marginal distribution of the size of $X^{(x,t)}$.
+For a given mutation rate $\mu$ and population density $\rho(dx)$ we have a Poisson process of inflorescences of rate $\mu \rho$,
+each of which having distribution $\kappa$.  
+Then the set of inflorescences alive at time $t$ is Poisson, 
+and the mean measure of such inflorescences is
+\[ \nu(dx,A) = \mu \rho(dx) \int_{-\infty}^t \P\{ X^{(x,s)}_t \in A \} ds .\]
+The first thing we'd want to do is to ignore the spatial extent of $X$ and only look at the total number of individuals,
+so we need to know
+\[ \int_{-\infty}^t \kappa^{(x,s)}_t(dz) ds . \]
+
+Now assume everything is homogeneous, and let $Z_t$ be a continuous-time branching process begun at zero 
+and having branching rate $1$ and offspring distribution $\{p_k : k\ge 0\}$.
+Suppose that $Z$ has total lifetime $\tau$ and that $\tau$ is finite almost surely.
+If we treat each inflorescence as a point mass, then the set of (location, mass) coordinates $(x,z)$
+are Poisson with intensity $dx \otimes q(1,z) dz$ where $q(1,z)=q(z)$ is the Green function of $Z$, namely
+\[  
+  q(y,z) = \E^y \left[ \int_0^\tau \one(Z_t = z) dt \right] = \int_0^\infty P^t_{yz} dt .
+\]
+and $q$ solves $L q(y,z) = y \sum_k p_k (q(y+k-1,z)-q(y,z)) = \delta_{y=z}$.
+
+If we are interested in the density of ultimately successful influorescences,
+we need to futhermore weight by the probability that the offspring of any of the initial (assumed to be small) number of individuals in an inflorescence survive.
+If $p_s$ is the probability of survival in the new selective regime,
+since the probability that an influorescence of size $z$ survives in the new selective regime is $1 - (1-p_s)^z$,
+the mean measure for successful influorescences is
+\[
+   \mu dx \int_0^\infty (1-F(1-p_s,t)) dt ,
+\]
+where $F$ is the generating function for $Z_t$ (in the old selective regime),
+\[
+  F(a,t) = \E[a^{Z_t} \; | \; Z_0 = 1] .
+\]
+Note that 
+if $\phi$ be the generating function for the offspring distribution in the old selective regime,
+then $F$ solves
+\[
+   \partial_t F(a,t) = \phi(F(a,t)) - F(a,t).
+\]
+If $\phi_+$ be the generating function for the offspring distribution in the new selective regime,
+\[
+  \phi_+(a) = \sum_k p_k a^k .
+\]
+Now, $p_s$ is the minimal solution to $\phi_+(a) = a$.
+
+
+\end{document}
