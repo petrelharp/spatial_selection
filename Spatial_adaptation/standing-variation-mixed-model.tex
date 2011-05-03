@@ -1,0 +1,162 @@
+\documentclass{article}
+\input{Spatial_adaptation/preamble}
+\section{Properties of the mixed model}
+
+Suppose that there are (point masses of) mutations present at time 0 as a Poisson process of rate $\lambda_0$ (calculated above),
+and that after time 0 mutations arise at rate $\lambda$.
+Suppose that the mutations spread distance $f(t)$ in time $t$, 
+and that the volume of the cone of height $t$ is given by $h(t) = \int_0^t \omega_d f(s)^d ds$.
+
+Let $\tau$ denote the time until the origin is adapted.
+Then
+\begin{align}
+   \P \{ \tau > t \} &= \exp \left\{ - \lambda_0 \omega_d f(t)^d - \lambda h(t) \right\}, \quad \mbox{and} \\
+   \E [ \tau ] &= \int_0^\infty \exp \left\{ - \lambda_0 \omega_d f(t)^d - \lambda h(t) \right\} .
+\end{align}
+
+Let $z_0$ be the mean proportion of space covered by mutations present at time 0.
+Then, by the general result on competing inhomogeneous exponentials,
+\begin{align}
+    z_0 &= \P\{ \mbox{origin reached by mutations from $\lambda_0$ before $\lambda$} \} \\
+        &= \int_0^\infty \lambda_0 d \omega_d f'(t) f(t)^{d-1} \exp \left\{ - \lambda_0 \omega_d f(t)^d - \lambda h(t) \right\} dt .
+\end{align}
+The mean density of new mutations that would have taken off but were prevented by standing variation is
+\begin{align}
+    \nu_* = \int_0^\infty \lambda \exp\{ - \lambda h(t) \} \left( 1 - \exp\{ -\lambda_0 \omega_d f(t)^d \} \right) dt
+\end{align}
+and so the mean proportion of new mutations that would be successful in the absence of standing variation, but are prevented by standing variation,
+is 
+\begin{align}
+    z_* = \frac{ \int_0^\infty \lambda \exp\{ - \lambda h(t) \} \left( 1 - \exp\{ -\lambda_0 \omega_d f(t)^d \} \right) dt }
+                { \int_0^\infty \lambda \exp\{ - \lambda h(t) \} dt } .
+\end{align}
+
+Let $X$ be the distance to the eventually enclosing mutation and $R=f(\tau)$ (see first paper).
+Then if $g(t) = \lambda_0 \omega_d f(t)^d + \lambda h(t)$ then $(X,R)$ has density
+\[
+    d \omega_d x^{d-1} \exp(-g(f^{-1}(r)) dx dr,
+\]
+so integrating over $r$,
+\[
+    \P\{ X \in dx \} = dx d \omega_d x^{d-1} \int_x^\infty \exp( - g(f^{-1}(r)) ) dr ,
+\]
+and
+\[
+    \E[ X^n ] = \frac{d\omega_d}{n+d} \int_0^\infty r^{n+d} \exp( - g(f^{-1}(r)) ) dr .
+\]
+
+If we rescale time by $\alpha$ and space by $\beta$, 
+then this transforms $(\lambda_0, \lambda, f(\cdot))$ into $(\lambda_0/\beta^d, \lambda/(\alpha \beta^d), f(\cdot/\alpha)/\beta)$.  
+Setting $\beta = \lambda_0^{1/d}$ and $\alpha = \lambda / \lambda_0$, this is mapped to $(1,1,f(\cdot \lambda_0/\lambda)/\lambda_0^{1/d})$.
+
+\subsection{Constant speed}
+
+Now let $f(t) = vt$, so $h(t) = \frac{ \omega_d v^d }{ d+1 } t^{d+1}$.
+The integrals that appear above are of the following form:
+\begin{align}
+  \int_0^\infty t^c \exp \left( - \alpha t^a - \beta t^b \right) dt 
+            &= \left( b^{-1} \beta^{ (1-c)/b } \right) \int_0^\infty u^{(c+1-b)/b} \exp\left( - \alpha \beta^{-a/b} u^{a/b} - u \right) du ,
+\end{align}
+so it suffices to learn something about the function
+\begin{equation}
+    G(a,b,x) := \int_0^\infty  t^a \exp\left( -x t^b - t \right) dt .
+\end{equation}
+We will only be interested in this as a function of $x$; 
+the coefficients $a$ and $b$ will merely depend on the dimension and what quantity we are calculating.
+We can construct a power series for $G$ in $x$:
+\begin{align}
+    \partial_x^n G(a,b,x) &= \int_0^\infty (-1)^n t^{a+nb} \exp\left( -x t^b - t \right) dt \\
+            &= (-1)^n G(a+nb,b,x) , \quad \mbox{so} \\
+    \partial_x^n G(a,b,x) \vert_{x=0} &= \Gamma(a+nb+1) .
+\end{align}
+So, if everything works out, we will have that
+\begin{align}
+    G(a,b,x) = \sum_{n \ge 0} \frac{(-x)^n}{n!} \Gamma(a+nb+1) .
+\end{align}
+To check for convergence, note that by Stirling's formula $\Gamma(z) \simeq \sqrt{2\pi/z} (z/e)^z$,
+\begin{align}
+    \left( \frac{x^n \Gamma(a+nb+1) }{ n! } \right)^{1/n} &\simeq x \frac{ (a+nb+1)^{b+(a+1)/n} }{ (n+1)^{1+1/n} } e^{(1-b)-a/n} \\
+        &\simeq C n^{b-1} b^b \\
+        &\to 0  \quad \mbox{as } n \to \infty ,
+\end{align}
+so that the sum converges for all $x$ if $b<1$ (which is the case for us as $b=d/(d+1)$).
+Something simliar is noted at the Wikipedia page on the Gaussian integral, and claims such integrals show up in quantum field theory.
+
+
+A few facts, first.
+Using repeatedly the identity $\Gamma(x+1) = x\Gamma(x)$
+and the Pochammer symbol $(x)_n = x(x+1)\cdots(x+n-1)$,
+note that for $m \in \N$,
+\[
+    \Gamma(m+y) = (y)_m \Gamma(y).
+\]
+Also note that for $c$ and $m$ integers,
+\[
+    (y)_{cm} = c^{cm} \prod_{k=0}^{c-1} (\frac{y+k}{c})_{m} ,
+\]
+and in particular, that
+\[
+    (cm+\ell)! = \ell! (\ell+1)_{cm} = \ell! c^{cm} \prod_{k=0}^{c-1} (\frac{\ell+1+k}{c})_m .
+\]
+
+Now suppose that $b$ is rational (as will be the case), letting $b = b'/c$ with $b'$ and $c$ positive integers.
+Therefore, setting $n = mc+\ell$,
+\begin{align}
+    G(a,b,x) &= \sum_{\ell=0}^{c-1} \sum_{m \ge 0} \frac{(-x)^{mc+\ell}}{(mc+\ell)!} \Gamma(a+\ell b'/c+mb'+1) \\
+            &= \sum_{\ell=0}^{c-1} \sum_{m \ge 0} \frac{(-x)^{mc+\ell}}{(mc+\ell)!} (a+\ell b')_{mb'} \Gamma(a + \ell b') \\
+            &= \sum_{\ell=0}^{c-1} \frac{ (-x)^{\ell} }{ \ell! } \Gamma(a + \ell b') \sum_{m \ge 0} ( (-cx)^c / (b')^{b'} )^m 
+                    \frac{ \prod_{j=0}^{b'-1} (\frac{ a+b'\ell+j }{ b' } )_m }{ \prod_{k=0}^{c-1} (\frac{\ell+1+k}{c})_m } ,
+\end{align}
+which is the sum of $c$ (generalized) hypergeometric series.
+For these to converge, we need $b' \le c$, e.g.\ $b\le 1$.
+
+In particular, if we let $A=\lambda_0 \omega_d v^d $ and $B=\lambda h(1)$, then 
+\begin{align}
+    \E[\tau] &= \int_0^\infty e^{-A t^d - B t^{d+1}} dt \\
+            &= \frac{B^{1/(d+1)}}{d+1} \int_0^\infty u^{-d/(d+1))} \exp\left( -AB^{-d/(d+1))} u^{d/(d+1)} -u \right) du \\
+            &= \frac{B^{1/(d+1)}}{d+1} G \left(-d/(d+1), d/(d+1), A B^{-d/(d+1)} \right) .
+\end{align}
+So, if $d=1$, then we have {\bf (verify this by usual methods!)}, with $x = AB^{-1/2}$,
+\begin{align}
+    \E[\tau] &= \frac{\lambda^{1/(2)}}{2} G \left( -1/2, 1/2, x \right) \\
+            &= \frac{\lambda^{1/(2)}}{2} \left\{ \Gamma(-1/2) \sum_{m\ge0} (4x^2)^m \frac{ (-1/2)_m }{ (1/2)_m (1)_m } 
+                        - x \Gamma(1/2) \sum_{m\ge0} (4x^2)^m \frac{ (1/2)_m }{ (1)_m (3/2)_m }  \right\} \\
+            &=  \frac{\lambda^{1/(2)}}{2} \left\{ \Gamma(-1/2) {}_1F_1(-1/2;1/2;4x^2) - x \Gamma(1/2) {}_1F_1(1/2;3/2;4x^2) \right\} \\
+            &= \frac{\lambda^{1/(2)}}{2} \left\{ - \Gamma(-1/2) (1/x) \gamma(-1/2,4x^2) - \Gamma(1/2) (1/x) (\sqrt{\pi}/8) (1-\Phi(4x^2)) \right\} .
+\end{align}
+where $\Phi$ is the error function.
+
+And in $d=2$, since
+\begin{align}
+    G(-2/3,2/3,x) &= \Gamma(-2/3) \sum_{m\ge0} (\frac{-27 x^3}{4})^m \frac{ (-1/3)_m (1/6)_m }{ (1/3)_m (2/3)_m (1)_m }
+                    - x \Gamma(4/3) \sum_{m\ge0} (\frac{-27 x^3}{4})^m \frac{ (2/3)_m (7/6)_m }{ (2/3)_m (1)_m (4/3)_m }
+                        + \frac{1}{2} x^2 \Gamma(10/3) \sum_{m\ge0} (\frac{-27 x^3}{4})^m \frac{ (5/3)_m (13/6)_m }{ (2)_m (4/3)_m (5/3)_m } \\
+                &= \Gamma(-2/3) {}_2F_2(-1/3,1/6;1/3,2/3;-\frac{27x^2}{4})
+                    -x \Gamma(4/3) {}_1F_1(7/6;4/3;-\frac{27x^2}{4})
+                       -\frac{1}{2}x^2 \Gamma(10/3) {}_1F_1(13/6;4/3;-\frac{27x^2}{4}) .
+\end{align}
+
+\subsection{Mathematica says}
+
+...that 
+\begin{align}
+    \int_0^\infty \exp\left( - \lambda \pi v^2 (t^2/s_d + t^3) \right) dt 
+       = \frac{ 1 }{ 27 s_d } \left(
+            \exp\left( - \frac{2 \pi v^2 \lambda}{27 s_d^3} \right) 2 \sqrt{3} \pi 
+                \left( I_{-1/3}\left( \frac{2 \pi v^2 \lambda}{27 s_d^3} \right) 
+                    + I_{1/3}\left( \frac{2 \pi v^2 \lambda}{27 s_d^3} \right) 
+            \right)
+            - 9 {}_2F_2\left(\frac{1}{2},1;\frac{2}{3},\frac{4}{3};-\frac{4 \pi v^2 \lambda}{27 s_d^3}\right)
+        \right) ,
+\end{align}
+where $I_n(x)$ is the modified Bessel function of the first kind (solves $z^2 y''(z) + z y'(z) - (z^2 + n^2) y = 0$),
+and ${}_2F_2(\cdot)$ is the generalized hypergeometric function.
+
+...and
+\begin{align}
+    \int_0^\infty \frac{2\lambda \pi v}{s_d} t \exp\left( - \lambda \pi v^2 (t^2/s_d + t^3) \right) dt 
+        = \frac{1}{v s_d} - \frac{1}{2 s_d^2} \exp\left( \frac{\pi v^2 \lambda}{4 s_d^2} \right) \pi \sqrt{\lambda} \left( 1 - \Phi\left( \frac{ v \sqrt{\pi \lambda} }{ 2 s_d } \right) \right) .
+\end{align}
+where $\Phi$ is the Gaussian CDF.
+
+\end{document}
