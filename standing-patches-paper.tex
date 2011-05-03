@@ -197,9 +197,9 @@ Since the probability that a mutant arising at $(x,t)$ is lucky enough to be bor
 is $\P\{ \tau > t \}$,
 we can see  $\nu_+ = \int_0^\infty \lambda \P\{\tau>t\} dt$, and hence
 $\nu_+ = \lambda \E[\tau] $.
-Using that $\lambda_0 = \lambda / s_d$, this gives us that
+Using that $\lambda_0 = \lambda / \log(1/(1-s_d))$, this gives us that
 \begin{equation}
-    \nu_+ = (\mbox{mean density of new patches}) = \frac{1}{1+s_d \E[\tau]} .
+    \nu_+ = (\mbox{mean density of new patches}) = \frac{1}{1-\log(1-s_d) \E[\tau]} .
 \end{equation}
 Since the mean proportion of patches that come from standing variation is $\lambda_0 / (\lambda_0 + \nu_+)$,
 this gives us the exact quantity we approximated by $\pi_0$ in \eqref{eqn:pizero}.
