@@ -46,6 +46,17 @@ standingProportionNumbers <- function (mu, rho, sb, sd, sigma) {
     return( x )
 }
 
+charLength <- function (mu, rho, sb, sd, sigma) {
+    # the characteristic length, which is
+    #   the positive solution to
+    #   lambda0 x^2 + lambda x^3 / v = 1/pi
+    roots <-  polyroot( c(-1/pi, 0, 2*mu*rho*sb/sd, sqrt(2*sb)*mu*rho / sigma ) )
+    # sanity check
+    ii <- which.max(Re(roots))
+    if (Im(roots[ii])>1000*.Machine$double.eps) { warning("Imaginary root in characteristic length!") }
+    return( Re(roots[ii]) )
+}
+
 paramString <- function(ps=c("mu","rho","sb","sd","sigma"), pos=-1) {
     # return a string for use in plots of the parameters.
     # takes a vector or list of parameter names
