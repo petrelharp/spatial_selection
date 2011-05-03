@@ -56,7 +56,7 @@ the mutant type has fitness $1-s_d$ relative to the neutral type
 (i.e.\ it produces on average $1-s_d$ times the number of offspring per generation),
 and that after time $t=0$,
 the mutant type has fitness $1+s_b$,
-where $0<s_d<1$, and $s_b>0$ will usually be assumed to be small.
+where $s_b>0$ will usually be assumed to be small, and $0<s_d<1$.
 We assume that diploid fitness is additive, or at least that the important dynamics are determined by the haploid fitness.
 The number of offspring has finite variance, which to keep the formulas simple we assume to be equal to one.
 (If the mutation is recessive, XXX more complicated things happen.)
@@ -104,12 +104,12 @@ the rate is
 \begin{align*}
     \mu \rho \int_0^\infty \left( 1- \zeta(1-p_s,T) \right) dT .
 \end{align*}
-Now for $s_b$ small, and using $p_s \approx 2s_b$,
-we know that $\zeta(1-2s_b,T) \approx 1-2s_b \E[Z_T] = 1-2s_b e^{-Ts_d}$,
+Now for $s_b$ small, using $p_s \approx 2s_b$ and that $\E[Z_T]=(1-s_d)^T$,
+we know that $\zeta(1-2s_b,T) \approx 1-2s_b \E[Z_T] = 1-2s_b (1-s_d)^T$,
 resulting in the approximation
 \begin{align}
-    \lambda_0 &= \mu \rho \int_0^\infty 2s_b e^{-s_d T} dT \\
-        &= \frac{ 2 \mu \rho s_b }{ s_d } .
+    \lambda_0 &= \mu \rho \int_0^\infty 2s_b (1-s_d)^{T} dT \\
+        &= \frac{ 2 \mu \rho s_b }{ -\log(1-s_d) } .
 \end{align}
 
 XXX More discussion on whether this is a good approximation?  
@@ -147,21 +147,17 @@ The explicit formula for $\chi$ is cumbersome; here we omit it.
 (This is in two dimensions; in one dimension the characteristic length is $\chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda v } - 2 \lambda_0 }{ 4 \lambda v }$.)
 This can be rewritten 
 \begin{equation} \label{eqn:defines_chi}
-%    \left( \frac{ \chi s_d }{ 2 s_b \sigma } \right)^2 + \left( \frac{ \chi s_d }{ 2 s_b \sigma } \right)^3 
-%        = \frac{ s_d^3 }{ 4 s_b^2 \sigma^2 \pi \rho \mu } .
-    \frac{\sqrt{2s_b} }{s_d } \chi^2 + \frac{1}{\sigma} \chi^3 = \frac{1}{\sqrt{2s_b} \rho\mu\pi}
+%    \left( \frac{ - \chi \log(1-s_d) }{ 2 s_b \sigma } \right)^2 + \left( \frac{ - \chi \log(1-s_d) }{ 2 s_b \sigma } \right)^3 
+%        = \frac{ - \log(1-s_d)^3 }{ 4 s_b^2 \sigma^2 \pi \rho \mu } .
+   \frac{\sqrt{2s_b} }{-\log(1-s_d) } \chi^2 + \frac{1}{\sigma} \chi^3 = \frac{1}{\sqrt{2s_b} \rho\mu\pi}
 \end{equation}
-From this we see that $\chi$ increases linearly with $1/\sqrt{s_b}$,
-and decreases with $\rho$ and $\mu$.
-Furthermore, the relative sizes of $\sigma$ and $1/s_d$ determine the relative contributions of new and standing variants, respectively.
-For instance, if $\sigma^3 s_d^3/(\pi \rho \mu)$ is small, then $\chi \approx \sqrt{ s_d / (2 s_b \pi \rho \mu)} = 1/\sqrt{\pi \lambda_0}$,
-% + O( \gamma ) with $\gamma = \sigma^3 s_d^3/(\pi \rho \mu)$
-and nearly all mutants come from standing variation.
-On the other hand, if $\sigma^3 s_d^3/(\pi \rho \mu)$ is large, then $\chi \approx (2s_b)^{-1/2} \left( \sigma \pi \rho \mu)\right)^{-1/3}$,
-% + O( 1 ) .
-the characteristic length from \citet{ralphcoop2010},
-in which case standing variation is relatively unimportant.
-% More generally, as $\sigma s_d$ goes from $0$ to $\infty$, the positive solution to \eqref{eqn:defines_chi} moves continuously between the two.
+From this we see that $\chi$ decreases with $\rho$ and $\mu$.
+Furthermore, for large $\sigma$, the characteristic length is close to the value obtained just from standing variation:
+$\chi = \sqrt( -\log(s_d) / 2 s_b \rho \mu \pi ) + O(1/\sigma)$.
+On the other hand, if the mutant allele is highly deleterious before $t=0$,
+then the characteristic length is close to the value from \citet{ralphcoop2010}:
+$\chi = ( \sigma / \rho \mu \pi \sqrt{2 s_b} )^{1/3} + O(1/\log(1-s_d))$.
+
 
 By the above calculation, we know that the relevant mutations occur about distance $\chi$ apart, 
 and occur within the first $\chi/v$ generations.
