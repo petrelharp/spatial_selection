@@ -9,14 +9,14 @@
 # 
 # ... and
 # lambda <- 2 * mu * rho * sb    # is rate of new successful mutations
-# lambda0 <- lambda / sd         # is approximate rate of standing successful mutations
+# lambda0 <- lambda / log(1/(1-sd))         # is approximate rate of standing successful mutations
 # v <- sigma * sqrt(2*sb)        # speed of wave of advance
 
 meanTime <- function (mu, rho, sb, sd, sigma) {
     # mean time til adaptation of a point;
     # E[\tau] is int_0^\infty exp(-lambda0 pi v^2 t^2 - lambda pi v^2 t^3) dt
     f <- function (t) {
-        exp( - 4 * mu * rho * sb^2 * sigma^2 * t^2 * (1/sd + t) )
+        exp( - 4 * mu * rho * sb^2 * sigma^2 * t^2 * (1/log(1/(1-sd)) + t) )
     }
     return( integrate(f, 0, Inf) )
 }
@@ -33,16 +33,16 @@ standingProportionArea <- function (mu, rho, sb, sd, sigma) {
     # proportion of space arising from standing variation
     # is 2 * lambda0 * pi * v * t * exp( - 2 * lambda0 * pi * v * t - lambda * pi * v^2 * t^2 )
     f <- function (t) {
-        (1/sd) * 4 * sqrt(2) * mu * rho * sb^(3/2) * pi * t * exp( - 4 * mu * rho * sb^(3/2) * sigma * pi * t ( sqrt(2) / sd + sigma * t ) )
+        (1/log(1/(1-sd))) * 4 * sqrt(2) * mu * rho * sb^(3/2) * pi * t * exp( - 4 * mu * rho * sb^(3/2) * sigma * pi * t ( sqrt(2) / log(1/(1-sd)) + sigma * t ) )
     }
     return( integrate(f, 0, Inf) )
 }
 
 standingProportionNumbers <- function (mu, rho, sb, sd, sigma) {
     # proportion of patches arising from standing variation
-    #    is 1/(1+sd * E[\tau])
+    #    is 1/(1+log(1/(1-sd)) * E[\tau])
     x <- meanTime(mu, rho, sb, sd, sigma)
-    x$value <- 1 / (1 + sd * x$value)
+    x$value <- 1 / (1 + log(1/(1-sd)) * x$value)
     return( x )
 }
 
@@ -51,7 +51,7 @@ charLength <- function (mu, rho, sb, sd, sigma) {
     # the characteristic length, which is
     #   the positive solution to
     #   lambda0 x^2 + lambda x^3 / v = 1/pi
-    roots <-  polyroot( c(-1/pi, 0, 2*mu*rho*sb/sd, sqrt(2*sb)*mu*rho / sigma ) )
+    roots <-  polyroot( c(-1/pi, 0, 2*mu*rho*sb/log(1/(1-sd)), sqrt(2*sb)*mu*rho / sigma ) )
     ii <- which.max(Re(roots[Im(roots)<10*.Machine$double.eps]))
     # sanity check
     if (length(ii)==0) { stop("No real roots for characteristic length?") }
