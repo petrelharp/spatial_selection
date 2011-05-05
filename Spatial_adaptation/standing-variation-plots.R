@@ -88,8 +88,11 @@ for (k in 1:length(sigmavals)) {
 dev.off()
 
 #with one sigma value
-sigma <- 10
-otherlabs <- expression(paste( mu == 10^-5, "  ", s[b] == .05, "  ", rho == 25, "  ", sigma == 10 ))
+mu <- 10^(-5)
+rho <- 25
+sb <- .05
+sigma <- 50
+otherlabs <- expression(paste( mu == 10^-5, "  ", s[b] == .05, "  ", rho == 25, "  ", sigma == 50 ))
 
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
 postscript( file="charlen-by-sd-limit.eps", width=6.5, height=4.5, title=paramString() )
