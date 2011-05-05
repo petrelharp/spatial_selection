@@ -27,7 +27,7 @@ otherlabs <- expression(paste( mu == 10^-8, "  ", s[b] == .05, "  ", s[d] == .01
 
 # plot Proportion Area as a function of sigma
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
-postscript( file="proportion-by-sigma.eps", width=6.5, height=5, title=paramString() )
+postscript( file="proportion-by-sigma.eps", width=8, height=7, title=paramString() )
 plot(0, 0, type="n", xlab=expression(paste(sigma, " = dispersal SD")), ylab="Proportion from standing variation", xlim=range(sigmavals), ylim=c(0,1), main=otherlabs )
 legend("topleft", lty=c(rep(1,length(rhocols)),1,2), col=rhocols, legend=c(rholabs, expression(paste(z[0], " = proportion area")), expression(paste(nu["+"], " = proportion numbers"))) )
 for (k in 1:length(rhovals)) {
