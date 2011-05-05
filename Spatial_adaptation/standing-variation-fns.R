@@ -15,10 +15,21 @@
 meanTime <- function (mu, rho, sb, sd, sigma) {
     # mean time til adaptation of a point;
     # E[\tau] is int_0^\infty exp(-lambda0 pi v^2 t^2 - lambda pi v^2 t^3) dt
-    f <- function (t) {
-        exp( - 4 * mu * rho * sb^2 * sigma^2 * t^2 * (1/log(1/(1-sd)) + t) )
+    if (sd==0) {
+        return( list(value=0) )
+    } else if (sd==1) {
+        f <- function (t) {
+            exp( - 4 * mu * rho * sb^2 * sigma^2 * t^3 / 3) 
+        }
+    } else { 
+        f <- function (t) {
+            exp( - 4 * mu * rho * sb^2 * sigma^2 * t^2 * (1/log(1/(1-sd)) + t/3) )
+        }
     }
-    return( integrate(f, 0, Inf) )
+    xx <- 2^(-30:30)
+    yy <- sapply(xx, function(x) { f(x) } )
+    scale <- xx[ which.min( abs(10-yy*xx) ) ]
+    return( integrate(function(x) { f(x*scale)*scale }, 0, Inf) )
 }
 
 meanNewDensity <- function (mu, rho, sb, sd, sigma) {
@@ -31,19 +42,35 @@ meanNewDensity <- function (mu, rho, sb, sd, sigma) {
 
 standingProportionArea <- function (mu, rho, sb, sd, sigma) {
     # proportion of space arising from standing variation
-    # is 2 * lambda0 * pi * v * t * exp( - 2 * lambda0 * pi * v * t - lambda * pi * v^2 * t^2 )
-    f <- function (t) {
-        (1/log(1/(1-sd))) * 4 * sqrt(2) * mu * rho * sb^(3/2) * pi * t * exp( - 4 * mu * rho * sb^(3/2) * sigma * pi * t ( sqrt(2) / log(1/(1-sd)) + sigma * t ) )
+    # is int_0^\infty 2 * lambda0 * pi * v^2 * t * exp( - lambda0 * pi * v^2 * t^2 - lambda * pi * v^2 * t^3 /3 ) dt
+    if (sd==1) {
+        return( list(value=0) )
+    } else if (sd==0) {
+        return( list(value=1) )
+    } else { 
+        lambda <- 2*mu*rho*sb
+        lambdaoh <- lambda/ log(1/(1-sd))
+        v <- sigma * sqrt(2*sb)
+        f <- function (t) {
+            2 * lambdaoh * pi * v^2 * t * exp( - lambdaoh*pi*v^2*t^2 - lambda*pi*v^3*t^2 /3 )
+        }
+        xx <- 2^(-30:30)
+        yy <- sapply(xx, function(x) { f(x) } )
+        scale <- xx[ which.min( abs(10-yy*xx) ) ]
+        return( integrate(function(x) { f(x*scale)*scale }, 0, Inf) )
     }
-    return( integrate(f, 0, Inf) )
 }
 
 standingProportionNumbers <- function (mu, rho, sb, sd, sigma) {
     # proportion of patches arising from standing variation
     #    is 1/(1+log(1/(1-sd)) * E[\tau])
-    x <- meanTime(mu, rho, sb, sd, sigma)
-    x$value <- 1 / (1 + log(1/(1-sd)) * x$value)
-    return( x )
+    if (sd==1) {
+        return( list(value=0) )
+    } else { 
+        x <- meanTime(mu, rho, sb, sd, sigma)
+        x$value <- 1 / (1 + log(1/(1-sd)) * x$value)
+        return( x )
+    }
 }
 
 
@@ -51,13 +78,34 @@ charLength <- function (mu, rho, sb, sd, sigma) {
     # the characteristic length, which is
     #   the positive solution to
     #   lambda0 x^2 + lambda x^3 / v = 1/pi
-    roots <-  polyroot( c(-1/pi, 0, 2*mu*rho*sb/log(1/(1-sd)), sqrt(2*sb)*mu*rho / sigma ) )
-    ii <- which.max(Re(roots[Im(roots)<10*.Machine$double.eps]))
-    # sanity check
-    if (length(ii)==0) { stop("No real roots for characteristic length?") }
-    return( list(value=Re(roots[ii]), roots=roots) )
+    if (sd==1) {
+        return( list( value=(sigma/(rho*mu*pi*sqrt(2*sb)))^(1/3), roots=NA) )
+    } else if (sd==0) {
+        return( list( value=0, roots=NA) )
+    } else {
+        roots <-  polyroot( c(-1/pi, 0, 2*mu*rho*sb/log(1/(1-sd)), sqrt(2*sb)*mu*rho / sigma ) )
+        ii <- which.max(Re(roots[Im(roots)<10*.Machine$double.eps]))
+        # sanity check
+        if (length(ii)==0) { stop("No real roots for characteristic length?") }
+        return( list(value=Re(roots[ii]), roots=roots) )
+    }
 }
 
+newCharLength <- function (mu, rho, sb, sd, sigma) {
+    # the characteristic length *if only looking at new mutations*, which is
+    #     x = ( v/(pi lambda) )^(1/3)
+    return( list( value=(sigma/(rho*mu*pi*sqrt(2*sb)))^(1/3), roots=NA) )
+}
+
+oldCharLength <-  function (mu, rho, sb, sd, sigma) {
+    # the characteristic length *if only looking at standing variation*, which is
+    #     x = ( 1/(pi lambda0) )^(1/2)
+    if (sd==0) {
+        return( list( value=0, roots=NA) )
+    } else {
+        return( list( value=(2*mu*rho*sb/log(1/(1-sd)))^(1/2), roots=NA) )
+    }
+}
 
 paramString <- function(ps=c("mu","rho","sb","sd","sigma"), pos=-1) {
     # return a string for use in plots of the parameters.
@@ -71,6 +119,6 @@ paramString <- function(ps=c("mu","rho","sb","sd","sigma"), pos=-1) {
             ps[x] <- NA
         }
     }
-    paste( sapply( 1:length(ps), function (k) { sprintf( "%s=%.3g", names(ps)[k], ps[k] ) } ), collapse=", " )
+    paste( sapply( 1:length(ps), function (k) { sprintf( "%s=%.2g", names(ps)[k], ps[k] ) } ), collapse=", " )
 }
 
