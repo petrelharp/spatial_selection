@@ -55,7 +55,7 @@ otherlabs <- expression(paste( mu == 10^-5, "  ", s[b] == .05, "  ", rho == 25 )
 
 # plot Proportion Area as a function of s_d
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
-postscript( file="proportion-by-sd.eps", width=figwidth.5, height=figheight, title=paramString() )
+postscript( file="proportion-by-sd.eps", width=figwidth, height=figheight, title=paramString() )
 par(mar=par("mar")*c(1,1,1,2))
 plot(0, 0, type="n", xlab=expression(paste(s[d], " = disadvantage")), ylab="Proportion from standing variation", xlim=range(sdvals), ylim=c(0,1), main=otherlabs, bty="L" )
 legend(1,1, lty=c(rep(1,length(sigmacols)),1,2), col=sigmacols, legend=c(sigmalabs, expression(paste(z[0], " = prop area")), expression(paste(nu["+"], " = prop numbers"))), xpd=TRUE, cex=0.5 )
