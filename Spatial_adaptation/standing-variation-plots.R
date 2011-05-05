@@ -44,7 +44,7 @@ sb <- .05
 sigmavals <- c(0.1,1,10,20,50,100)
 sigmacols <- rainbow(length(sigmavals)+5)[1:length(sigmavals)]
 sigmalabs <- c(expression(sigma==0.1), expression(sigma==1.0), expression(sigma==10), expression(sigma==20), expression(sigma==50), expression(sigma==100))
-sdvals <- (1:19)/200
+sdvals <- 1-exp(-(1:19)/20)
 otherlabs <- expression(paste( mu == 10^-8, "  ", s[b] == .05, "  ", rho == 25 ))
 
 # plot characteristic length as a function of sd
