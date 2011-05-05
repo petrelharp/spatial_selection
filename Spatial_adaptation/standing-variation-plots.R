@@ -1,6 +1,10 @@
 
 source("Spatial_adaptation/standing-variation-fns.R")
 
+# how big to make the figures
+figwidth <- 10
+figheight <- 8
+
 # playing around
 mu <- 10^(-8)
 rho <- 10
@@ -27,7 +31,7 @@ otherlabs <- expression(paste( mu == 10^-8, "  ", s[b] == .05, "  ", s[d] == .01
 
 # plot Proportion Area as a function of sigma
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
-postscript( file="proportion-by-sigma.eps", width=8, height=7, title=paramString() )
+postscript( file="proportion-by-sigma.eps", width=figwidth, height=figheight, title=paramString() )
 plot(0, 0, type="n", xlab=expression(paste(sigma, " = dispersal SD")), ylab="Proportion from standing variation", xlim=range(sigmavals), ylim=c(0,1), main=otherlabs )
 legend("topleft", lty=c(rep(1,length(rhocols)),1,2), col=rhocols, legend=c(rholabs, expression(paste(z[0], " = proportion area")), expression(paste(nu["+"], " = proportion numbers"))) )
 for (k in 1:length(rhovals)) {
@@ -51,7 +55,7 @@ otherlabs <- expression(paste( mu == 10^-5, "  ", s[b] == .05, "  ", rho == 25 )
 
 # plot Proportion Area as a function of s_d
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
-postscript( file="proportion-by-sd.eps", width=6.5, height=5, title=paramString() )
+postscript( file="proportion-by-sd.eps", width=figwidth.5, height=figheight, title=paramString() )
 par(mar=par("mar")*c(1,1,1,2))
 plot(0, 0, type="n", xlab=expression(paste(s[d], " = disadvantage")), ylab="Proportion from standing variation", xlim=range(sdvals), ylim=c(0,1), main=otherlabs, bty="L" )
 legend(1,1, lty=c(rep(1,length(sigmacols)),1,2), col=sigmacols, legend=c(sigmalabs, expression(paste(z[0], " = prop area")), expression(paste(nu["+"], " = prop numbers"))), xpd=TRUE, cex=0.5 )
@@ -77,7 +81,7 @@ otherlabs <- expression(paste( mu == 10^-5, "  ", s[b] == .05, "  ", rho == 25 )
 # plot characteristic length as a function of sd
 # with many sigma values
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
-postscript( file="charlen-by-sd-sigma.eps", width=6.5, height=4.5, title=paramString() )
+postscript( file="charlen-by-sd-sigma.eps", width=figwidth, height=figheight, title=paramString() )
 plot(0, 0, type="n", xlab=expression(paste(s[d], " = disadvantage")), ylab=expression(paste(chi, " = characteristic length")), xlim=range(sdvals), ylim=c(0,100), main=otherlabs )
 legend("topleft", lty=1, col=sigmacols, legend=sigmalabs)
 for (k in 1:length(sigmavals)) {
@@ -95,7 +99,7 @@ sigma <- 50
 otherlabs <- expression(paste( mu == 10^-5, "  ", s[b] == .05, "  ", rho == 25, "  ", sigma == 50 ))
 
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
-postscript( file="charlen-by-sd-limit.eps", width=6.5, height=4.5, title=paramString() )
+postscript( file="charlen-by-sd-limit.eps", width=figwidth, height=figheight, title=paramString() )
 plot(0, 0, type="n", xlab=expression(paste(s[d], " = disadvantage")), ylab=expression(paste(chi, " = characteristic length")), xlim=range(sdvals), ylim=c(0,100), main=otherlabs )
 legend("topleft", lty=1:3, legend=c("characteristic length","only standing variation", "only new mutations"))
 CLvals <- sapply(sdvals, function (sd) { charLength(mu,rho,sb,sd,sigma)$value } )
