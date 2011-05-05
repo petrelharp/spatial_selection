@@ -103,7 +103,7 @@ oldCharLength <-  function (mu, rho, sb, sd, sigma) {
     if (sd==0) {
         return( list( value=0, roots=NA) )
     } else {
-        return( list( value=(2*mu*rho*sb/log(1/(1-sd)))^(1/2), roots=NA) )
+        return( list( value=(2*mu*rho*sb/log(1/(1-sd)))^(-1/2), roots=NA) )
     }
 }
 
