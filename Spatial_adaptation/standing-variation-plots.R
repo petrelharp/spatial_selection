@@ -119,11 +119,19 @@ sigmavals <- 1+(0:10)*10
 sdvals <- (0:10)/10
 CLvals <- apply( expand.grid(sigmavals,sdvals), 1, function (x) { sigma<-x[1]; sd<-x[2]; charLength(mu,rho,sb,sd,sigma)$value } )
 dim(CLvals) <- c(length(sigmavals),length(sdvals))
+#
+setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
+postscript( file="charlen-contour.eps", width=figwidth, height=figheight, title=paramString() )
 filled.contour(sdvals, sigmavals,CLvals,xlab=expression(paste(s[d], " = disadvantage")), ylab=expression(paste(sigma, " = dispersal SD")), main=expression(paste(chi, " = characteristic length")), sub=paramString(list(mu=mu,rho=rho,sb=sb)))
+dev.off()
 
 # plot proportion versus sd and sigma
 sigmavals <- 1+(0:10)*10
 sdvals <- (0:10)/10
 SPvals <- apply( expand.grid(sigmavals,sdvals), 1, function (x) { sigma<-x[1]; sd<-x[2]; standingProportionArea(mu,rho,sb,sd,sigma)$value } )
 dim(SPvals) <- c(length(sigmavals),length(sdvals))
+#
+setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
+postscript( file="proportion-contour.eps", width=figwidth, height=figheight, title=paramString() )
 filled.contour(sdvals, sigmavals,SPvals,xlab=expression(paste(s[d], " = disadvantage")), ylab=expression(paste(sigma, " = dispersal SD")), main=expression(paste(z[0], " = proportion area from standing variation")), sub=paramString(list(mu=mu,rho=rho,sb=sb)) )
+dev.off()
