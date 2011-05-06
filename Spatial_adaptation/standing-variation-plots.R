@@ -23,11 +23,11 @@ rhovals <- c(2.5,25)
 rhocols <- c("black","red")
 rholabs <- c(expression(rho==2.5), expression(rho==25))
 sb <- .05
-sd <- .01
+sd <- .3
 sigmavals <- c(0.1,1,10,20,50,100)
 sigmacols <- rainbow(length(sigmavals)+5)[1:length(sigmavals)]
 sigmalabs <- c(expression(sigma==0.1), expression(sigma==1.0), expression(sigma==10), expression(sigma==20), expression(sigma==50), expression(sigma==100))
-otherlabs <- expression(paste( mu == 10^-8, "  ", s[b] == .05, "  ", s[d] == .01 ))
+otherlabs <- expression(paste( mu == 10^-8, "  ", s[b] == .05, "  ", s[d] == .3 ))
 
 # plot Proportion Area as a function of sigma
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
