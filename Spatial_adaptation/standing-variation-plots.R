@@ -115,8 +115,8 @@ rho <- 25
 sb <- .05
 
 # plot characteristic length versus sd and sigma
-sigmavals <- 1+(0:10)*10
-sdvals <- (0:10)/10
+sigmavals <- 1+(0:100)
+sdvals <- (0:100)/100
 CLvals <- apply( expand.grid(sigmavals,sdvals), 1, function (x) { sigma<-x[1]; sd<-x[2]; charLength(mu,rho,sb,sd,sigma)$value } )
 dim(CLvals) <- c(length(sigmavals),length(sdvals))
 #
@@ -126,8 +126,8 @@ filled.contour(sdvals, sigmavals,CLvals,xlab=expression(paste(s[d], " = disadvan
 dev.off()
 
 # plot proportion versus sd and sigma
-sigmavals <- 1+(0:10)*10
-sdvals <- (0:10)/10
+sigmavals <- 1+(0:100)
+sdvals <- (0:100)/100
 SPvals <- apply( expand.grid(sigmavals,sdvals), 1, function (x) { sigma<-x[1]; sd<-x[2]; standingProportionArea(mu,rho,sb,sd,sigma)$value } )
 dim(SPvals) <- c(length(sigmavals),length(sdvals))
 #
