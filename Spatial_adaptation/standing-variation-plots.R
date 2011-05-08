@@ -24,7 +24,7 @@ rhocols <- c("black","red")
 rholabs <- c(expression(rho==2.5), expression(rho==25))
 sb <- .05
 sd <- .3
-sigmavals <- c(0.1,1,10,20,50,100)
+sigmavals <- 1+(1:20)*30
 sigmacols <- rainbow(length(sigmavals)+5)[1:length(sigmavals)]
 sigmalabs <- c(expression(sigma==0.1), expression(sigma==1.0), expression(sigma==10), expression(sigma==20), expression(sigma==50), expression(sigma==100))
 otherlabs <- expression(paste( mu == 10^-8, "  ", s[b] == .05, "  ", s[d] == .3 ))
@@ -115,8 +115,8 @@ rho <- 25
 sb <- .05
 
 # plot characteristic length versus sd and sigma
-sigmavals <- 1+(0:100)
-sdvals <- (0:100)/100
+sigmavals <- 1+(0:30)*4
+sdvals <- (0:30)/30
 CLvals <- apply( expand.grid(sigmavals,sdvals), 1, function (x) { sigma<-x[1]; sd<-x[2]; charLength(mu,rho,sb,sd,sigma)$value } )
 dim(CLvals) <- c(length(sigmavals),length(sdvals))
 #
@@ -126,8 +126,8 @@ filled.contour(sdvals, sigmavals,CLvals,xlab=expression(paste(s[d], " = disadvan
 dev.off()
 
 # plot proportion versus sd and sigma
-sigmavals <- 1+(0:100)
-sdvals <- (0:100)/100
+sigmavals <- 1+(0:30)*4
+sdvals <- (0:30)/30
 SPvals <- apply( expand.grid(sigmavals,sdvals), 1, function (x) { sigma<-x[1]; sd<-x[2]; standingProportionArea(mu,rho,sb,sd,sigma)$value } )
 dim(SPvals) <- c(length(sigmavals),length(sdvals))
 #

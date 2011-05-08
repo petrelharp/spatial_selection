@@ -52,7 +52,7 @@ standingProportionArea <- function (mu, rho, sb, sd, sigma) {
         lambdaoh <- lambda/ log(1/(1-sd))
         v <- sigma * sqrt(2*sb)
         f <- function (t) {
-            2 * lambdaoh * pi * v^2 * t * exp( - lambdaoh*pi*v^2*t^2 - lambda*pi*v^3*t^2 /3 )
+            2 * lambdaoh * pi * v^2 * t * exp( - lambdaoh*pi*v^2*t^2 - lambda*pi*v^2*t^3 /3 )
         }
         xx <- 2^(-30:30)
         yy <- sapply(xx, function(x) { f(x) } )
