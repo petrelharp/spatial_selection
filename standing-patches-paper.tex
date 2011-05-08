@@ -209,14 +209,14 @@ the typical patch (i.e.\ with distribution given by the Palm measure) occupies a
 We can also find the mean proportion of space covered by standing variants.
 If by time $t$ a geographic location has not yet been reached by the mutation,
 the probability it will be reached by time $t+dt$ 
-by a standing variant is approximately $2 \lambda_0 \pi vt dt$, 
+by a standing variant is approximately $2 \lambda_0 \pi v^2 t dt$, 
 and the probability it is reached by a new variant is $\lambda \pi v^2 t^2 dt$.
 Therefore, as is standard for competing exponentials,
 the probability a given location is reached first by a standing variant,
 and therefore the mean proportion of space covered  by standing variants,
 is
 \begin{equation}
-    z_0 = \int_0^\infty {2 \lambda_0 \pi v t} \; \exp \left( - 2 \lambda_0 \pi v t - \lambda \pi v^2 t^2 \right) dt .
+    z_0 = \int_0^\infty {2 \lambda_0 \pi v^2 t} \; \exp \left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 / 3 \right) dt .
 \end{equation}
 \marginnote{put in this value in terms of Gaussian CDF?}
 To evaluate this integral, again see Appendix \ref{apx:integrals}.
