@@ -19,7 +19,7 @@ Then in the large population limit, if $\phi(t,x)$ is the proportion mutants at 
 if $s$ and $\sigma^2$ are of the same (small) order,
 (see Peter's slides from Berkeley probability seminar)
 \begin{align}
-    \partial_t \phi(t,x) &\approx \sum_y s(x) \kappa(y-x) (1-\one_{x=y}) \phi(t,y)(1-\phi(t,x)) 
+    \partial_t \phi(t,x) &\approx \sum_y s(x) \kappa(y-x) (1-\frac{1}{N}\one_{x=y}) \phi(t,y)(1-\phi(t,x)) 
             + \sum_y \kappa(y-x) (1-\frac{1}{N}\one_{x=y}) (\phi(t,x)-\phi(t,y))  \\
         &\approx s(x) \phi(t,x) (1-\phi(t,x)) + \frac{1}{2} \sigma^2 \partial_x^2 \phi(t,x) .
 \end{align}
