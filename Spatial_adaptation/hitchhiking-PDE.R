@@ -1,4 +1,3 @@
-
 require(deSolve)
 
 stationaryPhi <- function (t,y,parms,...) {
@@ -53,17 +52,19 @@ dynamicPhi <- function(t,y,parms,xx,dx) {
     dyp <- diff(yp)/dx
     ypp <- c(dyp[1], (dx[-1]*dyp[-(n-1)]+dx[-(n-1)]*dyp[-1])/(dx[-1]+dx[-(n-1)]) , dyp[n-1])
     z <- -parms$v * yp + ypp + y*(1-y)
-    if (any(abs(z)>10)) { browser() }
+    # if (any(abs(z)>10)) { browser() }
     return( list( z ) )
 }
 
 xx <- (-1000:1000)/100
 dx <- diff(xx)
 yinit <- (1-tanh(xx/2))/2
+yinit <- sort(runif(length(xx)),decr=TRUE)
 yytt <- ode.1D(yinit,(1:100)/30,dynamicPhi,parms=list(v=sqrt(2)),nspec=1,dimens=length(yinit),xx=xx, dx=dx, maxsteps=50000 )
 
-plot( xx, yytt[1,-1], type="l" )
-for (k in 2:(dim(yytt)[1]-1)) { lines(xx,yytt[k,-1],col=rainbow(dim(yytt)[1]+5)[k]) }
+speed <- 3
+plot( xx-yytt[1,1]*speed, yytt[1,-1], type="l" )
+for (k in 2:(dim(yytt)[1]-1)) { lines(xx-yytt[k,1]*speed,yytt[k,-1],col=rainbow(dim(yytt)[1]+5)[k]) }
 
 
 ### useful for debugging
@@ -75,4 +76,5 @@ ggg <- function () {
    } )
 }
 trace(dynamicPhi,exit=ggg)
+
 
