@@ -37,7 +37,7 @@ phiEst <- lsoda(y=yinit, times=tt, func=stationaryPhi, parms=list(v=vEst))
 ####
 # try dynamic version
 
-dynamicPhi <- function(t,y,parms,xx,dx) {
+dynamicPhi <- function(t,y,parms,xx,dx,eps=.0001) {
     # solving the PDE
     # and waiting for stationarity
     #   d/dt y = v y' + y'' + y (1-y)
@@ -48,20 +48,27 @@ dynamicPhi <- function(t,y,parms,xx,dx) {
     dy <- diff(y)/dx  # length n-1
     # f'(x) approx ( (b/a+b) (f(x+a)-f(x))/a + (a/a+b) (f(x)-f(x-b))/b )
     yp <- c(dy[1], (dx[-1]*dy[-(n-1)]+dx[-(n-1)]*dy[-1])/(dx[-1]+dx[-(n-1)]) , dy[n-1])  # length n
+    # keep boundary conditions fixed to avoid running off?
+    y[1] <- 1-eps
+    y[n] <- eps
+    yp[1] <- yp[n] <- -eps
     # and f''(x) approx 2 * ( (f(x+a)-f(x))/a - (f(x)-f(x-b))/b ) / (a+b)
     dyp <- diff(yp)/dx
     ypp <- c(dyp[1], (dx[-1]*dyp[-(n-1)]+dx[-(n-1)]*dyp[-1])/(dx[-1]+dx[-(n-1)]) , dyp[n-1])
     z <- parms$v * yp + ypp + y*(1-y)
+    # boundaries again?
+    z[1] <- z[n] <- 0
     # if (any(abs(z)>10)) { browser() }
     return( list( z ) )
 }
 
-xx <- (-1000:1000)/100
+xx <- (-1000:1000)/50
 dx <- diff(xx)
 yinit <- (1-tanh(xx/2))/2
-yinit <- sort(runif(length(xx)),decr=TRUE)
-v <- 4
-yytt <- ode.1D(yinit,(1:100)/20,dynamicPhi,parms=list(v=v),nspec=1,dimens=length(yinit),xx=xx, dx=dx, maxsteps=50000, atol=0 )
+eps <- .0001
+yinit <- c( rep(1-eps,floor(length(xx)/3)), sort(runif(floor(length(xx)/3)),decr=TRUE), rep(0+eps,length(xx)-2*floor(length(xx)/3)) )
+v <- sqrt(2)+2
+yytt <- ode.1D(yinit, (1:1200)/20, dynamicPhi,parms=list(v=v),nspec=1,dimens=length(yinit),xx=xx, dx=dx, maxsteps=50000, atol=0 )
 
 speed <- 0
 plot( xx-yytt[1,1]*speed, yytt[1,-1], type="l" )
@@ -80,6 +87,7 @@ trace(dynamicPhi,exit=ggg)
 
 
 ### PROBLEMS ABOVE. with boundary conditions?
+# Transform with logit.
 
 logitPhi <- function(t,y,parms,xx,dx) {
     # solving the PDE
