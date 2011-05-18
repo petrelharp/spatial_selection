@@ -6,16 +6,35 @@ examples <- list(
         mu = 10^(-8),
         rho = 2,
         xi = 2,
-        sb = .05,
+        # sb = .05,  # this is what we had before?
+        sb = .15,  # but it seems to actually be this (currat et al 2002, hedrick review)
+        sd = .1,  # ???
+        sigma = 10,
+        R = 4000
+    ),
+    "HbC" = list(
+        mu = 10^(-8),
+        rho = 2,
+        xi = 2,
+        sb = .07,  # Wood et al 2005 (.04-.09)
+        sd = .1,  # ???
+        sigma = 10,
+        R = 4000
+    ),
+    "G6PD strong" = list(
+        mu = 150*10^(-8),  # 150 bp
+        rho = 2*0.75,  # on the X
+        xi = 2,
+        sb = .25,  # Slatkin et al 2008
         sd = .1,
         sigma = 10,
         R = 4000
     ),
-    "G6PD" = list(
-        mu = 10^(-8),
-        rho = 2,
+    "G6PD weak" = list(
+        mu = 150*10^(-8),  # 150 bp
+        rho = 2*0.75,  # on the X
         xi = 2,
-        sb = .05,
+        sb = .04,  # Tiskkoff et al 2001
         sd = .1,
         sigma = 10,
         R = 4000
