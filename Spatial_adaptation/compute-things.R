@@ -1,4 +1,5 @@
 source("Spatial_adaptation/standing-variation-fns.R")
+require(xtable)
 
 examples <- list( 
     "HbS" = list(
