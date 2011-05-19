@@ -93,7 +93,10 @@ for (k in 1:dim(hetprobs)[2]) {
     lines( lowess(initdist[iord], hetprobs[iord,k], f=.3), col=fullcols[k] )
 }
 
-# ... and as a function of geographic distance
+
+jpeg(file="het-by-recomb.jpg", width=1000, height=800)
+par(cex=1.5)
+# ... and as a function of genetic distance
 binlocs <- pretty(initdist,n=5)
 nbins <- length(binlocs)-1
 binmids <- (binlocs[-(nbins+1)]+binlocs[-1])/2
@@ -115,4 +118,4 @@ for ( ell in 1:nbins ) {
         points(jitter(recombvals), hetprobs[k,], col=cols[k], pch=20, cex=0.5)
     }
 }
-
+dev.off()
