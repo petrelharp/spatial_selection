@@ -75,6 +75,7 @@ dimnames(examples.mat) <- list(names(examples[[1]]),names(examples))
 examples.mat <- t(examples.mat)
 extable <- xtable(examples.mat,digits=0)
 digits(extable)[1+which(apply(examples.mat, 2, function(x) { any(abs(x)<1) }))] <- 2
+digits(extable)[1+which(apply(examples.mat, 2, function(x) { any(abs(x)<.01) }))] <- -2
 
 filename <- "examples.tex"
 write("\\documentclass{article} \\begin{document}", file=filename)
