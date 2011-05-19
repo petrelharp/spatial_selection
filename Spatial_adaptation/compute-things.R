@@ -4,7 +4,7 @@ require(xtable)
 examples <- list( 
     "HbS0" = list(
         mu = 10^(-8),
-        rho = 2.5,
+        rho = 2,
         # sb = .05,  # this is what we had before?
         sb = .15,  # but it seems to actually be this (currat et al 2002, hedrick review)
         sd = .1,  # ???
@@ -13,7 +13,7 @@ examples <- list(
     ),
     "HbS weak" = list(
         mu = 10^(-8),
-        rho = 2.5,
+        rho = 2,
         sb = .15,
         sd = .1,  # ???
         sigma = 50,  # closer to estimated value of 100?  gets right char length
@@ -21,7 +21,7 @@ examples <- list(
     ),
     "HbS strong" = list(
         mu = 10^(-8),
-        rho = 2.5,
+        rho = 2,
         sb = .15,  
         sd = .5,  # doesn't matter much
         sigma = 50,
@@ -29,7 +29,7 @@ examples <- list(
     ),
     "HbC" = list(
         mu = 10^(-8),
-        rho = 2.5,
+        rho = 2,
         sb = .07,  # Wood et al 2005 (.04-.09)
         sd = .1,  # ???
         sigma = 50,
@@ -37,7 +37,7 @@ examples <- list(
     ),
     "G6PD strong" = list(
         mu = 150*10^(-8),  # 150 bp
-        rho = 2.5*0.75,  # on the X
+        rho = 2*0.75,  # on the X
         sb = .25,  # Slatkin et al 2008
         sd = .1,
         sigma = 50,
@@ -45,7 +45,7 @@ examples <- list(
     ),
     "G6PD weak" = list(
         mu = 150*10^(-8),  # 150 bp
-        rho = 2.5*0.75,  # on the X
+        rho = 2*0.75,  # on the X
         sb = .04,  # Tiskkoff et al 2001
         sd = .1,
         sigma = 50,
