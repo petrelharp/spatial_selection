@@ -44,7 +44,11 @@ lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m=1, linit=N
             # problocs[2:3,] is the set of locations
             problocs <- sapply(migrsteps, function (migr) {
                         xy <- LL[,t-1,k] + migr[3:2]   # LL stores (y,x) not (x,y)...
-                        return( c(pophist[xy[1],xy[2],2,T-t+1]*m[1],xy) )
+                        if ( all( c(1,1) <= xy ) & all( xy <= c(ny,nx) ) ) {
+                            return( c(pophist[xy[1],xy[2],2,T-t+1]*migr[1],xy) )
+                        } else { 
+                            return( c(0,xy) ) 
+                        }
                     } )
             LS[,t,k] <- sum(problocs[1,])
             if ( LS[,t,k] <= 0 ) { warning("Ooops!  Nowhere to migrate to.  Aborting."); break }
