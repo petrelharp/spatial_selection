@@ -51,7 +51,7 @@ iord <- order(initdist)  # use this to order by initial distance
 
 #  heterozygosity = P{ two chromosomes differ }
 #   = P{ at least one recomb } * global het
-global.het <- 0.82
+global.het <- 1.0
 recombvals <- (1:20)/5 * recomb
 hetprobs <- sapply(recombvals/recomb, function (relrecomb) { global.het*(1-exp( - relrecomb*lins$recomb[nsteps,] )) } )
 
@@ -94,14 +94,14 @@ for (k in 1:dim(hetprobs)[2]) {
 }
 
 
-jpeg(file="het-by-recomb.jpg", width=1000, height=800)
-par(cex=1.5)
+png(file="het-by-recomb.png", width=1000, height=800)
+par(cex=1.8)
 # ... and as a function of genetic distance
 binlocs <- pretty(initdist,n=5)
 nbins <- length(binlocs)-1
 binmids <- (binlocs[-(nbins+1)]+binlocs[-1])/2
 bincols <- rainbow(2*nbins)[1:nbins]
-plot( recombvals, hetprobs[1,], type="n", xlim=c(0,max(recombvals)), ylim=c(0,1), xlab="map distance", ylab="heterozygosity" )
+plot( recombvals, hetprobs[1,], type="n", xlim=c(0,max(recombvals)), ylim=c(0,1), xlab="map distance", ylab="relative heterozygosity" )
 legend("topleft", legend=binmids, col=bincols, lty=1, title="Distance to origin", bg="white")
 abline(h=global.het, lty=2)
 for ( ell in 1:nbins ) {
