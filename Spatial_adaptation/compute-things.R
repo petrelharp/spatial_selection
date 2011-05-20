@@ -40,8 +40,8 @@ examples <- list(
         sd = .1,  # ???
         sigma = 50,
         R = 4000,
-        minage = 10, # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
-        maxage = 70
+        minage = 38, # 38-120 (Modiano et al); 75-150 (Wood et al)
+        maxage = 150
     ),
     "G6PD strong" = list(
         mu = 150*10^(-8),  # 150 bp
