@@ -9,7 +9,8 @@ examples <- list(
         sb = .15,  # but it seems to actually be this (currat et al 2002, hedrick review)
         sd = .1,  # ???
         sigma = 10,  # what we had before
-        R = 4000
+        R = 4000,
+        age = 30 # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
     ),
     "HbS weak" = list(
         mu = 10^(-8),
@@ -17,7 +18,8 @@ examples <- list(
         sb = .15,
         sd = .1,  # ???
         sigma = 50,  # closer to estimated value of 100?  gets right char length
-        R = 4000
+        R = 4000,
+        age = 30 # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
     ),
     "HbS strong" = list(
         mu = 10^(-8),
@@ -25,7 +27,8 @@ examples <- list(
         sb = .15,  
         sd = .5,  # doesn't matter much
         sigma = 50,
-        R = 4000
+        R = 4000,
+        age = 30 # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
     ),
     "HbC" = list(
         mu = 10^(-8),
@@ -33,7 +36,8 @@ examples <- list(
         sb = .07,  # Wood et al 2005 (.04-.09)
         sd = .1,  # ???
         sigma = 50,
-        R = 4000
+        R = 4000,
+        age = 100 # well, 75-150 (Wood et al) and 38-120 (Modiano et al)
     ),
     "G6PD strong" = list(
         mu = 150*10^(-8),  # 150 bp
@@ -41,7 +45,8 @@ examples <- list(
         sb = .25,  # Slatkin et al 2008
         sd = .1,
         sigma = 50,
-        R = 6000
+        R = 6000,
+        age = 150 # various, 40-1800! see hedrick.
     ),
     "G6PD weak" = list(
         mu = 150*10^(-8),  # 150 bp
@@ -49,7 +54,8 @@ examples <- list(
         sb = .04,  # Tiskkoff et al 2001
         sd = .1,
         sigma = 50,
-        R = 6000
+        R = 6000,
+        age = 150 # various, 40-1800! see hedrick.
     )
 )
 
