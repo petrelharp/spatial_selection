@@ -19,15 +19,13 @@ sigmavals <- c(0.1,1,10,20,50)
 
 # sickle cell case from ralphcoop2010
 mu <- 10^(-8)
-rhovals <- c(2.5,25)
+rhovals <- c(.2,2)
 rhocols <- c("black","red")
-rholabs <- c(expression(rho==2.5), expression(rho==25))
-sb <- .05
-sd <- .3
-sigmavals <- 1+(1:20)*30
-sigmacols <- rainbow(length(sigmavals)+5)[1:length(sigmavals)]
-sigmalabs <- c(expression(sigma==0.1), expression(sigma==1.0), expression(sigma==10), expression(sigma==20), expression(sigma==50), expression(sigma==100))
-otherlabs <- expression(paste( mu == 10^-8, "  ", s[b] == .05, "  ", s[d] == .3 ))
+rholabs <- c(expression(rho==.2), expression(rho==2))
+sb <- .15
+sd <- .1
+sigmavals <- 1+(1:25)*4
+otherlabs <- expression(paste( mu == 10^-8, "  ", s[b] == .15, "  ", s[d] == .1 ))
 
 # plot Proportion Area as a function of sigma
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
@@ -40,6 +38,21 @@ for (k in 1:length(rhovals)) {
     lines(sigmavals, sPvals, col=rhocols[k])
     sPvals <- sapply(sigmavals, function (sigma) { standingProportionNumbers(mu,rho,sb,sd,sigma)$value } )
     lines(sigmavals, sPvals, col=rhocols[k], lty=2)
+}
+dev.off()
+
+# and characteristic length as a function of sigma
+# setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
+# postscript( file="charlen-by-sigma.eps", width=figwidth, height=figheight, title=paramString() )
+pdf( file="HbS-charlen-by-sigma.pdf", width=figwidth, height=figheight, title=paramString() )
+par(cex=2)
+plot(0, 0, type="n", xlab=expression(paste(sigma, " = dispersal SD")), ylab=expression(paste("Characteristic length ", chi, " (km)")), xlim=range(sigmavals), ylim=c(0,3000) ) #, main=otherlabs )
+legend("topleft", lty=rep(1,length(rhocols)), col=rhocols, legend=rholabs)
+abline(h=1000,lty=2)
+for (k in 1:length(rhovals)) {
+    rho <- rhovals[k]
+    CLvals <- sapply(sigmavals, function (sigma) { charLength(mu,rho,sb,sd,sigma)$value } )
+    lines(sigmavals, CLvals, col=rhocols[k])
 }
 dev.off()
 
@@ -134,4 +147,39 @@ dim(SPvals) <- c(length(sigmavals),length(sdvals))
 setEPS(horizontal = FALSE, onefile = FALSE, paper = "special")
 postscript( file="proportion-contour.eps", width=figwidth, height=figheight, title=paramString() )
 filled.contour(sdvals, sigmavals,SPvals,xlab=expression(paste(s[d], " = disadvantage")), ylab=expression(paste(sigma, " = dispersal SD")), main=expression(paste(z[0], " = proportion area from standing variation")), sub=paramString(list(mu=mu,rho=rho,sb=sb)) )
+dev.off()
+
+## G6PD example
+mu <- 150*10^(-8)
+rho <- 2
+sb <- 0.25
+sd <- 0.1
+sigma <- 50
+
+# characteristic length as a function of sigma
+# at different rho values
+rhovals <- c(.2,2)
+rhocols <- c("black","red")
+rholabs <- c(expression(rho==.2), expression(rho==2))
+#
+pdf( file="G6PD-charlen-by-sigma.pdf", width=figwidth, height=figheight, title=paramString() )
+par(cex=1.8)
+plot(0, 0, type="n", xlab=expression(paste(sigma, " = dispersal SD")), ylab=expression(paste("Characteristic length ", chi, " (km)")), xlim=range(sigmavals), ylim=c(0,400) ) #, main=otherlabs )
+legend("topleft", lty=rep(1,length(rhocols)), col=rhocols, legend=rholabs)
+abline(h=350,lty=2)
+for (k in 1:length(rhovals)) {
+    rho <- rhovals[k]
+    CLvals <- sapply(sigmavals, function (sigma) { charLength(mu,rho,sb,sd,sigma)$value } )
+    lines(sigmavals, CLvals, col=rhocols[k])
+}
+dev.off()
+
+# contour plot of characteristic length versus sd and sigma
+sigmavals <- 1+(0:30)*4
+sdvals <- (0:30)/30
+CLvals <- apply( expand.grid(sigmavals,sdvals), 1, function (x) { sigma<-x[1]; sd<-x[2]; charLength(mu,rho,sb,sd,sigma)$value } )
+dim(CLvals) <- c(length(sigmavals),length(sdvals))
+#
+pdf( file="G6PD-charlen-contour.pdf", width=figwidth, height=figheight, title=paramString() )
+filled.contour(sdvals, sigmavals,CLvals,xlab=expression(paste(s[d], " = disadvantage")), ylab=expression(paste(sigma, " = dispersal SD")), main=expression(paste("characteristic length ", chi)), sub=paramString(list(mu=mu,rho=rho,sb=sb)))
 dev.off()
