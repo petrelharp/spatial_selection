@@ -3,8 +3,8 @@ source("/home/peter/projects/spatial-sweeps/ParallelMutation/spatial-spread.R")
 
 s <- .1
 mu <- 0
-r <- 0.1
-m <- 0.05
+r <- 0.1   # reproduction rate
+m <- 0.05  # = probability of migration
 N <- 1000
 npops <- 100
 ntypes <- 2
@@ -39,11 +39,18 @@ lins <- lineages( pophist$pophist, nlin=nlin, migr=migrsteps, T=nsteps, m=m )
 # save??
 save(pophist,initpop,lins,recomb,migrsteps,nlin,nsteps,file="lineage-sims.RData")
 
+# Find speed of the wave
+empspeed <- mean(speed(pophist,plotit=FALSE)$speeds["gens",])
+
 # compute functions of the path
 lins$recomb <- apply(lins$localsizes, 3, function (x) { cumsum( recomb*(1-x/N) ) })
 lins$coal <- apply(lins$localsizes, 3, function (x) { cumsum( 1/(N*x) ) })
 # and the probability of recombination
 lins$precomb <- apply(1-exp(-lins$recomb), 1, summary)
+
+# Find mean local population size along the wavefront
+# removes initial times and time spend near fixation
+meanlocalsize  <- mean( lins$localsizes[ (lins$localsizes[,,,drop=TRUE]<(.99*N)) & (row(lins$localsizes[,,,drop=TRUE])>nsteps/4) ] )
 
 # initial distance to origin, by lineage
 initdist <- apply(lins$lineage[,1,]-c(1,1),2,function(x){sqrt(sum(x^2))})
@@ -68,11 +75,21 @@ for (k in 1:nlin) {
     lines( dim(z)[2]:1, z["x",], col=cols[k], lwd=2 )
 }
 
+# local population sizes by lineage.  Note that there seems to be a lot of lineage attraction.
 plot(0,ylim=range(lins$localsizes),xlim=c(0,nsteps),type="n", xlab="time", ylab="local population size")
 for (k in 1:nlin) { lines(rev(lins$localsizes[1,,k]), col=cols[k]) }
 
+# plot accumulation of recombination opportunity along each lineage
 plot(0,ylim=range(lins$recomb),xlim=c(0,nsteps),type="n")
 for (k in 1:nlin) { lines( rev(lins$recomb[,k]), col=cols[k]) }
+
+# and total recombination opportunity as a function of starting distance
+plot(initdist[iord], lins$recomb[nsteps,][iord], col=fullcols)
+# add simple expectation: equals (distance / speed) * recomb * (mean local size/N)
+abline(0,meanlocalsize*recomb/(N*empspeed))
+# and the lm()
+abline(0,lm(lins$recomb[nsteps,] ~ initdist + 0)$coef, lty=2)
+legend("topleft",lty=c(1,2),legend=c("naive","lm"))
 
 plot(0,ylim=range(lins$coal),xlim=c(0,nsteps),type="n")
 for (k in 1:nlin) { lines( rev(lins$coal[,k]), col=fullcols[k]) }
