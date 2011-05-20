@@ -20,7 +20,8 @@ examples <- list(
         sd = .1,  # ???
         sigma = 50,  # closer to estimated value of 100?  gets right char length
         R = 4000,
-        age = 30 # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
+        minage = 10, # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
+        maxage = 70
     ),
     "HbS strong" = list(
         mu = 10^(-8),
