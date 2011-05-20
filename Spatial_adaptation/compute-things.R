@@ -41,7 +41,7 @@ examples <- list(
         sb = .25,  # Slatkin et al 2008
         sd = .1,
         sigma = 50,
-        R = 4000
+        R = 6000
     ),
     "G6PD weak" = list(
         mu = 150*10^(-8),  # 150 bp
@@ -49,7 +49,7 @@ examples <- list(
         sb = .04,  # Tiskkoff et al 2001
         sd = .1,
         sigma = 50,
-        R = 4000
+        R = 6000
     )
 )
 
