@@ -10,7 +10,8 @@ examples <- list(
         sd = .1,  # ???
         sigma = 10,  # what we had before
         R = 4000,
-        age = 30 # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
+        minage = 10, # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
+        maxage = 70
     ),
     "HbS weak" = list(
         mu = 10^(-8),
@@ -28,7 +29,8 @@ examples <- list(
         sd = .5,  # doesn't matter much
         sigma = 50,
         R = 4000,
-        age = 30 # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
+        minage = 10, # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
+        maxage = 70
     ),
     "HbC" = list(
         mu = 10^(-8),
@@ -37,7 +39,8 @@ examples <- list(
         sd = .1,  # ???
         sigma = 50,
         R = 4000,
-        age = 100 # well, 75-150 (Wood et al) and 38-120 (Modiano et al)
+        minage = 10, # well, 10-28 (Modiano et al) and 45-70 (Currat et al)
+        maxage = 70
     ),
     "G6PD strong" = list(
         mu = 150*10^(-8),  # 150 bp
@@ -46,7 +49,8 @@ examples <- list(
         sd = .1,
         sigma = 50,
         R = 6000,
-        age = 150 # various, 40-1800! see hedrick.
+        minage = 40, # various, 40-1800! see hedrick.
+        maxage = 400
     ),
     "G6PD weak" = list(
         mu = 150*10^(-8),  # 150 bp
@@ -55,7 +59,8 @@ examples <- list(
         sd = .1,
         sigma = 50,
         R = 6000,
-        age = 150 # various, 40-1800! see hedrick.
+        minage = 40, # various, 40-1800! see hedrick.
+        maxage = 400
     )
 )
 
