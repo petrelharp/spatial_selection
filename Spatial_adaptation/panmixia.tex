@@ -1,1 +1,193 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\begin{document}
 
+As I understood it, Dmitri's intuition (deriving from simulations) says that
+in real populations, the plausibility of parallel adaptation 
+is determined by the size of the mutational influx $2N\mu$,
+and that additional opportunity for parallel adaptation caused by spatial structure is relatively unimportant,
+at least as far as the plausibility (not necessarily the degree) goes.
+This might be because: if $2N\mu \gg 1$,
+then there are many successful new mutants {\em every generation},
+and so even in the fairly brief time it takes a single mutation to fix locally,
+new mutations will arise and fix locally.
+In this case, we get parallel adaptation without invoking spatial structure.
+Conversely, if $2N\mu \ll 1$,
+then spatial spread allows more time for new mutants, 
+but since fixation is still fast, the additional amount of time is still insignificant.
+
+Clearly, there are parameter ranges where the above holds, and does not hold,
+but the question is how restrictive are those conditions.
+I am turning this into three questions:
+\begin{enumerate}
+  \item When will other new mutations arise in the amount of time it takes, say, the first mutation to fix, locally?
+  \item When does spatial structure significantly increase the probability of parallel adaptation?  
+  \item When does spatial structure significantly increase the degree of parallel adaptation? 
+    (i.e.\ number of origins)
+\end{enumerate}
+Throughout I'll work in two dimensions.
+Let $\rho$ be the population density, 
+$\sigma$ be the dispersal distance, 
+$\mu$ be the mutation rate,
+$s$ be the selection coefficient,
+$N$ be the total population size,
+$A=N/\rho$ be the total area occupied,
+and $r = \sqrt{A}/\sigma$.
+I assume that $r$ is not small, since otherwise the problem is not spatial.
+
+The first question is something we did not include explicitly in our first paper.
+The area occupied by an advantageous mutation grows quadratically, 
+but only after a (random) initial period of local fixation.
+We can call ``local fixation'' 
+the time when the growth of a panmictic and a spatially restricted family
+begins to differ significantly,
+which occurs when the number of individuals is $\sigma^2 \rho$.
+This time is thus approximately
+\[
+  T_l = \frac{1}{s} \log (\sigma^2 \rho) .
+\]
+(The standard deviation of this time is of the same order; let's ignore the randomness.)
+On the other hand, the time we have to wait to see a new, successful mutation is on the order of
+\[
+  T_n = \frac{1}{4N\mu s} .
+\]
+Therefore, we will see new mutations in the time it takes a new mutation to fix locally
+(and hence, the time it takes a wave to get going)
+if
+\[
+    T_l > T_n ,
+\]
+or since $\rho = N/A$,
+\begin{equation} \label{eqn:tlggtn}
+  2 \log(\sigma / \sqrt{A}) + \log(N) > \frac{1}{4\mu N} .
+\end{equation}
+A reasonable range for $r=\sqrt{A}/\sigma$ is $10 \le r \le 1000$,
+over which range $4 < 2\log(r) < 14$, so $\log(N)$ will dominate the inequality.
+In other words, to get new mutations in the time it takes to locally fix,
+we'd need $1/(4 N \log N) < \mu$.
+Setting $\mu=10^{-8}$ tells us that we get multiple single base mutations in this time 
+if $N$ is larger than about a million.
+
+
+For the second and third questions,
+we need to compare the panmictic case to the spatial case.
+In the panmictic case, the offspring of a family continues to grow logistically,
+so the amount of time it takes to go from frequency $\sigma^2 \rho / N$ to frequency $1/2$ 
+is approximately
+\[
+  T_p = \frac{1}{s} \log (N/\sigma^2 \rho) = \frac{1}{s} \log(A/\sigma^2) .
+\]
+On the other hand, the spatially restricted family will grow at speed $v=\sigma \sqrt{s}$, 
+so the numbers grow like
+\[
+  \rho \sigma^2 s \left(t - s^{-1/2} \right)^2,
+\]
+with time measured in units after local fixation.
+Therefore, the additional time it takes to reach frequency $1/2$ is 
+\[
+T_s = \sqrt{\frac{N}{2\sigma^2 s \rho}} + \sqrt{\frac{\rho}{s}} .
+\]
+This will give us significant extra time if $T_s \gg T_p$, i.e.\ if
+\begin{equation} \label{eqn:tsggtp}
+  % \sqrt{s}\left( 1 + \sqrt{\frac{A}{2\sigma^2}} \right) \gg \log(A/\sigma^2) . %exact
+  \sqrt{\frac{s}{2}} \gg \frac{ \log(A/\sigma^2) }{ \sqrt{A/\sigma^2} }. %approx
+\end{equation}
+This extra time will be enough for some mutations if $T_s > T_n$, or
+\begin{equation}
+  \sqrt{\frac{sA}{2\sigma^2}} > \frac{1}{4N\mu} .
+\end{equation}
+
+Looking again at equation \eqref{eqn:tsggtp},
+the spatial restriction will give much more time if
+\[
+  s \gg 8 \left( \frac{\log(r)}{r} \right)^2,
+\]
+where $r=\sqrt{A/\sigma^2}$ is the radius of the species range in units of dispersal distance.
+Here is a plot of $s = 8 \left( \log(r)/r \right)^2$,
+for $10 \le r \le 1000$, giving the lower limit for possible values of $s$.
+At smaller species ranges, this is unlikely to happen, 
+but for species ranges hundreds of times the dispersal distance, it starts to become reasonable.
+Humans and Drosophila are on the edge -- if $\sigma=10$km,
+then the spatial distribution is giving extra time; 
+but if $\sigma=100$km, perhaps it is not.
+
+% \begin{figure}[hht]
+  \includegraphics[width=1.0\textwidth]{min-s-versus-r.pdf}
+% \caption{Plot of $s= 8 \left( \log(r)/r \right)^2$ against $r=\sqrt{A/\sigma^2}$.} 
+% \end{figure}
+
+To answer the second question, 
+to expect parallel adaptation in the spatial case but not in the panmictic case,
+we would clearly need $T_l \ll T_n$, so no new mutations are arising in the time to local fixation,
+since this part of the process is shared by both.
+Recall that this effectively puts an upper bound on $N$.
+We'd also need
+$T_s > T_n \gg T_p$,
+or
+\begin{equation}
+  \sqrt{\frac{sA}{2\sigma^2}} > \frac{1}{4N\mu} \gg \log(A/\sigma^2) ,
+\end{equation}
+or
+\begin{equation}
+  % \sqrt{s/2} > \frac{1}{4 N \mu r} \gg 2 \frac{ \log(r) }{ r } .
+  s > \frac{1}{8 N^2 \mu^2 r^2} \gg 8 \left(\frac{ \log(r) }{ r }\right)^2 .
+\end{equation}
+This puts an upper and lower bound on the mutational influx $4N\mu$:
+taking the middle values in the figure, 
+this will be something like $1/20 < 4N\mu < 800$.
+
+For the third question,
+to get an idea we can use the results on standing variation,
+and treat the mutations arising while the first is fixing, if such exist, as ``standing variation''.
+This means setting 
+\[
+  \lambda_0 = 4 \rho \mu s T_l = 4 \rho \mu \log(\sigma^2 \rho) .
+\]
+Recall the characteristic length solves $\lambda_0 \pi \chi^2 + \lambda \pi \chi^3/v = 1$.
+Set $\chi_0 = 1/\sqrt{\pi \lambda_0}$, 
+the characteristic length only from the mutations arising while the first fixes locally;
+we are interested in the numbers of mutations arising relative to these,
+which is about $x=(\chi/\chi_0)^2$.
+This proportion is between zero and one and satisfies
+$x = 1-\gamma x^{3/2}$, 
+where 
+\[
+  \gamma = \frac{ \sqrt{s} }{ \sigma \sqrt{4 \pi \rho \mu} \log^{3/2}(\sigma^2 \rho) } .
+\]
+The relationship between $\gamma$ and $f$ is shown in this figure:
+
+\includegraphics[width=1.0\textwidth]{f-versus-gamma.pdf}
+
+showing that if $\gamma>1$ then $f$ drops off quickly.
+If we then fix $\mu=10^{-8}$ and $\rho=1$ (working in units of $1/\sqrt{\rho}$), 
+then we get the following picture of $\log \gamma$:
+
+\includegraphics[width=1.0\textwidth]{gamma-contour-1e-8.pdf}
+
+showing that $\gamma$ is mostly affected by $\sigma$,
+needing something like $\sigma<20/\sqrt{\rho}$.
+If $\mu=10^{-6}$ this drops to something like $2/\sqrt{\rho}$.
+
+\paragraph{In summary,}
+the conclusions are:
+\begin{enumerate}
+
+  \item Multiple successful mutations in the time it takes a single mutation to fix locally
+    are likely if $1/(4 N \log N) < \mu$; if $\mu=10^{-8}$ this means in populations larger than a million.
+
+  \item Spatial structure can make parallel adaptation likely where it was unlikely under panmixia
+    if the above does not happen and if
+    $s > \frac{1}{8 N^2 \mu^2 r^2} \gg 8 \left(\frac{ \log(r) }{ r }\right)^2$;
+    this latter restricts the range of mutational influxes, but not dramatically.
+
+  \item Spatial structure can dramatically increase the number of parallel adaptations if $\sigma$ is small enough;
+    the requirement is that $\sigma<C/\sqrt{\rho}$, for some $C$ around ten.
+
+\end{enumerate}
+
+It is easy to think of populations that satisfy any of these requirements;
+some natural examples that come to mind seem to lie in the ambiguous region,
+although others (e.g.\ {\it Drosophila}?) lie firmly on one side of the boundary or the other.
+
+\end{document}
