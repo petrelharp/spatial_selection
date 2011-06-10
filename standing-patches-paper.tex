@@ -243,17 +243,77 @@ $a_0 / a_+ = z_0 / (1-z_0)$.
 influence of migration on things -- plot these versus migration 
 
 
+\section{Local establishment}
+
+Include stuff from ``comparison to panmixia'' here.
+
+
 \section{Patchy selection} 
 
 \subsection{Model} 
 
-patches where selection is $1+s_b$ separated by $1-s_d$ -- separation large relative to migration.   
-(or relative to $s_d/m$?) 
+In this section, we suppose that instead of a uniform habitat,
+that the selective pressure is {\em patchy}, so that the new alleles are only advantageous in isolated locations, 
+and are disadvantageous in the intervening region.
+As before, we assume that the new allele has fitness $1+s_b$ relative to the unmutated type in the ``good'' patches,
+and assume that it has fitness $1+s_m$ in the intervening areas, with $s_m<0$.
+To make things tractable, we assume that the distances between the patches are large relative to migration distance $\sigma$,
+and that the disadvantage $s_m$ ensures that on the relevant timescale,
+the allele is very unlikely to fix in the regions where it is at a disadvantage.
+With these assumptions as justification, we will move to a model of discrete demes exchanging migrants,
+where ``migration'' occurs through the rare, transient passage of the new allele through regions where it is disadvantageous.
+
+equal deme sizes?  general migration rates?
 
 Describe simple discrete model, for general migration rates.
 
+\subsection{Mutational influx}
+
+Consider first a single, isolated patch of area $A$ in which no new allele has appeared.
+\citet{barton1987} (or \citet{slatkin1981}) has studied this situation (in one dimension)
+and found that:
+mutations appearing further than a few multiples of $\sigma/\sqrt{2s_m}$ away from the patch have vanishingly small probability of establishment;
+mutations appearing within the patch have probability strictly less but approaching that $2s_b$ of establishment;
+and if the patch width is less than $2 \tan^{-1} (\sqrt{s_m})$, then local fixation does not occur (rather, is not stable).
+Let $p(x)$ be the probability that a new allele arising at location $x$ fixes.
+The function $p(x)$ can be found in terms of Jacobi elliptic functions,
+XXX as shown in the Appendix,
+but the expressions are particularly unhelpful.
+The total successful mutational influx per generation is then given by $\int \rho \mu p(x) dx$,
+and depends in a complicated way on the relationship of patch width and selection coefficients,
+but still scales linearly with the population mutational influx $\rho \mu$.
+Therefore, we define $p_f = \int p(x) dx$, and in a pinch will approximate this by $2 s_b A$,
+which will be a good approximation if the width $\sqrt{A}$ is large relative to $\sigma/\sqrt{2s_m}$.
+
+XXX We are interested in the case where a single mutation only takes over? XXX
+
+\subsection{Migration rates}
+
+Now suppose that there are two patches of area $A$ of good environment separated by distance $R$,
+and that the allele has begun to fix in the first, but has not yet appeared in the second.
+As above, any copy of the new allele that appears at location $x$ sufficiently near to the second patch 
+has probability approximately $p(x)$ of fixing locally in this patch,
+whether the allele is a new mutation or is descended from the occupants of the first patch.
+There will be a small number of alleles descended from those of the first patch present in the regions where they are disadvantageous,
+held at mutation--selection balance;
+the equilibrium frequency may again be expressed in terms of Jacobi elliptic functions (Appendix XXX),
+although the equations are again not particularly helpful.
+However, we do know that if $q(r)$ is the expected proportion present at mutation--selection balance at distance $r$ from the first patch
+in the absence of the second patch, that for large $r$ the proportion decays exponentially, $q(r) \approx C \exp( -|s_m r / \sigma|)$,
+where $C$ is a constant depending on the structure of the populations and the selection coefficients.
+
+Combining this with the calculations above allows us to get a rough sense of the scale of migration between separated patches,
+supposing that patches are large enough for local fixation to be stable.
+If the alleles were not advantageous in the second patch,
+the average numbers of mutant alleles present near the second patch would be around $\rho A \exp( - |s_m R/\sigma| )$;
+so the waiting time until some migrant allele fixes in the second patch would be something like $T_m = ( 2 s_b \rho A \exp( - |s_m R/\sigma|)^{-1}$.
+If $T_m$ is large, then we would expect successful migrants to be rare,
+so that if the second patch adapts through migration, it is likely to come from only a single migrant.
+In the converse situation, XXX more than one migrant? XXX
+
+
 Get migration and mutation rates from a homogeneous continuous model:
-The migration rate from patch $i$ to a patch at distance $r$ is $C_i \exp(-\gamma r \sqrt{s} /\sigma)$,
+The migration rate from patch $i$ to a patch at distance $r$ is $C_i \exp(-\gamma r s /\sigma)$,
 where $C_i$ depends on the size of the patch and (to a lesser degree?) the local structural details of the selective difference.
 The mutation rate is more or less (size of patch) times $\mu$; 
 more accurately we can integrate using Barton assuming step selection.
