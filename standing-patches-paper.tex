@@ -252,25 +252,29 @@ Include stuff from ``comparison to panmixia'' here.
 
 \subsection{Model} 
 
-In this section, we suppose that instead of a uniform habitat,
-that the selective pressure is {\em patchy}, so that the new alleles are only advantageous in isolated locations, 
+In this section, we will relax the assumption that the uniform is homogenous.
+The model we analyze in section \ref{ss:discretedemes} is a model of discrete demes exchanging rare migrants,
+but since the object of this paper is to work in continuous space,
+we will first in sections \ref{ss:patchymutation} and \ref{ss:patchymigration} describe how a model with {\em patchy} selection can be approximated by such a discrete model.
+
+For this purpose, suppose that instead of a uniform habitat,
+the selective pressure is such that the new alleles are only advantageous in isolated locations, 
 and are disadvantageous in the intervening region.
 As before, we assume that the new allele has fitness $1+s_b$ relative to the unmutated type in the ``good'' patches,
 and assume that it has fitness $1+s_m$ in the intervening areas, with $s_m<0$.
 To make things tractable, we assume that the distances between the patches are large relative to migration distance $\sigma$,
 and that the disadvantage $s_m$ ensures that on the relevant timescale,
-the allele is very unlikely to fix in the regions where it is at a disadvantage.
+the allele is very unlikely to fix locally in the regions where it is at a disadvantage.
 With these assumptions as justification, we will move to a model of discrete demes exchanging migrants,
 where ``migration'' occurs through the rare, transient passage of the new allele through regions where it is disadvantageous.
 
 equal deme sizes?  general migration rates?
 
-Describe simple discrete model, for general migration rates.
-
 \subsection{Mutational influx}
+\label{ss:patchymutation}
 
 Consider first a single, isolated patch of area $A$ in which no new allele has appeared.
-\citet{barton1987} (or \citet{slatkin1981}) has studied this situation (in one dimension)
+\citet{barton1987} (or \citet{slatkin1981}?) has studied this situation (in one dimension)
 and found that:
 mutations appearing further than a few multiples of $\sigma/\sqrt{2s_m}$ away from the patch have vanishingly small probability of establishment;
 mutations appearing within the patch have probability strictly less but approaching that $2s_b$ of establishment;
@@ -288,15 +292,16 @@ which will be a good approximation if the width $\sqrt{A}$ is large relative to 
 XXX We are interested in the case where a single mutation only takes over? XXX
 
 \subsection{Migration rates}
+\label{ss:patchymigration}
 
-Now suppose that there are two patches of area $A$ of good environment separated by distance $R$,
+Now suppose that there are two patches, each of area $A$, of good environment separated by distance $R$,
 and that the allele has begun to fix in the first, but has not yet appeared in the second.
-As above, any copy of the new allele that appears at location $x$ sufficiently near to the second patch 
+As above, any copy of the new allele that appears at location $x$ relative to the second, unadapted patch 
 has probability approximately $p(x)$ of fixing locally in this patch,
 whether the allele is a new mutation or is descended from the occupants of the first patch.
-There will be a small number of alleles descended from those of the first patch present in the regions where they are disadvantageous,
-held at mutation--selection balance;
-the equilibrium frequency may again be expressed in terms of Jacobi elliptic functions (Appendix XXX),
+Due to mutation--selection balance there will be a small number of alleles descended from those of the first patch (``migrants'') 
+present in the regions where they are disadvantageous;
+the equilibrium frequency may again be expressed in terms of Jacobi elliptic functions (Appendix XXX, citeXXX),
 although the equations are again not particularly helpful.
 However, we do know that if $q(r)$ is the expected proportion present at mutation--selection balance at distance $r$ from the first patch
 in the absence of the second patch, that for large $r$ the proportion decays exponentially, $q(r) \approx C \exp( -|s_m r / \sigma|)$,
@@ -309,16 +314,128 @@ the average numbers of mutant alleles present near the second patch would be aro
 so the waiting time until some migrant allele fixes in the second patch would be something like $T_m = ( 2 s_b \rho A \exp( - |s_m R/\sigma|)^{-1}$.
 If $T_m$ is large, then we would expect successful migrants to be rare,
 so that if the second patch adapts through migration, it is likely to come from only a single migrant.
-In the converse situation, XXX more than one migrant? XXX
+We leave aside the converse situation, for which there is likely to be more than one migrant
+that founds the population mutant individuals in the new patch.
+
+\subsection{ss:discretedemes}
+
+Suppose now that we have a set of $L$ discrete populations of individuals that may reproduce or migrate,
+and that migration and mutation are rare, so that the waiting times until either event is approximately exponential.
+Suppose that for each pair of populations, labeled $i$ and $j$, the mean number of migrants that travel from $i$ to $j$ per generation
+is $M_{ij}$ and that the mean number of new mutations appearing in population $i$ per generation is $\mu_i$.
+
+If we suppose that fixation occurs on a faster time scale than mutation or migration,
+so that it is very unlikely that two different migrants or mutants begin to fix locally in the same population,
+then we can treat the process of extinction or local fixation as instantaneous 
+(a limit previous studied by \cite{Slatkin:81}).
+In this limit we may also ignore swamping effects of inmigration of nonmutant alleles.
+
+In this case, we have the following picture.
+The population at first starts out with no selected alleles. 
+At some later time point suppose that there are $T$ different alleles present in the population, 
+that the $k^\mathrm{th}$ allele is occupying demes $\{i^k_1, \ldots, i^k_{n_k}\}$, for $1\le k \le T$.
+Let $I$ denote the set of all adapted demes, 
+and let $J = \{j_1, \ldots, j_\ell\}$ denote the demes that have not yet adapted, with $\ell = L - \sum_k n_k$.
+Then we are assuming that two types of event can happen which could change the state:
+either at rate $\mu_j p_f$, an unadapted deme $j$ produces a new mutant, which fixes in this deme;
+or at rate $M_{ij} p_f$, an adapted deme $i$ sends a migrant to unadapted deme $j$, which fixes in that deme.
+Therefore, under these assumptions, the probability of fixation $p_f$ (and hence the selection coefficient)
+only enter as a time scaling: for instance,
+if we define $R = \sum_{j \in J} \left( \mu_j + \sum_{i \in I} M_{ij} \right)$,
+then the total rate of such events is $p_f R$.
+The probability that the next event results in, say, adaptation of deme $j$
+is 
+\[
+ \left( \mu_j + \sum_{i \in I} M_{ij} \right) / R,
+\]
+and the probability that deme $j$ adapts through migration from deme $i$, given that deme $j$ is the next to adapt, is
+$M_ij / R$,
+while the probability that it adapts through a new mutation is $\mu_j / R$.
+
+The main point here is that the final pattern,
+and hence the likely extent of parallel adaptation,
+is independent of the strength of selection.
+This is in contrast to the continuous case, however, this observation is dependent on the assumption of weak migration
+and fails to hold if different migrant lineages interact.
+This can be viewed as a continuous-time Markov process XXX.
+Explicit solutions are not available in the general case,
+but if we specialize to a completely symmetric model (i.e.\ the ``island'' model),
+then the mathematical picture is a pretty one.
+
+Indeed, suppose that migration and mutation are symmetric: $M_{ij}=m$ and $\mu_j = \mu$ for all $j$ and $i\neq j$.
+Suppose at some time the $k^\mathrm{th}$ allele is occupying $n_k$ demes, 
+with $n = \sum_k n_k < L$.
+Then at rate $(L-n) N \mu p_f + n (L-n) N m p_f$,
+either a migration or mutation event happens.
+With probability $\mu/(\mu + n m)$, it is a mutation,
+and a new deme is randomly chosen and assigned a new allele.
+With probability $n_k m / (\mu + n m)$,
+the $k^\mathrm{th}$ type sends a successful migrant to a randomly chosen new island,
+which is assigned the $k^\mathrm{th}$ allele.
+
+This process is a continuous-time version of the ``Chinese restaurant process''
+described in \citet{aldous1985exchangeability} and \citet{pitman1995partitions},
+and so the final partition of types across demes has the Ewens sampling distribution with parameter $\mu/m$.
+Again note that the selection coefficient, which is implicit in the probability $p_f$,
+does not enter into the final distribution.
+
+Now we can compute most properties we might want about the process.
+For instance, the expected number of distinct mutational origins is
+\begin{equation}
+    \E\left[ \mbox{ \# of independent mutations } \right] = 
+            1 + \frac{\mu}{m} \sum_{k=2}^L \frac{1}{k+(\mu/m)}. \label{discrete_expected}
+\end{equation}
+The probability that there is only a single successful mutation is
+\begin{equation}
+\P \left\{ \mbox{only one mutational origin} \right\} = 
+            \prod_{k=1}^{L-1} \frac{ k }{ k+(\mu/m)} .
+\end{equation}
+More generally, suppose we sample a single deme, and are interested in the total number of demes $S$
+(including the sampled one) that share the same fixed mutation as our sampled deme.
+Then $S$ has distribution
+\begin{equation} \label{eqn:Sdistrn}
+\P\{ S=s \} = \frac{ (s-1)! (\mu/m)^{L-s} }{ \prod_{k=1}^{L-1} (k+(\mu/m)) } .
+\end{equation}
+Furthermore, if $L$ is large, then $S/L$ has probability density approximately
+\begin{equation} \label{eqn:betadistrn}
+   (\mu/m) (1-x)^{(\mu/m)-1}
+\end{equation}
+namely, is a $\mathrm{Beta}((\mu/m), 1)$ distribution--- see \cite{donnelly-joyce} and \cite{permanPitmanYor92}.
+
+% In Figure \ref{fig:discbyratio} we plot mean number of types and size (number of demes occupied) of a sampled type,
+% for a model with 20 interconnected demes, across different parameter values.  
+% This indicates that we need the population-scaled mutation and migration rates to be within a factor of about 100 of each other for parallel adaptation to leave an interesting pattern. If migration is faster, then a single type is likely to take over, while if migration is weaker, each deme is likely to come up with its own type.
+
+The high connectedness of the discrete deme island model means that the expected number of distinct alleles, (Equation \eqref{discrete_expected}), 
+grows with the $\log$ of the number of demes. This strongly contrasts with the continuous spatial model where the local nature of dispersal means that doubling the species range will double the number of mutations expected. 
+Furthermore, while in the continuous model the areas occupied by distinct mutations are similar in area, in this strong-selection discrete island model, 
+only a few types tend to dominate even as the number of demes (and thus, distinct types) grows large (see Equations \eqref{eqn:Sdistrn} and \eqref{eqn:betadistrn}).
+
+A more general model would allow migration only along edges of some graph connecting the demes.
+In the low migration limit such a model still produces a partition distribution independent of the selection coefficient,
+but it does not in general have the Ewens distribution.
+Another extension would be to include the time alleles need to achieve an intermediate frequency,
+along the lines of \citet{Navarro:03}, which would reintroduce dependence on the selection coefficient.
+
+\texttt{XXX omit this? XXX}
+We have treated the time during which the selected allele is at intermediate frequency in a deme (about $log(2N)/s$ generations) as negligible, 
+which ignores migration events that occur while the mutation is spreading through the population. 
+we now sketch of a more realistic approximation.
+For each occupied--unoccupied pair of demes, if the number of mutant alleles in the occupied deme is $n(t)>0$,
+then at time $t$, migrants from the occupied deme pass the selected allele to the unoccupied deme at rate $2 n(t) m p_f(s)$,
+while newly arisen mutants arise and fix in the unoccupied deme at constant rate $2 N \mu p_f(s)$.
+The selected type should grow approximately as $n(t)=\exp(s(t-t_0))$.
+Of course, to follow this model through, we will have to account for multiple types within a single deme and other complications,
+but we can at least make a few observations.
+One is that the final distribution of types is no longer independent of $s$, which enters through the dynamics $n(t)$.
+However, it is clear that increasing the selection coefficient $s$ will decrease the number of types (independent mutational origins),
+while on the other hand, increasing the deme size $N$ will increase the number of types,
+and that the case presented above is at the extreme (see also \cite{Navarro:03} for deterministic approximations). 
 
 
-Get migration and mutation rates from a homogeneous continuous model:
-The migration rate from patch $i$ to a patch at distance $r$ is $C_i \exp(-\gamma r s /\sigma)$,
-where $C_i$ depends on the size of the patch and (to a lesser degree?) the local structural details of the selective difference.
-The mutation rate is more or less (size of patch) times $\mu$; 
-more accurately we can integrate using Barton assuming step selection.
 
-\subsection{Results} 
+\subsection{Patchy Results} 
+\label{ss:discreteresults}
 
 Pull out results from other paper on discrete model:
 if migration rates are equal then we get Chinese Restaurant/Ewens;
@@ -326,6 +443,33 @@ in any case is independent of selection.
 
 when are patches effectively isolated?   
 This occurs when the effective migration rate is much smaller than the mutation rate, namely...
+
+ \begin{figure}[ht]
+ \begin{center}
+ %\includegraphics{discrete-by-mutrate.eps}
+ %\includegraphics{discrete-by-migrprob.eps}
+ \includegraphics{discrete-by-ratio.eps}
+ \filenote{discrete-by-ratio.eps}
+ \caption{ %
+ The mean number of types and the mean number of demes occupied by a sampled type, in a discrete model with 20 demes,
+ plotted as a function of the ratio of migration to mutation probabilities.
+ Note the log scale on the horizontal axis.
+ \label{fig:discbyratio}
+ }
+ \end{center}
+ \end{figure}
+
+We have shown that in the model of discrete demes connected by weak migration, the final distribution of types depends only on the ratio of mutation to migration rates,
+and that the distribution itself has a Dirichlet distribution.  
+In particular, the number of independently arisen types follows the Ewens distribution, with parameter $\mu/m$.
+In Figure \ref{fig:discbyratio} we plot mean number of types and size (number of demes occupied) of a sampled type,
+for a model with 20 interconnected demes, across different parameter values.  
+This indicates that we need the population-scaled mutation and migration rates to be within a factor of about 100 of each other for parallel adaptation to leave an interesting pattern.  
+If migration is faster, then a single type is likely to take over, while if migration is weaker, each deme is likely to come up with its own type.
+
+Also note that the properties of the discrete model are independent of the {\em sizes} of the demes themselves--- we have assumed away all such dependence.
+This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise {\em within} a panmictic deme
+if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
 
 \section{Applications} 
 
