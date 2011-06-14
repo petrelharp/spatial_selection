@@ -172,7 +172,7 @@ and it is an elementary consequence of the Poisson process that
 \marginnote{put in value of $\chi$ computed above.}
 (In one dimension, $\pi_0 = 2 \lambda_0 \chi$.)
 
-\subsection{Results} 
+\subsection{Standing Variation -- Results} 
 
 The quantity that is perhaps easiest to compute is the mean time until adaptation.
 Fix some geographic location, and let $\tau\ge0$ be the time at which the point is reached by the advantageous mutations.
@@ -229,13 +229,29 @@ $a_0 / a_+ = z_0 / (1-z_0)$.
 
 \begin{figure}[ht]
 \begin{center}
+\includegraphics[width=1.0\textwidth]{charlen-by-sd-limit}
+\caption{ %
+{\bf Characteristic length,} as a function of selective disadvantage, compared to the corresponding quantity without standing variation (e.g.\ from \cite{ralphcoop2010}) and to the quantity only considering standing variants (e.g.\ $\sqrt{\lambda_0}$).
+}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
 \includegraphics[width=1.0\textwidth]{proportion-by-sigma.eps}
 \caption{ %
 {\bf Mean proportion of patches arising from standing variation.} The paramters given are for the sickle-cell example.  XXX say more.
 }
-\label{fig:cartoon}
 \end{center}
+\end{figure}
 
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{proportion-contour.png}
+\caption{ %
+{\bf Mean proportion of area occupied by standing variants,} as a function of dispersal distance $\sigma$ and selective disadvantage $s_d$.  XXX at what parameters. XXX
+}
+\end{center}
 \end{figure}
 
 \marginnote{do mean (and variance?) of distance between haplotypes?}
@@ -317,7 +333,8 @@ so that if the second patch adapts through migration, it is likely to come from 
 We leave aside the converse situation, for which there is likely to be more than one migrant
 that founds the population mutant individuals in the new patch.
 
-\subsection{ss:discretedemes}
+\subsection{Discrete populations}
+\label{ss:discretedemes}
 
 Suppose now that we have a set of $L$ discrete populations of individuals that may reproduce or migrate,
 and that migration and mutation are rare, so that the waiting times until either event is approximately exponential.
@@ -434,7 +451,7 @@ and that the case presented above is at the extreme (see also \cite{Navarro:03} 
 
 
 
-\subsection{Patchy Results} 
+\subsection{Patchy Selection -- Results} 
 \label{ss:discreteresults}
 
 Pull out results from other paper on discrete model:
@@ -448,8 +465,7 @@ This occurs when the effective migration rate is much smaller than the mutation 
  \begin{center}
  %\includegraphics{discrete-by-mutrate.eps}
  %\includegraphics{discrete-by-migrprob.eps}
- % \includegraphics{discrete-by-ratio.eps}
- \filenote{discrete-by-ratio.eps}
+ \includegraphics{discrete-by-ratio}
  \caption{ %
  The mean number of types and the mean number of demes occupied by a sampled type, in a discrete model with 20 demes,
  plotted as a function of the ratio of migration to mutation probabilities.
