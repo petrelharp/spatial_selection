@@ -435,16 +435,16 @@ Another extension would be to include the time alleles need to achieve an interm
 along the lines of \citet{Navarro:03}, which would reintroduce dependence on the selection coefficient.
 
 \texttt{XXX omit this? XXX}
-We have treated the time during which the selected allele is at intermediate frequency in a deme (about $log(2N)/s$ generations) as negligible, 
+We have treated the time during which the selected allele is at intermediate frequency in a deme (about $\log(\sigma^2 \rho)/s_b$ generations) as negligible, 
 which ignores migration events that occur while the mutation is spreading through the population. 
 we now sketch of a more realistic approximation.
 For each occupied--unoccupied pair of demes, if the number of mutant alleles in the occupied deme is $n(t)>0$,
-then at time $t$, migrants from the occupied deme pass the selected allele to the unoccupied deme at rate $2 n(t) m p_f(s)$,
-while newly arisen mutants arise and fix in the unoccupied deme at constant rate $2 N \mu p_f(s)$.
+then at time $t$, migrants from the occupied deme pass the selected allele to the unoccupied deme at rate $2 n(t) m p_f(s_b)$,
+while newly arisen mutants arise and fix in the unoccupied deme at constant rate $2 N \mu p_f(s_b)$.
 The selected type should grow approximately as $n(t)=\exp(s(t-t_0))$.
 Of course, to follow this model through, we will have to account for multiple types within a single deme and other complications,
 but we can at least make a few observations.
-One is that the final distribution of types is no longer independent of $s$, which enters through the dynamics $n(t)$.
+One is that the final distribution of types is no longer independent of $s_b$, which enters through the dynamics $n(t)$.
 However, it is clear that increasing the selection coefficient $s$ will decrease the number of types (independent mutational origins),
 while on the other hand, increasing the deme size $N$ will increase the number of types,
 and that the case presented above is at the extreme (see also \cite{Navarro:03} for deterministic approximations). 
@@ -454,17 +454,39 @@ and that the case presented above is at the extreme (see also \cite{Navarro:03} 
 \subsection{Patchy Selection -- Results} 
 \label{ss:discreteresults}
 
-Pull out results from other paper on discrete model:
-if migration rates are equal then we get Chinese Restaurant/Ewens;
-in any case is independent of selection.
+If environment is continuous, with separated patches where the new allele is advantageous,
+we can only get a rough sense of whether the new adaptation is likely to spread through mutation (i.e.\ in parallel)
+or through migration.
+Taking the expressions from sections \ref{ss:patchymutation} and \ref{ss:patchymigration} above,
+we see that if patches each have sufficiently large area $A$,
+then the mutational input in each is on the order of $2 \rho \mu A$,
+while the influx due to migration between patches separated by distance $R$ is on the order $2 \rho A \exp(- |s_m R/\sigma|)$. 
+If the input from mutation and migration are comparable, i.e.\ if $\mu \approx \exp( -|s_m R/\sigma| )$,
+then adaptation is expected to take place both by migration and mutation.
+If we take $\mu = 10^{-8}$, then this is satisfied if $R/\sigma \approx 18/s_m$.
+so if the disadvantage to the new mutation between patches is fairly strong (say, $s_m=.05$),
+then the distance between patches must be several hundreds of times the dispersal distance;
+while if $s_m$ is much smaller, say $s_m = .001$, 
+then the patches must be separated by tens of thousands of times the dispersal distance.
+The situation does not change much if $\mu$ is larger -- even if $\mu = 10^{-6}$, 
+the required separation between patches is only reduced by 60\%.
+If the separation between patches is much larger -- say, by a factor of ten -- 
+then patches are effectively isolated -- most adaptation will be independent between patches.
+On the other hand, if the separation is much smaller, then a single mutation is likely to fix everywhere.
+The general picture is that for species with spatial structure but without extreme barriers to dispersal, 
+patches will not be completely isolated, but some parallel adaptation is likely.
 
-when are patches effectively isolated?   
-This occurs when the effective migration rate is much smaller than the mutation rate, namely...
+Furthermore, in the model of discrete demes connected by symmetric weak migration, 
+the final distribution of types depends only on the ratio of mutation to migration rates,
+and that the number of independently arisen types follows the Ewens distribution, with parameter $\mu/m$.
+In Figure \ref{fig:discbyratio} we plot mean number of types and size (number of demes occupied) of a sampled type,
+for a model with 20 interconnected demes, across different parameter values.  
+This indicates that we need the population-scaled mutation and migration rates 
+to be within a factor of about 100 of each other for parallel adaptation to leave an interesting pattern.  
+If migration is faster, then a single type is likely to take over, while if migration is weaker, each deme is likely to come up with its own type.
 
- \begin{figure}[ht]
+\begin{figure}[ht]
  \begin{center}
- %\includegraphics{discrete-by-mutrate.eps}
- %\includegraphics{discrete-by-migrprob.eps}
  \includegraphics{discrete-by-ratio.eps}
  \caption{ %
  The mean number of types and the mean number of demes occupied by a sampled type, in a discrete model with 20 demes,
@@ -473,15 +495,7 @@ This occurs when the effective migration rate is much smaller than the mutation 
  \label{fig:discbyratio}
  }
  \end{center}
- \end{figure}
-
-We have shown that in the model of discrete demes connected by weak migration, the final distribution of types depends only on the ratio of mutation to migration rates,
-and that the distribution itself has a Dirichlet distribution.  
-In particular, the number of independently arisen types follows the Ewens distribution, with parameter $\mu/m$.
-In Figure \ref{fig:discbyratio} we plot mean number of types and size (number of demes occupied) of a sampled type,
-for a model with 20 interconnected demes, across different parameter values.  
-This indicates that we need the population-scaled mutation and migration rates to be within a factor of about 100 of each other for parallel adaptation to leave an interesting pattern.  
-If migration is faster, then a single type is likely to take over, while if migration is weaker, each deme is likely to come up with its own type.
+\end{figure}
 
 Also note that the properties of the discrete model are independent of the {\em sizes} of the demes themselves--- we have assumed away all such dependence.
 This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise {\em within} a panmictic deme
