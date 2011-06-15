@@ -290,7 +290,7 @@ equal deme sizes?  general migration rates?
 \label{ss:patchymutation}
 
 Consider first a single, isolated patch of area $A$ in which no new allele has appeared.
-\citet{barton1987} (or \citet{slatkin1981}?) has studied this situation (in one dimension)
+\citet{barton1987establishment} (or \citet{slatkin1973geneflow}?) has studied this situation (in one dimension)
 and found that:
 mutations appearing further than a few multiples of $\sigma/\sqrt{2s_m}$ away from the patch have vanishingly small probability of establishment;
 mutations appearing within the patch have probability strictly less but approaching that $2s_b$ of establishment;
@@ -320,14 +320,14 @@ present in the regions where they are disadvantageous;
 the equilibrium frequency may again be expressed in terms of Jacobi elliptic functions (Appendix XXX, citeXXX),
 although the equations are again not particularly helpful.
 However, we do know that if $q(r)$ is the expected proportion present at mutation--selection balance at distance $r$ from the first patch
-in the absence of the second patch, that for large $r$ the proportion decays exponentially, $q(r) \approx C \exp( -|s_m r / \sigma|)$,
+in the absence of the second patch, that for large $r$ the proportion decays exponentially, $q(r) \approx C \exp( -|\sqrt{s_m} r / \sigma|)$,
 where $C$ is a constant depending on the structure of the populations and the selection coefficients.
 
 Combining this with the calculations above allows us to get a rough sense of the scale of migration between separated patches,
 supposing that patches are large enough for local fixation to be stable.
 If the alleles were not advantageous in the second patch,
-the average numbers of mutant alleles present near the second patch would be around $\rho A \exp( - |s_m R/\sigma| )$;
-so the waiting time until some migrant allele fixes in the second patch would be something like $T_m = ( 2 s_b \rho A \exp( - |s_m R/\sigma|)^{-1}$.
+the average numbers of mutant alleles present near the second patch would be around $\rho A \exp( - |\sqrt{s_m} R/\sigma| )$;
+so the waiting time until some migrant allele fixes in the second patch would be something like $T_m = ( 2 s_b \rho A \exp( - |\sqrt{s_m} R/\sigma|)^{-1}$.
 If $T_m$ is large, then we would expect successful migrants to be rare,
 so that if the second patch adapts through migration, it is likely to come from only a single migrant.
 We leave aside the converse situation, for which there is likely to be more than one migrant
@@ -460,21 +460,19 @@ or through migration.
 Taking the expressions from sections \ref{ss:patchymutation} and \ref{ss:patchymigration} above,
 we see that if patches each have sufficiently large area $A$,
 then the mutational input in each is on the order of $2 \rho \mu A$,
-while the influx due to migration between patches separated by distance $R$ is on the order $2 \rho A \exp(- |s_m R/\sigma|)$. 
-If the input from mutation and migration are comparable, i.e.\ if $\mu \approx \exp( -|s_m R/\sigma| )$,
+while the influx due to migration between patches separated by distance $R$ is on the order $2 \rho A \exp(- |\sqrt{s_m} R/\sigma|)$. 
+If the input from mutation and migration are comparable, i.e.\ if $\mu \approx \exp( -|\sqrt{s_m} R/\sigma| )$,
 then adaptation is expected to take place both by migration and mutation.
-If we take $\mu = 10^{-8}$, then this is satisfied if $R/\sigma \approx 18/s_m$.
+If we take $\mu = 10^{-8}$, then this is satisfied if $R/\sigma \approx 18/\sqrt{s_m}$.
 so if the disadvantage to the new mutation between patches is fairly strong (say, $s_m=.05$),
-then the distance between patches must be several hundreds of times the dispersal distance;
+then the distance between patches must be about a hundred times the dispersal distance (i.e.\ $R/\sigma \approx 100$);
 while if $s_m$ is much smaller, say $s_m = .001$, 
-then the patches must be separated by tens of thousands of times the dispersal distance.
+then the patches must be separated by many hundreds of times the dispersal distance (i.e.\ $R/\sigma \approx 500$).
 The situation does not change much if $\mu$ is larger -- even if $\mu = 10^{-6}$, 
 the required separation between patches is only reduced by 60\%.
 If the separation between patches is much larger -- say, by a factor of ten -- 
 then patches are effectively isolated -- most adaptation will be independent between patches.
 On the other hand, if the separation is much smaller, then a single mutation is likely to fix everywhere.
-The general picture is that for species with spatial structure but without extreme barriers to dispersal, 
-patches will not be completely isolated, but some parallel adaptation is likely.
 
 Furthermore, in the model of discrete demes connected by symmetric weak migration, 
 the final distribution of types depends only on the ratio of mutation to migration rates,
