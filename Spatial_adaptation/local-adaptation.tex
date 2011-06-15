@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath,amssymb}
+\usepackage{hyperref}
 
 \newcommand{\var}{\mathop{\mbox{Var}}}
 \renewcommand{\P}{\mathbb{P}}
@@ -44,15 +45,16 @@ In the case of a binomial (check this?) branching, this changes $s$ to $-s$.
 \section{On solving FKPP with varying selection}
 
 Let $p(t,x)$ be the proportion of the allele under spatially varying selection $s(x)$ in one dimension,
-so that (setting $\sigma^2=2$)
+so that 
 \[
-    \partial_t p(t,x) = \partial_x^2 p(t,x) + s(x) p(t,x) (1-p(t,x)) .
+    \partial_t p(t,x) = \sigma^2 \partial_x^2 p(t,x) + s(x) p(t,x) (1-p(t,x)) .
 \]
 The stable distribution $\phi(x) = \lim_{t\to\infty} p(t,x)$ then solves
 \begin{align} \label{eqn:definingphi}
-    \partial_x^2 \phi(x) = - s(x) \phi(x) (1-\phi(x)) ,
+    \partial_x^2 \phi(x) = - s(x) \phi(x) (1-\phi(x)) /sigma^2,
 \end{align}
 with appropriate boundary conditions.
+First rescale space by $\sigma$ so that it dissappears.
 If we now assume that $s(x)$ is piecewise constant,
 $s(x) = s_i$ for $x \in [x_i,x_{i+1})$, with $x_0=-\infty$ and $x_{n+2}=\infty$,
 then the equation is integrable: if we multiply through by $\partial_x \phi(x)$ and integrate, then we get that
@@ -111,7 +113,7 @@ we know that the length of the $i$th stretch is
 Note that all the $\pm{}$'s are easily relatable to the signs of $s_i$.
 If we knew $\phi(x_1)$ and $\phi'(x_1)$, then we'd be all set.
 Unfortunately, we are given $\phi(-\infty)$ and $\phi(\infty)$, and have to work inwards from the ends.
-Monty deals with this by using symmetry, so he knows $\phi(0)$ and $\phi'(0)$.
+Monty (in "Gene flow and selection in a cline") deals with this by using symmetry, so he knows $\phi(0)$ and $\phi'(0)$.
 
 We are interested in the following case:
 \[
@@ -128,18 +130,21 @@ We should be able to argue that if $R$ is large then the value of $s_*$ won't ma
 \subsection{Doing the integrals}
 
 This from ``NEQwiki, the nonlinear equations encyclopedia'', \url{http://www.primat.mephi.ru/wiki/ow.asp?Korteweg-de_Vries_equation}.
+Recall that $V_i(\phi) = (1/2) s_i \phi^2(1-\phi/3) + K_i$, with $K_i = V_i(0)$ chosen to match $V$ at the boundaries.
+Note that if we rescale space by $\sqrt{s}/\sigma$,
+then $s$ and $\sigma$ drop from the equation.
 We want to integrate
 \[
     \int \frac{ d\phi }{ \sqrt{-V(\phi)} } = 
-        \sqrt{2}{s} \int \frac{ d\phi }{ \sqrt{ \phi^2 (1-\phi/3) + C } } ,
+        \sqrt{ 2 } \int \frac{ d\phi }{ \sqrt{ \phi^2 (1-\phi/3) + C } } ,
 \]
-with $C=2K/s$.
+with $C=2K$.
 Let $\phi^2(1-\phi/3)+C = (\alpha-\phi)(\phi-\beta)(\phi-\gamma)$,
-and change variables first to $y^2=(\alpha-\phi$, 
+and change variables first to $y^2=(\alpha-\phi)$, 
 and then to $x = y/\sqrt{\alpha-\beta}$, so that
 \begin{align*}
     \frac{ d\phi }{ \sqrt{ \phi^2 (1-\phi/3) + C } } 
-        = \frac{ - 2 dy }{ \sqrt{ (\alpha-\beta-y^2) (\alpha-\gamma-p^2) } } \\
+        = \frac{ - 2 dy }{ \sqrt{ (\alpha-\beta-y^2) (\alpha-\gamma-y^2) } } \\
         = \frac{ - 2 dx }{ \sqrt{\alpha-\gamma} \sqrt{ (1-x^2) (1-S^2 x^2) } } ,
 \end{align*}
 with $S^2 = (\alpha-\beta)/(\alpha-\gamma)$.
@@ -151,11 +156,20 @@ and the Jacobian elliptic function $\sn(x;k)$ is the inverse: $F(\sn(x;k);k) = x
 
 As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)$.
 
+Presumably, this gets the same answer as Monty, who finds that in his solvable cases,
+for $x$ in the last interval (which ends in $\infty$), that
+\begin{align*}
+    \phi(x) &= \frac{3}{2}\left( 1 - \tanh^2 ( x \sqrt{s} / \sigma + C ) \right) \\
+        &\simeq C' \exp\left( - \frac{ x \sqrt{s} }{ \sigma } \right) .
+\end{align*}
+Indeed, as $\phi \to 0$, we have approximately $\phi' = \frac{ \sqrt{s} }{ \sigma } \phi$.
+
+
 \section{Mutation rates}
 
 
 Barton (Gen Res 87), has expressions for the probability of establishment as a function of spatial location in fixed landscape of advantageous pockets:
-The probability of establishment beginning at state p is <latex>F(p) = 1 - \exp(-4Ns\int \phi(x) p(dx))</latex>,
+The probability of establishment beginning at state p is $$F(p) = 1 - \exp(-4Ns\int \phi(x) p(dx))$$,
 where 
 \[ \phi(x)^2 = L\phi(x) ; \qquad \mbox{and| \qquad \frac{\partial \phi}{\partial x} = 0 \qquad \mbox{as}\; x \to \infty .\]
 Here $L\phi = \Delta\phi + f\phi$, where $$sf(x)$$ is the selective advantage is location $x$.
