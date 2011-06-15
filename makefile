@@ -1,5 +1,5 @@
 
-panmixia = Spatial_adaptation/min-s-versus-r.pdf Spatial_adaptation/f-versus-gamma.pdf Spatial_adaptation/gamma-contour-1e-8.pdf
+panmixia = min-s-versus-r.pdf f-versus-gamma.pdf gamma-contour-1e-8.pdf
 
 examples.tex: Spatial_adaptation/compute-things.R
 	nice -19 R --vanilla < $< 
