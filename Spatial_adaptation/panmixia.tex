@@ -63,10 +63,11 @@ or since $\rho = N/A$,
   2 \log(\sigma / \sqrt{A}) + \log(N) > \frac{1}{4\mu N} .
 \end{equation}
 A reasonable range for $r=\sqrt{A}/\sigma$ is $10 \le r \le 1000$,
-over which range $4 < 2\log(r) < 14$, so $\log(N)$ will dominate the inequality.
+over which range $4 < 2\log(r) < 14$, while perhaps $10 \le \log(N) \le 20$.
 In other words, to get new mutations in the time it takes to locally fix,
-we'd need $1/(4 N \log N) < \mu$.
-Setting $\mu=10^{-8}$ tells us that we get multiple single base mutations in this time 
+we'd need $1/(4 N (\log N + 2 \log r)) < \mu$.
+Setting $\mu=10^{-8}$ and taking $r$ in this range
+tells us that we only get multiple single base mutations in this time 
 if $N$ is larger than about a million.
 
 
