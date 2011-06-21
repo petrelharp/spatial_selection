@@ -266,25 +266,64 @@ influence of migration on things -- plot these versus migration
 Compare to panmictic results.
 
 
-\section{Local establishment}
+\section{Local establishment and comparison to panmixia}
 
-Include stuff from ``comparison to panmixia'' here:
+In the above (and in \citet{ralphcoop2010}) we have assumed that once the mutation appears,
+conditional on eventual fixation, it begins to spread spatially at speed $v$ instantly,
+effectively neglecting the time it must first spend fixing locally.
+In \citet{ralphcoop2010} we addressed this by noting that there would be no change at all in our results 
+if all mutations had to wait the same amount of time before fixing locally,
+and that this time was short relative to the time it took the wave to spread across the characteristic length;
+we then showed via simulation that this was reasonable in certain situations.
+In this section we examine this assumption in more detail, although mostly through heuristic arguments,
+and also compare our results above to those of \citet{softsweeps}.
 
-Note that we are not considering the time it takes the mutation to fix locally.  
-How long is this time?  Mean, variance.
-When would we expect more mutations in this time?
-Roughly, if populations are larger than $C/\mu$ for some $C \approx 100$.
+We are assuming that shortly after a new mutation appears, 
+it can be approximated by a branching process growing at rate $s$
+until the point that it grows large enough to ``feel'' spatial structure,
+at which point it begins to spread as a more--or--less deterministic wave.
+Although we are not aware of good analysis of this transition, 
+the relevant size when spatial structure becomes important
+should be something close to $\sigma^2 \rho$ 
+(i.e.\ Wright's ``local effective population size'' \citep{XXX}).
+Let $Z_t$ be a continuous-time branching process with $Z_0=1$ and $\E[Z_t] = e^{s_b t}$.
+Then we know that there exists a random variable $W$ such that $\lim_{t\to\infty} e^{-s_b t} Z_t = W$ almost surely,
+so that if $\tau$ is the time $Z_t$ reaches size $\sigma^2 \rho$, i.e.\ $\tau = \inf\{ t \ge 0: Z_t > \sigma^2 \rho$,
+then $\sigma^2 \rho = Z_\tau \approx e^{s_b \tau} W$.
+From this we know that $\tau \approx (1/s_b) (\log (\sigma^2 \rho) - \log W)$;
+although more detailed information is available (e.g.\ a CLT for $\tau$, \citet{XXX}),
+we will stick to the loose interpretation.
+\marginnote{check jaegers.  isn't there a CLT for $\tau$?}
+As $\sigma^2 \rho$ increases, the mean of $\tau$ increases, but the variance approaches a constant
+($\var[\tau] \to (1/s_b) \var[\log W]$).
 
-Both these results and the panmictic calculations are underestimates.  
-If the time to local fixation is enough to change things significantly, 
-we are in the realm where the panmictic results apply better.
+So, roughly speaking, we need to evaluate the importance of a delay of about $T = (1/s_b) \log (\sigma^2 \rho)$.
+New mutations will appear and fix during this time if $4N\mu s_b \ge 1/T$,
+i.e.\ if $4 N \mu \ge 1/\log (\sigma^2 \rho)$.
+Our model will still be a good approximation, however, 
+as long as $T$ is short relative to the time a wave takes to spread between nearby mutational origins.
+This can be worked out,
+but it is simpler to note that if the converse is true, 
+that the process is largely unaffected by spatial structure,
+and so the panmictic model is a good approximation for the true process.
+Since both our spatial model and the panmictic model underestimate the true degree of parallel adaptation,
+it suffices to compare results from the two models to avoid applying the wrong model.
 
-Graph: sigma against mean number of origins; different curves for spatial, panmictic (flat), and simulation;
-different values of theta as different line types?
-Mention Monty's empirical speeds paper.
+% When would we expect more mutations in this time?
+% Roughly, if populations are larger than $C/\mu$ for some $C \approx 100$.
+% Compare to panmixia: increases degree of parallel mutation if... ?
 
-Compare to panmixia: increases degree of parallel mutation if... ?
-Check P and H papers and Orr and Betancourt.  (standing variation only)
+\citet{softsweepsII}, it is shown that under a panmictic model with certain assumptions on the parameters,
+the number of independent origins due to both standing variation and new mutation seen in a sample of size $n$
+has approximately the Ewens distribution with parameters $n$ and $\theta = 4 N \mu$.
+As $n$ increases, the total number of types seen grows as $\log n$, 
+so the ``mean density of types'' corresponding to our $\lambda_0 + \nu_+$ in their model is infinite.
+\marginnote{Graph: sigma against mean number of origins; different curves for spatial, panmictic (flat), and simulation;
+different values of theta as different line types?  but how to do this?
+Mention Monty's empirical speeds paper.}
+We could compare the probability of parallel adaptation under the two models (see eq'n 18 in \citet{softsweepsII}),
+but this seems less useful than an assessment of the degree of parallel adaptation.
+
 
 \section{Patchy selection} 
 \label{ss:discretedemes}
