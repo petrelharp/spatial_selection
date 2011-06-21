@@ -242,7 +242,7 @@ $a_0 / a_+ = z_0 / (1-z_0)$.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=1.0\textwidth]{proportion-by-sigma.eps}
+\includegraphics[width=1.0\textwidth]{proportion-by-sd.eps}
 \caption{ %
 {\bf Mean proportion of patches arising from standing variation.} The paramters given are for the sickle-cell example.  XXX say more.
 }
@@ -251,9 +251,9 @@ $a_0 / a_+ = z_0 / (1-z_0)$.
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=1.0\textwidth]{proportion-contour.png}
+\includegraphics[width=1.0\textwidth]{charlen-by-sd-sigma.png}
 \caption{ %
-{\bf Mean proportion of area occupied by standing variants,} as a function of dispersal distance $\sigma$ and selective disadvantage $s_d$.  XXX at what parameters. XXX
+{\bf Characteristic length,} as a function of dispersal distance $\sigma$ and selective disadvantage $s_d$.  XXX at what parameters. XXX
 }
 \end{center}
 \end{figure}
@@ -261,6 +261,9 @@ $a_0 / a_+ = z_0 / (1-z_0)$.
 \marginnote{do mean (and variance?) of distance between haplotypes?}
 
 influence of migration on things -- plot these versus migration 
+
+{\tt Simulations:} compare mean density against $s_d$ at different values of $\sigma$; omit variability if needed for readability.
+Compare to panmictic results.
 
 
 \section{Local establishment}
@@ -272,11 +275,16 @@ How long is this time?  Mean, variance.
 When would we expect more mutations in this time?
 Roughly, if populations are larger than $C/\mu$ for some $C \approx 100$.
 
-Since we don't take this into account... we can ad-hoc it in by using the standing variation calculations -- add this to $\lambda_0$.
-This is equivalent to changing $s_d$ by... how much?
+Both these results and the panmictic calculations are underestimates.  
+If the time to local fixation is enough to change things significantly, 
+we are in the realm where the panmictic results apply better.
+
+Graph: sigma against mean number of origins; different curves for spatial, panmictic (flat), and simulation;
+different values of theta as different line types?
+Mention Monty's empirical speeds paper.
 
 Compare to panmixia: increases degree of parallel mutation if... ?
-
+Check P and H papers and Orr and Betancourt.  (standing variation only)
 
 \section{Patchy selection} 
 \label{ss:discretedemes}
@@ -289,6 +297,8 @@ Suppose now that we have a set of $L$ discrete populations of individuals that m
 and that migration and mutation are rare, so that the waiting times until either event is approximately exponential.
 Suppose that for each pair of populations, labeled $i$ and $j$, the mean number of migrants that travel from $i$ to $j$ per generation
 is $M_{ij}$ and that the mean number of new mutations appearing in population $i$ per generation is $\mu_i$.
+
+{\tt Include cartoon here.}
 
 If we suppose that fixation occurs on a faster time scale than mutation or migration,
 so that it is very unlikely that two different migrants or mutants begin to fix locally in the same population,
@@ -518,7 +528,11 @@ if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
 
 \section{Applications} 
 
-Look at some human parameters? 
+HbS
+
+lava bed peromyscus
+
+G6PD
 
 \section{Discussion} 
 
@@ -534,6 +548,9 @@ migration rate (and so geographic structure) will not affect numbers of types if
 however migration always affcts spatial patterns. 
 
 discussion of applications. 
+
+discuss mixing of types; 
+Graph: from simulation showing local proportions in a single patch showing initial fixation of a single type and later mixing converging toward more than one type.  (and eventual loss of one?)
 
 \bibliography{standing_patches_refs}
 
