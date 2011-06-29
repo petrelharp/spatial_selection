@@ -9,7 +9,7 @@ figheight <- 8
 mu <- 10^(-8)
 rho <- 10
 sb <- .01
-sd <- .01
+sm <- -.01
 sigmavals <- c(0.1,1,10,20,50)
 
 

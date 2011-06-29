@@ -5,11 +5,41 @@
 # rho is population density
 # sigma is mean squared dispersal distance
 # sb >0 is advantage of mutation within patches
-# sd >0 is disadvantage of mutation between patches
+# sm <0 is disadvantage of mutation between patches
 # R is distance between patches
+# A is area of patches
 # 
+# rearrange so that
+# s = max(|sb|,|sm|)
+# sb = gb * s
+# sm = gm * s
 
-paramString <- function(ps=c("mu","rho","sb","sd","sigma","R"), pos=-1) {
+
+clineScale <- function(mu, rho, s, gb, gm, sigma, R, A) {
+    # sigma / sqrt(2 s) = the scale on which things happen between patches; 
+    # see slatkin; barton etc.
+    return( sigma / sqrt(2*sm) )
+}
+
+minimumPatch <- function(mu, rho, s, gb, gm, sigma, R, A) {
+    # the minimal patch size 
+    return( 2 * atanh( sqrt(gm/gb) ) )
+}
+
+mutationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
+    # approximation for mutational influx per patch
+    # XXX to-do: do numerics?
+    return( 2 * sb * A * rho * mu )
+}
+
+migrationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
+    # approximation for migrational influx per patch
+    # XXX to-do: do numerics?
+    return( 2 * sb * A * rho * exp( - sqrt(abs(s*gm)*R/sigma) ) )
+}
+
+
+paramString <- function(ps=c("mu","rho","s","gb","gm","sigma","R", "A"), pos=-1) {
     # return a string for use in plots of the parameters.
     # takes a vector or list of parameter names
     if ( is.null(names(ps)) ) { names(ps) <- ps }
