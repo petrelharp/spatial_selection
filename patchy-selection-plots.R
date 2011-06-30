@@ -43,12 +43,24 @@ print(extable, file=filename)#, append=TRUE)
 # And look at parallel adaptation within the big species?
 source("Spatial_adaptation/standing-variation-fns.R")
 
+# pre-environment-change deleterious selection coefficient
+sd <- .01
+
+params <- expand.grid(rho=rhovals, sigma=sigmavals, mu=muvals)
+
 exvalues <- t( sapply(1:dim(params)[1], function (k) {
-        with( params[k,], everything(mu=mu, rho=rho, sb=sb, sm=sm, sigma=sigma, R=R, A=A(sigma)) )
+            with(params[k,], everything(mu=mu, rho=rho, sb=sb, sd=sd, sigma=sigma) )
         } ) )
-exvalues <- lapply(examples, function (x) {
-    with(x, everything(mu=mu, rho=rho, sb=sb, sd=sd, sigma=sigma) )
-        } )
+
+# write out the table in latex
+extable <- xtable(exvalues,digits=0)
+digits(extable)[1+which(apply(exvalues, 2, function(x) { any(abs(x)<1 | abs((x-floor(x))/x)>.01) }))] <- 3
+digits(extable)[1+which(apply(exvalues, 2, function(x) { any(abs(x)<.001) | any(abs(x)>1e5) }))] <- -2
+
+filename <- "helianthus-standing-ex-table.tex"
+# write("\\documentclass{article} \\usepackage[landscape]{geometry} \\begin{document}", file=filename)
+print(extable, file=filename)#, append=TRUE)
+# write("\\end{document}", file=filename, append=TRUE)
 
 
 #####
