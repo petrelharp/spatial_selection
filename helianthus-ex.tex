@@ -1,0 +1,28 @@
+\documentclass{article} \usepackage[landscape]{geometry} \begin{document}
+% latex table generated in R 2.13.0 by xtable 1.5-6 package
+% Thu Jun 30 06:13:14 2011
+
+\input{helianthus-ex-table.tex}
+
+\paragraph{Parallel adaptation between patches?}
+All values are in kilometers (squared km, etc).
+The parameters: 
+mu is the migration rate (per generation),
+rho is the population density,
+sb is the selection coefficient in the patches of dunes (chosen so the probability of fixation is $2\times sb$),
+sm is the selection coefficient inbetween,
+R is the distance between the patches,
+and A is the area around a patch that might contribute adaptive mutations.
+{\tt clScale} is the length over which the cline between the two types is expected to drop off;
+{\tt minPatch} is the minimum area predicted to be able to locally adapt;
+{\tt mutIn} is the mutational flux into an as-yet-colonized patch;
+{\tt migIn} is the migrational flux from one patch to another.
+
+\input{helianthus-standing-ex-table.tex}
+
+\paragraph{Parallel adaptation within the main range?}
+Here {\tt chi} is the characteristic scale of parallel adaptation;
+and {\tt Etau} is the mean time it would take to adapt.
+
+
+\end{document}
