@@ -14,6 +14,21 @@
 # sb = gb * s
 # sm = gm * s
 
+everything <- function(mu, rho, sb, sm, sigma, R, A) {
+    # compute all these things
+    s <- max(sb,sd)
+    gb <- sb/s
+    gm <- sm/s
+    mutI <- mutationInflux(mu, rho, s, gb, gm, sigma, R, A)
+    migI <- migrationInflux(mu, rho, s, gb, gm, sigma, R, A)
+    return( c( c( clScale=clineScale(mu, rho, s, gb, gm, sigma, R, A),
+        minPatch=minimumPatch(mu, rho, s, gb, gm, sigma, R, A),
+        mutIn=mutI,
+        migIn=migI,
+        ratioMutMig = mutI/migI
+        ), c(mu=mu, rho=rho, sb=sb, sm=sm, sigma=sigma, R=R, A=A)
+        ) )
+}
 
 clineScale <- function(mu, rho, s, gb, gm, sigma, R, A) {
     # sigma / sqrt(2 s) = the scale on which things happen between patches; 
@@ -22,8 +37,8 @@ clineScale <- function(mu, rho, s, gb, gm, sigma, R, A) {
 }
 
 minimumPatch <- function(mu, rho, s, gb, gm, sigma, R, A) {
-    # the minimal patch size 
-    return( 2 * atanh( sqrt(gm/gb) ) )
+    # the minimal patch area ( = width^2)
+    return( ( 2 * atanh( sqrt(gm/gb) ) * sigma / sqrt(2*sm) )^2 )
 }
 
 mutationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {

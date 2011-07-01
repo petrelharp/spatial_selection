@@ -12,6 +12,16 @@
 # lambda0 <- lambda / log(1/(1-sd))         # is approximate rate of standing successful mutations
 # v <- sigma * sqrt(2*sb)        # speed of wave of advance
 
+everything <- function (mu, rho, sb, sd, sigma) {
+    # bundle up everything
+        return( c( 
+            c( z0 = standingProportionArea(mu,rho,sb,sd,sigma)$value,
+                chi = charLength(mu,rho,sb,sd,sigma)$value,
+                Etau = meanTime(mu,rho,sb,sd,sigma)$value),
+            c( mu=mu, rho=rho, sb=sb, sd=sd, sigma=sigma )
+        ) )
+}
+
 meanTime <- function (mu, rho, sb, sd, sigma) {
     # mean time til adaptation of a point;
     # E[\tau] is int_0^\infty exp(-lambda0 pi v^2 t^2 - lambda pi v^2 t^3) dt
