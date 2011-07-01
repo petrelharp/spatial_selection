@@ -16,7 +16,7 @@
 
 everything <- function(mu, rho, sb, sm, sigma, R, A) {
     # compute all these things
-    s <- max(sb,sd)
+    s <- max(sb,sm)
     gb <- sb/s
     gm <- sm/s
     mutI <- mutationInflux(mu, rho, s, gb, gm, sigma, R, A)
