@@ -34,7 +34,7 @@ extable <- xtable(exvalues,digits=0)
 digits(extable)[1+which(apply(exvalues, 2, function(x) { any(abs(x)<1 | abs((x-floor(x))/x)>.01) }))] <- 3
 digits(extable)[1+which(apply(exvalues, 2, function(x) { any(abs(x)<.001) | any(abs(x)>1e5) }))] <- -2
 
-filename <- "helianthus-ex-table.tex"
+filename <- "Spatial_adaptation/helianthus-ex-table.tex"
 # write("\\documentclass{article} \\usepackage[landscape]{geometry} \\begin{document}", file=filename)
 print(extable, file=filename)#, append=TRUE)
 # write("\\end{document}", file=filename, append=TRUE)
@@ -57,7 +57,7 @@ extable <- xtable(exvalues,digits=0)
 digits(extable)[1+which(apply(exvalues, 2, function(x) { any(abs(x)<1 | abs((x-floor(x))/x)>.01) }))] <- 3
 digits(extable)[1+which(apply(exvalues, 2, function(x) { any(abs(x)<.001) | any(abs(x)>1e5) }))] <- -2
 
-filename <- "helianthus-standing-ex-table.tex"
+filename <- "Spatial_adaptation/helianthus-standing-ex-table.tex"
 # write("\\documentclass{article} \\usepackage[landscape]{geometry} \\begin{document}", file=filename)
 print(extable, file=filename)#, append=TRUE)
 # write("\\end{document}", file=filename, append=TRUE)
