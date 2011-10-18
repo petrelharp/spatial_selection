@@ -33,24 +33,24 @@ everything <- function(mu, rho, sb, sm, sigma, R, A) {
 clineScale <- function(mu, rho, s, gb, gm, sigma, R, A) {
     # sigma / sqrt(2 s) = the scale on which things happen between patches; 
     # see slatkin; barton etc.
-    return( sigma / sqrt(2*sm) )
+    return( sigma / sqrt(2*s*gm) )
 }
 
 minimumPatch <- function(mu, rho, s, gb, gm, sigma, R, A) {
     # the minimal patch area ( = width^2)
-    return( ( 2 * atanh( sqrt(gm/gb) ) * sigma / sqrt(2*sm) )^2 )
+    return( ( 2 * atanh( sqrt(gm/gb) ) * sigma / sqrt(2*s*gm) )^2 )
 }
 
 mutationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
     # approximation for mutational influx per patch
     # XXX to-do: do numerics?
-    return( 2 * sb * A * rho * mu )
+    return( 2 * s*gb * A * rho * mu )
 }
 
 migrationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
     # approximation for migrational influx per patch
     # XXX to-do: do numerics?
-    return( 2 * sb * A * rho * exp( - sqrt(abs(s*gm))*R/sigma ) )
+    return( 2 * s*gb * A * rho * exp( - sqrt(abs(s*gm))*R/sigma ) )
 }
 
 
