@@ -50,7 +50,7 @@ mutationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
 migrationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
     # approximation for migrational influx per patch
     # XXX to-do: do numerics?
-    return( 2 * sb * A * rho * exp( - sqrt(abs(s*gm))*R/sigma ) )
+    return( 2 * sb * A * rho * exp( - sqrt(abs(s*gm)*R/sigma) ) )
 }
 
 
