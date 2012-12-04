@@ -47,14 +47,14 @@ In the case of a binomial (check this?) branching, this changes $s$ to $-s$.
 Let $p(t,x)$ be the proportion of the allele under spatially varying selection $s(x)$ in one dimension,
 so that 
 \[
-    \partial_t p(t,x) = \sigma^2 \partial_x^2 p(t,x) + s(x) p(t,x) (1-p(t,x)) .
+\partial_t p(t,x) = \frac{1}{2} \sigma^2 \partial_x^2 p(t,x) + s(x) p(t,x) (1-p(t,x)) .
 \]
 The stable distribution $\phi(x) = \lim_{t\to\infty} p(t,x)$ then solves
 \begin{align} \label{eqn:definingphi}
-    \partial_x^2 \phi(x) = - s(x) \phi(x) (1-\phi(x)) /sigma^2,
+    \partial_x^2 \phi(x) = - 2 s(x) \phi(x) (1-\phi(x)) /\sigma^2,
 \end{align}
 with appropriate boundary conditions.
-First rescale space by $\sigma$ so that it dissappears.
+First rescale space by $\sigma/\sqrt{2}$ so this term dissappears.
 If we now assume that $s(x)$ is piecewise constant,
 $s(x) = s_i$ for $x \in [x_i,x_{i+1})$, with $x_0=-\infty$ and $x_{n+2}=\infty$,
 then the equation is integrable: if we multiply through by $\partial_x \phi(x)$ and integrate, then we get that
