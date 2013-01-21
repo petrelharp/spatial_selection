@@ -1,0 +1,374 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amssymb}
+\usepackage{natbib}
+\usepackage{marginnote}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{latexml} % for \iflatexml
+
+\newcommand{\var}{\mathop{\mbox{Var}}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+
+\bibliographystyle{plain}
+
+\begin{document}
+
+\section{Introduction}
+
+The covergent evolution of similar phenotypes in response to shared selection pressures is a testiment to the power of selection to repeatedly sculpt phenotypic variation. In some cases this convergence extends to the molecular level with dispate taxa converging to the same phenotype through parallel genetic changes in the same pathway, genes, or even by precisely the same genetic changes. 
+Such precise convergence points to the conservation of function of the genes underlying adaptive traits, sometimes over deep time scales \citep{deephomologypapers}. Convergence on a molecular level also suggests that the path taken by adaptation can sometimes be relatively constained as few changes could have resulted in the adaptive phenotype, or that relatively few changes that can confer the advantagous phenotype of interest were sufficiently free of deleterious pleiotropic consequences to contribute to adaptation. 
+
+%For highly polygenic traits 
+
+Convergent adaptation can also occur within species, with individuals within a species 
+adapted to the same environment in parallel through different large effect changes. 
+There are a growing number of examples of this in a range of well studied organisms and phenotypes REFs.
+All else being equal the evolution of convergent phenotypes within a species convergence is more likely with a higher mutational input, i.e. when the mutation target and population sizes are larger \citep{}. 
+Convergence is also more likely when standing variation is present for the phenotype, 
+as multiple pre-existing alleles can spread from low frequency, 
+if our now adaptive alleles were previously not too deleterious \citep{Orr,Hermission}. 
+When multiple rare changes sweep up from low frequency in parallel within a population this has been termed a soft sweep.\\
+
+The geographic distribution of populations can also shape the probability of parallel mutation within a species.
+A geographically wide spread species is more likely to adapt by multiple mutations im parallel if dispersal 
+is geographically limited, as populations will adapt via new mutations rather than waiting for migration \citep{RalphCoop}. 
+Convergence is also more likely if geographically separated populations adapting to similar environments 
+via alleles which are maladapted in the environmentals separating them. 
+Such adverse conditions can strongly spatially restrict the spread of locally adapted alleles \citep{lenormand} 
+and so might encourage local adaptation by parallel mutation rather than migration.\\
+ 
+For example a variety of plant species have repeatedly adapted to patchs of heavy metal soils
+ (e.g. serpentine outcrops and mine tailings) within their ranges
+and  alleles that adapt the plants to heavy metals may be disfavored off of these patches. 
+Similarly across the American Southwest light colored rock pocket mice have adapted to outcrops of dark rock 
+through the evolution of darker cryptic pigmentation. These dark outcrops are geographically
+ separated by areas of light colored sand and rock, 
+and strong selection appears to favour the matching of crypsis to substrate. 
+Perhaps as a result of this strong selection against migrants, 
+at least two distinct genetic changes are responsible from the dark pigmentation adaptation on different outcrops. 
+This situation is repeated in XXXX where darker colored mice
+ have repeated evolved lighter pigmentation to match lighter color sands on
+ beaches via different genetic routes. 
+
+%http://www.nature.com/hdy/journal/v94/n2/full/6800600a.html
+
+In \citep{RalphCoop} we formulated a simple model of parallel adaptation in a geographic setting
+where the selection pressure was constant across the entire environment, 
+and that a single mutational change was sufficient to adapt populations to the novel environment. 
+We assumed that there was no standing variation for the adaptive allele, such that parallel mutation must be due to multiple mutations after the environmental shift. In that setting we found that there was a characteristic geographic scale, over which we would expect multiple instances of our adaptive allele to have arisen in parallel. This characteristic length could be expressed in terms of a simple compound parameter determined by our parameters of interest.
+Recall questions of origin of adaptations
+
+References on parallel adapation, standing variation, etc.:
+  coop,
+  pennings and hermisson.
+Note pennings and hermisson found standing deleterious variation was very important.  
+
+recall peromyscus examples with patchy environments
+
+Summarize previous paper
+
+Question assumptions of no standing variation and homogenous selection
+
+\section{General model}
+
+outline here assumptions common to both models.
+
+Stick to constant-speed waves.
+Note monty's empircal speeds paper.
+
+
+\section{Standing variation}
+
+\subsection{The set-up}
+
+% selection pressure changes at $t=0$ from $1-s_d$ to $1+s_b$ -- homogeneous
+
+For now we ignore geographic hetergeneity, and assume that the species range
+is a homogenous, one- or two-dimensional region. 
+There are two selective classes -- the {\em neutral} type, and the {\em mutated} type.
+We assume that different mutations are distinguishable --
+either as selectively equivalent mutations, or by linked variation.
+For a long time in the past, the mutated type has been at a selective disadvantage (long enough to be at selection-mutation equilibrium),
+but at a certain time the selective regime changes, so that the mutated type has a selective advantage and quickly spreads to fixation.
+After fixation, alleles are either descended
+from families of mutants present as standing variation when the selective regime changed,
+or from new mutants arising since that time.
+
+For concreteness, suppose that before time $t=0$,
+the mutant type has fitness $1-s_d$ relative to the neutral type
+(i.e.\ it produces on average $1-s_d$ times the number of offspring per generation),
+and that after time $t=0$,
+the mutant type has fitness $1+s_b$,
+where $s_b>0$ will usually be assumed to be small, and $0<s_d<1$.
+We assume that diploid fitness is additive, or at least that the important dynamics are determined by the haploid fitness.
+The number of offspring has finite variance, which to keep the formulas simple we assume to be equal to one.
+(If the mutation is recessive, XXX more complicated things happen.)
+As for the other parameters,
+suppose that each offspring of a neutral parent is of the mutant type with probability $\mu$,
+and that the mean squared distance between parent and child is $\sigma^2$ (the {\em dispersal variance}).
+The species occupies an area with mean density
+$\rho$ haploid individuals (or chromosomes) per unit area.
+\marginnote{XXX or do diploid? below is haploid.}
+
+% Branching-process-sized point mass approx to local groups present at $t=0$
+% -- depends on local population density large enough relative to migration (to be "branching")
+% -- and migration not too large (since we approximate as a point mass).
+% Find mean density of clusters of successful standing mutants. 
+% Is greater-than-one size of clusters likely to make a difference? 
+
+We make use of the commonly used approximation that neglects competition between relatives,
+treating the offspring of a new mutant that appears in an area not already occupied by the mutated type
+as a branching process.
+After $t=0$, the offspring of a single mutant form (approximately) a branching process with growth rate $s_b$,
+so each new mutant establishes locally with probability $p_s \approx 2s_b$.
+As in \cite{ralphcoop2010}, each new offspring has a very small probability of being a mutant and establishing locally,
+so the collections of times and locations at which mutants appear and establish locally 
+is well--approximated by a Poisson process in space and time.
+This the rate of this Poisson process, 
+the rate per unit area at which new mutants appear and establish locally after $t=0$ in areas not already occupied by the mutant type
+is approximately $\lambda = 2 \mu \rho s_b$.
+
+Before $t=0$, on the other hand, the mutation is deleterious, so the genetic descendents of each new mutation are (with high probability) doomed to extinction,
+but may persist for some time.
+Since the times and locations of mutants before $t=0$ also well-approximated by a Poisson process with rate $\mu \rho$,
+the locations of all mutant families extant at $t=0$ whose descendents are destined to fix locally is also,
+by the Mapping theorem, a Poisson process with rate we define to be $\lambda_0$.
+If we assume that the descendants of at most only a few members of any extant mutant family at $t=0$ will survive,
+and that these progenitors are near to each other in space, we can then treat each such family as a single mutant,
+equivalent to the mutants arising later.
+(The approximation will be good if the log of the size of an extant families is small relative to the establishment time,
+and the spatial distribution of the family is small relative to the spread between them.)
+To find $\lambda_0$, consider a mutation that arose at time $-T<0$, and let $Z_s$ be the number of its descendants at time $s-T$.
+At time $t=0$, there are $Z_T$ individuals present with the mutation,
+and each has probability $p_s \approx 2s_b$ of establishing, approximately independently.
+Therefore, the probability that some descendants of this mutation establish and fix locally is $1-(1-p_s)^{Z_T}$,
+so defining $\zeta(u,t) = \E[u^{Z_t} | Z_0=1 ]$ to be the generating function of $Z_T$,
+the rate is
+\begin{align*}
+    \mu \rho \int_0^\infty \left( 1- \zeta(1-p_s,T) \right) dT .
+\end{align*}
+Now for $s_b$ small, using $p_s \approx 2s_b$ and that $\E[Z_T]=(1-s_d)^T$,
+we know that $\zeta(1-2s_b,T) \approx 1-2s_b \E[Z_T] = 1-2s_b (1-s_d)^T$,
+resulting in the approximation
+\begin{align}
+    \lambda_0 &= \mu \rho \int_0^\infty 2s_b (1-s_d)^{T} dT \\
+        &= \frac{ 2 \mu \rho s_b }{ -\log(1-s_d) } .
+\end{align}
+
+XXX More discussion on whether this is a good approximation?  
+Compute typical size and radius of a standing cluster?
+
+recall PPP computations; draw cones of opportunity for new mutations 
+
+\subsection{Characteristic parameters}
+
+% a characteristic length of regions and a proportion of haplotypes (or of space?) that are from standing variation
+
+In \citet{ralphcoop2010}, studying the model without standing variation,
+we defined a {\em characteristic length} which gave the spatial scale across with mutants with distinct origins would establish.
+This was proportional to the mean distance between neighboring established mutants,
+but had the advantage of being easier to calculate.
+Furthermore, the time scale over which adaptation occurred could be found by dividing the characteristic length 
+by the speed at which the mutants spread.
+We will define the characteristic length for this model,
+as well as a similar compound parameter describing the relative importance of standing variation to the process of adaptation.
+(Note that a similar approach, summarizing with a {\em characteristic length} was taken by \citep{slatkin1973geneflow} for a different problem.)
+
+Suppose we fix our attention on a particular new mutation that happens to be the first to occur in some region.
+As it spreads, it will cover a distance $L$ in time $L/v$, where $v = \sigma \sqrt{2s_b}$ is the speed of the wave of advance.
+The number of other mutations appearing in the circle it has covered up until this time is Poisson with mean
+$\lambda_0 \pi L^2 + \lambda \pi L^3 /v$ in two dimensions
+(and $\lambda_0 2 L + \lambda \pi L^2 /v$ in one dimension).
+% $\lambda_0 \omega_d L^d + \lambda \omega_d L^{d+1} /v$ in $d$ dimensions
+Therefore, if we define $\chi$ to be the unique positive solution to
+\[
+    \lambda_0 \pi \chi^2 + \lambda \pi \chi^3 /v = 1,
+\]
+then $\chi$ gives the distance spread unobstructed by the descendants of a new mutant
+before it is expected that one other successful mutation would have arisen in the area covered so far.
+The explicit formula for $\chi$ is cumbersome; here we omit it.
+(This is in two dimensions; in one dimension the characteristic length is $\chi = \frac{ \sqrt{ 4 \lambda_0^2 + 2\lambda v } - 2 \lambda_0 }{ 4 \lambda v }$.)
+This can be rewritten 
+\begin{equation} \label{eqn:defines_chi}
+%    \left( \frac{ - \chi \log(1-s_d) }{ 2 s_b \sigma } \right)^2 + \left( \frac{ - \chi \log(1-s_d) }{ 2 s_b \sigma } \right)^3 
+%        = \frac{ - \log(1-s_d)^3 }{ 4 s_b^2 \sigma^2 \pi \rho \mu } .
+   \frac{\sqrt{2s_b} }{-\log(1-s_d) } \chi^2 + \frac{1}{\sigma} \chi^3 = \frac{1}{\sqrt{2s_b} \rho\mu\pi}
+\end{equation}
+From this we see that $\chi$ decreases with $\rho$ and $\mu$.
+Furthermore, for large $\sigma$, the characteristic length is close to the value obtained just from standing variation:
+$\chi = \sqrt( -\log(s_d) / 2 s_b \rho \mu \pi ) + O(1/\sigma)$.
+On the other hand, if the mutant allele is highly deleterious before $t=0$,
+then the characteristic length is close to the value from \citet{ralphcoop2010}:
+$\chi = ( \sigma / \rho \mu \pi \sqrt{2 s_b} )^{1/3} + O(1/\log(1-s_d))$.
+
+XXX could do calculations as in "panmixia" here, e.g. if $f = (\chi/\sqrt{\pi \lambda_0})^2$ then
+$f = 1-\gamma f^{3/2}$, where
+$\gamma = (4 \pi^{5/2} / \sqrt{2}) \mu^2 s_b^{3/2} \rho^2 / \sigma \log(1/(1-s_d))$.
+Then if $\gamma \ll 1$, $f \approx 1$, while if $\gamma \gg 1$, then $f \approx 0$.
+
+By the above calculation, we know that the relevant mutations occur about distance $\chi$ apart, 
+and occur within the first $\chi/v$ generations.
+Said another way, if we look in a circular region of space of radius $\chi$ over $\chi/v$ generations,
+we expect to find one mutational origin;
+we denote the probability that this mutation is from standing variation by $\pi_0$.
+Therefore, $\pi_0$ is roughly the proportion of establishing mutations that come from standing variation,
+and it is an elementary consequence of the Poisson process that
+\begin{align} \label{eqn:pizero}
+    \pi_0 = \lambda_0 \pi \chi^2 .
+\end{align}
+\marginnote{put in value of $\chi$ computed above.}
+(In one dimension, $\pi_0 = 2 \lambda_0 \chi$.)
+
+\subsection{Standing Variation -- Results} 
+
+The quantity that is perhaps easiest to compute is the mean time until adaptation.
+Fix some geographic location, and let $\tau\ge0$ be the time at which the point is reached by the advantageous mutations.
+Then, as shown in Figure XX,
+$\tau > t$ if and only if the cone with point at $(x,t)$ and slope $v$ extending back to $t=0$ is empty of successful mutations.
+Since we assume these are a Poisson process, 
+\[
+    \P\{ \tau > t \} = \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 / 3 \right) ,
+\]
+and so we have
+\begin{align}
+    \E[\tau] % &= \int_0^\infty \P\{ \tau > t \} dt \\
+        &= \int_0^\infty \exp\left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 / 3 \right) dt.
+\end{align}
+For means of evaluting this integral, see Appendix \ref{apx:integrals}.
+
+% proportion of haplotypes (and of space) that are from standing variation 
+
+We have defined $\lambda_0$ to be the mean density of standing variants that reach local fixation.
+Define $\nu_+$ to be the mean density of new mutants whose offspring fix locally.
+Since the probability that a mutant arising at $(x,t)$ is lucky enough to be born in a location not already occupied by mutants
+is $\P\{ \tau > t \}$,
+we can see  $\nu_+ = \int_0^\infty \lambda \P\{\tau>t\} dt$, and hence
+$\nu_+ = \lambda \E[\tau] $.
+Using that $\lambda_0 = \lambda / \log(1/(1-s_d))$, this gives us that
+\begin{equation}
+    \nu_+ = (\mbox{mean density of new patches}) = \frac{1}{1-\log(1-s_d) \E[\tau]} .
+\end{equation}
+Since the mean proportion of patches that come from standing variation is $\lambda_0 / (\lambda_0 + \nu_+)$,
+this gives us the exact quantity we approximated by $\pi_0$ in \eqref{eqn:pizero}.
+There are $\lambda_0 + \nu_+$ patches per unit area, so
+the typical patch (i.e.\ with distribution given by the Palm measure) occupies area $1/(\lambda_0 + \nu_+)$.
+
+We can also find the mean proportion of space covered by standing variants.
+If by time $t$ a geographic location has not yet been reached by the mutation,
+the probability it will be reached by time $t+dt$ 
+by a standing variant is approximately $2 \lambda_0 \pi v^2 t dt$, 
+and the probability it is reached by a new variant is $\lambda \pi v^2 t^2 dt$.
+Therefore, as is standard for competing exponentials,
+the probability a given location is reached first by a standing variant,
+and therefore the mean proportion of space covered  by standing variants,
+is
+\begin{equation}
+    z_0 = \int_0^\infty {2 \lambda_0 \pi v^2 t} \; \exp \left( - \lambda_0 \pi v^2 t^2 - \lambda \pi v^2 t^3 / 3 \right) dt .
+\end{equation}
+\marginnote{put in this value in terms of Gaussian CDF?}
+To evaluate this integral, again see Appendix \ref{apx:integrals}.
+
+Furthermore, if we define $a_0$ to be the mean area occupied by a typical standing variant, 
+then $a_0$ is given by the proportion of the range occupied by standing variants over the mean density of unique standing variants,
+i.e.\ $a_0 = z_0 / \lambda_0$.
+We can compare this to the corresponding quantity $a_+$ for a new variant through the formula
+$a_0 / a_+ = z_0 / (1-z_0)$.
+
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics[width=1.0\textwidth]{charlen-by-sd-limit}
+\caption{ %
+{\bf Characteristic length,} as a function of selective disadvantage, compared to the corresponding quantity without standing variation (e.g.\ from \cite{ralphcoop2010}) and to the quantity only considering standing variants (e.g.\ $\sqrt{\lambda_0}$).
+}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics[width=1.0\textwidth]{proportion-by-sd}
+\caption{ %
+{\bf Mean proportion of patches arising from standing variation.} The paramters given are for the sickle-cell example.  XXX say more.
+}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+  \includegraphics[width=1.0\textwidth]{charlen-by-sd-sigma}
+\caption{ %
+{\bf Characteristic length,} as a function of dispersal distance $\sigma$ and selective disadvantage $s_d$.  XXX at what parameters. XXX
+}
+\end{center}
+\end{figure}
+
+\marginnote{do mean (and variance?) of distance between haplotypes?}
+
+influence of migration on things -- plot these versus migration 
+
+{\tt Simulations:} compare mean density against $s_d$ at different values of $\sigma$; omit variability if needed for readability.
+Compare to panmictic results.
+
+
+\section{Local establishment and comparison to panmixia}
+
+In the above (and in \citet{ralphcoop2010}) we have assumed that once the mutation appears,
+conditional on eventual fixation, it begins to spread spatially at speed $v$ instantly,
+effectively neglecting the time it must first spend fixing locally.
+In \citet{ralphcoop2010} we addressed this by noting that there would be no change at all in our results 
+if all mutations had to wait the same amount of time before fixing locally,
+and that this time was short relative to the time it took the wave to spread across the characteristic length;
+we then showed via simulation that this was reasonable in certain situations.
+In this section we examine this assumption in more detail, although mostly through heuristic arguments,
+and also compare our results above to those of \citet{softsweeps}.
+
+We are assuming that shortly after a new mutation appears, 
+it can be approximated by a branching process growing at rate $s$
+until the point that it grows large enough to ``feel'' spatial structure,
+at which point it begins to spread as a more--or--less deterministic wave.
+Although we are not aware of good analysis of this transition, 
+the relevant size when spatial structure becomes important
+should be something close to $\sigma^2 \rho$ 
+(i.e.\ Wright's ``local effective population size'' \citep{XXX}).
+Let $Z_t$ be a continuous-time branching process with $Z_0=1$ and $\E[Z_t] = e^{s_b t}$.
+Then we know that there exists a random variable $W$ such that $\lim_{t\to\infty} e^{-s_b t} Z_t = W$ almost surely,
+so that if $\tau$ is the time $Z_t$ reaches size $\sigma^2 \rho$, i.e.\ $\tau = \inf\{ t \ge 0: Z_t > \sigma^2 \rho$,
+then $\sigma^2 \rho = Z_\tau \approx e^{s_b \tau} W$.
+From this we know that $\tau \approx (1/s_b) (\log (\sigma^2 \rho) - \log W)$;
+although more detailed information is available (e.g.\ a CLT for $\tau$, \citet{XXX}),
+we will stick to the loose interpretation.
+\marginnote{check jaegers.  isn't there a CLT for $\tau$?}
+As $\sigma^2 \rho$ increases, the mean of $\tau$ increases, but the variance approaches a constant
+($\var[\tau] \to (1/s_b) \var[\log W]$).
+
+So, roughly speaking, we need to evaluate the importance of a delay of about $T = (1/s_b) \log (\sigma^2 \rho)$.
+New mutations will appear and fix during this time if $4N\mu s_b \ge 1/T$,
+i.e.\ if $4 N \mu \ge 1/\log (\sigma^2 \rho)$.
+Our model will still be a good approximation, however, 
+as long as $T$ is short relative to the time a wave takes to spread between nearby mutational origins.
+This can be worked out,
+but it is simpler to note that if the converse is true, 
+that the process is largely unaffected by spatial structure,
+and so the panmictic model is a good approximation for the true process.
+Since both our spatial model and the panmictic model underestimate the true degree of parallel adaptation,
+it suffices to compare results from the two models to avoid applying the wrong model.
+
+% When would we expect more mutations in this time?
+% Roughly, if populations are larger than $C/\mu$ for some $C \approx 100$.
+% Compare to panmixia: increases degree of parallel mutation if... ?
+
+\citet{softsweepsII}, it is shown that under a panmictic model with certain assumptions on the parameters,
+the number of independent origins due to both standing variation and new mutation seen in a sample of size $n$
+has approximately the Ewens distribution with parameters $n$ and $\theta = 4 N \mu$.
+As $n$ increases, the total number of types seen grows as $\log n$, 
+so the ``mean density of types'' corresponding to our $\lambda_0 + \nu_+$ in their model is infinite.
+\marginnote{Graph: sigma against mean number of origins; different curves for spatial, panmictic (flat), and simulation;
+different values of theta as different line types?  but how to do this?
+Mention Monty's empirical speeds paper.}
+We could compare the probability of parallel adaptation under the two models (see eq'n 18 in \citet{softsweepsII}),
+but this seems less useful than an assessment of the degree of parallel adaptation.
+
+
+\end{document} 
