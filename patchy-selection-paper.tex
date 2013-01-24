@@ -225,10 +225,10 @@ to migration from the first patch, would be around $\rho A \exp( -
 sufficiently large to give an allele a $2s_B$ probability of becoming established, the rate at which migrants find
 themselves in the patch and become established  is approximately
 \begin{equation}
-\lamda_{Mig,R} = \rho A^2 s_B \exp( -|\sqrt{s_m} R/\sigma| ) \Delta
+\lamda_{Mig,R} = \rho A^2 s_B \exp( -|\sqrt{s_m} R/\sigma| ).
 \end{equation}
-. \gc{check my squared here. Do we want to use $q(R)$ here?|
-If the establishment rate is low, the time it takes
+\gc{check my squared here. Do we want to use $q(R)$ here?|
+If this establishment rate is low, the time it takes
 a mutation to arise that will become established will be  $\sim Exp(\lambda_{mig,R})$
 
 If  the time it takes for a mutation that it destined to 
@@ -250,8 +250,6 @@ that founds the population mutant individuals in the new patch.
 \subsubsection{The probability of parallel adaptation between patches} 
 \label{ss:probparallel}
 
-
-
 As only a single mutation is required to adapt individuals to the
 poor habitat patch, subsequent mutations that arise after an allele
 becomes established at its equilibrium frequency on the patch gain no selective
@@ -266,16 +264,12 @@ established in the poor habitat patch it reaches its equilbrium
 frequency very rapidly. Assuming that we being from our geographically 
 spread population containing no copies of the $B$ allele, 
 
-
-
 Under this approximation, and our selective
 exclusion assumption, the second patch will become colonized by migration or
 mutation, but not by both. This means that the question of whether the
 second patch adapt in parallel, or through a shared migrant allele,
 simply comes down to whether the a new mutation or a migrant allele
 becomes established first. 
-
-
 
 If environment is continuous, with separated patches where the new allele is advantageous,
 we can only get a rough sense of whether the new adaptation is likely to spread through mutation (i.e.\ in parallel)
@@ -287,7 +281,6 @@ while the influx due to migration between patches separated by distance $R$ is o
 If the input from mutation and migration are comparable, i.e.\ if $\mu \approx \exp( -|\sqrt{s_m} R/\sigma| )$,
 then adaptation is expected to take place both by migration and
 mutation.
-
 
 If we take $\mu = 10^{-8}$, then this is satisfied if $R/\sigma \approx 18/\sqrt{s_m}$.
 so if the disadvantage to the new mutation between patches is fairly strong (say, $s_m=.05$),
