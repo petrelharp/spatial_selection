@@ -4,6 +4,7 @@
 \usepackage{natbib}
 \usepackage{marginnote}
 \usepackage{graphicx}
+\usepackage{color}
 \usepackage{hyperref}
 \usepackage{latexml} % for \iflatexml
 
@@ -12,65 +13,74 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
 
+\newcommand{\gc}[1]{{ \it \color{green} (#1) } }
+
 \bibliographystyle{plain}
 
 \begin{document}
 
 \section{Introduction}
 
-The covergent evolution of similar phenotypes in response to shared selection pressures is a testiment to the power of selection to repeatedly sculpt phenotypic variation. In some cases this convergence extends to the molecular level with dispate taxa converging to the same phenotype through parallel genetic changes in the same pathway, genes, or even by precisely the same genetic changes. 
-Such precise convergence points to the conservation of function of the genes underlying adaptive traits, sometimes over deep time scales \citep{deephomologypapers}. Convergence on a molecular level also suggests that the path taken by adaptation can sometimes be relatively constained as few changes could have resulted in the adaptive phenotype, or that relatively few changes that can confer the advantagous phenotype of interest were sufficiently free of deleterious pleiotropic consequences to contribute to adaptation. 
+The covergent evolution of similar phenotypes in response to shared selection pressures is a testiment to the power of selection to repeatedly sculpt phenotypic variation. In some cases this convergence extends to the molecular level with dispate taxa converging to the same phenotype through parallel genetic changes in the same pathway, genes, or even by precisely the same genetic changes. Such precise convergence points to the conservation of function of the genes underlying adaptive traits, sometimes over deep time scales \citep{deephomologypapers}. Convergence on a molecular level also suggests that the path taken by adaptation can sometimes be relatively constained as few changes could have resulted in the adaptive phenotype, or that relatively few changes that can confer the advantagous phenotype of interest were sufficiently free of deleterious pleiotropic consequences to contribute to adaptation. 
 
 %For highly polygenic traits 
 
 Convergent adaptation can also occur within species, with individuals within a species 
 adapted to the same environment in parallel through different large effect changes. 
 There are a growing number of examples of this in a range of well studied organisms and phenotypes REFs.
-All else being equal the evolution of convergent phenotypes within a species convergence is more likely with a higher mutational input, i.e. when the mutation target and population sizes are larger \citep{}. 
-Convergence is also more likely when standing variation is present for the phenotype, 
+All else being equal the evolution of convergent phenotypes is more
+likely with a 
+higher mutational input, i.e. when the mutation target and population sizes are larger \citep{}. 
+Standing variation for a trait can also increase the probability of convergence, 
 as multiple pre-existing alleles can spread from low frequency, 
 if our now adaptive alleles were previously not too deleterious \citep{Orr,Hermission}. 
-When multiple rare changes sweep up from low frequency in parallel within a population this has been termed a soft sweep.\\
-
 The geographic distribution of populations can also shape the probability of parallel mutation within a species.
 A geographically wide spread species is more likely to adapt by multiple mutations im parallel if dispersal 
 is geographically limited, as populations will adapt via new mutations rather than waiting for migration \citep{RalphCoop}. 
-Convergence is also more likely if geographically separated populations adapting to similar environments 
-via alleles which are maladapted in the environmentals separating them. 
-Such adverse conditions can strongly spatially restrict the spread of locally adapted alleles \citep{lenormand} 
-and so might encourage local adaptation by parallel mutation rather than migration.\\
+
+%When multiple rare changes sweep up from low frequency in parallel within a population this has been termed a soft sweep.\\
+
+Intuitively, convergence is also more likely when geographically
+separated populations adapt to ecologically similar conditions. The
+probability of convergent adaptation rather than populations adapting
+through allelic variants shared by migration, will be enhanced if
+these adaptive alleles are maladapted in the environmentals separating
+the populations. Such adverse conditions can strongly spatially restrict the spread of locally adapted alleles \citep{slatkin} 
+and so might encourage local adaptation by parallel adaptation rather than migration.\\
  
 For example a variety of plant species have repeatedly adapted to patchs of heavy metal soils
  (e.g. serpentine outcrops and mine tailings) within their ranges
-and  alleles that adapt the plants to heavy metals may be disfavored off of these patches. 
+and alleles that adapt the plants to heavy metals may be disfavored off of these patches. 
 Similarly across the American Southwest light colored rock pocket mice have adapted to outcrops of dark rock 
 through the evolution of darker cryptic pigmentation. These dark outcrops are geographically
  separated by areas of light colored sand and rock, 
 and strong selection appears to favour the matching of crypsis to substrate. 
 Perhaps as a result of this strong selection against migrants, 
 at least two distinct genetic changes are responsible from the dark pigmentation adaptation on different outcrops. 
-This situation is repeated in XXXX where darker colored mice
- have repeated evolved lighter pigmentation to match lighter color sands on
+This situation is repeated in XXXX where darker colored mice have repeated evolved lighter pigmentation to match lighter color sands on
  beaches via different genetic routes. 
 
 %http://www.nature.com/hdy/journal/v94/n2/full/6800600a.html
 
-In \citep{RalphCoop} we formulated a simple model of parallel adaptation in a geographic setting
-where the selection pressure was constant across the entire environment, 
-and that a single mutational change was sufficient to adapt populations to the novel environment. 
-We assumed that there was no standing variation for the adaptive allele, such that parallel mutation must be due to multiple mutations after the environmental shift. In that setting we found that there was a characteristic geographic scale, over which we would expect multiple instances of our adaptive allele to have arisen in parallel. This characteristic length could be expressed in terms of a simple compound parameter determined by our parameters of interest.
-Recall questions of origin of adaptations
+%In \citep{RalphCoop} we formulated a simple model of parallel adaptation in a geographic setting
+%where a continuous population was subjected to a selection pressure
+%that was constant across the entire environment. 
 
-References on parallel adapation, standing variation, etc.:
-  coop,
-  pennings and hermisson.
-Note pennings and hermisson found standing deleterious variation was very important.  
 
-recall peromyscus examples with patchy environments
+%and that a single mutational change was sufficient to adapt populations to the novel environment. 
+%We assumed that there was no standing variation for the adaptive allele, such that parallel mutation must be due to multiple mutations after the environmental shift. In that setting we found that there was a characteristic geographic scale, over which we would expect multiple instances of our adaptive allele to have arisen in parallel. This characteristic length could be expressed in terms of a simple compound parameter determined by our parameters of interest.
+%Recall questions of origin of adaptations
 
-Summarize previous paper
+%References on parallel adapation, standing variation, etc.:
+ % coop,
+ % pennings and hermisson.
+%Note pennings and hermisson found standing deleterious variation was very important.  
 
-Question assumptions of no standing variation and homogenous selection
+%recall peromyscus examples with patchy environments
+
+%Summarize previous paper
+
+%Question assumptions of no standing variation and homogenous selection
 
 \section{Methods}
 \subsection{Introduction to a patchily constructed model}
@@ -82,7 +92,7 @@ habitat that individuals are initially poorly adapted to, surrounded by large ar
 It takes only a single mutational change to create an allele ($B$) that adapts an individual to the
 poor habitat type. This mutational change occurs at a low rate of
 $\mu$ per chromosome per generation. We assume that this initially rare new
-allele has fitness $1+s_b$ relative to the unmutated type ($b$) in the ``poor'' habitat patches,
+allele has fitness $1+s_B$ relative to the unmutated type ($b$) in the ``poor'' habitat patches,
 and assume that it has fitness $1+s_m$ when rare in the intervening areas, with
 $s_m<0$. To simplify matters we assume that the disadvantage $s_m$ ensures that on the relevant timescale,
 the allele is very unlikely to fix locally in the regions where it is at a disadvantage.
@@ -100,20 +110,11 @@ across both types of habitat (we will return to discuss this equal
 density point later). We further assume that the
 variance in offspring number is $1$, and that the mean squared distance between parent and child is $\sigma^2$ (the dispersal variance).
 
-As only a single mutation is required to adapt individuals to the
-poor habitat patch, subsequent mutations that arise after an allele
-becomes established at its equilibrium frequency on the patch gain no selective
-benefit. Similarly an allele introduced into a patch by migration will
-not be favored by selection to spread, if the patch has already been
-colonized. Thus mutations selective exclude each other from
-patches, over short-time scales, and they will only slowly filter
-together over longer time scales by drift. 
-
 \paragraph{Previous work} We will make use of a number previous
 results from the literature. \citet{slatkin1973geneflow}, working in
 one dimensional deterministic framework, showed that if the
 physical width of the patch is less than $2 \tan^{-1}
-(\sqrt{|s_m/s_b|})$, then $B$ can not 
+(\sqrt{|s_m/s_B|})$, then $B$ can not 
 become stably established within the patch, as the local adaptation prevented by
 migrational swamping \citep[see also][ for a review]{Lenormand}.
  \citet{barton1987establishment}, again working in one dimension,
@@ -124,15 +125,16 @@ For patches above this size, \citet{barton1987establishment}
  $\sigma/\sqrt{2|s_m|}$ away from such a patch have vanishingly small
  probability of becoming established within the patch. 
 Barton also showed that mutations appearing within the patch have probability 
-strictly less but approaching that $2s_b$ of establishment as the size
+strictly less but approaching that $2s_B$ of establishment as the size
 of the patch increased. Thus for large enough patches the probability
 of establishment of a locally favorable allele approaches the standard
-establishment probability ($2s_b$) for a panamitic population
+establishment probability ($2s_B$) for a panamitic population
 \citep[][]{haldane, fisher}, a result that also (generally) holds for
 a geographically spread population experiencing a uniform selection
 pressure \citep{Maruyama, cherry}. 
 
 %Maruyama: On the fixation probability of mutant genes in a subdivided population*
+%should we cite Cherry http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1462507/
 
 %To make things tractable, we assume that the distances between the patches are large relative to migration distance $\sigma$,
 %and that the disadvantage $s_m$ ensures that on the relevant timescale,
@@ -155,13 +157,14 @@ I%f the areas where the new allele is advantageous are relatively isolated,
 
 %equal deme sizes?  general migration rates?
 
-\subsubsection{Mutational influx}
+\subsubsection{Time to the establishment of a locally adaptive allele
+  due to mutational influx}
 \label{ss:patchymutation}
 Consider first a single, isolated poor habitat patch of area $A$ in
 which no $B$ allele has yet become established. As
 we are interested in local adaptation that can occur we will assume
 that our patch is considerably larger than the cutoff for local
-establishment, i.e. $\sqrt{A} \gg 2 \tan^{-1} (\sqrt{|s_m/s_b|})$.
+establishment, i.e. $\sqrt{A} \gg 2 \tan^{-1} (\sqrt{|s_m/s_B|})$.
 
 Let $p(x)$ be the probability that a new allele arising at location
 $x$ away from the patch fixes within the poor habitat patch.
@@ -172,55 +175,106 @@ and depends in a complicated way on the relationship of patch width and selectio
 but still scales linearly with the population mutational influx $\rho \mu$.
 Therefore, we define $p_f = \int p(x) dx$.  If the width of the patch, $\sqrt{A}$, is large
 relative to $\sigma/\sqrt{2s_m}$ then a reasonable approximation is to
-set $p_f \approx 2 s_b A$. This follows from the fact that if the
+set $p_f \approx 2 s_B A$. This follows from the fact that if the
 patch is large than the majority of the mutations that could become
 established within the patch, arose within the patch.  
 
+The rate at which mutations arise and colonize the patch is
+\begin{equation}
+\lambda_{Mut} = \rho \mu p_f \approx 2 s_B \rho \mu.
+\end{equation}
 
-The rate at which mutations arise and colonize the patch is on the order of $\rho \mu
-p_f$ generations, which will approximately be $2 s_b \rho \mu$. If
-this rate is low,  then the waiting time till a mutation arises that
+If this rate is low,  then the waiting time till a mutation arises that
 will become locally established within the patch is exponentially
-distributed with mean $2 s_b \rho \mu$.  Assuming that once a mutation
+distributed with rate $\lambda_{Mut}$.  Assuming that once a mutation
 becomes established
  it quickly reaches its equilibrium frequency across the patch, the
  expected time it takes for our patch to become colonized by the $B$
- allele is $1/(2 s_b \rho \mu)$.
+ allele is $T_{Mut} \approx 1/ \lambda_{Mut} $.
 
 
-\subsubsection{Migration rates}
+\subsubsection{Time to the establishment of a locally adaptive allele
+  due to migrational influx}
 \label{ss:patchymigration}
-
 Now suppose that there are two patches, each of area $A$, of the poor
 habitat type separated by distance $R$. Consider the case where the
-allele has arisen and become established in the first patch, but has not yet appeared in the second.
+$B$ allele has arisen and become established in the first patch, but has not yet appeared in the second.
 As above, any copy of the new allele that appears at location $x$ relative to the second, unadapted patch 
 has probability approximately $p(x)$ of fixing locally in this patch,
 whether the allele is a new mutation or is descended from the occupants of the first patch.
-Due to mutation--selection balance there will be a small number of alleles descended from those of the first patch (``migrants'') 
+Due to mutation--selection balance there will be a small number of $B$ alleles descended from those of the first patch (``migrants'') 
 present in the regions where they are disadvantageous;
 the equilibrium frequency may again be expressed in terms of Jacobi elliptic functions (Appendix XXX, citeXXX),
 although the equations are again not particularly helpful.
-However, we do know that if $q(r)$ is the expected proportion present at mutation--selection balance at distance $r$ from the first patch
+However, we do know that if $q(r)$ is the expected proportion present at \gc{migration}--selection balance at distance $r$ from the first patch
 in the absence of the second patch, that for large $r$ the proportion decays exponentially, $q(r) \approx C \exp( -|\sqrt{s_m} r / \sigma|)$,
-where $C$ is a constant depending on the structure of the populations and the selection coefficients.
+where $C$ is a constant depending on the structure of the populations
+and the selection coefficients. \gc{comment on size of C? Should we
+  also use this approx. to get the approx. rate of establishing mutations
+  arising outside of the patch, above. Feel like in the mutation rate
+  part we could pull $s_B$ out front of all rates.} 
+
+\gc{Below are we setting $C=1$?}
 
 Combining this with the calculations above allows us to get a rough sense of the scale of migration between separated patches,
-supposing that patches are large enough for local fixation to be
-stable. If the alleles were not advantageous in the second patch,
-the average numbers of mutant alleles present near the second patch would be around $\rho A \exp( - |\sqrt{s_m} R/\sigma| )$;
-so the waiting time until some migrant allele fixes in the second patch would be something like $T_m = ( 2 s_b \rho A \exp( - |\sqrt{s_m} R/\sigma|)^{-1}$.
+supposing that patches are large enough for local fixation to be stable. If the alleles were not advantageous in the second patch,
+the average number of mutant alleles present in a small area $\Delta$
+near the second patch, due
+to migration from the first patch, would be around $\rho A \exp( -
+|\sqrt{s_m} R/\sigma| ) \Delta$. Assuming that the patch is
+sufficiently large to give an allele a $2s_B$ probability of becoming established, the rate at which migrants find
+themselves in the patch and become established  is approximately
+\begin{equation}
+\lamda_{Mig,R} = \rho A^2 s_B \exp( -|\sqrt{s_m} R/\sigma| ) \Delta
+\end{equation}
+. \gc{check my squared here. Do we want to use $q(R)$ here?|
+If the establishment rate is low, the time it takes
+a mutation to arise that will become established will be  $\sim Exp(\lambda_{mig,R})$
+
+If  the time it takes for a mutation that it destined to 
+become established in the second patch to become establish is short,
+then  the expected waiting time until some migrant allele fixes in the
+second patch will be $T_{Mig} = \lamda_{Mig,R} $.
+
+\gc{Note that we can set patches sizes to be different}
+
+
+\gc{think we've covered this next part by $q(r)$ being number of migs. such
+that $2sq(r)$ is (for small $s$ the right answer.}
 If $T_m$ is large, then we would expect successful migrants to be rare,
 so that if the second patch adapts through migration, it is likely to come from only a single migrant.
 We leave aside the converse situation, for which there is likely to be more than one migrant
 that founds the population mutant individuals in the new patch.
 
 
-\subsection{Patchy Selection -- Results} 
-\label{ss:discreteresults}
+\subsubsection{The probability of parallel adaptation between patches} 
+\label{ss:probparallel}
 
-We will assume that once a mutation escapes loss and becomes
-established in the poor habitat patch it reaches its equilbrium frequency very rapidly. 
+
+
+As only a single mutation is required to adapt individuals to the
+poor habitat patch, subsequent mutations that arise after an allele
+becomes established at its equilibrium frequency on the patch gain no selective
+benefit. Similarly an allele introduced into a patch by migration will
+not be favored by selection to spread, if the patch has already been
+colonized. Thus, mutations selective exclude each other from
+patches, over short-time scales, and they will only slowly filter
+together over longer time scales by drift. 
+
+We will assume that once a introduced $B$ allele (from migration or mutation) becomes
+established in the poor habitat patch it reaches its equilbrium
+frequency very rapidly. Assuming that we being from our geographically 
+spread population containing no copies of the $B$ allele, 
+
+
+
+Under this approximation, and our selective
+exclusion assumption, the second patch will become colonized by migration or
+mutation, but not by both. This means that the question of whether the
+second patch adapt in parallel, or through a shared migrant allele,
+simply comes down to whether the a new mutation or a migrant allele
+becomes established first. 
+
 
 
 If environment is continuous, with separated patches where the new allele is advantageous,
@@ -231,7 +285,10 @@ we see that if patches each have sufficiently large area $A$,
 then the mutational input in each is on the order of $2 \rho \mu A$,
 while the influx due to migration between patches separated by distance $R$ is on the order $2 \rho A \exp(- |\sqrt{s_m} R/\sigma|)$. 
 If the input from mutation and migration are comparable, i.e.\ if $\mu \approx \exp( -|\sqrt{s_m} R/\sigma| )$,
-then adaptation is expected to take place both by migration and mutation.
+then adaptation is expected to take place both by migration and
+mutation.
+
+
 If we take $\mu = 10^{-8}$, then this is satisfied if $R/\sigma \approx 18/\sqrt{s_m}$.
 so if the disadvantage to the new mutation between patches is fairly strong (say, $s_m=.05$),
 then the distance between patches must be about a hundred times the dispersal distance (i.e.\ $R/\sigma \approx 100$);
@@ -252,17 +309,17 @@ This indicates that we need the population-scaled mutation and migration rates
 to be within a factor of about 100 of each other for parallel adaptation to leave an interesting pattern.  
 If migration is faster, then a single type is likely to take over, while if migration is weaker, each deme is likely to come up with its own type.
 
-\begin{figure}[ht]
- \begin{center}
-   \includegraphics{discrete-by-ratio}
- \caption{ %
- The mean number of types and the mean number of demes occupied by a sampled type, in a discrete model with 20 demes,
- plotted as a function of the ratio of migration to mutation probabilities.
- Note the log scale on the horizontal axis.
- \label{fig:discbyratio}
- }
- \end{center}
-\end{figure}
+%\begin{figure}[ht]
+% \begin{center}
+ %  \includegraphics{discrete-by-ratio}
+ %\caption{ %
+ %The mean number of types and the mean number of demes occupied by a sampled type, in a discrete model with 20 demes,
+ %plotted as a function of the ratio of migration to mutation probabilities.
+% Note the log scale on the horizontal axis.
+% \label{fig:discbyratio}
+ %}
+ %\end{center}
+%\end{figure}
 
 Also note that the properties of the discrete model are independent of the {\em sizes} of the demes themselves--- we have assumed away all such dependence.
 This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise {\em within} a panmictic deme
