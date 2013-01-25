@@ -214,16 +214,19 @@ and the selection coefficients. \gc{comment on size of C? Should we
 
 \gc{Below are we setting $C=1$?}
 
+\gc{work in a parameter that the the migrant outflux of a patch, and
+  explain that depends on geometry }
+
 Combining this with the calculations above allows us to get a rough sense of the scale of migration between separated patches,
 supposing that patches are large enough for local fixation to be stable. If the alleles were not advantageous in the second patch,
 the average number of mutant alleles present in a small area $\Delta$
 near the second patch, due
-to migration from the first patch, would be $\approx \rho A \exp( -
+to migration from the first patch, would be $\approx \rho E \exp( -
 |\sqrt{s_m} R/\sigma| ) \Delta$. Assuming that the patch is
 sufficiently large to give an allele a $2s_B$ probability of becoming established, the rate at which migrants find
 themselves in the patch and become established  is approximately
 \begin{equation}
-\lamda_{Mig,R} = \rho A^2 s_B \exp( -|\sqrt{s_m} R/\sigma| ).
+\lambda_{Mig,R} = \rho E s_B \exp( -|\sqrt{s_m} R/\sigma| ).
 \end{equation}
 \gc{Is this $A^2$ right here?. Do we want to use $q(R)$ here?}
 If this establishment rate is low, the time it takes
@@ -282,13 +285,11 @@ Taking the expressions from sections \ref{ss:patchymutation} and \ref{ss:patchym
 we see that if patches each have sufficiently large area $A$,
 then the mutational input in each is on the order of $2 s_B \rho \mu A$,
 while the influx due to migration between patches separated by
-distance $R$ is on the order $2 s_B \rho A \exp(- |\sqrt{s_m}
-R/\sigma|)$ \gc{check $A^2$}. 
+distance $R$ is on the order $2 s_B \rho E \exp(- |\sqrt{s_m}
+R/\sigma|)$. \gc{what to assume about A and $E$ here?}
 If the input from mutation and migration are comparable, i.e.\ if $\mu \approx \exp( -|\sqrt{s_m} R/\sigma| )$,
 then adaptation is expected to take place both by migration and
 mutation.
-
-
 
 If we take $\mu = 10^{-8}$, then this is satisfied if $R/\sigma \approx 18/\sqrt{s_m}$.
 so if the disadvantage to the new mutation between patches is fairly strong (say, $s_m=.05$),
@@ -303,17 +304,54 @@ On the other hand, if the separation is much smaller, then a single
 mutation is likely to fix in both patches.
 
 If we are willing to take these approximations at face
-value, and assuming both rates are small, the probability of parallel
+value, and assuming both rates are small, the the time till the first
+patch is colonized will be approximately exponentially
+distributed with parameter $2 \lambda_{Mut}$. Then time till the
+second patch is subsequently colonized by the $B$
+allele (via either migration or new mutation) will be exponentially
+distributed with parameter $\lambda_{Mut}+\lambda_{Mig,R}$. Both of
+these times scale linearly with $1/(\rho s_{B})$, so that 
+
+then probability of parallel
 adaptation is 
 \begin{equation}
-\frac{\mu}{\mu + \exp(- |\sqrt{s_m} R/\sigma|}
+\frac{\lambda_{Mut}}{\lambda_{Mut} + \lambda_{Mig,R}} = \frac{\mu (A/E)}{\mu (A/E) + \exp(- |\sqrt{s_m} R/\sigma|}
 \end{equation}
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches at a
 rate $\sqrt{s_m} /\sigma$. However, we caution that these calculations
-are rough and so should be taken wi
+are rough and so should be treated mainly as a rule of thumb. 
 
 
+
+We can extend this reasoning to multiple patches ($>2$) within our population's range
+where our $B$ allele can facilitate local adaptation. Under our
+assumptions of mutational exclusion and rapid establishment, each one
+of these patches will adapt through a single copy of the $B$
+alllele. The occupation of our different patches by the $B$ allele will form a
+discrete state markov chain, where the states of the chain are which patches have
+been colonized so far by $B$, and which colonized patches have shared
+versus distinct copy of $B$.
+
+For simplicity we will assume that each of these patches has
+the same size and geometry (i.e. same $E$). A particular patch adapts in parallel through an independent
+instance of the $B$ mutation at rate $2 s_B \mu \rho A$.
+While, if patches $1$ through $k$ are already occupied by
+established copies of the $B$ allele, and these patches are at
+distances $R_1,~\cdots,~R_k$ away from our patch, the rate of
+adaptation through migration in our patch is 
+\begin{equation}
+\sum_{i=1}^{k} 2 s_B \rho E \exp(- |\sqrt{s_m} R_k/\sigma|}.
+\end{equation}
+Once again the compound parameter $2s_B \rho$ will function to
+scale the times between events (parallel adaptation or the spread of a
+migrant), and so is critical to the time-scale over which
+adaptation occurs. However, this compound parameter again has no effect on
+the final configuration of the pattern of which patches have adapted
+in parallel versus have shared genetic basis to their adaptive
+response to the poor environment.
+
+The states of this 
 
 %Furthermore, in the model of discrete demes connected by symmetric weak migration, 
 %the final distribution of types depends only on the ratio of mutation to migration rates,
