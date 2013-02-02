@@ -24,29 +24,52 @@ with mean $1-s_d$ and variance $\xi^2$.
 \item An excursion that makes it to the new patch in $k$ copies establishes with probability $1-(1-p_s)^k$,
 where $p_s \approx 2s_b/\xi^2$, so establishment has approximate probability $2 k s_b / \xi^2$.
 
-\item The probability that the branching process lives for $t$ generations is asymptotically a constant times $(1-s_d)^t$.
+\item The probability that the branching process lives for $t$ generations is asymptotically a constant ($\phi$, below) times $(1-s_d)^t$.
 
 \item Conditioned on living for time $t$, the process can be represented by a single lineage whose offspring distribution
 is the original distribution, conditioned to be nonzero, minus one.
-(Also, it is known that conditional on being alive at $t\to\infty$, the allele is present in $K$ copies; where $K$ has calculable mean and variance.)
+(Also, it is known that conditional on being alive at $t\to\infty$, the allele is present in $K$ copies; where $K$ has mean $1/\phi$ and variance calculated below.)
 
 \item Spatial motion is independent of branching;
-so we can take th emotion of the trunk lineage to be Brownian motion;
+so we can take the motion of the trunk lineage to be Brownian;
 the chance that the motion first hits $x$ at time $t$ is (Borodin \& Salminen 2.02)
 \[
 \frac{x}{t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t}\right) .
 \]
 
-\item Therefore, the probability that an excursion makes it to $x$ at time $t$ is
+\item Therefore, the probability that an excursion makes it to $x$ at time $t$ is asymptotically
 \[
-  (1-s_d)^t \frac{x}{t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t}\right) ,
+  (1-s_d)^t \phi \frac{x}{t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t}\right) ,
 \]
 or the chance that it is still alive then time the chance the trunk lineage hits $x$ at that time.
 
-\item This induces a distribution on $T$, the time that a successful excursion took to cross,
-and hence the length of the hitchhiking segment.
+\item This induces a distribution on $T$, the time that a successful excursion took to cross:
+assuming, as is asymptotically correct, that the number of arriving lineages is independent of how long it took to get there,
+if $\tau_x$ is the random time of arrival of a successful lineage,
+\[
+ \P\{\tau_x \in dt\} \propto \frac{(1-s_d)^t}{t^{3/2}} \exp\left(-\frac{x^2}{2t}\right) ,
+\]
+and so
+
+\item Hence the length of the hitchhiking segment on \emph{one side} of the selected site $L$ has distribution
+(using Gradshteyn \& Ryzhik 3.471.9; note $\ell > 0 > \log(1-s_d)$):
+\begin{align*}
+ \P\{ L > \ell \} &= \E\left[ e^{-\ell \tau_x} \right] \\
+ & \propto \int_0^\infty \frac{1}{t^{3/2}} \exp\left(-\frac{x^2}{2t} + t(\log(1-s_d) -\ell) \right)  dt \\
+ &= \frac{\sqrt{2\pi}}{x} e^{-x\sqrt{2(\ell-\log(1-s_d))}} ;
+\end{align*}
+hence, defining $\alpha = - \log(1-s_d) > 0$,
+\begin{align*}
+ \P\{ L > \ell \} &= \exp\left\{{-x\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} \qquad \mbox{for}\; \ell>0.
+\end{align*}
+This is a shifted Weibull distribution, or equivalently, $L=X^2-\alpha$, where $X$ is a Exponential($x\sqrt{2}$) conditioned to be at least $\sqrt{\alpha}$.
+Note that the total length of a hitchhiking segment is the sum of two independent copies of this.
 
 \end{itemize}
+
+
+
+\subsection{$K$ and $\phi$}
 
 From Jagers, section 2.6,
 the mean and variance of $K$ are as follows.
@@ -55,10 +78,10 @@ Let the probability of $k$ offpsring be $p_k$ and let
  f(u) =  \sum_k p_k u^k,
 \]
 and $f_n$ the $n^\mathrm{th}$ composition of $f$.
-Note that the mean number of offspring is $1-s_b = f'(1)$, and the variance is $\xi^2 = f''(1) + f'(1)(1-f'(1)) = f''(1) + s_d(1-s_d)$.
+Note that the mean number of offspring is $1-s_d = f'(1)$, and the variance is $\xi^2 = f''(1) + f'(1)(1-f'(1)) = f''(1) + s_d(1-s_d)$.
 If $\sum_k p_k k \log k < \infty$, then 
 \[
-\phi = \lim_{n \to \infty} \frac{ 1-f_n(0) }{ (1-s_d)^n } > 0 .
+\phi = \lim_{n \to \infty} \frac{ \P\{ \mbox{survival to }n \}  }{ (1-s_d)^n } = \lim_{n \to \infty} \frac{ 1-f_n(0) }{ (1-s_d)^n } > 0 .
 \]
 Furthermore,
 \begin{gather*}
@@ -66,6 +89,9 @@ Furthermore,
 \E[K(K-1)] = \frac{ f''(1) }{ \phi s_d (1-s_d) } \qquad \mbox{so} \\
 \var[K] = \frac{1}{\phi} \left( \frac{ \xi^2 }{ s_d (1-s_d) } + \frac{1}{1-\phi} - 1 \right) .
 \end{gather*}
+Note additionally that 
+\[
+    1 - \frac{1-f_n(u)}{1-f_n(0)} \searrow g(u) = \E[u^K] .
+\]
 
 \end{document}
-
