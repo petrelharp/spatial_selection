@@ -7,6 +7,7 @@
 \newcommand{\E}{\mathbb{E}}
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\var}{\mathop{\mbox{Var}}}
+\newcommand{\Exp}{\mathop{\mbox{Exp}}}
 
 \begin{document}
 
@@ -47,11 +48,12 @@ or the chance that it is still alive then time the chance the trunk lineage hits
 assuming, as is asymptotically correct, that the number of arriving lineages is independent of how long it took to get there,
 if $\tau_x$ is the random time of arrival of a successful lineage,
 \[
- \P\{\tau_x \in dt\} \propto \frac{(1-s_d)^t}{t^{3/2}} \exp\left(-\frac{x^2}{2t}\right) ,
+ \P\{\tau_x \in dt\} \propto \frac{(1-s_d)^t}{t^{3/2}} \exp\left(-\frac{x^2}{2t}\right) .
 \]
-and so
 
-\item Hence the length of the hitchhiking segment on \emph{one side} of the selected site $L$ has distribution
+
+\item The length of the hitchhiking segment on \emph{one side} of the selected site $L$ is exponential with rate depending on $T$;
+integrating over $T$ we get
 (using Gradshteyn \& Ryzhik 3.471.9; note $\ell > 0 > \log(1-s_d)$):
 \begin{align*}
  \P\{ L > \ell \} &= \E\left[ e^{-\ell \tau_x} \right] \\
@@ -60,10 +62,45 @@ and so
 \end{align*}
 hence, defining $\alpha = - \log(1-s_d) > 0$,
 \begin{align*}
- \P\{ L > \ell \} &= \exp\left\{{-x\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} \qquad \mbox{for}\; \ell>0.
+ \P\{ L > \ell \} &= \E\left[ e^{-\ell \tau_x} \right] = \exp\left\{{-x\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} \qquad \mbox{for}\; \ell>0.
 \end{align*}
-This is a shifted Weibull distribution, or equivalently, $L=X^2-\alpha$, where $X$ is a Exponential($x\sqrt{2}$) conditioned to be at least $\sqrt{\alpha}$.
+This is a shifted Weibull distribution, or equivalently, $L=X^2-\alpha$, where $X$ is a Exponential with rate $x\sqrt{2}$ conditioned to be at least $\sqrt{\alpha}$.
 Note that the total length of a hitchhiking segment is the sum of two independent copies of this.
+
+\item We could rescale with $x$ and get a limiting distribution for $\tau_x$:
+\begin{align*}
+  \E\left[\exp\left( -\ell \frac{\tau_x}{x} \right)\right]
+        &= \exp\left\{ - x\sqrt{2}\left(\sqrt{\frac{\ell}{x}+\alpha} - \sqrt{\alpha}\right) \right\} \\
+        &\xrightarrow{x\to\infty} \exp\left\{ - \frac{\ell}{\sqrt{2\alpha}} \right\} ,
+\end{align*}
+implying that $\tau_x/x \xrightarrow{a.s.} 1/\sqrt{2\alpha}$.
+
+\item Ok, but how about the CLT?  Differentiating, we see that $\E[\tau_x]=x/\sqrt{2\alpha}$ and $\var[\tau_x]=x/2^{3/2}\alpha^{3/2}$,
+which suggests looking at
+\begin{align*}
+\E\left[\exp\left( -\ell \left(\frac{\tau_x-x/\sqrt{2\alpha}}{\sqrt{x}} \right) \right)\right]
+    &= \exp\left\{ - x\sqrt{2}\left(\sqrt{\frac{\ell}{\sqrt{x}}+\alpha} - \sqrt{\alpha}\right) + \frac{\ell}{\sqrt{2\alpha x}} \right\} \\
+    &\simeq \exp\left\{ - x\sqrt{2}\left( \frac{\ell}{2\sqrt{\alpha x}} - \frac{\ell^2}{8\alpha^{3/2}x}  \right) + \frac{\ell}{\sqrt{2\alpha x}} \right\} \\
+    &= \exp\left\{ \frac{\ell^2}{2^{5/2}\alpha^{3/2}} \right\} ,
+\end{align*}
+since $\sqrt{\alpha+\epsilon}=\sqrt{\alpha} +\epsilon/2\sqrt{\alpha}-\epsilon^2/8\alpha^{3/2} + O(\epsilon^3)$.
+The Laplace transform of a $N(0,\sigma^2)$ is $\exp(\ell^2\sigma^2/2)$, so
+\[
+\frac{\tau_x - x/\sqrt{2\alpha}}{\sqrt{x}} \xrightarrow{d} N(0,2^{-3/2}\alpha^{-3/2}) \qquad \mbox{as}\;x\to\infty.
+\]
+
+\item Translating this limit law back to $L$, we have that
+\[
+  \tau \simeq \frac{x}{2\alpha} + 2\sqrt{2\alpha^3x} B,
+\]
+with $B \sim N(0,1)$; since $L \sim \Exp(\tau)$,
+\[
+  \frac{x}{\sqrt{2\alpha}} L \simeq \Exp\left(1+\frac{4\alpha^2}{\sqrt{x}}B\right) \xrightarrow{x\to\infty} \Exp(1),
+\]
+i.e.\ $L$ is approximately a Exponential with rate $\sqrt{2\alpha}/x$.
+
+\item Note: if we wanted to kill the motion at some negative location (returns to original patch)
+we'd use the result for BM, on p.296 of Feller.
 
 \end{itemize}
 
