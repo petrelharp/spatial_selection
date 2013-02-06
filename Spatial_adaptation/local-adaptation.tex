@@ -54,20 +54,20 @@ The stable distribution $\phi(x) = \lim_{t\to\infty} p(t,x)$ then solves
     \partial_x^2 \phi(x) = - 2 s(x) \phi(x) (1-\phi(x)) /\sigma^2,
 \end{align}
 with appropriate boundary conditions.
-First rescale space by $\sigma/\sqrt{2}$ so this term dissappears.
+First rescale space by $\sigma/\sqrt{2}$ so the $\sigma^2/2$ term dissappears.
 If we now assume that $s(x)$ is piecewise constant,
 $s(x) = s_i$ for $x \in [x_i,x_{i+1})$, with $x_0=-\infty$ and $x_{n+2}=\infty$,
-then the equation is integrable: if we multiply through by $\partial_x \phi(x)$ and integrate, then we get that
+then the equation is integrable: if we multiply through by $2\partial_x \phi(x)$ and integrate, then we get that
 \begin{align} \label{eqn:conservation}
-    ( \partial_x \phi(x) )^2  &= - \int^{x} s(x) \phi(x) (1-\phi(x)) \partial_x \phi(x) dx \\
-        &= - \frac{1}{2} s_i \phi(x)^2 \left( 1 - \frac{1}{3} \phi(x) \right) - K_i \quad \mbox{for } x \in [x_i,x_{i+1}) \\
+    ( \partial_x \phi(x) )^2  &= - \int^{x} 2 s(x) \phi(x) (1-\phi(x)) \partial_x \phi(x) dx \\
+        &= - s_i \phi(x)^2 \left( 1 - \frac{2}{3} \phi(x) \right) - K_i \quad \mbox{for } x \in [x_i,x_{i+1}) \\
         &:= - V_i(\phi(x)) \quad \mbox{for } x \in [x_i,x_{i+1}) ,
 \end{align}
 where $K_i$ is a constant of integration and we define
 \[
-        V_i(\phi) = \frac{1}{2} s_i \phi^2 \left( 1 - \frac{1}{3} \phi \right) + K_i .
+        V_i(\phi) = s_i \phi^2 \left( 1 - \frac{2}{3} \phi \right) + K_i .
 \]
-Note that $V_i'(0)=V_i'(1)=0$, that $V_i(0)=K_i$ and $V_i(1) = K_i-s_i/6$.  
+Note that $V_i'(0)=V_i'(1)=0$, that $V_i(0)=K_i$ and $V_i(1) = K_i+s_i/3$.  
 We will always have that $V(\phi) \le 0$.
 (We have then that $\phi'' = - \partial_\phi V(\phi)$, the equation of motion of a particle in potential $V$.
 Also note that this implies ``conservation of energy'', i.e.\ $( \partial_x \phi(x) )^2 + V(\phi(x))$ is constant.)
@@ -96,7 +96,7 @@ We also require that $\phi(x)$ and $\phi'(x)$ are continuous.
 Continuity of $\phi'(x)$ is equivalent to $V_i(x_{i+1}) = V_{i+1}(x_{i+1})$,
 which we can rearrange to find an equation for $K_{i+1}$ in terms of $K_i$ and $\phi(x_{i+1})$:
 \[
-    K_{i+1} - K_i = (s_i - s_{i+1}) \frac{1}{2} \phi(x_{i+1})^2 (1-\phi(x_{i+1})/3) .
+    K_{i+1} - K_i = (s_i - s_{i+1}) \phi(x_{i+1})^2 (1-2\phi(x_{i+1})/3) .
 \]
 What about $\phi(x_i)$?  Well, if $\phi(x)$ is monotone on $[x_i,x_{i+1})$ then we can wolog take $\phi_i^*=0$ or $1$ depending on the sign of $s_i$.
 Otherwise, let $\phi_i^*$ be the (unique) root of $V_i$ in $[x_i,x_{i+1})$, so $V_i(\phi_i^*)=0$.
@@ -130,20 +130,19 @@ We should be able to argue that if $R$ is large then the value of $s_*$ won't ma
 \subsection{Doing the integrals}
 
 This from ``NEQwiki, the nonlinear equations encyclopedia'', \url{http://www.primat.mephi.ru/wiki/ow.asp?Korteweg-de_Vries_equation}.
-Recall that $V_i(\phi) = (1/2) s_i \phi^2(1-\phi/3) + K_i$, with $K_i = V_i(0)$ chosen to match $V$ at the boundaries.
+Recall that $V_i(\phi) =  s_i \phi^2(1-2\phi/3) + K_i$, with $K_i = V_i(0)$ chosen to match $V$ at the boundaries.
 Note that if we rescale space by $\sqrt{s}/\sigma$,
 then $s$ and $\sigma$ drop from the equation.
 We want to integrate
 \[
     \int \frac{ d\phi }{ \sqrt{-V(\phi)} } = 
-        \sqrt{ 2 } \int \frac{ d\phi }{ \sqrt{ \phi^2 (1-\phi/3) + C } } ,
+         \int \frac{ d\phi }{ \sqrt{ \phi^2 (1-2\phi/3) + K } } .
 \]
-with $C=2K$.
-Let $\phi^2(1-\phi/3)+C = (\alpha-\phi)(\phi-\beta)(\phi-\gamma)$,
+Let $\phi^2(1-2\phi/3)+K = (\alpha-\phi)(\phi-\beta)(\phi-\gamma)$,
 and change variables first to $y^2=(\alpha-\phi)$, 
 and then to $x = y/\sqrt{\alpha-\beta}$, so that
 \begin{align*}
-    \frac{ d\phi }{ \sqrt{ \phi^2 (1-\phi/3) + C } } 
+    \frac{ d\phi }{ \sqrt{ \phi^2 (1-2\phi/3) + K } } 
         = \frac{ - 2 dy }{ \sqrt{ (\alpha-\beta-y^2) (\alpha-\gamma-y^2) } } \\
         = \frac{ - 2 dx }{ \sqrt{\alpha-\gamma} \sqrt{ (1-x^2) (1-S^2 x^2) } } ,
 \end{align*}
@@ -159,10 +158,10 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 Presumably, this gets the same answer as Monty, who finds that in his solvable cases,
 for $x$ in the last interval (which ends in $\infty$), that
 \begin{align*}
-    \phi(x) &= \frac{3}{2}\left( 1 - \tanh^2 ( x \sqrt{s} / \sigma + C ) \right) \\
-        &\simeq C' \exp\left( - \frac{ x \sqrt{s} }{ \sigma } \right) .
+    \phi(x) &= \frac{3}{2}\left( 1 - \tanh^2 ( x \sqrt{2s} / \sigma + C ) \right) \\
+        &\simeq C' \exp\left( - \frac{ 2 x \sqrt{2s} }{ \sigma } \right) .
 \end{align*}
-Indeed, as $\phi \to 0$, we have approximately $\phi' = \frac{ \sqrt{s} }{ \sigma } \phi$.
+% Indeed, as $\phi \to 0$, we have approximately $\phi' = \frac{ \sqrt{s} }{ \sigma } \phi$.  % huh????
 
 
 \section{Mutation rates}
