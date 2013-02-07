@@ -34,73 +34,112 @@ is the original distribution, conditioned to be nonzero, minus one.
 \item Spatial motion is independent of branching;
 so we can take the motion of the trunk lineage to be Brownian;
 the chance that the motion first hits $x$ at time $t$ is (Borodin \& Salminen 2.02)
-\[
+\begin{align}
 \frac{x}{t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t}\right) .
-\]
+\end{align}
 
 \item Therefore, the probability that an excursion makes it to $x$ at time $t$ is asymptotically
-\[
+\begin{align}
   (1-s_d)^t \phi \frac{x}{t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t}\right) ,
-\]
+\end{align}
 or the chance that it is still alive then time the chance the trunk lineage hits $x$ at that time.
 
 \item This induces a distribution on $T$, the time that a successful excursion took to cross:
 assuming, as is asymptotically correct, that the number of arriving lineages is independent of how long it took to get there,
 if $\tau_x$ is the random time of arrival of a successful lineage,
-\[
- \P\{\tau_x \in dt\} \propto \frac{(1-s_d)^t}{t^{3/2}} \exp\left(-\frac{x^2}{2t}\right) .
-\]
+\begin{align}
+ \P\{\tau_x \in dt\} = C_{s_d,x} \frac{(1-s_d)^t}{t^{3/2}} \exp\left(-\frac{x^2}{2t}\right) ,
+\end{align}
+where $C_{s_d,x}$ is a constant depending only on $s_d$ and $x$.
 
 
 \item The length of the hitchhiking segment on \emph{one side} of the selected site $L$ is exponential with rate depending on $T$;
 integrating over $T$ we get
 (using Gradshteyn \& Ryzhik 3.471.9; note $\ell > 0 > \log(1-s_d)$):
-\begin{align*}
+\begin{align}
  \P\{ L > \ell \} &= \E\left[ e^{-\ell \tau_x} \right] \\
- & \propto \int_0^\infty \frac{1}{t^{3/2}} \exp\left(-\frac{x^2}{2t} + t(\log(1-s_d) -\ell) \right)  dt \\
- &= \frac{\sqrt{2\pi}}{x} e^{-x\sqrt{2(\ell-\log(1-s_d))}} ;
-\end{align*}
-hence, defining $\alpha = - \log(1-s_d) > 0$,
-\begin{align*}
+ & = C_{s_d,x} \int_0^\infty \frac{1}{t^{3/2}} \exp\left(-\frac{x^2}{2t} + t(\log(1-s_d) -\ell) \right)  dt \\
+ &= C_{s_d,x} \frac{\sqrt{2\pi}}{x} e^{-x\sqrt{2(\ell-\log(1-s_d))}} ; \label{eqn:first_integral}
+\end{align}
+hence, defining $\alpha = - \log(1-s_d) \approx s_d$ (note $\alpha>0$),
+\begin{align}
  \P\{ L > \ell \} &= \E\left[ e^{-\ell \tau_x} \right] = \exp\left\{{-x\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} \qquad \mbox{for}\; \ell>0.
-\end{align*}
+\end{align}
 This is a shifted Weibull distribution, or equivalently, $L=X^2-\alpha$, where $X$ is a Exponential with rate $x\sqrt{2}$ conditioned to be at least $\sqrt{\alpha}$.
 Note that the total length of a hitchhiking segment is the sum of two independent copies of this.
 
 \item We could rescale with $x$ and get a limiting distribution for $\tau_x$:
-\begin{align*}
+\begin{align}
   \E\left[\exp\left( -\ell \frac{\tau_x}{x} \right)\right]
         &= \exp\left\{ - x\sqrt{2}\left(\sqrt{\frac{\ell}{x}+\alpha} - \sqrt{\alpha}\right) \right\} \\
         &\xrightarrow{x\to\infty} \exp\left\{ - \frac{\ell}{\sqrt{2\alpha}} \right\} ,
-\end{align*}
+\end{align}
 implying that $\tau_x/x \xrightarrow{a.s.} 1/\sqrt{2\alpha}$.
 
 \item Ok, but how about the CLT?  Differentiating, we see that $\E[\tau_x]=x/\sqrt{2\alpha}$ and $\var[\tau_x]=x/2^{3/2}\alpha^{3/2}$,
 which suggests looking at
-\begin{align*}
+\begin{align}
 \E\left[\exp\left( -\ell \left(\frac{\tau_x-x/\sqrt{2\alpha}}{\sqrt{x}} \right) \right)\right]
     &= \exp\left\{ - x\sqrt{2}\left(\sqrt{\frac{\ell}{\sqrt{x}}+\alpha} - \sqrt{\alpha}\right) + \frac{\ell}{\sqrt{2\alpha x}} \right\} \\
     &\simeq \exp\left\{ - x\sqrt{2}\left( \frac{\ell}{2\sqrt{\alpha x}} - \frac{\ell^2}{8\alpha^{3/2}x}  \right) + \frac{\ell}{\sqrt{2\alpha x}} \right\} \\
     &= \exp\left\{ \frac{\ell^2}{2^{5/2}\alpha^{3/2}} \right\} ,
-\end{align*}
+\end{align}
 since $\sqrt{\alpha+\epsilon}=\sqrt{\alpha} +\epsilon/2\sqrt{\alpha}-\epsilon^2/8\alpha^{3/2} + O(\epsilon^3)$.
 The Laplace transform of a $N(0,\sigma^2)$ is $\exp(\ell^2\sigma^2/2)$, so
-\[
+\begin{align}
 \frac{\tau_x - x/\sqrt{2\alpha}}{\sqrt{x}} \xrightarrow{d} N(0,2^{-3/2}\alpha^{-3/2}) \qquad \mbox{as}\;x\to\infty.
-\]
+\end{align}
 
 \item Translating this limit law back to $L$, we have that
-\[
-  \tau \simeq \frac{x}{2\alpha} + 2\sqrt{2\alpha^3x} B,
-\]
+\begin{align}
+  \tau \simeq \frac{x}{2\alpha} + \sqrt{\frac{x}{8\alpha^3}} B,
+\end{align}
 with $B \sim N(0,1)$; since $L \sim \Exp(\tau)$,
-\[
+\begin{align}
   \frac{x}{\sqrt{2\alpha}} L \simeq \Exp\left(1+\frac{4\alpha^2}{\sqrt{x}}B\right) \xrightarrow{x\to\infty} \Exp(1),
-\]
+\end{align}
 i.e.\ $L$ is approximately a Exponential with rate $\sqrt{2\alpha}/x$.
 
 \item Note: if we wanted to kill the motion at some negative location (returns to original patch)
-we'd use the result for BM, on p.296 of Feller.
+we'd use the result for BM killed at $-y$, say (Feller vol.2, XIV.5):
+First note that since we kill at rate $\alpha$, the Laplace transform of $\tau$ is proportional to the Laplace transform of the first passage time,
+shifted by $\alpha$, since $\E[e^{-\ell \tau}] \propto \int_0^\infty e^{-\alpha t} e^{-\ell t} p_x(t) dt$.
+The Laplace transform of the first passage time from $0$ to $x$, killed on hitting $-y$, is
+\begin{align}
+ \frac{ e^{y\sqrt{2\ell}} - e^{-y\sqrt{2\ell}} } { e^{(x+y)\sqrt{2\ell}} - e^{-(x+y)\sqrt{2\ell}} } .
+\end{align}
+Note this reduces to the answer above ($e^{-x\sqrt{2\ell}}$) as $y \to \infty$.
+
+
+\end{itemize}
+
+\subsection{Two dimensions}
+
+\begin{itemize}
+
+\item In two dimensions, if everything is radially symmetric, we need to replace simple Brownian motion by a two-dimensional Bessel process.
+Conditioning it to survive until $x$ is equivalent to giving it drift (cite?),
+so this reduces to finding the Laplace transform of the hitting time of a diffusion.
+I think this is in some Pitman \& Yor paper.
+
+\item Radial symmetry implies a big annulus of habitat around the central patch.
+If instead there are two smallish patches in two dimensions, 
+we need only multiply the one-dimensional case by the probability that the $y$-coordinate is within the required range,
+which is something involving the error function, or for large $x$,
+is the width of the patch multiplied by $1/(2 \pi \sigma^2 t)$.  
+This replaces the $t^{3/2}$ by a $t^{5/2}$, and back to G\&R, we have that the Laplace transform is in terms of $K_{3/2}$ instead of $K_{1/2}$;
+and this is found in G\&R 8.468, $K_{3/2}(z) = \sqrt{\pi/2z} e^{-z} (1+1/z)$.
+The formula corresponding to equation \eqref{eqn:first_integral} above is then
+\begin{align}
+  \E[e^{-\ell \tau_x}] \propto \sqrt{\pi} \frac{2\sqrt{\ell+\alpha}}{x^2} e^{-x\sqrt{2(\ell+\alpha)}} \left( 1 + \frac{1}{x\sqrt{2(\ell+\alpha)}} \right) ,
+\end{align}
+and so
+\begin{align}
+  \E[e^{-\ell \tau_x}] &= \frac{\sqrt{\ell+\alpha}}{\sqrt{\alpha}} e^{-x\sqrt{2}\left(\sqrt{\ell+\alpha}-\sqrt{\alpha}\right)} \left( 1 + \frac{1}{x\sqrt{2(\ell+\alpha)}} \right) \left( 1 + \frac{1}{x\sqrt{2(\alpha)}} \right)^{-1} \\
+  &= \frac{x\sqrt{2(\ell+\alpha)}+1}{x\sqrt{2\alpha}+1} e^{-x\sqrt{2}\left(\sqrt{\ell+\alpha}-\sqrt{\alpha}\right)} .
+\end{align}
+
+\item Differentiating the above, we get that $\E[\tau_x] = x^2 / (x\sqrt{2\alpha}+1) \sim x/\sqrt{2\alpha}$ and $\var[\tau_x] = x^3 / \sqrt{2\alpha}(x\sqrt{2\alpha}+1)^2 \sim x/(2\alpha)^{3/2}$; in fact, the same scaling produces the same limit law, since the $\ell/\sqrt{x}$ term dissappears.
 
 \end{itemize}
 
@@ -111,15 +150,15 @@ we'd use the result for BM, on p.296 of Feller.
 From Jagers, section 2.6,
 the mean and variance of $K$ are as follows.
 Let the probability of $k$ offpsring be $p_k$ and let
-\[
+\begin{align}
  f(u) =  \sum_k p_k u^k,
-\]
+\end{align}
 and $f_n$ the $n^\mathrm{th}$ composition of $f$.
 Note that the mean number of offspring is $1-s_d = f'(1)$, and the variance is $\xi^2 = f''(1) + f'(1)(1-f'(1)) = f''(1) + s_d(1-s_d)$.
 If $\sum_k p_k k \log k < \infty$, then 
-\[
+\begin{align}
 \phi = \lim_{n \to \infty} \frac{ \P\{ \mbox{survival to }n \}  }{ (1-s_d)^n } = \lim_{n \to \infty} \frac{ 1-f_n(0) }{ (1-s_d)^n } > 0 .
-\]
+\end{align}
 Furthermore,
 \begin{gather*}
 \E[K] = 1/\phi \qquad \mbox{and} \\
@@ -127,8 +166,8 @@ Furthermore,
 \var[K] = \frac{1}{\phi} \left( \frac{ \xi^2 }{ s_d (1-s_d) } + \frac{1}{1-\phi} - 1 \right) .
 \end{gather*}
 Note additionally that 
-\[
+\begin{align}
     1 - \frac{1-f_n(u)}{1-f_n(0)} \searrow g(u) = \E[u^K] .
-\]
+\end{align}
 
 \end{document}
