@@ -1,5 +1,145 @@
 source("patchy-selection-fns.R")
+source("plotting-fns.R")
 require(xtable)
+
+#######
+# Phase diagram:
+#  time to migration and mutations as a function of migration rate, mutation rate, and/or deleterious selection coef
+
+# Plot level sets of time to mut and mig
+#  first against characteristic dist and pop density
+#  then agains mutation rate and pop density
+rhovals <- logseq(1,100000,length.out=100)
+clvals <- seq(1,20,length.out=100)
+muvals <- logseq(1e-8,1e-6,length.out=100)
+A <- 10000 # km^2
+mu <- 1e-8
+sb <- .1
+sd <- .01
+const <- .5
+cl <- 5  # cline length
+clplot <- expand.grid(cl=clvals,rho=rhovals)
+clplot$mut <- with(clplot, 1/(A*mu*2*sb*rho) )
+clplot$mig <- with(clplot, 1/(const*2*sd*rho*exp(-cl)) )
+muplot <- expand.grid(mu=muvals,rho=rhovals)
+muplot$mut <- with(muplot, 1/(A*mu*2*sb*rho) )
+muplot$mig <- with(muplot, 1/(const*2*sd*rho*exp(-cl)) )
+f <- function (x) { matrix(x,nrow=(sqrt(length(x)))) }
+
+pdf(file="phase-diagram-log.pdf",width=6,height=3,pointsize=10)
+layout(t(1:2))
+par(mar=c(4,3.5,1,1)+.1)
+levelsets <- 10^c(0,2,4,6)  # which lines to draw
+labelsets <- levelsets
+# plot(0,type='n',xlab='',ylab='',xlim=range(clvals),ylim=range(rhovals),log='y')
+# contour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=labelsets, method="edge", lwd=2, add=TRUE )
+logcontour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=labelsets, method="edge", log='y' )
+logcontour( clvals, rhovals, f(clplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, method="edge", log='y' )
+for (lev in levelsets) { # note rho is log10-scale.
+    rholev <- 1/(A*mu*2*sb*lev)  # mutation time determines rho
+    polygon( range(clvals)[c(1,1,2,2)], log10(c(min(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("red",.1) )
+    # migration:
+    polygon( c(clvals,rev(clvals)), log10(c( 1/(const*2*sd*exp(-clvals)*lev), rep(min(rhovals),length(clvals)) )), border=NA, col=adjustcolor("blue",.1), )
+}
+mtext(side=1,line=2.5,text=expression(R * sqrt(s[d]) / sigma))
+mtext(side=2,line=2.5,expression(rho))
+# plot(0,type='n',xlab='',ylab='',xlim=range(muvals),ylim=range(rhovals),log='xy')
+logcontour( muvals, rhovals, f(muplot$mut), col='red', labels=labelsets, levels=levelsets, method="edge", lwd=2, log='xy' )
+logcontour( muvals, rhovals, f(muplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
+for (lev in levelsets) { # note rho and mu are log10-scale.
+    # mutation:
+    polygon( log10(c(muvals,rev(muvals))), log10(c( 1/(A*muvals*2*sb*lev), rep(min(rhovals),length(muvals)) )), border=NA, col=adjustcolor("red",.1), )
+    # migration:
+    polygon( log10(range(muvals))[c(1,1,2,2)], log10(c(min(rhovals),1/(const*2*sd*exp(-cl)*lev)))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
+}
+mtext(side=1,line=2.5,expression(mu))
+mtext(side=2,line=2.5,expression(rho))
+legend("topright",bg="white",legend=c(expression(1/lambda[scriptstyle(mut)]),expression(1/lambda[scriptstyle(mig)])),fill=c("red","blue"))
+dev.off()
+
+pdf(file="phase-diagram.pdf",width=6,height=3,pointsize=10)
+layout(t(1:2))
+par(mar=c(4,3.5,1,1)+.1)
+levelsets <- 10^c(0,2,4,6)  # which lines to draw
+labelsets <- levelsets
+# plot(0,type='n',xlab='',ylab='',xlim=range(clvals),ylim=range(rhovals),log='y')
+# contour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=labelsets, method="edge", lwd=2, add=TRUE )
+logcontour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=labelsets, method="edge", lwd=2 )
+logcontour( clvals, rhovals, f(clplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, method="edge", lwd=2 )
+mtext(side=1,line=2.5,text=expression(R * sqrt(s[d]) / sigma))
+mtext(side=2,line=2.5,expression(rho))
+# plot(0,type='n',xlab='',ylab='',xlim=range(muvals),ylim=range(rhovals),log='xy')
+logcontour( muvals, rhovals, f(muplot$mut), col='red', labels=labelsets, levels=levelsets, method="edge", lwd=2 )
+logcontour( muvals, rhovals, f(muplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2 )
+mtext(side=1,line=2.5,expression(mu))
+mtext(side=2,line=2.5,expression(rho))
+dev.off()
+
+
+#####
+# Prob of establishment as distance from patch
+
+iterroot <- function (genfn,tol=sqrt(.Machine$double.eps),maxiter=1000,...) {
+    p0 <- genfn(1/2,...)
+    for (k in 1:maxiter) {
+        p <- genfn(p0,...)
+        if (max(abs(p0-p))<tol) { break } else { p0 <- p }
+    }
+    attr(p,"niter") <- k
+    attr(p,"converged") <- (k<maxiter)
+    return(p)
+}
+
+dx <- 15            # distance between demes (km)
+rangesize <- 500   # half-length of range (km)
+xx <- seq(-rangesize,rangesize,by=dx)  # deme locations (km)
+sb <- .05
+sd <- .05
+
+get.prob.estab <- function (clinewidth) {
+    alpha <- (sb+sd)/clinewidth      # slope of selection with altitude (units of s per km)
+    selfn <- function (x) { pmin( sb, pmax( -sd, alpha*x ) ) }
+    selx <- selfn(xx)
+    # Poisson
+    m <- .5
+    eqvals <- c( 1, iterroot( function (p) exp((1+sb)*(p-1)) ) )
+    genfn <- function (f,selx,migr=m) { exp((1+selx)*(f+migr*diff(c(eqvals[1],f,eqvals[2]),differences=2)-1)) }
+    niter <- 1000
+    f <- function (x) { 1/2 + sb*tanh(-x/30) }
+    ff <- matrix(NA,ncol=niter,nrow=length(xx))
+    ff[,1] <- f(xx)
+    for (k in 2:niter) { ff[,k] <- genfn(ff[,k-1],selx) }
+    return( list( prob.estab=ff[,niter], selx=selx, eqvals=eqvals ) )
+}
+
+pdf(file="prob-establishment.pdf",width=6,height=3,pointsize=10)
+layout(t(1:2))
+par(mar=c(4,4,1,1)+.1,mgp=c(2,1,0))
+with( get.prob.estab(50), {
+        plot(xx,1-prob.estab,type='n',lwd=2,ylim=c(0,max(1-prob.estab)),xlab="distance (km)", ylab="prob of establishment")
+        polygon(c(xx,rev(xx)),c(1-prob.estab,rep(0,length(xx))),col=adjustcolor("blue",.5))
+        # abline(h=1-eqvals[2], lty=2, lwd=2, col='red')
+        # abline(v=c(xx[min(which(selx>-sd))],xx[max(which(selx<sb))]),lty=3,lwd=2)
+        polygon(xx[c(min(which(selx>-sd)),max(which(selx<sb)))][c(1,1,2,2)], c(0,par("usr")[4])[c(1,2,2,1)],density=5,col=grey(.5))
+        text( xx[min(which(selx>-sd))], max(1-prob.estab), labels=as.expression(substitute(s[d]==sd,list(sd=-sd))), adj=c(1.2,1) )
+        text( xx[max(which(selx<sb))], max(1-prob.estab), labels=as.expression(substitute(s[b]==sb,list(sb=sb))), adj=c(-0.2,1) )
+        arrows( x0=min(xx), y0=mean(1-prob.estab), x1=sqrt(sd/m), angle=90 )
+    } )
+with( get.prob.estab(500), {
+        plot(xx,1-prob.estab,type='l',lwd=2,ylim=c(0,max(1-prob.estab)),xlab="distance (km)", ylab="prob of establishment")
+        polygon(c(xx,rev(xx)),c(1-prob.estab,rep(0,length(xx))),col=adjustcolor("blue",.5))
+        # abline(h=1-eqvals[2], lty=2, lwd=2, col='red')
+        # abline(v=c(xx[min(which(selx>-sd))],xx[max(which(selx<sb))]),lty=3,lwd=2)
+        polygon(xx[c(min(which(selx>-sd)),max(which(selx<sb)))][c(1,1,2,2)], c(0,par("usr")[4])[c(1,2,2,1)],density=5,col=grey(.5))
+        text( xx[min(which(selx>-sd))], max(1-prob.estab), labels=as.expression(substitute(s[d]==sd,list(sd=-sd))), adj=c(.8,1) )
+        text( xx[max(which(selx<sb))], max(1-prob.estab), labels=as.expression(substitute(s[b]==sb,list(sb=sb))), adj=c(0.2,1) )
+    } )
+# legend('topleft',legend=c('prob of establishment','cline location'),lty=c(1,1),col=c('black','green'),lwd=c(2,1),bg='white')
+dev.off()
+
+
+
+##########
 
 # Helianthus petiolaris/neglectus example:
 #  H.p. in southern Colorado; H.n. in Texas-ish
