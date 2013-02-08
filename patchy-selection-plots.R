@@ -25,6 +25,7 @@ muplot <- expand.grid(mu=muvals,rho=rhovals)
 muplot$mut <- with(muplot, 1/(A*mu*2*sb*rho) )
 muplot$mig <- with(muplot, 1/(const*2*sd*rho*exp(-cl)) )
 f <- function (x) { matrix(x,nrow=(sqrt(length(x)))) }
+pminmax <- function (x,lower,upper) { pmin(upper,pmax(lower,x)) }
 
 pdf(file="phase-diagram-log.pdf",width=6,height=3,pointsize=10)
 layout(t(1:2))
@@ -37,9 +38,11 @@ logcontour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=
 logcontour( clvals, rhovals, f(clplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, method="edge", log='y' )
 for (lev in levelsets) { # note rho is log10-scale.
     rholev <- 1/(A*mu*2*sb*lev)  # mutation time determines rho
-    polygon( range(clvals)[c(1,1,2,2)], log10(c(min(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("red",.1) )
-    # migration:
-    polygon( c(clvals,rev(clvals)), log10(c( 1/(const*2*sd*exp(-clvals)*lev), rep(min(rhovals),length(clvals)) )), border=NA, col=adjustcolor("blue",.1), )
+    if (rholev>min(rhovals) & rholev<max(rhovals)) {
+        polygon( range(clvals)[c(1,1,2,2)], log10(c(max(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("red",.1) )
+    }
+    miglevs <- 1/(const*2*sd*exp(-clvals)*lev)  # migration:
+    polygon( c(clvals,rev(clvals)), log10(c( pminmax(miglevs,min(rhovals),max(rhovals)), rep(max(rhovals),length(clvals)) )), border=NA, col=adjustcolor("blue",.1), )
 }
 mtext(side=1,line=2.5,text=expression(R * sqrt(s[d]) / sigma))
 mtext(side=2,line=2.5,expression(rho))
@@ -48,9 +51,9 @@ logcontour( muvals, rhovals, f(muplot$mut), col='red', labels=labelsets, levels=
 logcontour( muvals, rhovals, f(muplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
 for (lev in levelsets) { # note rho and mu are log10-scale.
     # mutation:
-    polygon( log10(c(muvals,rev(muvals))), log10(c( 1/(A*muvals*2*sb*lev), rep(min(rhovals),length(muvals)) )), border=NA, col=adjustcolor("red",.1), )
+    polygon( log10(c(muvals,rev(muvals))), log10(c( 1/(A*muvals*2*sb*lev), rep(max(rhovals),length(muvals)) )), border=NA, col=adjustcolor("red",.1), )
     # migration:
-    polygon( log10(range(muvals))[c(1,1,2,2)], log10(c(min(rhovals),1/(const*2*sd*exp(-cl)*lev)))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
+    polygon( log10(range(muvals))[c(1,1,2,2)], log10(c(max(rhovals),1/(const*2*sd*exp(-cl)*lev)))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
 }
 mtext(side=1,line=2.5,expression(mu))
 mtext(side=2,line=2.5,expression(rho))
