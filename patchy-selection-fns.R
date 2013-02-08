@@ -50,7 +50,8 @@ mutationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
 migrationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
     # approximation for migrational influx per patch
     # XXX to-do: do numerics?
-    return( 2 * s*gb * A * rho * exp( - sqrt(abs(s*gm))*R/sigma ) )
+    # return( 2 * s*gb * A * rho * exp( - sqrt(abs(s*gm))*R/sigma ) )
+    return( 2 * s*gb * rho * exp( - sqrt(abs(s*gm))*R/sigma ) )
 }
 
 
@@ -67,5 +68,29 @@ paramString <- function(ps=c("mu","rho","s","gb","gm","sigma","R", "A"), pos=-1)
         }
     }
     paste( sapply( 1:length(ps), function (k) { sprintf( "%s=%.2g", names(ps)[k], ps[k] ) } ), collapse=", " )
+}
+
+logseq <- function(from,to,...) { 
+    # returns a sequence whose logarithms are uniformly spaced,
+    #  i.e. a multiplicative sequence
+    exp( seq( log(from), log(to), ... ) ) 
+}
+expseq <- function(from,to,...) { 
+    # returns a sequence that when exponentiated is uniformly spaced
+    log( seq( exp(from), exp(to), ... ) ) 
+}
+
+require(colorspace)
+hcolor <- function (z,alpha=.75,cols=adjustcolor(heat_hcl(64,h=c(40,360),l=70,c.=c(70,100)),alpha),nc=length(cols),...) {
+    # coloring function for hplot
+    cols[as.numeric(cut(pmin(1,pmax(-1,z)),breaks=seq(-1,1,length.out=nc+1),include.lowest=TRUE))]
+}
+hplot <- function (z,x=as.vector(col(z)),y=as.vector(row(z)),scale=1,max.cex=4,labs,xlabs=labs,ylabs=labs,alpha=.75,...) {
+    # Like heatmap but with circles...
+    plot( x=x, y=y, pch=20, cex=max.cex*pmin(1,sqrt(abs(z)/scale)), col=hcolor(z/scale,alpha=alpha), xaxt='n', yaxt='n', xlab="", ylab="", ... )
+    if (!missing(labs) | !missing(xlabs)) 
+        axis(1, at=1:length(xlabs), labels=xlabs, las=2) 
+    if (!missing(labs) | !missing(ylabs)) 
+        axis(2, at=1:length(ylabs), labels=ylabs, las=2)
 }
 
