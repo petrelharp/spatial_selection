@@ -51,13 +51,18 @@ logcontour( muvals, rhovals, f(muplot$mut), col='red', labels=labelsets, levels=
 logcontour( muvals, rhovals, f(muplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
 for (lev in levelsets) { # note rho and mu are log10-scale.
     # mutation:
-    polygon( log10(c(muvals,rev(muvals))), log10(c( 1/(A*muvals*2*sb*lev), rep(max(rhovals),length(muvals)) )), border=NA, col=adjustcolor("red",.1), )
+    if (any( (1/(A*muvals*2*sb*lev) < max(rhovals)) & (1/(A*muvals*2*sb*lev) > min(rhovals)) )) {
+        polygon( log10(c(muvals,rev(muvals))), log10(c( pminmax(1/(A*muvals*2*sb*lev),min(rhovals),max(rhovals)), rep(max(rhovals),length(muvals)) )), border=NA, col=adjustcolor("red",.1), )
+    }
     # migration:
-    polygon( log10(range(muvals))[c(1,1,2,2)], log10(c(max(rhovals),1/(const*2*sd*exp(-cl)*lev)))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
+    rholev <- 1/(const*2*sd*exp(-cl)*lev)
+    if (rholev>min(rhovals) & rholev<max(rhovals)) {
+        polygon( log10(range(muvals))[c(1,1,2,2)], log10(c(max(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
+    }
 }
 mtext(side=1,line=2.5,expression(mu))
 mtext(side=2,line=2.5,expression(rho))
-legend("topright",bg="white",legend=c(expression(1/lambda[scriptstyle(mut)]),expression(1/lambda[scriptstyle(mig)])),fill=c("red","blue"))
+legend("topright",bg="white",legend=c(expression(T[scriptstyle(mut)]),expression(T[scriptstyle(mig)])),fill=c("red","blue"))
 dev.off()
 
 pdf(file="phase-diagram.pdf",width=6,height=3,pointsize=10)
