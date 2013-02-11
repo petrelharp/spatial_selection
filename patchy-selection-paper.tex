@@ -12,8 +12,11 @@
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\dconv}{\xrightarrow{d}}
+\newcommand{\deq}{\stackrel{\scriptscriptstyle{d}}{=}}
 
-\newcommand{\gc}[1]{{ \it \color{green} (#1) } }
+\newcommand{\gc}[1]{{\it\color{green}(#1)} }
+\newcommand{\plr}[1]{{\it\color{blue}(#1)}}
 
 \bibliographystyle{plain}
 
@@ -392,20 +395,135 @@ Also note that the properties of the discrete model are independent of the {\em 
 This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise {\em within} a panmictic deme
 if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
 
+
+\subsection{Length of the hitchhiking haplotype}
+
+If a patch adapts through new mutation, the genomic region surrounding the selected site will hitchhike \citep{hitchhiking} along with it,
+so that at least initially, all adapted individuals share a fairly long stretch of haplotype.
+This association gets slowly whittled down by recombination during interbreeding at the edge of the patch;
+but there will always be longer LD nearby to the selected site.
+\plr{Could work out on what time scale it gets whittled down and the shared length at stationarity.}
+
+On the other hand, if a an already adapted patch colonizes another through migration,
+then the newly colonized patch will inherit a long piece of haplotype around the selected site from the originating patch.
+The length of this haplotype is inversely proportional to the number of generations the allele spends ``in transit'' --
+this is because, following back the successful migrant lineage, 
+each reproductive event in locations where the allele is at low frequency
+whittles down the hitchhiking haplotype.
+(In this case, the haplotype is literally hitchhiking across geography!)
+
+Here is a simplified picture of the process of adaptation by migration.
+There is a constant outflux of migrants from the patch where the allele is already established; 
+any descendants of these carrying the allele are locally maladapted, so are mostly doomed to extinction.
+However, eventually the descendants of one lucky migrant will reach the new patch and colonize it.
+(If the new patch is at some distance, it will almost certainly \plr{a.c.} be colonized first by only one family.)
+We will estimate the total outflux of migrants, and assume that their fates are independent of each other,
+so that we need only calculate the probability that offspring carrying the focal allele of a given migrant colonize the new patch,
+and the distribution of the transit time, given that this occurs.
+In doing so, we only follow the offspring of the migrant that carry the focal allele,
+and approximate these as a branching process, 
+i.e.\ assume that the number of offspring each produces is independent of each other.
+
+Since we are concerned with the rare migrant families that transit quickly between patches, 
+we should remove any backmigrants into the already-established patch;
+we do this by assuming rather that the allele is deleterious \emph{everywhere} --
+backmigrants will contribute little, since they are going the wrong direction,
+and we deal with arrival at the new patch later.
+Spatial motion is now independent of reproduction,
+so the chance that offspring of the migrant first arrive in the new patch after $\tau$ generations 
+is the probability of survival of the family until time $\tau$
+multiplied by the probability that some of the family are in the new patch, given survival.
+The first probability comes from well-known properties of branching processes,
+and the second from Brownian motion.
+Then, the chance that the migrant family establishes in the new patch 
+depends on the size of the family that arrives in the patch,
+and the probability that each establishes.
+
+If each individual has on average $(1-s_d)$ offspring, then after $t$ generations,
+the family has on average $(1-s_d)^t$ members.
+Let $p_e(t)$ be the chance of extinction by time $t$, and let $K_t$ be the (random) family size conditioned on nonextinction,
+so that $(1-s_d)^t = (1-p_e(t))\E[K_t]$.
+It turns out that by assuming the fate of each offspring is independent (i.e.\ that this forms a branching process),
+and that the distribution of offspring numbers is not too heavy-tailed \citep[see][for details]{jaegers1976branching},
+that $K_t$ has a limiting distribution: $K_t \dconv K$ 
+and that $(1-s_d)^{t}/(1-p_e(t)) \to \E[K]$ as $t \to \infty$.
+In other words, the chance of survival to time $t$ is a constant multiplied by $(1-s_d)^t$,
+and conditional on survival, the family size is fixed.
+
+We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary}.
+When we condition on survival, we condition on existence of at least one lineage from time $0$ to time $t$.
+Once given this lineage, nothing distinguishes any of the other reproduction events --
+then each individual in this lineage must give birth to at least one offspring,
+and all other reproduction events are unconditioned.
+In other words, the genealogy of a family that survives until $t$
+can be decomposed into a ``trunk'' that lasts until $t$
+anmd independent ``branches'' growing from each intermediate time $0\le s \le t$ 
+that may or may not survive until $t$.
+This process is depicted in Figure~XA.
+Concretely, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$
+(so $\P\{Z_t = 0\} = p_e(t)$),
+then
+\begin{align}
+  Z_t \; \vert \; Z_t>0 \deq \sum_{s=0}^t \sum_{k=1}^{W_s-1} Z^{(s,k)}_{t-s},
+\end{align}
+where each $Z^{(s,k)}$ is an independent copy of $Z$,
+and each $W_s$ is an independent copy of the offspring distribution, conditioned on $W_s \ge 1$.
+
+\begin{figure}[ht!!]
+  \begin{center}
+  \input{branching-concept.pdf_tex}
+  \end{center}
+\caption{Depiction of the decomposition described in the text.
+In red is the central lineage (whose spatial motion we follow);
+in black are the surviving branches off of this lineage, 
+and in grey are offspring of the central lineage that did not survive until $t$.
+\plr{Label $W_s$ in this figure?}
+\plr{Add as part B a simulation figure.}
+\label{fig:branching_decomp}
+}
+\end{figure}
+
+Now we can add in the spatial motion, by following only the motion of the ``trunk''
+(i.e.\ the red line in figure \ref{fig:branching_decomp}).
+We will first work in one dimension.
+If the variance of the parent-offspring distance is $\sigma^2$ (and the distribution is not too heavy-tailed),
+then the motion of this is approximately Brownian, with variance $\sigma^2$ per generation.
+Suppose that the new patch is at distance $x$.
+The probability density for the first time such a Brownian motion $B_s$ hits $x$ is
+\citep[XXX]{feller}
+% note $\sigma B_t \deq B_{\sigma^2 t}$ so $\P\{ \sup_{s\le t} \sigma B_s \le x \} = \P\{ \sup_{s \le \sigma^2 t} B_s \le x \}
+\begin{align}
+  \P\{ B_t=x \;\mbox{and} \; B_u<x \;\mbox{for all}\; u<t\} =  \frac{x}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t\sigma^2}\right) .
+\end{align}
+
+We are interested in two things: the probability that the family of a given migrant will eventually establish in the new patch,
+and the transit time conditioned on establishment.
+
+Write $\tau$ for the first time the trunk lineage hits $x$, i.e.\ reaches the new patch, 
+conditioned on this occurrence.
+Let $Z_t$ denote the size of the family at time $t$,
+and $B_t$ the location of the trunk lineage,
+so that
+\begin{align}
+  \P\{\tau \in dt\} = \P\{ Z_t>0 \} \P\{ 
+\end{align}
+If we define $\mu_K$ to be the limiting mean family size conditioned on survival
+(i.e.\ $\mu_K = \E[K]$), then combining the results above,
+\begin{align}
+  \P\{ \tau \in dt \} \propto 
+  \frac{(1-s_d)^t}{\mu_K} \frac{x}{t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t}\right) ,
+\end{align}
+
+
+
+%%%%%%%%%%
 \section{Applications} 
-Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, \emph{Chaetodipus intermedius}, building on classic work by XXX. These mice live in the desert? through the American SouthWest and into Mexico. In the majority of their range they live on the light colored rocks, and have light pigmentation \citep[presumably an adaptation to visual-based predators][]{}. However, in some regions these mice live on dark colored substrates, including old lava flows, and have adapted to these patches in part through changes to a dark pigmentation. On one of these flows (Pinacate) an allele at the Mc1r locus is responsible for much of the change to a dark pelage \citep{Nachman:03}. This dark allele differs from the light allele by four amino acid changes - and has a dominant or partially dominant effect depending on the measure of coat color assessed. These lava flows are separated from each other by a range of distances, with some being separated from any other flow by hundreds of kilometers of light colored substrate. The Pinacate allele is not present in a number of other dark colored rock pocket mouse populations suggesting these populations have adapted in parallel. However, there is some evidence \citep{Hoekstra:05} that some close populations may have adapted by the spread of another dark allele by migration. 
 
-As can be seen from above a key parameter is $\sigma/\sqrt{s}$. \citep{Hoekstra:04} studied the frequency of the dark MC1R allele, and coat color phenotypes, at sites on the Pinacate lava flow and at two nearby light substrate sites. On the lava flow the dark MC1R allele is at $86\%$ frequency. At the Tule light substrate site, which is $\sim 12km$ from the flow, the dark MC1R allele was at $\sim 3\%$ frequency. At a greater distance from the lava ($XXX$km) the light colored substrate the dark MC1R was absent from a sample at the Christmas pass. While at the light substrate O'Neill site, which is $10$km from the flow on opposite side from Tule, the dark MC1R allele has a frequency of $\sim 34\%$.
+HbS
 
-I estimate that a characteristic length of 2.8km gives the frequency dropping from 50\% to ~1\% in this distance. So this doesn't seem so off. A characteristic length that is 1.4x gives 2.8\% from 50\% in 12km, which may be a little more accurate.
+lava bed peromyscus
 
-2) The frequency at O'Neill [another site off the lava, on opposite side from Tule]  is 9km from the lava and has a frequency of 34\% of the dark allele. I estimate that we need a sigma/sqrt(s) of ~28km (i.e. ten times the characteristic length) to give a drop from 50\% to 34\%.
-
-[Obviously the cline isn't decaying from 50\%, the frequency of the light allele on the lava to be ~14%, we could put this in more carefully]
-So it seems to me that a sigma/sqrt(s) of 3-30km seems to encompass a range of interesting parameters, and can be justified without too much trouble.
-
-
-Using the dispersal distance of 0.28km [from marker recapture] and an s=0.01 [from paper] gives us sigma/sqrt(s)=2.8km
+G6PD
 
 \section{Discussion} 
 
