@@ -8,12 +8,16 @@
 \usepackage{hyperref}
 \usepackage{latexml} % for \iflatexml
 
-\newcommand{\var}{\mathop{\mbox{Var}}}
+% \newcommand{\var}{\mathop{\mbox{Var}}}
+% \newcommand{\Exp}{\mathop{\mbox{Exp}}}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\Exp}{Exp}
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\dconv}{\xrightarrow{d}}
 \newcommand{\deq}{\stackrel{\scriptscriptstyle{d}}{=}}
+\newcommand{\migrate}{\lambda_\text{mig}}
 
 \newcommand{\gc}[1]{{\it\color{green}(#1)} }
 \newcommand{\plr}[1]{{\it\color{blue}(#1)}}
@@ -247,7 +251,7 @@ themselves in the patch and become established  is approximately
 \end{equation}
 \gc{Is this $A^2$ right here?. Do we want to use $q(R)$ here?}
 If this establishment rate is low, the time it takes
-a mutation to arise that will become established will be  $\sim Exp(\lambda_{mig,R})$
+a mutation to arise that will become established will be  $\sim \Exp(\lambda_{mig,R})$
 Assuming that the time it takes for a allele from the first patch to
 become established in the second patch is short,
 then  the expected waiting time until some migrant allele fixes in the
@@ -395,24 +399,9 @@ Also note that the properties of the discrete model are independent of the {\em 
 This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise {\em within} a panmictic deme
 if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
 
-\section{Applications} 
-Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, \emph{Chaetodipus intermedius}, building on classic work by XXX. These mice live in the desert? through the American SouthWest and into Mexico. In the majority of their range they live on the light colored rocks, and have light pigmentation \citep[presumably an adaptation to visual-based predators][]{}. However, in some regions these mice live on dark colored substrates, including old lava flows, and have adapted to these patches in part through changes to a dark pigmentation. On one of these flows (Pinacate) an allele at the Mc1r locus is responsible for much of the change to a dark pelage \citep{Nachman:03}. This dark allele differs from the light allele by four amino acid changes - and has a dominant or partially dominant effect depending on the measure of coat color assessed. These lava flows are separated from each other by a range of distances, with some being separated from any other flow by hundreds of kilometers of light colored substrate. The Pinacate allele is not present in a number of other dark colored rock pocket mouse populations suggesting these populations have adapted in parallel. However, there is some evidence \citep{Hoekstra:05} that some close populations may have adapted by the spread of another dark allele by migration. 
-
-As can be seen from above a key parameter is $\sigma/\sqrt{s}$. \citep{Hoekstra:04} studied the frequency of the dark MC1R allele, and coat color phenotypes, at sites on the Pinacate lava flow and at two nearby light substrate sites. On the lava flow the dark MC1R allele is at $86\%$ frequency. At the Tule light substrate site, which is $\sim 12km$ from the flow, the dark MC1R allele was at $\sim 3\%$ frequency. At a greater distance from the lava ($XXX$km) the light colored substrate the dark MC1R was absent from a sample at the Christmas pass. While at the light substrate O'Neill site, which is $10$km from the flow on opposite side from Tule, the dark MC1R allele has a frequency of $\sim 34\%$.
-
-
-I estimate that a characteristic length of 2.8km gives the frequency dropping from 50\% to ~1\% in this distance. So this doesn't seem so off. A characteristic length that is 1.4x gives 2.8\% from 50\% in 12km, which may be a little more accurate.
-
-2) The frequency at O'Neill [another site off the lava, on opposite side from Tule]  is 9km from the lava and has a frequency of 34\% of the dark allele. I estimate that we need a sigma/sqrt(s) of ~28km (i.e. ten times the characteristic length) to give a drop from 50\% to 34\%.
-
-[Obviously the cline isn't decaying from 50\%, the frequency of the light allele on the lava to be ~14%, we could put this in more carefully]
-So it seems to me that a sigma/sqrt(s) of 3-30km seems to encompass a range of interesting parameters, and can be justified without too much trouble.
-
-
-Using the dispersal distance of 0.28km [from marker recapture] and an s=0.01 [from paper] gives us sigma/sqrt(s)=2.8km
 
 %%%%%%%%%
-\subsection{Length of the hitchhiking haplotype}
+\section{Length of the hitchhiking haplotype}
 
 If a patch adapts through new mutation, the genomic region surrounding the selected site will hitchhike \citep{hitchhiking} along with it,
 so that at least initially, all adapted individuals share a fairly long stretch of haplotype.
@@ -459,15 +448,15 @@ Then, the chance that the migrant family establishes in the new patch
 depends on the size of the family that arrives in the patch,
 and the probability that each establishes.
 
-If each individual has on average $(1-s_d)$ offspring, then after $t$ generations,
-the family has on average $(1-s_d)^t$ members.
+If each individual has on average $(1-s_m)$ offspring, then after $t$ generations,
+the family has on average $(1-s_m)^t$ members.
 Let $p_e(t)$ be the chance of extinction by time $t$, and let $K_t$ be the (random) family size conditioned on nonextinction,
-so that $(1-s_d)^t = (1-p_e(t))\E[K_t]$.
+so that $(1-s_m)^t = (1-p_e(t))\E[K_t]$.
 It turns out that by assuming the fate of each offspring is independent (i.e.\ that this forms a branching process),
 and that the distribution of offspring numbers is not too heavy-tailed \citep[see][for details]{jaegers1976branching},
 that $K_t$ has a limiting distribution: $K_t \dconv K$ 
-and that $(1-s_d)^{t}/(1-p_e(t)) \to \E[K]$ as $t \to \infty$.
-In other words, the chance of survival to time $t$ is a constant multiplied by $(1-s_d)^t$,
+and that $(1-s_m)^{t}/(1-p_e(t)) \to \E[K]$ as $t \to \infty$.
+In other words, the chance of survival to time $t$ is a constant multiplied by $(1-s_m)^t$,
 and conditional on survival, the family size is fixed.
 
 We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary}.
@@ -512,40 +501,116 @@ Suppose that the new patch is at distance $x$.
 The probability density for the first time such a Brownian motion $B_s$ hits $x$ is
 \citep[XXX]{feller}
 % note $\sigma B_t \deq B_{\sigma^2 t}$ so $\P\{ \sup_{s\le t} \sigma B_s \le x \} = \P\{ \sup_{s \le \sigma^2 t} B_s \le x \}
-\begin{align}
+\begin{align} \label{eqn:hitting_dist}
   \P\{ B_t=x \;\mbox{and} \; B_u<x \;\mbox{for all}\; u<t\} =  \frac{x}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t\sigma^2}\right) .
 \end{align}
+The chance that the descendants of a given migrant arrives at the new patch at time $t$
+is now just equation~\eqref{eqn:hitting_dist} multiplied by the chance that 
+the migrant family is still alive at time $t$.
+For convenience, we define $\alpha = - \log(1-s_m) \approx s_m$,
+so that $1-p_e(t) \simeq (1/\mu_K) \exp(-\alpha t)$,
+and define $\mu_K$ to be the limiting mean family size conditioned on survival.
+By integrating over $t$, we get the chance that descendants of the migrant ever arrive at the new patch is
+\begin{align} \label{eqn:estab_prob}
+  & \int_0^\infty \frac{(1-s_m)^t}{\mu_K} \frac{x}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t\sigma^2}\right)  dt \\
+  & \qquad = \frac{1}{\mu_K} \exp\left( - \frac{ x \sqrt{\alpha}}{\sigma} \right) .
+\end{align}
+(Note that this is, up to the constant $\mu_K$, the chance that a Brownian motion killed at rate $\alpha$
+ever hits $x$ \citep{feller}.
+This approximation holds if $x$ is large enough that the approximation $1-p_e(t) \approx (1-s_m)^t/\mu_K$ holds.)
 
-We are interested in two things: the probability that the family of a given migrant will eventually establish in the new patch,
+We now have the tools to compute the two quantities of interest:
+the probability that the family of a given migrant will eventually establish in the new patch,
 and the transit time conditioned on establishment.
 
-Write $\tau$ for the first time the trunk lineage hits $x$, i.e.\ reaches the new patch, 
-conditioned on this occurrence.
-Let $Z_t$ denote the size of the family at time $t$,
-and $B_t$ the location of the trunk lineage,
-so that
+The probability of establishment of a single migrant in a patch distance $x$ away
+is equal to the probability that the migrant's family makes it to the patch at all,
+multiplied but the chance that it establishes locally, given that it makes it there.
+We have computed the first term in equation~\eqref{eqn:estab_prob},
+and we make the small assumption that the second term is just the probability of local fixation
+of a beneficial allele present in $K$ copies,
+i.e.~$\E[1-(1-p_f(s_b))^K] \approx 2 s_b \mu_K/\xi^2$,
+where $p_f(s_b) \approx 2s_b/\xi^2$ is the probability of fixation of a single mutant with additive benefit $s_b$.
+Therefore, the probability of establishment is
 \begin{align}
-  \P\{\tau \in dt\} = \P\{ Z_t>0 \} \P\{ 
+  F(x) &\approx \frac{2s_b}{\xi^2} \exp\left( - \frac{\sqrt{\alpha} x}{\sigma} \right) ,
 \end{align}
-If we define $\mu_K$ to be the limiting mean family size conditioned on survival
-(i.e.\ $\mu_K = \E[K]$), then combining the results above,
-\begin{align}
-  \P\{ \tau \in dt \} \propto 
-  \frac{(1-s_d)^t}{\mu_K} \frac{x}{t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t}\right) ,
-\end{align}
+which verifies the less intuitive calculation of $\migrate$ above.
 
+Now, write $\tau$ for the first time the trunk lineage hits $x$, i.e.\ reaches the new patch,
+with the convention that $\tau=\infty$ if it never does.
+By the above arguments, and equation~\eqref{eqn:estab_prob}, we have that the conditional probability density is
+\begin{align}
+  \P\{\tau\in dt | \tau<\infty \} &= \frac{\P\{\tau \in dt\}}{\P\{\tau<\infty\}} \\
+  &= \frac{x}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t\sigma^2} -\alpha t + \sqrt{\alpha} \frac{x}{\sigma} \right) .
+\end{align}
+Although $\tau$ is interesting, we are more interested in the length of the hitchhiking segment,
+since that is where our signal would come from.
+Since each generation spent in transit provides an opportunity for recombination,
+if recombination is Poisson, the length of the hitchhiking segment (in Morgans) on each side of the site will be exponentially distributed
+with mean $\tau$, so that if $L$ is the length on, say, the right, then
+\begin{align} \label{eqn:haplen_cdf}
+\P\{L>\ell\} &= \E[e^{-\ell \tau}|\tau<\infty] \\
+&= \exp\left\{{-\frac{x}{\sigma}\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} .
+\end{align}
+This is also the Laplace transform of $\tau$;
+we can differentiate it to find that $\E[\tau] = x/(\sigma\sqrt{2\alpha})$
+and $\var[\tau] = x/( 2^{3/2}\alpha^{3/2}\sigma)$.
+Integrating~\eqref{eqn:haplen_cdf} gives that 
+$\E[L] = \sigma \sqrt{2\alpha}/x + \sigma^2/x^2$ and $\var[L] = 2\alpha\sigma^2/x^2 + 4 \sigma^3 \sqrt{2\alpha}/x^3 + 5 \sigma^4 / x^4$;
+an easier way to see this is to note that if $Y$ is an exponential random variable with rate $x\sqrt{2}/\sigma$,
+then $L$ has the same distribution as $(Y + \sqrt{\alpha})^2 - \alpha$.
+
+%%%
+\subsection{Limiting distributions}
+
+We are already assuming that $x$ is large relative to the migration-selection cline width $\sigma/\sqrt{s_m}$;
+by taking the large-$x$ limit above we can obtain more intuitive descriptions of the process
+via a central limit for $\tau$.
+Define $\eta_x$ to be the deviation of $\tau$ from its mean, normalized by its standard deviation,
+so that $\tau = x/\sigma(2\alpha)^{-1/2} + \eta_x \sqrt{x/\sigma} (2\alpha)^{-3/4}$.
+Plugging this into equation~\eqref{eqn:haplen_cdf},
+after some algebra (and using that $\sqrt{x+\epsilon} = \sqrt{x} + \frac{\epsilon}{2\sqrt{x}} - \frac{\epsilon^2}{2\sqrt{x}^3} + O(\epsilon^3)$) we obtain that
+\begin{align}
+  \E[e^{-\ell \eta}] &= \exp\left\{ \frac{\ell^2}{2} + O\left(\frac{1}{x}\right) \right\}.
+\end{align}
+By the properties of Laplace transforms \citep{durrett},
+this implies that $\eta_x$ converges in distribution to a standard Gaussian random variable as $x \to \infty$.
+In other words, we now know that the distribution of $\tau$ about its mean is approximately Gaussian.
+Since the standard deviation of $\tau$ is of lower order than its mean,
+a similar calculation shows that for large $x$, the haplotype halflength $L$ is approximately exponentially distributed, 
+with mean $\sqrt{2\alpha} \sigma/x$.
+
+% \begin{align}
+%   \E[e^{-\ell \eta}] &= \E\left[ \exp\left\{-\ell\left(\tau - \frac{x}{\sigma\sqrt{2\alpha}}\right)\frac{(2\alpha)^{3/4}\sqrt{\sigma}}{\sqrt{x}} \right\} \right] \\
+%   &= \E\left[ \exp\left\{ - \left(\frac{\ell (2\alpha)^{3/4} \sqrt{\sigma}}{\sqrt{x}}\right) \tau \right\} \right] \exp\left( (2\alpha)^{1/4} \sqrt{\frac{x}{\sigma}} \right) \\
+% \end{align}
 
 
 %%%%%%%%%%
 \section{Applications} 
+Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, \emph{Chaetodipus intermedius}, building on classic work by XXX. These mice live in the desert? through the American SouthWest and into Mexico. In the majority of their range they live on the light colored rocks, and have light pigmentation \citep[presumably an adaptation to visual-based predators][]{}. However, in some regions these mice live on dark colored substrates, including old lava flows, and have adapted to these patches in part through changes to a dark pigmentation. On one of these flows (Pinacate) an allele at the Mc1r locus is responsible for much of the change to a dark pelage \citep{Nachman:03}. This dark allele differs from the light allele by four amino acid changes - and has a dominant or partially dominant effect depending on the measure of coat color assessed. These lava flows are separated from each other by a range of distances, with some being separated from any other flow by hundreds of kilometers of light colored substrate. The Pinacate allele is not present in a number of other dark colored rock pocket mouse populations suggesting these populations have adapted in parallel. However, there is some evidence \citep{Hoekstra:05} that some close populations may have adapted by the spread of another dark allele by migration. 
+
+As can be seen from above a key parameter is $\sigma/\sqrt{s}$. \citep{Hoekstra:04} studied the frequency of the dark MC1R allele, and coat color phenotypes, at sites on the Pinacate lava flow and at two nearby light substrate sites. On the lava flow the dark MC1R allele is at $86\%$ frequency. At the Tule light substrate site, which is $\sim 12km$ from the flow, the dark MC1R allele was at $\sim 3\%$ frequency. At a greater distance from the lava ($XXX$km) the light colored substrate the dark MC1R was absent from a sample at the Christmas pass. While at the light substrate O'Neill site, which is $10$km from the flow on opposite side from Tule, the dark MC1R allele has a frequency of $\sim 34\%$.
+
+
+I estimate that a characteristic length of 2.8km gives the frequency dropping from 50\% to $\sim$1\% in this distance. So this doesn't seem so off. A characteristic length that is 1.4x gives 2.8\% from 50\% in 12km, which may be a little more accurate.
+
+2) The frequency at O'Neill [another site off the lava, on opposite side from Tule]  is 9km from the lava and has a frequency of 34\% of the dark allele. I estimate that we need a sigma/sqrt(s) of $\sim$28km (i.e. ten times the characteristic length) to give a drop from 50\% to 34\%.
+
+[Obviously the cline isn't decaying from 50\%, the frequency of the light allele on the lava to be $\sim$14\%, we could put this in more carefully]
+So it seems to me that a sigma/sqrt(s) of 3-30km seems to encompass a range of interesting parameters, and can be justified without too much trouble.
+
+
+Using the dispersal distance of 0.28km [from marker recapture] and an s=0.01 [from paper] gives us sigma/sqrt(s)=2.8km
 
 HbS
-
-lava bed peromyscus
 
 G6PD
 
 \section{Discussion} 
+
+\plr{Note that optimal $s_m$ for migration makes migration harder to spot.}
 
 if populations and mutation rates are large enough, parallel adaptation is likely, aided by geography. 
 recall others' work. 
