@@ -20,10 +20,10 @@ const <- .5
 cl <- 5  # cline length
 clplot <- expand.grid(cl=clvals,rho=rhovals)
 clplot$mut <- with(clplot, 1/(A*mu*2*sb*rho) )
-clplot$mig <- with(clplot, 1/(const*2*sd*rho*exp(-cl)) )
+clplot$mig <- with(clplot, 1/(const*2*sd*(sd+sb)*rho*exp(-cl)) )
 muplot <- expand.grid(mu=muvals,rho=rhovals)
 muplot$mut <- with(muplot, 1/(A*mu*2*sb*rho) )
-muplot$mig <- with(muplot, 1/(const*2*sd*rho*exp(-cl)) )
+muplot$mig <- with(muplot, 1/(const*2*sd*(sd+sb)*rho*exp(-cl)) )
 f <- function (x) { matrix(x,nrow=(sqrt(length(x)))) }
 pminmax <- function (x,lower,upper) { pmin(upper,pmax(lower,x)) }
 
