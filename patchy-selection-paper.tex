@@ -342,65 +342,43 @@ approximately logistically with the distance between the patches at rate $\sqrt{
 %%%%
 \subsection{Multiple patches}
 
-\plr{Aim here is to discuss transition to discrete model?}
 
-We can extend this reasoning to multiple patches ($>2$) within our population's range
-where our $B$ allele can facilitate local adaptation. Under our
-assumptions of mutational exclusion and rapid establishment, each one
-of these patches will adapt through a single copy of the $B$
-alllele. The occupation of our different patches by the $B$ allele will form a
-discrete state markov chain, where the states of the chain are which patches have
-been colonized so far by $B$, and which colonized patches have shared
-versus distinct copy of $B$.
+We can extend this reasoning to multiple patches of unadapted habitat 
+in which the $B$ allele can facilitate local adaptation. 
+Under our assumptions of mutational exclusion and rapid establishment, 
+each patch will adapt through establishment of a single copy of the $B$ allele, 
+either by migration or mutation.
+Since we assume that the times between successive establishments is the result of many nearly-independent attempts
+with small probability of success,
+the process of occupation is well approximated by a discrete-state Markov chain,
+whose state is the labeling of patches according to the colonizing allele
+(or none, for those that haven't yet adapted).
 
-For simplicity we will assume that each of these patches has
-the same size and geometry (i.e.\ same $E$). A particular patch adapts in parallel through an independent
-instance of the $B$ mutation at rate $2 s_B \mu \rho A$.
-While, if patches $1$ through $k$ are already occupied by
-established copies of the $B$ allele, and these patches are at
-distances $R_1,~\cdots,~R_k$ away from our patch, the rate of
-adaptation through migration in our patch is 
+If not yet adapted,
+a patch of area $A$ will acquire the adaptation by new mutation at rate $2 s_B \mu \rho A/\xi^2$.
+Without loss of generality, assume that patches $1, \ldots, k$ are already adapted,
+and these patches are at distances $R_1, \ldots, R_k$ away from this unadapted patch, 
+then the total rate of adaptation through migration is
 \begin{equation}
-\sum_{i=1}^{k} 2 s_B \rho E \exp(- \sqrt{s_m} R_k/\sigma).
+  \frac{ s_B (s_B+s_m) \rho A}{\xi^2} \sum_{i=1}^{k} \exp\left(- \sqrt{s_m} R_i/\sigma\right),
 \end{equation}
-Once again the compound parameter $2s_B \rho$ will function to
-scale the times between events (parallel adaptation or the spread of a
-migrant), and so is critical to the time-scale over which
-adaptation occurs. However, this compound parameter again has no effect on
-the final configuration of the pattern of which patches have adapted
-in parallel versus have shared genetic basis to their adaptive
-response to the poor environment.
+and the probability that the adaptation is from patch $i$ is $\exp\left(- \sqrt{s_m} R_i/\sigma\right)/\sum_{j=1}^{k} \exp\left(- \sqrt{s_m} R_j/\sigma\right)$.
+These specify the transition rates of the process.
 
-The states of this 
+Since the compound parameter $s_B \rho / \xi^2$ is common to both rates,
+it functions only as a time scaling of the process, 
+and therefore has no effect on the final configuration of the pattern of which patches have adapted
+in parallel versus have shared genetic basis to their adaptive response to the poor environment.
 
-%Furthermore, in the model of discrete demes connected by symmetric weak migration, 
-%the final distribution of types depends only on the ratio of mutation to migration rates,
-%and that the number of independently arisen types follows the Ewens distribution, with parameter $\mu/m$.
-%In Figure \ref{fig:discbyratio} we plot mean number of types and size (number of demes occupied) of a sampled type,
-%for a model with 20 interconnected demes, across different parameter values.  
-%This indicates that we need the population-scaled mutation and migration rates 
-%to be within a factor of about 100 of each other for parallel adaptation to leave an interesting pattern.  
-%If migration is faster, then a single type is likely to take over, while if migration is weaker, each deme is likely to come up with its own type.
-
-%\begin{figure}[ht]
-% \begin{center}
- %  \includegraphics{discrete-by-ratio}
- %\caption{ %
- %The mean number of types and the mean number of demes occupied by a sampled type, in a discrete model with 20 demes,
- %plotted as a function of the ratio of migration to mutation probabilities.
-% Note the log scale on the horizontal axis.
-% \label{fig:discbyratio}
- %}
- %\end{center}
-%\end{figure}
-
-Also note that the properties of the discrete model are independent of the {\em sizes} of the demes themselves--- we have assumed away all such dependence.
-This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise {\em within} a panmictic deme
+Also note that we can rescale time by the typical patch size, and introduce a parameter, say $a_k = A_k/\bar A$,
+making the properties (other that the time scaling) of the discrete model independent of the \emph{numerical sizes} of the demes themselves.
+This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise \emph{within} a panmictic deme
 if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
 
+\plr{conclusion?}
 
 %%%%%%%%%
-\section{Length of the hitchhiking haplotype}
+\subsection{Length of the hitchhiking haplotype}
 \label{ss:haplotype_length}
 
 If a patch adapts through new mutation, the genomic region surrounding the selected site will hitchhike \citep{hitchhiking} along with it,
@@ -562,7 +540,7 @@ an easier way to see this is to note that if $Y$ is an exponential random variab
 then $L$ has the same distribution as $(Y + \sqrt{\alpha})^2 - \alpha$.
 
 %%%
-\subsection{Limiting distributions}
+\subsubsection{Limiting distributions}
 
 We are already assuming that $x$ is large relative to the migration-selection cline width $\sigma/\sqrt{s_m}$;
 by taking the large-$x$ limit above we can obtain more intuitive descriptions of the process
