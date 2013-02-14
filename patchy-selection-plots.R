@@ -41,7 +41,7 @@ for (lev in levelsets) { # note rho is log10-scale.
     if (rholev>min(rhovals) & rholev<max(rhovals)) {
         polygon( range(clvals)[c(1,1,2,2)], log10(c(max(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("red",.1) )
     }
-    miglevs <- 1/(const*2*sd*exp(-clvals)*lev)  # migration:
+    miglevs <- 1/(const*2*sd*(sb+sd)*exp(-clvals)*lev)  # migration:
     polygon( c(clvals,rev(clvals)), log10(c( pminmax(miglevs,min(rhovals),max(rhovals)), rep(max(rhovals),length(clvals)) )), border=NA, col=adjustcolor("blue",.1), )
 }
 mtext(side=1,line=2.5,text=expression(R * sqrt(s[d]) / sigma))
@@ -55,7 +55,7 @@ for (lev in levelsets) { # note rho and mu are log10-scale.
         polygon( log10(c(muvals,rev(muvals))), log10(c( pminmax(1/(A*muvals*2*sb*lev),min(rhovals),max(rhovals)), rep(max(rhovals),length(muvals)) )), border=NA, col=adjustcolor("red",.1), )
     }
     # migration:
-    rholev <- 1/(const*2*sd*exp(-cl)*lev)
+    rholev <- 1/(const*2*sd*(sb+sd)*exp(-cl)*lev)
     if (rholev>min(rhovals) & rholev<max(rhovals)) {
         polygon( log10(range(muvals))[c(1,1,2,2)], log10(c(max(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
     }
