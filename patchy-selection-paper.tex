@@ -491,9 +491,9 @@ For convenience, we define $\alpha = - \log(1-s_m) \approx s_m$,
 so that $1-p_e(t) \simeq (1/\mu_K) \exp(-\alpha t)$,
 and define $\mu_K$ to be the limiting mean family size conditioned on survival.
 By integrating over $t$, we get the chance that descendants of the migrant ever arrive at the new patch is
-\begin{align} \label{eqn:estab_prob}
+\begin{align} 
   & \int_0^\infty \frac{(1-s_m)^t}{\mu_K} \frac{x}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t\sigma^2}\right)  dt \\
-  & \qquad = \frac{1}{\mu_K} \exp\left( - \frac{ x \sqrt{\alpha}}{\sigma} \right) .
+  & \qquad = \frac{1}{\mu_K} \exp\left( - \frac{ x \sqrt{\alpha}}{\sigma} \right) .\label{eqn:estab_prob}
 \end{align}
 (Note that this is, up to the constant $\mu_K$, the chance that a Brownian motion killed at rate $\alpha$
 ever hits $x$ \citep{feller}.
@@ -512,7 +512,7 @@ of a beneficial allele present in $K$ copies,
 i.e.~$\E[1-(1-p_f(s_b))^K] \approx 2 s_b \mu_K/\xi^2$,
 where $p_f(s_b) \approx 2s_b/\xi^2$ is the probability of fixation of a single mutant with additive benefit $s_b$.
 Therefore, the probability of establishment is
-\begin{align}
+\begin{align} \label{eqn:bp_prob_estab}
   F(x) &\approx \frac{2s_b}{\xi^2} \exp\left( - \frac{\sqrt{\alpha} x}{\sigma} \right) ,
 \end{align}
 which verifies the less intuitive calculation of $\migrate$ above.
@@ -656,6 +656,38 @@ if $b<1$, so the sum converges.
 %%%%%%%%%%
 \section{The probability of establishment}
 \label{ss:prob_estab}
+
+\plr{Notes for clarification.}
+We can calculate the rate of ``core'' establishment, i.e.\ the mean number of reproductive events that lead to establishment as defined below, in two ways:
+\begin{align}
+  (\mbox{rate of establishment}) &= (\mbox{outflux of BPs from old patch}) \times (\mbox{\# estab events per BP}) \\
+  &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
+  & \qquad \qquad \times (\mbox{\# estab events per successful BP}) \\
+  &= (\mbox{subcritical occupation density}) \times \rho \times (\mbox{\# offspring per subcritical indiv}) \\
+  & \qquad \qquad \times (\mbox{prob of estab in the patch}) .
+\end{align}
+The probability of establishment of a branching process is in equation~\eqref{eqn:bp_prob_estab};
+the subcritical occupation density is in equation~\eqref{eqn:eqfreq}, up to a constant $C$ depending on geometry;
+the number of (extra) offspring per subcritical individual is $s_B+s_m$;
+and the probability of establishment in the patch is $2s_B/\xi^2$.
+The ``outflux of branching processes'' we have not computed;
+but we know that the probability a branching process arrives at the patch is given by equation~\eqref{eqn:estab_prob};
+if it does it is present in $\mu_K$ copies, each of which leave a total of $1/s_m$ offspring; 
+so equating ($\rho$ times equation~\eqref{eqn:eqfreq}) and (outflux times $\mu_K/s_m$ times equation~\eqref{eqn:estab_prob})
+we have that the effective outflux (at the edge of the already occupied patch!) is $C \rho s_m$,
+rather than $C\rho$ which we might have guessed.
+The number of establishment events per BP is as follows, in averages: 
+with prob $1/\mu_K \exp(-\sqrt{\alpha} x/ \sigma)$ a total of $\mu_K$ indivs arrive at the new patch; 
+each produce $1/s_m$ total core offspring;
+each of these produce $s_B+s_m$ extra offspring which each have chance $2s_B/\xi^2$ of establishing.
+This squares with the previous argument.
+\textbf{Now} note that what we \textbf{actually} want to compute is not this rate, but rather 
+\begin{align}
+  \migrate &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a BP}) \\
+  &= \frac{\rho C}{s_m} \times \frac{2 s_b}{\xi^2} \exp\left(- \frac{\sqrt{\alpha}x}{\sigma} \right) .
+\end{align}
+\plr{end of notes}
+
 
 In the main text we have made use of two decompositons of the spatial branching process
 to approximate in two different ways the rate of establishment of migrant alleles.
