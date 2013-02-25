@@ -15,6 +15,8 @@
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calC}{\mathcal{C}}
 \newcommand{\dconv}{\xrightarrow{d}}
 \newcommand{\deq}{\stackrel{\scriptscriptstyle{d}}{=}}
 
@@ -595,9 +597,6 @@ mutation rate $\mu = 10^{3}$, corresponding to the adaptive mutation
 being able to arise in any of $100$ genes, e.g. anywhere in a large pathway. 
 
 
-
-
-
 \section{Discussion} 
 
 \plr{Note that optimal $s_m$ for migration makes migration harder to spot.}
@@ -654,6 +653,130 @@ It is easy to check using Stirling's formula that $\limsup_{n \to \infty} ( x^n 
 if $b<1$, so the sum converges.
 
 
+%%%%%%%%%%
+\section{The probability of establishment}
+\label{ss:prob_estab}
+
+In the main text we have made use of two decompositons of the spatial branching process
+to approximate in two different ways the rate of establishment of migrant alleles.
+Here we make the relationship more formal.
+The decompositions use a similar idea to that found in \citep[section D.12]{athreyaney},
+where a supercritical branching process is decomposed into individuals whose families eventually die out
+and those having infinite lines of descent.
+We also note that the approximations fall generally in the realm covered by \citet{aldouspoissonclumping}.
+
+Consider a discrete-time branching process $Z_t$ with spatial motion and offspring distribution depending on spatial location.
+Suppose that the offspring distribution for an individual at location $x$ is distributed as $X_x$.
+We can record the state of the process simply as the list of locations of individuals:
+$Z_t = (x_1, \ldots, x_{N(t)})$ means that there are $N(t)$ individuals alive at $t$, at locations $x_1, \ldots, x_{N(t)}$.
+We can construct the process iteratively: given $Z_t$,
+we sample first the number of offspring of each, and then the locations the offspring migrate to.
+Concretely, given $Z_{t} = (x_1, \ldots, x_{N(t)})$,
+first let $X_1(t),\ldots,X_{N(t)(t)}$ be independent random draws from the offspring distribution,
+with $X_k(t)$ having distribution $X_{x_k}$.
+The number of new offspring is $N(t+1) = \sum_{k=1}^{N(t)} X_k(t)$,
+and we can sample their locations independently given the location of their parent to obtain $Z_{t+1}$.
+Note that the genealogy is implicitly recorded:
+the parent of the $k^\mathrm{th}$ individual at time $t$ is
+the $a(k,t) = \min\{ \ell : \sum_{j=1}^\ell X_j(t-1) \ge k \}$-th individual at time $t-1$.
+It will be useful to extend this to more distant ancestors:
+let $a_1(k,t) = a(k,t)$ and recursively define $a_m(k,t) = a(a_{m-1}(k,t),t-m+1)$, as long as $m\le t$.
+
+We want to find (approximations to) $p(x)$, the probability that a branching process beginning with a single individual at $x$ does not die out. 
+(In other words, $p(x) = \P\{ N(t) = 0 \; \mbox{for some}\; t>0 \; \vert \; Z_0 = (x) \}$.)
+We assume that the mean number of offspring $\E[X_x]$ is only greater than one for $x \in A$ (``the patch''),
+and so the process can only establish if some offspring eventually get to the patch (with probability one).
+
+The second decomposition we use is simpler, only conditioning on the number of individuals who ever reach the patch.  
+Let $\calE = \{(t_i,k_i)\}$ be the times and indices of individuals who are in the patch but none of whose ancestors have been --
+i.e.\ $(t,k) \in \calE$ iff $x_k(t) \in A$ and $a_m(k,t) \notin A$ for all $1\le m \le t$.
+If we remove these individuals (and their offspring), the resulting branching process has mean number of offspring less than or equal to 1 everywhere,
+so there are a finite number of such individuals with probability one (the process dies out).
+Therefore, the probability that the process dies out is then the probability that the families descending from each individual in $\calE$ dies out.
+By independence of different offspring, this is
+\begin{align}
+  1-p(x) = \E\left[ \prod_{(t,k) \in \calE} (1-p(x_k(t))) \; \vert \; Z_0 = (x) \right] .
+\end{align}
+Above, we make the approximation that $p(x_k(t)) \approx p_e$,
+the probability of establishment ignoring the possibility of migrating outside the patch.
+In this case,
+\begin{align}
+  p(x) \approx \E\left[ p_e^{|\calE|} \; \vert \; Z_0 = (x) \right] .
+\end{align}
+Here $|\calE|$ is the ``size of the family that reaches the patch'';
+in section \ref{ss:haplotype_length} we estimated the probability that any of the family reaches the patch
+and argued that the distribution of $|\calE|$ is given by $K$,
+the size of the subcritical branching process conditioned on still being alive.
+
+
+The first approximation uses a similar trick, but rather than treating all individuals migrating into the patch
+as an opportunity for establishment,
+we couple the branching process to a strictly subcritical branching process
+that produces extra offspring, each of which provides an opportunity for establishment.
+To this end, suppose that the offspring distribution off the patch is given by $X'$ (so $X_x \deq X'$ for $x \notin A$),
+and the offspring distribution within the patch stochastically dominates $X$,
+i.e.\ $\P\{X_x\ge n\} \ge \P\{X'\ge n\}$ for all $x\in A$ and $n \ge 0$.
+Stochastic domination implies that we can \emph{couple} any instance of $X_x$ with one of $X'$ and a remainder --
+i.e.\ jointly construct an $X'$ and a $Y_x$ such that $X_x = X' + Y_x$,
+and that $Y_x$ also takes values in the nonnegative integers.
+We can therefore modify the construction of the branching process above,
+so that $X_k(t) = X_k'(t) + Y_k(t)$, where $X_k'(t) \deq X$ and $Y_k(t) \deq Y_{x_k(t)}$.
+We can define a \emph{core} branching process $Z'$ using the $X'$, which will be finite (since $\E[X']<1$).
+Formally, say that the first $X_k'(t)$ offspring of the $(t,k)^\mathrm{th}$ individual are ``core'' offspring,
+denoted by $\calC_t = \{ (t,k) \; : \; 0 \le k - \sum_{j<\ell} X_j(t) \le X_\ell'(t) \; \mbox{for some}\; 1 \le \ell \le N(t) \}$;
+and define $Z'$ as the core individuals whose ancestors are all ``core'' as well,
+i.e.\ $Z'_t = \{ x_k \in Z_t \; : \;  a_m(k,t) \in \calC_{t-m} \; \mbox{for all}\; 0 \le m \le t\}$.
+The boundary analogous to above in the first computation is then the non-core offspring of core individuals;
+denote the times and indices of these by $\partial \calC$,
+so that $(t,k) \in \partial \calC$ iff $(t,k) \notin \calC_t$ and $a(k,t) \in \calC_{t-1}$.
+We can now use this as above to compute the probability of establishment beginning from a single individual:
+\begin{align}
+  1-p(x) = \E\left[ \prod_{(t,k) \in \partial\calC} (1-p(x_k(t))) \; \vert \; Z_0 = (x) \right] ,
+\end{align}
+but this is less helpful, as the distribution of $\calC$ is harder to get at.
+
+However, recall the actual problem at hand.
+Roughly speaking, we approximate the process of colonization of the new patch by migrants from an established patch
+by imagining that the established patch sends out migrants, and that each of these acts as an independent branching process,
+at least in the region of the new patch.
+We can suppose that migrant families appear at some rate, say, midway between the patches, and far enough from the original one that we can ignore it,
+and leave the precise distribution of their appearance unspecified
+We can decompose each of these branching processes as above into ``core'' and ``extra'',
+so that the point in time of ``establishment'' is well-defined:
+the time $\tau$ of first appearance of an ``extra'' offspring with infinite line of descent.
+Given that establishment has not yet occurred by $t$, 
+and the combined state of the core process $Z'_t$,
+then the mean number of establishment events occurring at time $t$ is $\sum_{x \in Z'_t} p(x) \E[Y_x]$.
+
+If establishment events were independent and sufficiently rare,
+the influx of branching processes begain long enough ago that $Z'$ was at stationarity
+with $z_A := \E[ \# \{ (x,t) \in Z'_t : x \in A \} ]$,
+and we again approximate $p(x) \approx p_e$,
+then we would have that 
+\begin{align}
+  \P\{\tau>t\} \approx \exp\left\{ - t z_A \E[Y_x] p_e \right\} ;
+\end{align}
+in our case, $\E[Y_x] \approx (s_B+s_m)$ and $p_e \approx 2 s_B/\xi^2$,
+so $\tau$ is approximately exponentially distributed with rate $ 2 z_A (s_B+s_m) s_B/\xi^2 $.
+We can get $z_A$, the occupation density without the new patch, 
+directly by integrating the expression~\eqref{eqn:eqfreq} over the patch.
+
+In obtaining an exponential distribution, we have assumed effectively that establishment events
+are independent of each other.
+This will not be strictly true, since an establishment implies that a family of migrants are present in the patch,
+and hence others may produce offspring with infinite lines of descent at a similar time.
+The mean total family size of an allele with fitness $1-s_m$ (i.e.\ a subcritical branching process) is $\sum_{t \ge 0} (1-s_m)^t = 1/s_m$;
+so the mean number of ``extra'' offspring is $1+s_B/s_m$.
+Establishment events are correlated to the extent that single such families give rise to multiple establishment events,
+
+
+
+% We will record the state of the branching process as a finite point measure,
+% so that if there are $n$ individuals alive at $t$, at locations $x_1, \ldots, x_n$,
+% then $Z_t = \sum_{k=1}^n \delta_{x_k}$, and we write $Z_t(A) = \sum_{k=1}^n \bone_{x_k \in A}$ for the number of individuals in a set $A$.
+
+
+%%%%%%%%%%%
 \section{Patchy selection} 
 \label{ss:discretedemes}
 
