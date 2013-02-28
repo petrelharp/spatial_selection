@@ -661,10 +661,10 @@ if $b<1$, so the sum converges.
 We can calculate the rate of ``core'' establishment, i.e.\ the mean number of reproductive events that lead to establishment as defined below, in two ways:
 \begin{align}
   (\mbox{rate of establishment}) &= (\mbox{outflux of BPs from old patch}) \times (\mbox{\# estab events per BP}) \\
-  &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
-  & \qquad \qquad \times (\mbox{\# estab events per successful BP}) \\
-  &= (\mbox{subcritical occupation density}) \times \rho \times (\mbox{\# offspring per subcritical indiv}) \\
-  & \qquad \qquad \times (\mbox{prob of estab in the patch}) .
+    \begin{split} &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
+  & \qquad \qquad \times (\mbox{\# estab events per successful BP}) \end{split} \\
+  \begin{split} &= (\mbox{subcritical occupation density}) \times \rho \times (\mbox{\# offspring per subcritical indiv}) \\
+    & \qquad \qquad \times (\mbox{prob of estab in the patch}) . \end{split} 
 \end{align}
 The probability of establishment of a branching process is in equation~\eqref{eqn:bp_prob_estab};
 the subcritical occupation density is in equation~\eqref{eqn:eqfreq}, up to a constant $C$ depending on geometry;
@@ -674,17 +674,27 @@ The ``outflux of branching processes'' we have not computed;
 but we know that the probability a branching process arrives at the patch is given by equation~\eqref{eqn:estab_prob};
 if it does it is present in $\mu_K$ copies, each of which leave a total of $1/s_m$ offspring; 
 so equating ($\rho$ times equation~\eqref{eqn:eqfreq}) and (outflux times $\mu_K/s_m$ times equation~\eqref{eqn:estab_prob})
-we have that the effective outflux (at the edge of the already occupied patch!) is $C \rho s_m$,
+we have that the effective outflux (at the edge of the already occupied patch!) is 
+\begin{align}
+  (\mbox{outflux of BPs from old patch}) = C \rho s_m ,
+\end{align}
 rather than $C\rho$ which we might have guessed.
 The number of establishment events per BP is as follows, in averages: 
 with prob $1/\mu_K \exp(-\sqrt{\alpha} x/ \sigma)$ a total of $\mu_K$ indivs arrive at the new patch; 
 each produce $1/s_m$ total core offspring;
-each of these produce $s_B+s_m$ extra offspring which each have chance $2s_B/\xi^2$ of establishing.
-This squares with the previous argument.
+each of these produce $s_B+s_m$ extra offspring which each have chance $2s_B/\xi^2$ of establishing,
+i.e.
+\begin{align}
+  (\mbox{\# estab events per BP}) = \frac{(s_B+s_m) 2 s_B }{ s_m \xi^2 } \exp\left(-\frac{\sqrt{\alpha} x}{\sigma}\right) .
+\end{align}
 \textbf{Now} note that what we \textbf{actually} want to compute is not this rate, but rather 
 \begin{align}
-  \migrate &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a BP}) \\
-  &= \frac{\rho C}{s_m} \times \frac{2 s_b}{\xi^2} \exp\left(- \frac{\sqrt{\alpha}x}{\sigma} \right) .
+  \migrate &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
+  &= C \rho s_m \times \frac{2 s_b}{\xi^2} \exp\left(- \frac{\sqrt{\alpha}x}{\sigma} \right) .
+\end{align}
+Finally, combining these, we can also compute that
+\begin{align}
+  (\mbox{\# estab events per successful BP}) = \frac{s_B+s_m}{s_m} .
 \end{align}
 \plr{end of notes}
 
