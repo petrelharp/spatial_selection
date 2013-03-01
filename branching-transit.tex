@@ -8,6 +8,7 @@
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\var}{\mathop{\mbox{Var}}}
 \newcommand{\Exp}{\mathop{\mbox{Exp}}}
+\newcommand{\migrate}{\lambda_\text{mig}}
 
 \begin{document}
 
@@ -168,6 +169,85 @@ Furthermore,
 Note additionally that 
 \begin{align}
     1 - \frac{1-f_n(u)}{1-f_n(0)} \searrow g(u) = \E[u^K] .
+\end{align}
+
+\subsection{Occupation density}
+
+Suppose we have branching processes beginning at the origin at some constant rate $\lambda$ in time.
+Then the occupation density at distance $x$, i.e.\ the expected number of particles found at location $x$ at any given time, at stationarity,
+is $\lambda \int_0^\infty \E[Z_t(dx)] dt$, where $Z_t$ is the branching process.
+Since spatial motion is independent of branching,
+\begin{align}
+  \E[Z_t(dx)] = e^{-\alpha t} \frac{1}{(2\pi \sigma^2 t)^{d/2}} \exp\left(-\frac{x^2}{2\sigma^2 t} \right) ,
+\end{align}
+and so using G\&R 3.471.9 and 8.468 again,
+\begin{align} \label{eqn:bp_occupation}
+  \int_0^\infty \E[Z_t(dx)] dt  &= \int_0^\infty e^{-\alpha t} \frac{1}{(2\pi \sigma^2 t)^{d/2}} \exp\left(-\frac{x^2}{2\sigma^2 t} \right) dt \\
+  &= \begin{cases}
+    \frac{ 2^{1/4} x^{1/2} }{ \sqrt{\pi} \sigma^{3/2} \alpha^{1/4} } K_{1/2} \left(\frac{x \sqrt{2\alpha}}{\sigma}\right) =
+    \frac{1}{\sigma \sqrt{2 \alpha}} \exp\left( - \frac{ \sqrt{2\alpha} x }{ \sigma } \right) \qquad & d=1 \\
+    \frac{1}{\sigma^2 \pi} K_0\left(\frac{x \sqrt{2\alpha}}{\sigma}\right) \sim \frac{ e^{-\frac{x\sqrt{2\alpha}{\sigma}}} }{ \sqrt{ \sigma^3  2\pi x \qquad & d=2  ,
+\end{cases} 
+\end{align}
+where $K_0(z)$ is the modified Bessel function of the second kind of order 0.
+Note that this is the Green function for a Brownian motion killed at rate $\alpha$.
+
+A more back-of-the-envelope calculation of this would be:
+we know that the probability a branching process arrives at the patch is given by $(1/\mu_K)\exp(-x\sqrt{2 \alpha}/\sigma)$;
+if it does it is present in $\mu_K$ copies, each of which leave a total of $1/s_m$ offspring.
+To translate this to the above we need the typical area covered by these (in some sense?), 
+which must be around $\sigma \sqrt{2 \alpha}$.
+
+\subsection{An integral}
+
+For reference, by G\&R 3.471.9 and 8.468,
+\begin{align}
+  \int_0^\infty x^{n+1/2} e^{-\frac{\beta}{x}-\gamma x} dx &= 2 \left( \frac{\beta}{\gamma} \right)^{\frac{2n+1}{4}} K_{n+3/2}(2\sqrt{\beta\gamma}) \quad \mbox{(for general $n$)} \\
+  \mbox{($n$ an integer)} \quad &= \sqrt{\pi} \beta^{\frac{n}{2}} \gamma^{-\frac{n+1}{2}} e^{-2\sqrt{\beta\gamma}} \sum_{k=1}^n \frac{ (n+k)! }{ k! (n-k)! (4\sqrt{\beta \gamma})^k } .
+\end{align}
+
+Note that (8.451.6) $K_\nu(z) = \sqrt{\frac{\pi}{2z}} e^{-z} (1 + O(1/z))$.
+
+\section{The big picture}
+
+Here are notes to clarify what's going on for writing the main paper.
+
+We can calculate the rate of ``core'' establishment, i.e.\ the mean number of reproductive events that lead to establishment as defined below, in two ways:
+\begin{align}
+  (\mbox{rate of establishment}) &= (\mbox{outflux of BPs from old patch}) \times (\mbox{\# estab events per BP}) \\
+    \begin{split} &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
+  & \qquad \qquad \times (\mbox{\# estab events per successful BP}) \end{split} \\
+  \begin{split} &= (\mbox{subcritical occupation density}) \times \rho \times (\mbox{\# offspring per subcritical indiv}) \\
+    & \qquad \qquad \times (\mbox{prob of estab in the patch}) . \end{split} 
+\end{align}
+The probability of establishment of a branching process is in equation~\eqref{eqn:bp_prob_estab};
+the subcritical occupation density is the integral of equation~\eqref{eqn:eqfreq} over the patch;
+the number of (extra) offspring per subcritical individual is $s_B+s_m$;
+and the probability of establishment in the patch is $2s_B/\xi^2$.
+The ``outflux of branching processes'' we have not computed;
+but we have compute the occupation density from this branching process approximation above,
+so equating ($\rho$ times $C\exp(-\sqrt{2 s_m}x/\sigma)$) and (outflux times equation~\eqref{eqn:bp_occupation})
+we have that the effective outflux (from the edge of the already occupied patch!) is 
+\begin{align}
+  (\mbox{outflux of BPs from old patch}) = \frac{ C \rho \sqrt{\alpha} }{ \sqrt{\pi} } ,
+\end{align}
+rather than $C\rho$ which we might have guessed.
+The number of establishment events per BP is as follows, in averages: 
+with prob $1/\mu_K \exp(-\sqrt{\alpha} x/ \sigma)$ a total of $\mu_K$ indivs arrive at the new patch; 
+each produce $1/s_m$ total core offspring;
+each of these produce $s_B+s_m$ extra offspring which each have chance $2s_B/\xi^2$ of establishing,
+i.e.
+\begin{align}
+  (\mbox{\# estab events per BP}) = \frac{(s_B+s_m) 2 s_B }{ s_m \xi^2 } \exp\left(-\frac{\sqrt{\alpha} x}{\sigma}\right) .
+\end{align}
+\textbf{Now} note that what we \textbf{actually} want to compute is not this rate, but rather 
+\begin{align}
+  \migrate &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
+  &= C \rho \sqrt{\alpha} \times \frac{2 s_b}{\sqrt{\pi} \xi^2} \exp\left(- \frac{\sqrt{\alpha}x}{\sigma} \right) .
+\end{align}
+Finally, combining these, we can also compute that
+\begin{align}
+  (\mbox{\# estab events per successful BP}) = \frac{s_B+s_m}{ \sqrt{s_m} } .
 \end{align}
 
 \end{document}

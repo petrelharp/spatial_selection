@@ -231,7 +231,7 @@ we know that if $q(r)$ is the expected proportion present at migration--selectio
 in the absence of the second patch, 
 then for large $r$ this proportion decays exponentially, 
 \begin{align} \label{eqn:eqfreq}
-  q(r) \approx C \exp( -\sqrt{s_m} r / \sigma),
+  q(r) \approx C \exp( -\sqrt{2 s_m} r / \sigma),
 \end{align}
 where $C$ is a constant depending on the geographic shape of the populations and the selection coefficients. 
 (Probably $C=1/2$ is close enough for applications; see Appendix XXX.)
@@ -257,7 +257,7 @@ is $\rho (s_B+s_m) \int q(|x|) p(x) dx$.
 Using a similar approximation as in section \ref{ss:patchymutation},
 we can approximate this, for a patch of area $A$ at distance $R$ from an already occupied patch, as
 \begin{align}
-  \migrate(R) = \rho A \frac{s_B}{\xi^2} (s_B+s_m) \exp\left( -\frac{ \sqrt{s_m} R}{\sigma} \right),
+  \migrate(R) = \rho A \frac{s_B}{\xi^2} (s_B+s_m) \exp\left( -\frac{ \sqrt{2 s_m} R}{\sigma} \right),
 \end{align}
 where we have set $C=1/2$ in equation \eqref{eqn:eqfreq}.
 Using different methods, we arrive at the same functional form below in section \ref{ss:haplotype_length}.
@@ -306,7 +306,7 @@ simply comes down to whether the a new mutation or a migrant allele is the first
 Taking expressions \eqref{eqn:mutrate} and \eqref{eqn:migrate} above,
 we see that if the patches each have sufficiently large area,
 the rate of migration and mutation will be on the same order if 
-$\mu \approx ((s_B+s_m)/2) \exp(-\sqrt{s_m} R / \sigma)$,
+$\mu \approx ((s_B+s_m)/2) \exp(-\sqrt{2 s_m} R / \sigma)$,
 where $R$ is the distance between the patches.
 (Note that in both cases, $A$ is the area of the not-yet-adapted patch.)
 
@@ -334,7 +334,7 @@ and decrease with patch population size and benefical seleciton coefficient.
 Furthermore, the probability that the second adaptation is a new mutation,
 i.e.\ the probability of parallel adapatation, is
 \begin{equation}
-  \frac{\mutrate}{\mutrate+\migrate} = \frac{2\mu/(s_B+s_m)}{2\mu/(s_B+s_m) + \exp\left(- \sqrt{s_m} R / \sigma \right) },
+  \frac{\mutrate}{\mutrate+\migrate} = \frac{2\mu/(s_B+s_m)}{2\mu/(s_B+s_m) + \exp\left(- \sqrt{2 s_m} R / \sigma \right) },
 \end{equation}
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches at rate $\sqrt{s_m} /\sigma$. 
@@ -362,9 +362,9 @@ Without loss of generality, assume that patches $1, \ldots, k$ are already adapt
 and these patches are at distances $R_1, \ldots, R_k$ away from this unadapted patch, 
 then the total rate of adaptation through migration is
 \begin{equation}
-  \frac{ s_B (s_B+s_m) \rho A}{\xi^2} \sum_{i=1}^{k} \exp\left(- \sqrt{s_m} R_i/\sigma\right),
+  \frac{ s_B (s_B+s_m) \rho A}{\xi^2} \sum_{i=1}^{k} \exp\left(- \sqrt{2 s_m} R_i/\sigma\right),
 \end{equation}
-and the probability that the adaptation is from patch $i$ is $\exp\left(- \sqrt{s_m} R_i/\sigma\right)/\sum_{j=1}^{k} \exp\left(- \sqrt{s_m} R_j/\sigma\right)$.
+and the probability that the adaptation is from patch $i$ is $\exp\left(- \sqrt{2 s_m} R_i/\sigma\right)/\sum_{j=1}^{k} \exp\left(- \sqrt{2 s_m} R_j/\sigma\right)$.
 These specify the transition rates of the process.
 
 Since the compound parameter $s_B \rho / \xi^2$ is common to both rates,
@@ -493,7 +493,7 @@ and define $\mu_K$ to be the limiting mean family size conditioned on survival.
 By integrating over $t$, we get the chance that descendants of the migrant ever arrive at the new patch is
 \begin{align} 
   & \int_0^\infty \frac{(1-s_m)^t}{\mu_K} \frac{x}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{x^2}{2t\sigma^2}\right)  dt \\
-  & \qquad = \frac{1}{\mu_K} \exp\left( - \frac{ x \sqrt{\alpha}}{\sigma} \right) .\label{eqn:estab_prob}
+  & \qquad = \frac{1}{\mu_K} \exp\left( - \frac{ x \sqrt{2 \alpha}}{\sigma} \right) .\label{eqn:estab_prob}
 \end{align}
 (Note that this is, up to the constant $\mu_K$, the chance that a Brownian motion killed at rate $\alpha$
 ever hits $x$ \citep{feller}.
@@ -513,7 +513,7 @@ i.e.~$\E[1-(1-p_f(s_b))^K] \approx 2 s_b \mu_K/\xi^2$,
 where $p_f(s_b) \approx 2s_b/\xi^2$ is the probability of fixation of a single mutant with additive benefit $s_b$.
 Therefore, the probability of establishment is
 \begin{align} \label{eqn:bp_prob_estab}
-  F(x) &\approx \frac{2s_b}{\xi^2} \exp\left( - \frac{\sqrt{\alpha} x}{\sigma} \right) ,
+  F(x) &\approx \frac{2s_b}{\xi^2} \exp\left( - \frac{\sqrt{2 \alpha} x}{\sigma} \right) ,
 \end{align}
 which verifies the less intuitive calculation of $\migrate$ above.
 
@@ -531,7 +531,7 @@ if recombination is Poisson, the length of the hitchhiking segment (in Morgans) 
 with mean $\tau$, so that if $L$ is the length on, say, the right, then
 \begin{align} \label{eqn:haplen_cdf}
 \P\{L>\ell\} &= \E[e^{-\ell \tau}|\tau<\infty] \\
-&= \exp\left\{{-\frac{x}{\sigma}\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} .
+  &= \exp\left\{{-\frac{x}{\sigma}\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} .
 \end{align}
 This is also the Laplace transform of $\tau$;
 we can differentiate it to find that $\E[\tau] = x/(\sigma\sqrt{2\alpha})$
@@ -647,7 +647,7 @@ Note that $\partial_x G(a,b,x) = -G(a+b,b,x)$,
 and that at $x=0$, the function $G$ is the gamma function $G(a,b,0) = \Gamma(a+1)$.
 Therefore, a Taylor series for $G$ would be
 \[
-    G(a,b,x) = \sum_{n \ge 0} = \sum_{n \ge 0} \frac{(-x)^n}{n!} \Gamma(a+nb+1) .
+    G(a,b,x) = \sum_{n \ge 0} \frac{(-x)^n}{n!} \Gamma(a+nb+1) .
 \]
 It is easy to check using Stirling's formula that $\limsup_{n \to \infty} ( x^n \Gamma(a+nb+1)/n! )^{1/n} = 0$
 if $b<1$, so the sum converges.
@@ -656,47 +656,6 @@ if $b<1$, so the sum converges.
 %%%%%%%%%%
 \section{The probability of establishment}
 \label{ss:prob_estab}
-
-\plr{Notes for clarification.}
-We can calculate the rate of ``core'' establishment, i.e.\ the mean number of reproductive events that lead to establishment as defined below, in two ways:
-\begin{align}
-  (\mbox{rate of establishment}) &= (\mbox{outflux of BPs from old patch}) \times (\mbox{\# estab events per BP}) \\
-    \begin{split} &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
-  & \qquad \qquad \times (\mbox{\# estab events per successful BP}) \end{split} \\
-  \begin{split} &= (\mbox{subcritical occupation density}) \times \rho \times (\mbox{\# offspring per subcritical indiv}) \\
-    & \qquad \qquad \times (\mbox{prob of estab in the patch}) . \end{split} 
-\end{align}
-The probability of establishment of a branching process is in equation~\eqref{eqn:bp_prob_estab};
-the subcritical occupation density is in equation~\eqref{eqn:eqfreq}, up to a constant $C$ depending on geometry;
-the number of (extra) offspring per subcritical individual is $s_B+s_m$;
-and the probability of establishment in the patch is $2s_B/\xi^2$.
-The ``outflux of branching processes'' we have not computed;
-but we know that the probability a branching process arrives at the patch is given by equation~\eqref{eqn:estab_prob};
-if it does it is present in $\mu_K$ copies, each of which leave a total of $1/s_m$ offspring; 
-so equating ($\rho$ times equation~\eqref{eqn:eqfreq}) and (outflux times $\mu_K/s_m$ times equation~\eqref{eqn:estab_prob})
-we have that the effective outflux (at the edge of the already occupied patch!) is 
-\begin{align}
-  (\mbox{outflux of BPs from old patch}) = C \rho s_m ,
-\end{align}
-rather than $C\rho$ which we might have guessed.
-The number of establishment events per BP is as follows, in averages: 
-with prob $1/\mu_K \exp(-\sqrt{\alpha} x/ \sigma)$ a total of $\mu_K$ indivs arrive at the new patch; 
-each produce $1/s_m$ total core offspring;
-each of these produce $s_B+s_m$ extra offspring which each have chance $2s_B/\xi^2$ of establishing,
-i.e.
-\begin{align}
-  (\mbox{\# estab events per BP}) = \frac{(s_B+s_m) 2 s_B }{ s_m \xi^2 } \exp\left(-\frac{\sqrt{\alpha} x}{\sigma}\right) .
-\end{align}
-\textbf{Now} note that what we \textbf{actually} want to compute is not this rate, but rather 
-\begin{align}
-  \migrate &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
-  &= C \rho s_m \times \frac{2 s_b}{\xi^2} \exp\left(- \frac{\sqrt{\alpha}x}{\sigma} \right) .
-\end{align}
-Finally, combining these, we can also compute that
-\begin{align}
-  (\mbox{\# estab events per successful BP}) = \frac{s_B+s_m}{s_m} .
-\end{align}
-\plr{end of notes}
 
 
 In the main text we have made use of two decompositons of the spatial branching process
