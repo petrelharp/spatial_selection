@@ -184,9 +184,10 @@ and so using G\&R 3.471.9 and 8.468 again,
 \begin{align} \label{eqn:bp_occupation}
   \int_0^\infty \E[Z_t(dx)] dt  &= \int_0^\infty e^{-\alpha t} \frac{1}{(2\pi \sigma^2 t)^{d/2}} \exp\left(-\frac{x^2}{2\sigma^2 t} \right) dt \\
   &= \begin{cases}
-    \frac{ 2^{1/4} x^{1/2} }{ \sqrt{\pi} \sigma^{3/2} \alpha^{1/4} } K_{1/2} \left(\frac{x \sqrt{2\alpha}}{\sigma}\right) =
-    \frac{1}{\sigma \sqrt{2 \alpha}} \exp\left( - \frac{ \sqrt{2\alpha} x }{ \sigma } \right) \qquad & d=1 \\
-    \frac{1}{\sigma^2 \pi} K_0\left(\frac{x \sqrt{2\alpha}}{\sigma}\right) \sim \frac{ e^{-\frac{x\sqrt{2\alpha}{\sigma}}} }{ \sqrt{ \sigma^3  2\pi x \qquad & d=2  ,
+    \sqrt{ \frac{ 2 x }{ \pi \sigma^{3} \sqrt{2\alpha} } }  K_{1/2} \left(\frac{x \sqrt{2\alpha}}{\sigma}\right) =
+    \frac{1}{\sigma \sqrt{2 \alpha}} \exp\left( - \frac{ x \sqrt{2\alpha} }{ \sigma } \right) \qquad & d=1 \\
+    \frac{1}{\sigma^2 \pi} K_0\left(\frac{x \sqrt{2\alpha}}{\sigma}\right) 
+    \sim \frac{ 1 }{ \sqrt{ \sigma^3  2\pi x \sqrt{2\alpha} } } \exp\left(-\frac{x\sqrt{2\alpha}}{\sigma}\right) \qquad & d=2  ,
 \end{cases} 
 \end{align}
 where $K_0(z)$ is the modified Bessel function of the second kind of order 0.
@@ -195,19 +196,26 @@ Note that this is the Green function for a Brownian motion killed at rate $\alph
 A more back-of-the-envelope calculation of this would be:
 we know that the probability a branching process arrives at the patch is given by $(1/\mu_K)\exp(-x\sqrt{2 \alpha}/\sigma)$;
 if it does it is present in $\mu_K$ copies, each of which leave a total of $1/s_m$ offspring.
-To translate this to the above we need the typical area covered by these (in some sense?), 
-which must be around $\sigma \sqrt{2 \alpha}$.
+To translate this to the above we would need the typical area covered by these (in some sense?).
+% which must be around $\sigma \sqrt{2 \alpha}$.
 
 \subsection{An integral}
 
 For reference, by G\&R 3.471.9 and 8.468,
 \begin{align}
-  \int_0^\infty x^{n+1/2} e^{-\frac{\beta}{x}-\gamma x} dx &= 2 \left( \frac{\beta}{\gamma} \right)^{\frac{2n+1}{4}} K_{n+3/2}(2\sqrt{\beta\gamma}) \quad \mbox{(for general $n$)} \\
+  \int_0^\infty x^{n-1/2} e^{-\frac{\beta}{x}-\gamma x} dx &= 2 \left( \frac{\beta}{\gamma} \right)^{\frac{2n+1}{4}} K_{n+1/2}(2\sqrt{\beta\gamma}) \quad \mbox{(for general $n$)} \\
   \mbox{($n$ an integer)} \quad &= \sqrt{\pi} \beta^{\frac{n}{2}} \gamma^{-\frac{n+1}{2}} e^{-2\sqrt{\beta\gamma}} \sum_{k=1}^n \frac{ (n+k)! }{ k! (n-k)! (4\sqrt{\beta \gamma})^k } .
 \end{align}
 
-Note that (8.451.6) $K_\nu(z) = \sqrt{\frac{\pi}{2z}} e^{-z} (1 + O(1/z))$.
+Note that (8.451.6) $K_\nu(z) = \sqrt{\frac{\pi}{2z}} e^{-z} (1 + O(1/z))$ for all $\nu$, and $K_{-\nu}(z)=K_\nu(z)$.
 
+We have $n-1/2 = - d/2$, $\beta=x^2/2\sigma^2$, and $\gamma = \alpha$, leading to
+\begin{align}
+\frac{1}{(2\pi\sigma^2 )^{d/2}} \int_0^\infty x^{n-1/2} e^{-\frac{\beta}{x}-\gamma x} dx \sim
+\frac{ 1 }{ (2\pi)^\frac{d-1}{2} \sigma^d } \left( \frac{\sigma}{x} \right)^{\frac{d-1}{2}} ({2\alpha})^\frac{3-d}{4} \exp\left( - \frac{ x \sqrt{2 \alpha} }{ \sigma } \right) \quad \mbox{as}\; \frac{x\sqrt{2\alpha}}{\sigma} \to \infty .
+\end{align}
+
+%%%%%%%%%
 \section{The big picture}
 
 Here are notes to clarify what's going on for writing the main paper.
@@ -225,11 +233,11 @@ the subcritical occupation density is the integral of equation~\eqref{eqn:eqfreq
 the number of (extra) offspring per subcritical individual is $s_B+s_m$;
 and the probability of establishment in the patch is $2s_B/\xi^2$.
 The ``outflux of branching processes'' we have not computed;
-but we have compute the occupation density from this branching process approximation above,
+but we have computed the occupation density from this branching process approximation above,
 so equating ($\rho$ times $C\exp(-\sqrt{2 s_m}x/\sigma)$) and (outflux times equation~\eqref{eqn:bp_occupation})
 we have that the effective outflux (from the edge of the already occupied patch!) is 
 \begin{align}
-  (\mbox{outflux of BPs from old patch}) = \frac{ C \rho \sqrt{\alpha} }{ \sqrt{\pi} } ,
+  (\mbox{outflux of BPs from old patch}) = C \rho \sigma \sqrt{2 \alpha} ,
 \end{align}
 rather than $C\rho$ which we might have guessed.
 The number of establishment events per BP is as follows, in averages: 
