@@ -903,4 +903,54 @@ while on the other hand, increasing the deme size $N$ will increase the number o
 and that the case presented above is at the extreme (see also \cite{Navarro:03} for deterministic approximations). 
 
 
+\section{The equilibrium frequency}
+
+One route to the ``equlibrium frequency'' of the allele outside the range where it is advantageous is as follows;
+see \citet{slatkin} or \citet{barton,pollack} for other arguments in this case, or \citet{etheridge} or \citet{dawson} for general theory
+Suppose that the population is composed of a finite number of small demes of equal size $N$ arranged in a regular grid,
+and that selection (for or against) the allele is given by the function $s(x)$, with $x$ denoting the spatial location.
+Then each individual at location $x$ reproduces after a random lifetime,
+dying and giving birth in the same deme to a random number of offspring with distribution given by $X$;
+who all migrate to a new location chosen as $x+R$
+and replace randomly chosen individuals there.
+If $x+R$ is outside of the range, then they perish.
+Each individual's reproduction time is exponentially distributed, 
+either with rate 1 if it carries the original allele, or with rate $1+s(x)$ if it carries the mutant allele.
+Suppose that $R$ has mean zero and variance $\sigma^2$, and that $X$ has mean $\mu$ and variance $\xi^2$.
+We also assume that the distribution of $X$ makes the resulting Markov chain irreducible and aperiodic.
+
+Let $\Phi^N_t(x)$ be the number of mutant alleles present at location $x$ at time $t$,
+and denote by $\delta_x$ a single unit at location $x$, so that e.g.~$\Phi^N_t + \delta_x/N$
+is the configuration after a mutant allele has been added to location $x$.
+For $0\le \phi \le 1$, we also denote by $\bar X_\phi$ the number of mutant alleles added if $X$ new offspring carrying mutant alleles
+replace randomly chosen individuals in a deme where the mutant allele is at frequncy $\phi$ (i.e.~hypergeometric with parameters $(X,\phi)$);
+similarly, $\tilde X_\phi$ is the number lost if the new offspring do not carry the allele (i.e.~hypergeometric with parameters $(X,1-\phi)$).
+(We like to think of $\Phi^N_t$ as a measure, but it does not hurt to think of $\Phi^N$ as a vector;
+we aren't providing the rigorous justification here.)
+Then we know that for any sufficiently nice function $f(\phi)$ that
+\begin{align} \label{eqn:discrete_generator}
+  \begin{split} \frac{\partial}{\partial t} \E\left[ f(\Phi^N_t) \right] 
+  &= N \sum_x \left\{ \E\left[ (1+s(x+R)) \Phi^N_t(x+R) \left( f\left(\Phi^N_t + \frac{\bar X_{\Phi_t(x+R)}}{N}\delta_{x}\right) - f(\Phi^N_t) \right) \right] \right. \\
+     & \qquad  \qquad \left. {} + \E\left[ \left(1-\Phi^N_t(x+R)\right) \left( f\left(\Phi^N_t - \frac{\tilde X_{\Phi_t(x+R)}}{N}\delta_{x}\right) - f(\Phi^N_t) \right) \right] \right\}  \end{split} \\
+     &= \mu \sum_x \E\left[ \left(\partial_{\phi(x)} f(\Phi_t) \right) \left\{ \Phi_t(x+R) - \Phi_t(x) + s(x+R) \Phi_t(x+R) (1-\Phi_t(x)) \right\} \right] + O\left(\frac{1}{N}\right).
+\end{align}
+This follows in part from $\E[\bar X_\phi] = \phi \mu$ and $\E[\tilde X_\phi] = (1-\phi)\mu$.
+We can see two things from this:
+First, since this is a first-order differential operator, the limiting of the stochastic process
+is deterministic (check by applying to $f(\phi) = \phi(x)^2$ to find the variance).
+Second, if we want to rescale space as well to get the usual differential equation, 
+we need to choose $\var[R]=\sigma^2$ and $s(x)$ to be of the same, small, order, another way of seeing that $\sigma/\sqrt{s}$ is the relevant length scale.
+More concretely, suppose that the grid size is $\epsilon \to 0$, that $\var[R] = \sigma^2 \epsilon$, and that $s(x)/\epsilon \to \gamma(x)$,
+and suppose that $\Phi_t(x)$ is deterministic (and sufficiently differentiable) and let $\xi(t,x) = \Phi_{t/\epsilon}(x)$;
+then the previous equation converges to the familiar form:
+\begin{align}
+  \partial_t \xi(t,x) = \mu \left( \frac{\sigma^2}{2} \partial_x^2 \xi(t,x) + \gamma(x) \xi(t,x) (1-\xi(t,x)) \right) .
+\end{align}
+
+The process $\Phi_t$ is an irreducible, aperiodic finite-state Markov chain with absorbing states at 0 and 1;
+therefore, the inevitable outcome for finite $N$ is extinction of one type or another.
+Setting the left-hand side to zero in \eqref{eqn:discrete_generator} gives us equations for the moments of the stationary distribution,
+for instance, if $\phi(x) = \lim_{t \to \infty} \E[ \Phi_t(x) ]
+
+
 \end{document} 
