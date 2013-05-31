@@ -48,7 +48,7 @@ or the chance that it is still alive then time the chance the trunk lineage hits
 \item This induces a distribution on $T$, the time that a successful excursion took to cross:
 assuming, as is asymptotically correct, that the number of arriving lineages is independent of how long it took to get there,
 if $\tau_x$ is the random time of arrival of a successful lineage,
-\begin{align}
+\begin{align} \label{eqn:arrival_time_density}
  \P\{\tau_x \in dt\} = C_{s_d,x} \frac{(1-s_d)^t}{t^{3/2}} \exp\left(-\frac{x^2}{2t}\right) ,
 \end{align}
 where $C_{s_d,x}$ is a constant depending only on $s_d$ and $x$.
@@ -127,21 +127,30 @@ I think this is in some Pitman \& Yor paper.
 If instead there are two smallish patches in two dimensions, 
 we need only multiply the one-dimensional case by the probability that the $y$-coordinate is within the required range,
 which is something involving the error function, or for large $x$,
-is the width of the patch multiplied by $1/(2 \pi \sigma^2 t)$.  
-This replaces the $t^{3/2}$ by a $t^{5/2}$, and back to G\&R, we have that the Laplace transform is in terms of $K_{3/2}$ instead of $K_{1/2}$;
-and this is found in G\&R 8.468, $K_{3/2}(z) = \sqrt{\pi/2z} e^{-z} (1+1/z)$.
-The formula corresponding to equation \eqref{eqn:first_integral} above is then
+is the width of the patch multiplied by $1/\sqrt{2 \pi \sigma^2 t}$.  
+This replaces the $t^{3/2}$ in \eqref{eqn:arrival_time_density} by $t^2$, and back to G\&R, we have that the Laplace transform is in terms of $K_{1}$ instead of $K_{1/2}$;
+in this case, we have that
 \begin{align}
-  \E[e^{-\ell \tau_x}] \propto \sqrt{\pi} \frac{2\sqrt{\ell+\alpha}}{x^2} e^{-x\sqrt{2(\ell+\alpha)}} \left( 1 + \frac{1}{x\sqrt{2(\ell+\alpha)}} \right) ,
+    \P\{ \tau < \infty \} &= \frac{x dy}{2\pi \sigma^4} \int_0^\infty t^{-2} \exp\left\{-\frac{x^2}{2\sigma^2 t} - \alpha t \right\} dt \\
+                          &= \frac{x dy}{2\pi \sigma^4} 2 \left( \frac{ x^2 }{ 2 \alpha \sigma^2 } \right)^{-1/2} K_1\left(2 \sqrt\frac{x^2 \alpha}{2\sigma^2} \right) \\
+                          &= \frac{dy\sqrt{2\alpha}}{\pi \sigma^3} K_1\left(\frac{x \sqrt{2\alpha}}{\sigma} \right)  \qquad \text{in } d=2
 \end{align}
-and so
-\begin{align}
-  \E[e^{-\ell \tau_x}] &= \frac{\sqrt{\ell+\alpha}}{\sqrt{\alpha}} e^{-x\sqrt{2}\left(\sqrt{\ell+\alpha}-\sqrt{\alpha}\right)} \left( 1 + \frac{1}{x\sqrt{2(\ell+\alpha)}} \right) \left( 1 + \frac{1}{x\sqrt{2(\alpha)}} \right)^{-1} \\
-  &= \frac{x\sqrt{2(\ell+\alpha)}+1}{x\sqrt{2\alpha}+1} e^{-x\sqrt{2}\left(\sqrt{\ell+\alpha}-\sqrt{\alpha}\right)} .
-\end{align}
+and we get $\E[e^{-\ell \tau_x}]$ by replacing $\alpha$ with $\alpha+\ell$.
 
-\item Differentiating the above, we get that $\E[\tau_x] = x^2 / (x\sqrt{2\alpha}+1) \sim x/\sqrt{2\alpha}$ and $\var[\tau_x] = x^3 / \sqrt{2\alpha}(x\sqrt{2\alpha}+1)^2 \sim x/(2\alpha)^{3/2}$; in fact, the same scaling produces the same limit law, since the $\ell/\sqrt{x}$ term dissappears.
-
+% WRONGLY BASED ON 1/t INSTEAD OF 1/\sqrt{t}:
+% and this is found in G\&R 8.468, $K_{3/2}(z) = \sqrt{\pi/2z} e^{-z} (1+1/z)$.
+% The formula corresponding to equation \eqref{eqn:first_integral} above is then
+% \begin{align}
+%   \E[e^{-\ell \tau_x}] \propto \sqrt{\pi} \frac{2\sqrt{\ell+\alpha}}{x^2} e^{-x\sqrt{2(\ell+\alpha)}} \left( 1 + \frac{1}{x\sqrt{2(\ell+\alpha)}} \right) ,
+% \end{align}
+% and so
+% \begin{align}
+%   \E[e^{-\ell \tau_x}] &= \frac{\sqrt{\ell+\alpha}}{\sqrt{\alpha}} e^{-x\sqrt{2}\left(\sqrt{\ell+\alpha}-\sqrt{\alpha}\right)} \left( 1 + \frac{1}{x\sqrt{2(\ell+\alpha)}} \right) \left( 1 + \frac{1}{x\sqrt{2(\alpha)}} \right)^{-1} \\
+%   &= \frac{x\sqrt{2(\ell+\alpha)}+1}{x\sqrt{2\alpha}+1} e^{-x\sqrt{2}\left(\sqrt{\ell+\alpha}-\sqrt{\alpha}\right)} .
+% \end{align}
+% 
+% \item Differentiating the above, we get that $\E[\tau_x] = x^2 / (x\sqrt{2\alpha}+1) \sim x/\sqrt{2\alpha}$ and $\var[\tau_x] = x^3 / \sqrt{2\alpha}(x\sqrt{2\alpha}+1)^2 \sim x/(2\alpha)^{3/2}$; in fact, the same scaling produces the same limit law, since the $\ell/\sqrt{x}$ term dissappears.
+% 
 \end{itemize}
 
 
@@ -193,7 +202,17 @@ and so using G\&R 3.471.9 and 8.468 again,
 where $K_0(z)$ is the modified Bessel function of the second kind of order 0.
 Note that this is the Green function for a Brownian motion killed at rate $\alpha$.
 
-A more back-of-the-envelope calculation of this would be:
+We can combine this with the formula \eqref{eqn:eqfreq} for the equilibrium frequency $q(r) \approx C \exp( -\sqrt{2 \alpha} r / \sigma)$
+to estimate $\lambda$, the effective outflux from the occupied patch: equating $\rho q(r)$ with $\lambda$ multiplied by equation \eqref{eqn:bp_occupation}, we get
+\begin{align} \label{eqn:outflux_from_patch}
+    \lambda = \text{(outflux from old patch)} = \begin{cases}
+        C \rho \sigma \sqrt{2\alpha} \quad & d=1 \\
+    C \rho \sigma^{3/2} (2\alpha)^{1/4} \sqrt{2 \pi x} \quad & d=2 
+    \end{cases}
+\end{align}
+Note that this differs from the value $C\rho$ which we might have guessed.
+
+\emph{The following is not making sense to me at the moment.} A more back-of-the-envelope calculation of this would be:
 we know that the probability a branching process arrives at the patch is given by $(1/\mu_K)\exp(-x\sqrt{2 \alpha}/\sigma)$;
 if it does it is present in $\mu_K$ copies, each of which leave a total of $1/s_m$ offspring.
 To translate this to the above we would need the typical area covered by these (in some sense?).
@@ -220,40 +239,50 @@ We have $n-1/2 = - d/2$, $\beta=x^2/2\sigma^2$, and $\gamma = \alpha$, leading t
 
 Here are notes to clarify what's going on for writing the main paper.
 
+From the main paper, we have that
+\begin{align} \label{eqn:bp_prob_estab}
+    \text{(prob of estab of a distant BP)} &\approx \frac{2s_b}{\xi^2} \exp\left( - \frac{\sqrt{2 \alpha} x}{\sigma} \right) ,
+\end{align}
+and the subcritical occupation density per unit area at distance $r$ is
+\begin{align} \label{eqn:eqfreq}
+    q(r) \approx C \exp( -\sqrt{2 \alpha} r / \sigma).
+\end{align}
+
 We can calculate the rate of ``core'' establishment, i.e.\ the mean number of reproductive events that lead to establishment as defined below, in two ways:
 \begin{align}
-  (\mbox{rate of establishment}) &= (\mbox{outflux of BPs from old patch}) \times (\mbox{\# estab events per BP}) \\
-    \begin{split} &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
-  & \qquad \qquad \times (\mbox{\# estab events per successful BP}) \end{split} \\
-  \begin{split} &= (\mbox{subcritical occupation density}) \times \rho \times (\mbox{\# offspring per subcritical indiv}) \\
+    (\mbox{rate of establishment}) &= (\mbox{outflux of BPs from old patch}) \times (\mbox{\# estab events per BP}) \label{eqn:heuristic1a} \\
+    \begin{split} &= (\mbox{subcritical occupation density}) \times \rho \times (\mbox{\# offspring per subcritical indiv}) \label{eqn:heuristic1b} \\
     & \qquad \qquad \times (\mbox{prob of estab in the patch}) . \end{split} 
 \end{align}
-The probability of establishment of a branching process is in equation~\eqref{eqn:bp_prob_estab};
-the subcritical occupation density is the integral of equation~\eqref{eqn:eqfreq} over the patch;
+The subcritical occupation density is the integral of equation~\eqref{eqn:eqfreq} over the patch;
 the number of (extra) offspring per subcritical individual is $s_B+s_m$;
-and the probability of establishment in the patch is $2s_B/\xi^2$.
-The ``outflux of branching processes'' we have not computed;
-but we have computed the occupation density from this branching process approximation above,
-so equating ($\rho$ times $C\exp(-\sqrt{2 s_m}x/\sigma)$) and (outflux times equation~\eqref{eqn:bp_occupation})
-we have that the effective outflux (from the edge of the already occupied patch!) is 
-\begin{align}
-  (\mbox{outflux of BPs from old patch}) = C \rho \sigma \sqrt{2 \alpha} ,
-\end{align}
-rather than $C\rho$ which we might have guessed.
+and the probability of establishment of each such extra offspring in the patch is $2s_B/\xi^2$.
+The effective outflux of branching processes is computed in equation \eqref{eqn:outflux_from_patch}.
 The number of establishment events per BP is as follows, in averages: 
 with prob $1/\mu_K \exp(-\sqrt{\alpha} x/ \sigma)$ a total of $\mu_K$ indivs arrive at the new patch; 
 each produce $1/s_m$ total core offspring;
 each of these produce $s_B+s_m$ extra offspring which each have chance $2s_B/\xi^2$ of establishing,
 i.e.
 \begin{align}
-  (\mbox{\# estab events per BP}) = \frac{(s_B+s_m) 2 s_B }{ s_m \xi^2 } \exp\left(-\frac{\sqrt{\alpha} x}{\sigma}\right) .
+  (\mbox{\# estab events per BP}) = \frac{(s_B+s_m) 2 s_B }{ s_m \xi^2 } \exp\left(-\frac{\sqrt{2\alpha} x}{\sigma}\right) .
 \end{align}
-\textbf{Now} note that what we \textbf{actually} want to compute is not this rate, but rather 
+
+However, this formulation counts separately each of possible multiple establishment events by a single transiting family.
+Writing
+\begin{align} \label{eqn:heuristic2}
+  \begin{split} (\mbox{rate of establishment}) &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
+  & \qquad \qquad \times (\mbox{\# estab events per successful BP}) \end{split},
+\end{align}
+for $\migrate$ we actually want to omit the last term.
+Using the probability of establishment of a distant branching process is in equation~\eqref{eqn:bp_prob_estab}, this is
 \begin{align}
   \migrate &= (\mbox{outflux of BPs from old patch}) \times (\mbox{prob of estab of a distant BP}) \\
-  &= C \rho \sqrt{\alpha} \times \frac{2 s_b}{\sqrt{\pi} \xi^2} \exp\left(- \frac{\sqrt{\alpha}x}{\sigma} \right) .
+           &= \begin{cases}
+    C \rho \sqrt{2 \alpha} \times \frac{2 s_b}{\sqrt{\pi} \xi^2} \exp\left(- \frac{\sqrt{2\alpha}x}{\sigma} \right)  \qquad & d=1 \\
+    C \rho \sqrt{2 \alpha} \times \frac{ 2 s_b \sqrt{2 \alpha A} }{ \xi^2 \pi \sigma^3} K_1\left(\frac{x\sqrt{2\alpha}}{\sigma}\right)  \qquad & d=2 .
+\end{cases}
 \end{align}
-Finally, combining these, we can also compute that
+Finally, combining \eqref{eqn:heuristic1b} and \eqref{eqn:heuristic2}, we can also compute that
 \begin{align}
   (\mbox{\# estab events per successful BP}) = \frac{s_B+s_m}{ \sqrt{s_m} } .
 \end{align}

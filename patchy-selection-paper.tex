@@ -236,34 +236,43 @@ then for large $r$ this proportion decays exponentially,
 where $C$ is a constant depending on the geographic shape of the populations and the selection coefficients. 
 (Probably $C=1/2$ is close enough for applications; see Appendix XXX.)
 \plr{same appendix with sims as above}
-\gc{Should we also use this approx. to get the approx. rate of establishing mutations
-arising outside of the patch, above. Feel like in the mutation rate
-part we could pull $s_B$ out front of the rate as well.} 
+\gc{Should we also use this approx. to get the approx. rate of establishing mutations arising outside of the patch, above.} 
+\plr{Difficulties with this... and I'm not sure how interesting that is?  Convince me otherwise?}
+\gc{Feel like in the mutation rate part we could pull $s_B$ out front of the rate as well.} 
 \plr{huh?}
 
-This allows us to get a good sense of the time scale of adaptation by migration between separated patches, as follows.
-First imagine that the new allele is not advantageous in the second patch,
-so that the expected number of alleles present in a small area $\Delta$ at distance $r$ from the already established patch
-is $\Delta \rho q(r)$.
-As these copies are disadvantageous, they form a subcritical branching process, which die out fairly soon.
-Now add to this local selective advantage by stipulating that any copy of the allele in the new patch
-has ``extra'' offspring that are marked in some way, on average $(1+s_B)-(1-s_m)=s_B+s_m$ additional offspring per generation.
-If the probability of establishment \emph{in the new patch} is $p(x)$ as above,
-then each of these new, marked copies appearing at location $x$ has probability $p(x)$ of establishing.
-(This general relation is stated formally in Appendix XXX.)
-Therefore, the total rate of establishment 
-(i.e.\ the mean number of successfully establishing migrant lineages per generation)
-is $\rho (s_B+s_m) \int q(|x|) p(x) dx$.
-Using a similar approximation as in section \ref{ss:patchymutation},
-we can approximate this, for a patch of area $A$ at distance $R$ from an already occupied patch, as
-\begin{align}
-  \migrate(R) = \rho A \frac{s_B}{\xi^2} (s_B+s_m) \exp\left( -\frac{ \sqrt{2 s_m} R}{\sigma} \right),
+As we show below in section \ref{ss:haplotype_length}, the rate of establishment, for a patch of area $A$ at distance $R$ from an already occupied patch, is approximately
+\begin{align} \label{eqn:migrate}
+    \migrate(R) = \rho \frac{s_B\sqrt{2s_m} }{\xi^2\sqrt{\pi}}  \exp\left( -\frac{ \sqrt{2 s_m} R}{\sigma} \right).
 \end{align}
-where we have set $C=1/2$ in equation \eqref{eqn:eqfreq}.
-Using different methods, we arrive at the same functional form below in section \ref{ss:haplotype_length}.
-(Note that if the size of the new patch is large relative to $\sqrt{s_m}/\sigma$,
-then the integral of $q(x)$ over the patch will not be well approximated by $A \times q(R)$,
-but the adjustment is easy to make.)
+The exponential term is expected based on \eqref{eqn:eqfreq} -- 
+since establishment requires rare long distant migrants to be present, and \eqref{eqn:eqfreq} gives the density of such --
+but the constant requires other arguments.
+
+
+% This allows us to get a good sense of the time scale of adaptation by migration between separated patches, as follows.
+% First imagine that the new allele is not advantageous in the second patch,
+% so that the expected number of alleles present in a small area $\Delta$ at distance $r$ from the already established patch
+% is $\Delta \rho q(r)$.
+% As these copies are disadvantageous, they form a subcritical branching process, which die out fairly soon.
+% Now add to this local selective advantage by stipulating that any copy of the allele in the new patch
+% has ``extra'' offspring that are marked in some way, on average $(1+s_B)-(1-s_m)=s_B+s_m$ additional offspring per generation.
+% If the probability of establishment \emph{in the new patch} is $p(x)$ as above,
+% then each of these new, marked copies appearing at location $x$ has probability $p(x)$ of establishing.
+% (This general relation is stated formally in Appendix XXX.)
+% Therefore, the total rate of establishment 
+% (i.e.\ the mean number of successfully establishing migrant lineages per generation)
+% is $\rho (s_B+s_m) \int q(|x|) p(x) dx$.
+% Using a similar approximation as in section \ref{ss:patchymutation},
+% we can approximate this, for a patch of area $A$ at distance $R$ from an already occupied patch, as
+% \begin{align}
+%   \migrate(R) = \rho A \frac{s_B}{\xi^2} (s_B+s_m) \exp\left( -\frac{ \sqrt{2 s_m} R}{\sigma} \right),
+% \end{align}
+% where we have set $C=1/2$ in equation \eqref{eqn:eqfreq}.
+% Using different methods, we arrive at the same functional form below in section \ref{ss:haplotype_length}.
+% (Note that if the size of the new patch is large relative to $\sqrt{s_m}/\sigma$,
+% then the integral of $q(x)$ over the patch will not be well approximated by $A \times q(R)$,
+% but the adjustment is easy to make.)
 
 If this establishment rate is low, the time it takes
 a mutation to arise that will become established 
@@ -950,7 +959,7 @@ then the previous equation converges to the familiar form:
 The process $\Phi_t$ is an irreducible, aperiodic finite-state Markov chain with absorbing states at 0 and 1;
 therefore, the inevitable outcome for finite $N$ is extinction of one type or another.
 Setting the left-hand side to zero in \eqref{eqn:discrete_generator} gives us equations for the moments of the stationary distribution,
-for instance, if $\phi(x) = \lim_{t \to \infty} \E[ \Phi_t(x) ]
+for instance, if $\phi(x) = \lim_{t \to \infty} \E[ \Phi_t(x) ]$
 
 
 \end{document} 
