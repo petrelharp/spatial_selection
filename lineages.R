@@ -68,7 +68,26 @@ lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m, linit=NUL
             }
         }
     }
-    return( list( linit=linit, lineagelocs=LL, localsizes=LS, coalevents=coalevents ) )
+    return( list( linit=linit, T=T, lineagelocs=LL, localsizes=LS, coalevents=coalevents ) )
+}
+
+getfams <- function (eps=1, lins, params, LL=lins$lineagelocs, coalevents=lins$coalevents) {
+    # pull out all lineages coalescing before hitting the patch
+    coal <- subset(coalevents,params$patchdist[as.matrix(coalevents[,c("x","y")])]>params$patchsize+eps*params$sigma)
+    fams <- lapply( sort(setdiff(coal$coalto,coal$from)), function (k) {
+            thisLL <- t(LL[,,k]) 
+            exittime <- max( c( min(which(!is.na(thisLL[,1]))), which( params$patchdist[thisLL]<=params$patchsize ) ) ) # last exit from patch
+            coaltime <- min( coal$t[coal$coalto==k] )
+            usetimes <- min(coaltime,exittime):max(which(!is.na(thisLL[,1])))
+            return( data.frame( k=k, t=usetimes, thisLL[ usetimes, ] ) )
+        } )
+    names(fams) <- sort(setdiff(coal$coalto,coal$from))
+    for (j in 1:nrow(coal)) {
+        fams[[paste(coal$coalto[j])]] <- rbind( fams[[paste(coal$coalto[j])]], 
+                data.frame( k=coal$orig[j], t=which(!is.na(LL[1,,coal$orig[j]])), na.omit(t(LL[,,coal$orig[j]])) )
+            )
+    }
+    return(fams)
 }
 
 plotlins <- function( lineages, coalevents, linit, cols, jit=TRUE, add=FALSE, subset=TRUE, ... ) {
