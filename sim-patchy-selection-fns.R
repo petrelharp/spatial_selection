@@ -179,10 +179,10 @@ colorRampTrans <- function (basecol, n=12) {
 }
 
 
-plotpophist <- function(pophist,...) {
+plotpophist <- function(pophist,timeslice=TRUE,...) {
     # Plot one-dimensional population history with time on the x-axis
     if (!any(dim(pophist$pophist)[1:2]==1)) { stop("Population is not one-dimensional.") } 
-    zimg <- plotpop( aperm(pophist$pophist[,,,,drop=TRUE],c(3,1,2)), params=pophist$pop$params, xlab="time", ylab="space" )
+    zimg <- plotpop( aperm(pophist$pophist[,,,timeslice,drop=TRUE],c(3,1,2)), params=pophist$pop$params, xlab="time", ylab="space", ... )
     axis(1); axis(2)
     return( invisible(zimg) )
 }
@@ -231,21 +231,16 @@ plotpop <- function (n, params, maxtimes=200, thresh=.05, cols, coltrans, ...) {
     # subsample if too many columns
     if ((dim(n)[1]>maxtimes)) { n <- n[(1:(dim(n)[1]))%%floor(dim(n)[1]/maxtimes)==0,,] }
     if ((dim(n)[2]>maxtimes)) { n <- n[,(1:(dim(n)[2]))%%floor(dim(n)[2]/maxtimes)==0,] }
-
-    if (missing(cols)) {
-        cols <- c(list(c("#FFFFFF")), lapply(rainbow(dim(n)[3]), colorRampTrans, n=12) )
-    }
-    if (missing(coltrans)) {
-        coltrans <- function (x,cols=cols,ncols=length(cols)) { cols[ceiling((ncols-1)*x/params$N+0.5)] }
-    }
+    # color picking
+    if (missing(cols)) { cols <- c(list(c("#FFFFFF")), lapply(rainbow(dim(n)[3]), colorRampTrans, n=12) ) }
+    if (missing(coltrans)) { coltrans <- function (x,colors,ncols=length(colors)) { colors[ceiling((ncols-1)*x/params$N+1)] } }
 
     # Bulk plotting
     img <- array(1,dim=c(3,dim(n)[1:2]))  # has r,g,b layers above population
     for (k in 2:dim(n)[3]) {
         # image(1-log(1+n[,,k])/log(N),zlim=c(0,1), col=cols[[k]], new=k>1)
         # image(n[,,k]/N,zlim=c(0,1), col=cols[[k]], new=k>1)
-        colors <- cols[[k]]
-        newcolors <- sapply(coltrans(n[,,k],colors),col2rgb)/255
+        newcolors <- sapply(coltrans(n[,,k],cols[[k]]),col2rgb)/255
         dim(newcolors) <- dim(img)
         img <- img * newcolors
     }

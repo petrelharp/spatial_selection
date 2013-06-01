@@ -253,12 +253,14 @@ muvals <- c(10^-8,10^-5)
 A <- 500 # km^2
 # distance between patches
 R <- 4000 # km
+# variance in reproductive number -- sb above is scaled by this.
+xisq <- 50
 
 ###
 # Table up those values
 params <- expand.grid(rho=rhovals, sigma=sigmavals, mu=muvals)
 exvalues <- t( sapply(1:dim(params)[1], function (k) {
-        with( params[k,], everything(mu=mu, rho=rho, sb=sb, sm=sm, sigma=sigma, R=R, A=A) )
+        with( params[k,], everything(mu=mu, rho=rho, sb=sb*xisq, sm=sm, sigma=sigma, R=R, A=A) )
         } ) )
 
 # write out the table in latex
