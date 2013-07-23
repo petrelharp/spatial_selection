@@ -45,7 +45,7 @@ the chance that the motion first hits $x$ at time $t$ is (Borodin \& Salminen 2.
 \end{align}
 or the chance that it is still alive then time the chance the trunk lineage hits $x$ at that time.
 
-\item This induces a distribution on $T$, the time that a successful excursion took to cross:
+\item This induces a distribution on $\tau_x$, the time that a successful excursion took to cross:
 assuming, as is asymptotically correct, that the number of arriving lineages is independent of how long it took to get there,
 if $\tau_x$ is the random time of arrival of a successful lineage,
 \begin{align} \label{eqn:arrival_time_density}
@@ -54,8 +54,8 @@ if $\tau_x$ is the random time of arrival of a successful lineage,
 where $C_{s_d,x}$ is a constant depending only on $s_d$ and $x$.
 
 
-\item The length of the hitchhiking segment on \emph{one side} of the selected site $L$ is exponential with rate depending on $T$;
-integrating over $T$ we get
+\item The length of the hitchhiking segment on \emph{one side} of the selected site $L$ is exponential with rate depending on $\tau_x$;
+integrating over $\tau_x$ we get
 (using Gradshteyn \& Ryzhik 3.471.9; note $\ell > 0 > \log(1-s_d)$):
 \begin{align}
  \P\{ L > \ell \} &= \E\left[ e^{-\ell \tau_x} \right] \\
@@ -187,7 +187,7 @@ Then the occupation density at distance $x$, i.e.\ the expected number of partic
 is $\lambda \int_0^\infty \E[Z_t(dx)] dt$, where $Z_t$ is the branching process.
 Since spatial motion is independent of branching,
 \begin{align}
-  \E[Z_t(dx)] = e^{-\alpha t} \frac{1}{(2\pi \sigma^2 t)^{d/2}} \exp\left(-\frac{x^2}{2\sigma^2 t} \right) ,
+  \E[Z_t(dx)] = e^{-\alpha t} \frac{1}{(2\pi \sigma^2 t)^{d/2}} \exp\left(-\frac{x^2}{2\sigma^2 t} \right) dx ,
 \end{align}
 and so using G\&R 3.471.9 and 8.468 again,
 \begin{align} \label{eqn:bp_occupation}
@@ -211,6 +211,7 @@ to estimate $\lambda$, the effective outflux from the occupied patch: equating $
     \end{cases}
 \end{align}
 Note that this differs from the value $C\rho$ which we might have guessed.
+NOT RIGHT in $d=2$: SHOULD NOT DEPEND ON $x$.
 
 \emph{The following is not making sense to me at the moment.} A more back-of-the-envelope calculation of this would be:
 we know that the probability a branching process arrives at the patch is given by $(1/\mu_K)\exp(-x\sqrt{2 \alpha}/\sigma)$;
@@ -255,16 +256,16 @@ We can calculate the rate of ``core'' establishment, i.e.\ the mean number of re
     & \qquad \qquad \times (\mbox{prob of estab in the patch}) . \end{split} 
 \end{align}
 The subcritical occupation density is the integral of equation~\eqref{eqn:eqfreq} over the patch;
-the number of (extra) offspring per subcritical individual is $s_B+s_m$;
-and the probability of establishment of each such extra offspring in the patch is $2s_B/\xi^2$.
+the number of (extra) offspring per subcritical individual is $s_p+s_m$;
+and the probability of establishment of each such extra offspring in the patch is $2s_p/\xi^2$.
 The effective outflux of branching processes is computed in equation \eqref{eqn:outflux_from_patch}.
 The number of establishment events per BP is as follows, in averages: 
 with prob $1/\mu_K \exp(-\sqrt{\alpha} x/ \sigma)$ a total of $\mu_K$ indivs arrive at the new patch; 
 each produce $1/s_m$ total core offspring;
-each of these produce $s_B+s_m$ extra offspring which each have chance $2s_B/\xi^2$ of establishing,
+each of these produce $s_p+s_m$ extra offspring which each have chance $2s_p/\xi^2$ of establishing,
 i.e.
 \begin{align}
-  (\mbox{\# estab events per BP}) = \frac{(s_B+s_m) 2 s_B }{ s_m \xi^2 } \exp\left(-\frac{\sqrt{2\alpha} x}{\sigma}\right) .
+  (\mbox{\# estab events per BP}) = \frac{(s_p+s_m) 2 s_p }{ s_m \xi^2 } \exp\left(-\frac{\sqrt{2\alpha} x}{\sigma}\right) .
 \end{align}
 
 However, this formulation counts separately each of possible multiple establishment events by a single transiting family.
@@ -284,7 +285,7 @@ Using the probability of establishment of a distant branching process is in equa
 \end{align}
 Finally, combining \eqref{eqn:heuristic1b} and \eqref{eqn:heuristic2}, we can also compute that
 \begin{align}
-  (\mbox{\# estab events per successful BP}) = \frac{s_B+s_m}{ \sqrt{s_m} } .
+  (\mbox{\# estab events per successful BP}) = \frac{s_p+s_m}{ \sqrt{s_m} } .
 \end{align}
 
 \end{document}
