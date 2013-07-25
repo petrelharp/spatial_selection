@@ -3,22 +3,24 @@
 source("sim-patchy-selection-fns.R")
 source("lineages.R")
 
-nsteps <- 10000
-stepsize <- 1
+ngens <- 1000000
+nsteps <- 1000  # record at this many steps
+stepsize <- max(1,floor(ngens/nsteps))
 run.id <- floor(runif(1)*10000)
 nlins <- 500
+do.lineages <- FALSE
 
 # Parameters
 params <- list(
         mu = 0,           # mutation rate
         r = 0.1,          # reproduction rate
         m = 0.05,         # probability of migration
-        N = 1000,         # number of indivs per pop
-        range = c(51,51), # dimensions of species range
+        N = 100,         # number of indivs per pop
+        range = c(501,501), # dimensions of species range
         ntypes = 2,       # number of types 
         patchsize = 10,   # patch radius
         sb = .1,
-        sm = -.02
+        sm = -.005
     )
 # get command line modifications
 for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
@@ -64,15 +66,19 @@ while (filename %in% run.list) {  # make sure don't overwrite something
 set.seed(run.id)
 pophist <- pophistory( pop=initpop, nsteps=nsteps, step=stepsize )
 
-## trace lineages back
-# from outer tail:
-demetotals <- rowSums(pophist$pophist[,,2,200:dim(pophist$pophist)[4],drop=FALSE],dims=2)
-fromdemes <- ( demetotals < sort( demetotals )[ 20 ] + 1 )
-# longlins <- arrayInd( sample( (1:length(pophist$pophist[,,2,]))[fromdemes], nlins, replace=TRUE, prob=pophist$pophist[,,2,][fromdemes] ), .dim=dim(pophist$pophist[,,2,,drop=FALSE]) )
-longlins <- arrayInd( sample( (1:length(pophist$pophist[,,2,]))[fromdemes], nlins, replace=TRUE, prob=(pophist$pophist[,,2,][fromdemes]>0) ), .dim=dim(pophist$pophist[,,2,,drop=FALSE]) )
-# longlins <- with(pophist, which( (pophist[,,2,,drop=FALSE]>0) & rep(params$patchdist>8*params$sigma,dim(pophist)[4]), arr.ind=TRUE ) )
-# longlins <- longlins[sample(1:nrow(longlins),min(nrow(longlins),500)),]
-lins <- lineages( pophist, T=longlins[,4], linit=longlins[,1:2], migrsteps=params$migrsteps )
+if (do.lineages) {
+    ## trace lineages back
+    # from outer tail:
+    demetotals <- rowSums(pophist$pophist[,,2,200:dim(pophist$pophist)[4],drop=FALSE],dims=2)
+    fromdemes <- ( demetotals < sort( demetotals )[ 20 ] + 1 )
+    # longlins <- arrayInd( sample( (1:length(pophist$pophist[,,2,]))[fromdemes], nlins, replace=TRUE, prob=pophist$pophist[,,2,][fromdemes] ), .dim=dim(pophist$pophist[,,2,,drop=FALSE]) )
+    longlins <- arrayInd( sample( (1:length(pophist$pophist[,,2,]))[fromdemes], nlins, replace=TRUE, prob=(pophist$pophist[,,2,][fromdemes]>0) ), .dim=dim(pophist$pophist[,,2,,drop=FALSE]) )
+    # longlins <- with(pophist, which( (pophist[,,2,,drop=FALSE]>0) & rep(params$patchdist>8*params$sigma,dim(pophist)[4]), arr.ind=TRUE ) )
+    # longlins <- longlins[sample(1:nrow(longlins),min(nrow(longlins),500)),]
+    lins <- lineages( pophist, T=longlins[,4], linit=longlins[,1:2], migrsteps=params$migrsteps )
+} else {
+    lins <- NULL
+}
 
 save(pophist,lins,file=filename)
 

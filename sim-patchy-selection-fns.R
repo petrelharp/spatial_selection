@@ -51,12 +51,13 @@ pophistory <- function (pop, nsteps, step=20) {
     pophist <- array(0,dim=c(dim(pop$n),nsteps))
     pophist[,,,1] <- pop$n
     dimnames(pophist)[[4]]<-step*(1:nsteps)
+    occupation <- array(0,dim=dim(pop$n))
     
     for (k in 2:nsteps) {
-        pop <- generations(pop,step)
+        pop <- generations(pop,step,occupation)
         pophist[,,,k] <- pop$n
     }
-    return( list(pophist=pophist,pop=pop) )
+    return( list(pophist=pophist,pop=pop,occupation=occupation) )
 }
 
 
@@ -69,8 +70,11 @@ runsim <- function (pop, nsteps, step=10, plotit=TRUE) {
     return(pop)
 }
 
-generations <- function (pop, ngens) {
-        for (k in 1:ngens) { pop <- generation(pop) }
+generations <- function (pop, ngens, occupation) {
+        for (k in 1:ngens) { 
+            pop <- generation(pop) 
+            if (!missing(occupation)) { occupation <- occupation + pop$n }
+        }
         return(pop)
 }
 
@@ -161,6 +165,73 @@ migrate <- function ( n, m, migr ) {
     #while (dy < 0) { migrants <- rbind(migrants[-1,,drop=FALSE],0); dy <- dy+1 } # shift up
 
     return( n + migrants - outmigrants )
+}
+
+
+#####
+# Find equilibrium freqs
+
+meanmigrate <- function ( n, m, migr ) {
+    # does as migrate, but in expectation.
+    prob <- migr[1]*m
+    dx <- migr[2]
+    if (length(migr)==2) { dy <- 0 } else { dy <- migr[3] }
+    if ( dim(n)[3] != 1 ) { 
+        warn( "Passing multiple types to migrate!" ) 
+    } else { dim(n) <- dim(n)[1:2] }
+    migrants <- n*prob
+    outmigrants <- migrants  # where they came from (need to subtract this off)
+    nc <- dim(n)[2] # x-extent of populations
+    nr <- dim(n)[1] # y-extent of populations
+    if (dx>0) {
+    	migrants <- cbind( matrix(0,nrow=dim(migrants)[1],ncol=dx), migrants[,-((nc-dx+1):nc),drop=FALSE] )
+    } else if (dx<0) {
+    	migrants <- cbind( migrants[,-1:dx,drop=FALSE], matrix(0,nrow=dim(migrants)[1],ncol=-dx) )
+    }
+    if (dy>0) {
+    	migrants <- rbind( matrix(0,ncol=dim(migrants)[2],nrow=dy), migrants[-((nr-dy+1):nr),,drop=FALSE] )
+    } else if (dy<0) {
+    	migrants <- rbind( migrants[-1:dy,,drop=FALSE], matrix(0,ncol=dim(migrants)[2],nrow=-dy) )
+    }
+    return( n + migrants - outmigrants )
+}
+
+getequilibrium <- function (params,nreps=1000,keep.convergence=FALSE, init=0.5 ) {
+    # find equilibrium solution
+    # matches (absorbing) boundary conditions of the simulation above
+    if ('pop'%in%names(params)) { params <- params$pop$params }
+    if ('params'%in%names(params)) { params <- params$params }
+    s <- params$s
+    migrsteps <- params$migrsteps
+    m <- params$m
+    n <- array( c(init,1-init), dim=c(dim(s),2) )
+    f <- function (n) {
+        n[,,1] <- n[,,1] * (1 + params$r)
+        n[,,2] <- n[,,2] * (1 + (1+s) * params$r)  #  see above
+        for (k in 1:2) {
+            for (migr in migrsteps) {
+                n[,,k] <- meanmigrate(n[,,k,drop=FALSE], m, migr)
+            }
+        }
+        n <- sweep( n, c(1,2), rowSums(n,dim=2), "/" )
+        return(n)
+    }
+    if (keep.convergence) {
+        xx <- array( 0, dim=c(dim(s),nreps) )
+        xx[,,1] <- n[,,2]
+        for (k in 2:dim(xx)[3]) {
+            n <- f(n)
+            xx[,,k] <- n[,,2]
+        }
+        # matplot(xx[1,,floor(seq(1,nreps,length.out=100))],type='l',col=rainbow(1.2*100))
+    } else {
+        for (k in 2:nreps) {
+            n <- f(n)
+        }
+        xx <- matrix( init, nrow=nrow(s), ncol=ncol(s) )
+        xx[] <- n[,,2]
+    }
+    return (xx)
 }
 
 

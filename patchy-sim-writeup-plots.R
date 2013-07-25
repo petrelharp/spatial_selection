@@ -3,10 +3,12 @@ source("sim-patchy-selection-fns.R")
 source("lineages.R")
 source("sim-patchy-selection-fns.R")
 
+run.list <- list.files(".","*-pophistory-run.Rdata")
+rundims <- read.csv("run-info.csv")
 
 run.names <- c( '3975-1-10000-pophistory-run.Rdata', '5473-1-10000-pophistory-run.Rdata' )
 
-run.id <- gsub( "([^-]*)-.*","\\1",run.names[1] )
+run.id <- gsub( "([^-]*)-.*","\\1","3975-1-10000-pophistory-run.Rdata" )
 load(run.name)
 print(c("run",run.id,"range",pophist$pop$params$range))
 
@@ -36,44 +38,8 @@ lines( sort(unique(patchloc)), (1/2) * exp( - sort(unique(patchloc)) * sqrt(2*ab
 
 
 #######
+# get equlibrium solution by iterating f() until convergence
+# with boundary conditions fixed to zero
 
-s <- pophist$pop$params$s
-migrsteps <- pophist$pop$params$migrsteps
-x <- matrix( 0.5, nrow=dim(pophist$pophist)[1], ncol=dim(pophist$pophist)[2] )
-f <- function (x) {
-    upm <- downm <- (x * 0)
-    for (migr in migrsteps) {
-        upmigrants <- migr[1] * x * (1+s)
-        downmigrants <- migr[1] * (1-x)
-        dx <- migr[2]
-        if (length(migr)==2) { dy <- 0 } else { dy <- migr[3] }
-        nc <- dim(x)[2] # x-extent of populations
-        nr <- dim(x)[1] # y-extent of populations
-        if (dx>0) {
-            upmigrants[,-(1:dx)] <- upmigrants[,-((nc-dx+1):nc),drop=FALSE]
-            downmigrants[,-(1:dx)] <- downmigrants[,-((nc-dx+1):nc),drop=FALSE]
-        } else if (dx<0) {
-            upmigrants[,-((nc+dx+1):nc)] <- upmigrants[,-1:dx,drop=FALSE]
-            downmigrants[,-((nc+dx+1):nc)] <- downmigrants[,-1:dx,drop=FALSE]
-        }
-        if (dy>0) {
-            upmigrants[-(1:dy),] <- upmigrants[-((nr-dy+1):nr),,drop=FALSE]
-            downmigrants[-(1:dy),] <- downmigrants[-((nr-dy+1):nr),,drop=FALSE]
-        } else if (dy<0) {
-            upmigrants[-((nc+dy+1):nc),] <- upmigrants[-1:dy,,drop=FALSE]
-            downmigrants[-((nc+dy+1):nc),] <- downmigrants[-1:dy,,drop=FALSE]
-        }
-        upm <- upm + upmigrants
-        downm <- downm + upmigrants
-    }
-    pmigr <- sum( sapply(migrsteps,'[[',1) )
-    x <- ( (1-pmigr)*x + upm ) / ( (1-pmigr)*x + upm + downm )
-    return(x)
-}
-xx <- array( 0, dim=c(dim(x),200) )
-xx[,,1] <- x
-for (k in 2:dim(xx)[3]) {
-    tmpx <- xx[,,k-1]
-    dim(tmpx) <- dim(xx)[1:2]
-    xx[,,k] <- f(tmpx)
-}
+xx <- getequilibrium(pophist,keep.convergence=TRUE)
+matplot(xx[1,,floor(seq(1,nreps,length.out=100))],type='l',col=rainbow(1.2*100))
