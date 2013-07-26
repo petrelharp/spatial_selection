@@ -1,12 +1,8 @@
 #!/usr/bin/R
 
-source("sim-patchy-selection-fns.R")
-source("lineages.R")
-
-ngens <- 1000000
+ngens <- 10
 nsteps <- 1000  # record at this many steps
 stepsize <- max(1,floor(ngens/nsteps))
-run.id <- floor(runif(1)*10000)
 nlins <- 500
 do.lineages <- FALSE
 
@@ -19,13 +15,34 @@ params <- list(
         range = c(501,501), # dimensions of species range
         ntypes = 2,       # number of types 
         patchsize = 10,   # patch radius
-        sb = .1,
+        sb = .05,
         sm = -.005
     )
 # get command line modifications
 for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
 for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
 # print(params)
+
+run.id <- floor(runif(1)*10000)
+filename <- paste(run.id,stepsize,nsteps,"pophistory-run.Rdata",sep="-")
+run.list <- list.files(".","*-pophistory-run.Rdata")
+while (filename %in% run.list) {  # make sure don't overwrite something
+    run.id <- floor(runif(1)*10000)
+    filename <- paste(run.id,stepsize,nsteps,"pophistory-run.Rdata",sep="-")
+}
+if (!interactive()) {
+    logfile <- gsub(".RData",".Rout",filename,fixed=TRUE)
+    logcon <- file(logfile,open="wt")
+    sink(file=logcon, type="message") 
+    sink(file=logcon, type="output")   # send both to log file
+}
+print(run.id)
+print(params)
+set.seed(run.id)
+
+source("sim-patchy-selection-fns.R")
+source("lineages.R")
+
 # postcompute
 if (min(params$range)>1) { # 2D
     params$migrsteps <- c( lapply( 1:5, function (n) { c( 2^(-(n+2)), n, 0 ) } ),  ## 2D
@@ -55,16 +72,9 @@ initpop <- newpop(params,ntypes=2,nseeds=0)
 initpop$n[,,1][params$s>0] <- 0
 initpop$n[,,2][params$s>0] <- params$N
 
-run.list <- list.files(".","*-pophistory-run.Rdata")
 
 # Generate and save runs
-filename <- paste(run.id,stepsize,nsteps,"pophistory-run.Rdata",sep="-")
-while (filename %in% run.list) {  # make sure don't overwrite something
-    run.id <- floor(runif(1)*10000)
-    filename <- paste(run.id,stepsize,nsteps,"pophistory-run.Rdata",sep="-")
-}
-set.seed(run.id)
-pophist <- pophistory( pop=initpop, nsteps=nsteps, step=stepsize )
+pophist <- pophistory( pop=initpop, nsteps=nsteps, step=stepsize, progress=stepsize )
 
 if (do.lineages) {
     ## trace lineages back

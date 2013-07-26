@@ -42,7 +42,7 @@ newpop <- function(params, ntypes=10, nseeds=1 ) {
 ########
 # run the simulation
 
-pophistory <- function (pop, nsteps, step=20) {
+pophistory <- function (pop, nsteps, step=20, progress=0) {
     # make a 2x1x1-dimensional array of population states,
     # where the fourth dimension is time,
     # and each slice is the population state at time points
@@ -50,12 +50,14 @@ pophistory <- function (pop, nsteps, step=20) {
 
     pophist <- array(0,dim=c(dim(pop$n),nsteps))
     pophist[,,,1] <- pop$n
-    dimnames(pophist)[[4]]<-step*(1:nsteps)
+    attr(pophist,"gens")<-step*(1:nsteps)
     occupation <- array(0,dim=dim(pop$n))
     
-    for (k in 2:nsteps) {
-        pop <- generations(pop,step,occupation)
-        pophist[,,,k] <- pop$n
+    for (k in 2:(nsteps*step)) {
+        pop <- generation(pop)
+        occupation <- occupation + pop$n
+        if (k %% step == 0) { pophist[,,,k%/%step] <- pop$n }
+        if (progress>0 & k %% progress == 0) { cat(paste("..",k,"\n")) }
     }
     return( list(pophist=pophist,pop=pop,occupation=occupation) )
 }
@@ -73,7 +75,6 @@ runsim <- function (pop, nsteps, step=10, plotit=TRUE) {
 generations <- function (pop, ngens, occupation) {
         for (k in 1:ngens) { 
             pop <- generation(pop) 
-            if (!missing(occupation)) { occupation <- occupation + pop$n }
         }
         return(pop)
 }
