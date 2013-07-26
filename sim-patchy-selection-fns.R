@@ -6,18 +6,10 @@
 
 getsigma <- function (params) {
     # compute sigma (SD of dispersal) from parameters
-    probs <- params$m * sapply( params$migrsteps, function (x) x[1] )
-    probs <- probs / sum(probs)
-    steps <- sapply( params$migrsteps, function (x) sqrt( sum(x[2:3]^2) ) )
-    return( sqrt( sum( probs * steps^2 ) ) )
-}
-
-getabssigma <- function (params) {
-    # compute sigma (SD of dispersal) from parameters
-    probs <- params$m * sapply( params$migrsteps, function (x) x[1] )
-    probs <- probs / sum(probs)
-    steps <- sapply( params$migrsteps, function (x) sqrt( sum(x[2:3]^2) ) )
-    return( sum( probs * steps ) )
+    probs <- sapply( params$migrsteps, function (x) x[1] )
+    probs <- params$m * probs / sum(probs)
+    stepsq <- sapply( params$migrsteps, function (x) ( sum(x[2:3]^2) ) )
+    return( sqrt( sum( probs * stepsq ) ) )
 }
 
 ###
@@ -117,10 +109,17 @@ generation <- function (pop) {
         # Migration
         #  -- also an approximation: this allows some to migrate
         #   more than once, but with probability < m^2.
+        mprobs <- sapply( pop$params$migrsteps, "[[", 1 )  # prob of each migration step
+        mprobs <- pop$params$m * mprobs/sum(mprobs)
+        for (k in seq_along(mprobs)[-1]) { mprobs[k] <- mprobs[k] / prod(1-mprobs[1:(k-1)]) }  # convert to sequence of binomials
         for (k in 1:dim(pop$n)[3]) {
-            for (migr in pop$params$migrsteps) {
-                pop$n[,,k] <- migrate(pop$n[,,k,drop=FALSE], pop$params$m, migr)
+            inmigrants <- array(0,dim=dim(pop$n)[1:2])
+            for (j in seq_along(mprobs)) {
+                migrants <- migrate(pop$n[,,k,drop=FALSE], prob=mprobs[j], migr=pop$params$migrsteps[[j]])
+                pop$n[,,k] <- pop$n[,,k] - migrants$outmigrants 
+                inmigrants <- inmigrants + migrants$inmigrants
             }
+            pop$n[,,k] <- pop$n[,,k] + inmigrants
         }
 
         # Resample down to N
@@ -130,42 +129,30 @@ generation <- function (pop) {
         return(pop)
 }
 
-migrate <- function ( n, m, migr ) {
+migrate <- function ( n, m, prob, migr ) {
     # does a single migration step on a matrix n.
     # with total probability per individual of migration m.
     # expects migr to be a triplet of the format (probability, dx, dy)
 
-    prob <- migr[1]*m
+    if (missing(prob)) { prob <- migr[1]*m }
     dx <- migr[2]
     if (length(migr)==2) { dy <- 0 } else { dy <- migr[3] }
     if ( dim(n)[3] != 1 ) { 
         warn( "Passing multiple types to migrate!" ) 
     } else { dim(n) <- dim(n)[1:2] }
 
-    migrants <- rrbinom( n, prob )
-    outmigrants <- migrants  # where they came from (need to subtract this off)
+    outmigrants <- rrbinom( n, prob )  # where they came from (need to subtract this off)
+    migrants <- matrix( 0, nrow=nrow(outmigrants), ncol=ncol(outmigrants) )
 
     nc <- dim(n)[2] # x-extent of populations
     nr <- dim(n)[1] # y-extent of populations
+    fromcols <-  1:(nc-abs(dx)) + if (dx<0) { abs(dx) } else { 0 }
+    tocols <-  1:(nc-abs(dx)) + if (dx<0) { 0 } else { abs(dx) }
+    fromrows <-  1:(nr-abs(dy)) + if (dy<0) { abs(dy) } else { 0 }
+    torows <-  1:(nr-abs(dy)) + if (dy<0) { 0 } else { abs(dy) }
+    migrants[torows,tocols] <- outmigrants[fromrows,fromcols]
 
-    if (dx>0) {
-    	migrants <- cbind( matrix(0,nrow=dim(migrants)[1],ncol=dx), migrants[,-((nc-dx+1):nc),drop=FALSE] )
-    } else if (dx<0) {
-    	migrants <- cbind( migrants[,-1:dx,drop=FALSE], matrix(0,nrow=dim(migrants)[1],ncol=-dx) )
-    }
-    if (dy>0) {
-    	migrants <- rbind( matrix(0,ncol=dim(migrants)[2],nrow=dy), migrants[-((nr-dy+1):nr),,drop=FALSE] )
-    } else if (dy<0) {
-    	migrants <- rbind( migrants[-1:dy,,drop=FALSE], matrix(0,ncol=dim(migrants)[2],nrow=-dy) )
-    }
-
-    #while (dx > 0) { migrants <- cbind(0,migrants[,-nc,drop=FALSE]); dx <- dx-1 } # shift right
-    #while (dx < 0) { migrants <- cbind(migrants[,-1,drop=FALSE],0); dx <- dx+1 } # shift left
-
-    #while (dy > 0) { migrants <- rbind(0,migrants[-nr,,drop=FALSE]); dy <- dy-1 } # shift down
-    #while (dy < 0) { migrants <- rbind(migrants[-1,,drop=FALSE],0); dy <- dy+1 } # shift up
-
-    return( n + migrants - outmigrants )
+    return( list( outmigrants=outmigrants, inmigrants=migrants ) )
 }
 
 

@@ -1,7 +1,8 @@
 #!/usr/bin/R
 
-ngens <- 10
+ngens <- 1e5
 nsteps <- 1000  # record at this many steps
+nsteps <- min(ngens,nsteps)
 stepsize <- max(1,floor(ngens/nsteps))
 nlins <- 500
 do.lineages <- FALSE
@@ -9,15 +10,16 @@ do.lineages <- FALSE
 # Parameters
 params <- list(
         mu = 0,           # mutation rate
-        r = 0.1,          # reproduction rate
-        m = 0.05,         # probability of migration
-        N = 100,         # number of indivs per pop
-        range = c(501,501), # dimensions of species range
+        r = 0.3,          # reproduction rate
+        m = 0.2,         # probability of migration
+        N = 1000,         # number of indivs per pop
+        range = c(1,1001), # dimensions of species range
         ntypes = 2,       # number of types 
         patchsize = 10,   # patch radius
         sb = .05,
-        sm = -.005
+        sm = -.01
     )
+
 # get command line modifications
 for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
 for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
@@ -31,7 +33,7 @@ while (filename %in% run.list) {  # make sure don't overwrite something
     filename <- paste(run.id,stepsize,nsteps,"pophistory-run.Rdata",sep="-")
 }
 if (!interactive()) {
-    logfile <- gsub(".RData",".Rout",filename,fixed=TRUE)
+    logfile <- gsub(".Rdata",".Rout",filename,fixed=TRUE)
     logcon <- file(logfile,open="wt")
     sink(file=logcon, type="message") 
     sink(file=logcon, type="output")   # send both to log file
