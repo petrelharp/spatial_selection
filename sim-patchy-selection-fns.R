@@ -12,6 +12,11 @@ getsigma <- function (params) {
     return( sqrt( sum( probs * stepsq ) ) )
 }
 
+getgrowth <- function (params) {
+    # growth rate, i.e. numbers behave as exp(t*g):
+    return( list( gb=log((1+params$r*(1+params$sb))/(1+params$r)), gm=log((1+params$r*(1+params$sm))/(1+params$r)) ) )
+}
+
 ###
 # Populations
 

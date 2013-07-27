@@ -34,14 +34,23 @@ initpop$n[,startpos,2] <- 1e3
 
 
 # Generate and save runs
-pophist <- pophistory( pop=initpop, nsteps=1000, step=1 )
+pophists <- lapply(1:10, function (k) pophistory( pop=initpop, nsteps=500, step=1 ) )
 
 # compute mean-squared deviation in each generation
-dists <- ( (1:dim(pophist$pophist)[2]) - startpos )
-meandist <- apply( pophist$pophist[,,2,], 2, function (x) sum(x*dists)/sum(x) )
-meansqdist <- apply( pophist$pophist[,,2,], 2, function (x) sum(x*dists^2)/sum(x) )
+dists <- ( (1:params$range[2]) - startpos )
+meandists <- sapply(pophists, function (pophist) apply( pophist$pophist[,,2,], 2, function (x) sum(x*dists)/sum(x) ) )
+meansqdists <- sapply(pophists, function(pophist) apply( pophist$pophist[,,2,], 2, function (x) sum(x*dists^2)/sum(x) ) )
+numbers <- sapply( pophists, function (pophist) colSums( pophist$pophist[,,2,] ) )
 
-range(meandist)
+range(meandists)
 
-plot(meansqdist)
+# check estimated sigma?
+layout(1:2)
+matplot(meansqdists,type='l',main='forward')
 abline(0,getsigma(params)^2,col='red')
+matplot(nrow(meansqdists):1,(-1)*sweep(meansqdists,2,meansqdists[nrow(meansqdists),],"-"),type='l',main="reversed")
+abline(0,getsigma(params)^2,col='red')
+
+# check interpretation of s: GROWTH RATE IS log((1+params$r*(1+params$sb))/(1+params$r))
+matplot(numbers,type='l',log='y')
+abline(log10(1e3),log10((1+params$r*(1+params$sb))/(1+params$r)),untf=FALSE)
