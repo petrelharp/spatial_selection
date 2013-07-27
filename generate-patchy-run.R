@@ -1,9 +1,13 @@
 #!/usr/bin/R
 
+source("sim-patchy-selection-fns.R")
+source("lineages.R")
+
 ngens <- 1e5
 nsteps <- 1000  # record at this many steps
 nsteps <- min(ngens,nsteps)
 stepsize <- max(1,floor(ngens/nsteps))
+run.id <- floor(runif(1)*10000)
 nlins <- 500
 do.lineages <- FALSE
 

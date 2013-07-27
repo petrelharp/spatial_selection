@@ -2,10 +2,13 @@
 source("sim-patchy-selection-fns.R")
 source("lineages.R")
 
+run.list <- list.files(".","*-pophistory-run.Rdata")
+rundims <- read.csv("run-info.csv")
 
 run.names <- c( '3975-1-10000-pophistory-run.Rdata', '5473-1-10000-pophistory-run.Rdata' )
 
-run.id <- gsub( "([^-]*)-.*","\\1",run.names[1] )
+run.name <- "3975-1-10000-pophistory-run.Rdata"
+run.id <- gsub( "([^-]*)-.*","\\1",run.name)
 load(run.name)
 print(c("run",run.id,"range",pophist$pop$params$range))
 
@@ -28,8 +31,17 @@ lines( rowMeans(pophist$pophist[,,2,min(timeslice):max(timeslice)])/pophist$pop$
 dev.off()
 
 # the exp'l decay
-patchloc <- pmax( min(which(pophist$pop$params$s>0))-seq_along(pophist$pop$params$s), seq_along(pophist$pop$params$s)-max(which(pophist$pop$params$s>0)) )
+patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
+tmpdists <- seq(min(patchloc),max(patchloc),length.out=27)
+tmplocs <- tmpdists[-1] - diff(tmpdists)/2
+patchdist <- cut( as.vector(patchloc), breaks=tmpdists, include.lowest=TRUE, ordered_result=TRUE )
+equil <- getequilibrium(pophist,init=rowMeans(pophist$pophist[,,2,2000:10000,drop=FALSE])/pophist$pop$params$N) #,keep.convergence=TRUE)
 
+plot( patchloc, rowMeans(pophist$pophist[,,2,2000:10000,drop=FALSE],dim=2)/pophist$pop$params$N, log='y' )
+points( tmplocs, tapply(rowMeans(pophist$pophist[,,2,2000:10000,drop=FALSE],dim=2)/pophist$pop$params$N,patchdist,mean), col='red', pch=20 )
+lines( tmplocs, (1/2) * exp( - tmplocs * sqrt(2*abs(min(pophist$pop$params$s))) / (pophist$pop$params$sigma) ) )
+points( patchloc, equil, col='green', pch=20 )
+abline(v=0,lty=2)
 
 plot( sort(unique(patchloc)), tapply(pophist$occupation[,,2]/(pophist$pop$gen*pophist$pop$params$N),patchloc,mean), log='y' )
 points( sort(unique(patchloc)), tapply(rowMeans(pophist$pophist[,,2,min(timeslice):max(timeslice)])/pophist$pop$params$N,patchloc,mean), pch=20, col='red' )
