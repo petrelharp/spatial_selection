@@ -98,7 +98,9 @@ LL <- plotlins(lins,plotit=FALSE)
 Ltimes <- as.numeric(dimnames(LL)[[2]])
 useLtimes <- (Ltimes>min(timeslice)) & (Ltimes<max(timeslice))
 LL <- LL[,useLtimes,] 
-plotpophist(pophist,timeslice=timeslice,maxtimes=300,plotlegend=FALSE, cols=cols,transposed=TRUE)
+# plotpophist(pophist,timeslice=timeslice,maxtimes=300,plotlegend=FALSE, cols=cols,transposed=TRUE)
+image( x=1:dim(pophist$pophist)[2], y=seq(min(timeslice),max(timeslice),length.out=200), subph, col=colorRampTrans('red',n=32)[c(1,7:32)], xlab='space (demes)', ylab='time (generations)' )
+image( x=1:dim(pophist$pophist)[2], y=seq(min(timeslice),max(timeslice),length.out=200), subph>0, col=c(NA,adjustcolor("red",.1)), add=TRUE )
 contour( x=1:dim(pophist$pophist)[2], y=seq(min(timeslice),max(timeslice),length.out=200), subph, levels=c(.5,.05), add=TRUE, col=grey(.4) )
 invisible( lapply( 1:dim(LL)[3], function (k) { lines( LL[2,,k], Ltimes[useLtimes] ) } ) )
 
