@@ -243,10 +243,16 @@ colorRampTrans <- function (basecol, n=12) {
 }
 
 
-plotpophist <- function(pophist,timeslice=TRUE,...) {
+plotpophist <- function(pophist,timeslice=1:dim(pophist$pophist)[4],transposed=FALSE,...) {
     # Plot one-dimensional population history with time on the x-axis
     if (!any(dim(pophist$pophist)[1:2]==1)) { stop("Population is not one-dimensional.") } 
-    zimg <- plotpop( aperm(pophist$pophist[,,,timeslice,drop=TRUE],c(3,1,2)), params=pophist$pop$params, xlab="time", ylab="space", ... )
+    if (!transposed) {
+        popn <- aperm(pophist$pophist[,,,,drop=TRUE],c(3,1,2))
+        zimg <- plotpop( popn, params=pophist$pop$params, xlab="time (generations)", ylab="space (demes)", userows=timeslice, ... )
+    } else {
+        popn <- aperm(pophist$pophist[,,,,drop=TRUE],c(1,3,2))
+        zimg <- plotpop( popn, params=pophist$pop$params, xlab="space (demes)", ylab="time (generations)", usecols=timeslice, ... )
+    }
     axis(1); axis(2)
     return( invisible(zimg) )
 }
@@ -284,22 +290,28 @@ plotlinearpop <- function(n, thresh=.05, cols, ...) {
     }
 }
 
-plotpop <- function (n, params, maxtimes=200, thresh=.05, cols, coltrans, ...) {
+plotpop <- function (n, params, maxtimes=200, thresh=.05, cols, coltrans, userows=1:dim(n)[1], usecols=1:dim(n)[2], ...) {
     # Layer the colors on top of eachother (multiplicatively) 
     # for the different types
 
     if (missing(params)) { params <- n$params }
     if ("n" %in% names(n)) { n <- n$n }
     if (length(dim(n))==4 & dim(n)[4]==1) { dim(n) <- dim(n)[1:3] }
+    if (is.logical(userows)) { userows <- which(userows) }
+    if (is.logical(usecols)) { usecols <- which(usecols) }
 
     # subsample if too many columns
-    if ((dim(n)[1]>maxtimes)) { n <- n[(1:(dim(n)[1]))%%floor(dim(n)[1]/maxtimes)==0,,] }
-    if ((dim(n)[2]>maxtimes)) { n <- n[,(1:(dim(n)[2]))%%floor(dim(n)[2]/maxtimes)==0,] }
+    if (length(userows)>maxtimes) { 
+        userows <- userows[unique(seq(1,length(userows),length.out=maxtimes))]
+    }
+    if (length(usecols)>maxtimes) { 
+        usecols <- usecols[unique(seq(1,length(usecols),length.out=maxtimes))]
+    }
+    n <- n[userows,usecols,] 
     # color picking
     if (missing(cols)) { cols <- c(list(c("#FFFFFF")), lapply(rainbow(dim(n)[3]), colorRampTrans, n=12) ) }
     if (missing(coltrans)) { coltrans <- function (x,colors,ncols=length(colors)) { colors[ceiling((ncols-1)*x/params$N+1)] } }
-
-    # Bulk plotting
+    # merge colors
     img <- array(1,dim=c(3,dim(n)[1:2]))  # has r,g,b layers above population
     for (k in 2:dim(n)[3]) {
         # image(1-log(1+n[,,k])/log(N),zlim=c(0,1), col=cols[[k]], new=k>1)
@@ -308,10 +320,9 @@ plotpop <- function (n, params, maxtimes=200, thresh=.05, cols, coltrans, ...) {
         dim(newcolors) <- dim(img)
         img <- img * newcolors
     }
-    # img <- apply(img,c(2,3),function(x)rgb(x[1],x[2],x[3]))
     img <- rgb(img[1,,],img[2,,],img[3,,])
     dim(img) <- dim(n)[1:2]
-    plotpopcircles(img,dim(n),colors=sapply(cols,function(x)x[1]), ...)
+    plotpopcircles(img,dim(n),colors=sapply(cols,function(x)x[1]), rowtimes=userows, coltimes=usecols, ...)
 
     # Add points for transient populations
     #for (k in 2:dim(n)[3]) {
@@ -324,10 +335,10 @@ plotpop <- function (n, params, maxtimes=200, thresh=.05, cols, coltrans, ...) {
     return(invisible(img))
 }
 
-plotpopcircles <- function(img,dims=dim(img),colors,plotlegend=TRUE,...) {
+plotpopcircles <- function(img,dims=dim(img),colors,plotlegend=TRUE,rowtimes=1:nrow(img),coltimes=1:ncol(img),...) {
     # Do the plotting.
     cex <- 3.5*min( par("pin") / (par("cin")*dims[1:2]) )
-    plot(row(img),col(img),col=img,pch=20,cex=cex,xaxt="n",yaxt="n",xlim=c(1,(dims[1]+1)), ...)
+    plot(rowtimes[row(img)],coltimes[col(img)],col=img,pch=20,cex=cex,xaxt="n",yaxt="n",...)
     if (plotlegend) {
         legend("topright",legend=1:length(colors),pch=20,col=sapply(colors,tail,n=1))
     }

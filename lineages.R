@@ -15,6 +15,7 @@ lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m, linit=NUL
     #    with types either 0 (nonselected) or 1 (selected)
     # returns:
     #  LL = location of lineages through time (2 x T x nlin)
+    if (missing(migrsteps)) { migrsteps <- pophist$pop$params$migrsteps }
     if (missing(m)) { m <- pophist$pop$params$m }
     if ("pophist" %in% names(pophist)) { pophist <- pophist$pophist }
 
@@ -26,7 +27,7 @@ lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m, linit=NUL
         initpop <- pophist[,,2,T]
         dim(initpop) <- dim(pophist)[1:2]
         locs <- sample( nx*ny, nlin, replace=TRUE, prob=initpop )
-        linit <- cbind( row(initpop)[locs], col(initpop)[locs] )
+        linit <- cbind( col(initpop)[locs], row(initpop)[locs], T )
     }
 
     # add a zero step and reweight migrsteps
@@ -36,10 +37,11 @@ lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m, linit=NUL
     # the Lineage Locations
     #   and the Local Sizes (migration-weighted)
     #   and coalescent events
+    T <- linit[,3]
     LL <- array(NA, c(2,max(T),nrow(linit)))  # dimensions are: (x,y) , (time ago) , (lineage number)
     LS <- array(NA, c(1,max(T),nrow(linit)))  # dimensions are: (size) , (time ago) , (lineage number)
-    LL[cbind(1:2,rep(T,each=2),rep(1:nrow(linit),each=2))] <- t(linit)
-    LS[cbind(1,T,1:nrow(linit))] <- pophist[cbind(linit,2,T)]  # ?'[': in x[i], 'i' can be a matrix with as many columns as there are dimensions of ‘x’...
+    LL[cbind(1:2,rep(T,each=2),rep(1:nrow(linit),each=2))] <- t(linit[,2:1])
+    LS[cbind(1,T,1:nrow(linit))] <- pophist[cbind(linit[,2:1],2,T)]  # ?'[': in x[i], 'i' can be a matrix with as many columns as there are dimensions of ‘x’...
     dimnames(LL) <- list( c("y","x"), dimnames(pophist)[[4]][1:max(T)], NULL )  
     dimnames(LS) <- list( NULL, dimnames(pophist)[[4]][1:max(T)], NULL )  
     coalevents <- if (coal) { data.frame( orig=1:nrow(linit), coalto=NA, x=NA, y=NA, t=NA ) } else { NULL }
@@ -54,7 +56,7 @@ lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m, linit=NUL
             problocs <- problocs[ (pmin(problocs[,2],problocs[,3])>=1) & (problocs[,2]<=ny) & (problocs[,3]<=nx), , drop=FALSE ]
             problocs[,1] <- problocs[,1] * pophist[cbind(problocs[,-1,drop=FALSE],2,t)]
             LS[,t,active[k]] <- sum(problocs[,1])
-            if ( LS[,t,active[k]] <= 0 ) { stop("Ooops!  Nowhere to migrate to.  Aborting."); break }
+            if ( LS[,t,active[k]] <= 0 ) { stop("Ooops!  Nowhere to migrate to at t=", t, "; loc=", paste(LL[,t+1,active[k]],collapse=",")) }
             moveto <- problocs[sample(1:nrow(problocs),1,prob=problocs[,1]),-1]
             LL[,t,active[k]] <- moveto
             if (k>1 & coal) {  # coalesce (in lookdown fashion)?
@@ -72,16 +74,16 @@ lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m, linit=NUL
 }
 
 getfams <- function (eps=1, lins, params, LL=lins$lineagelocs, coalevents=lins$coalevents) {
-    # pull out all lineages coalescing before hitting the patch
-    coal <- subset(coalevents,params$patchdist[as.matrix(coalevents[,c("x","y")])]>params$patchsize+eps*params$sigma)
-    fams <- lapply( sort(setdiff(coal$coalto,coal$from)), function (k) {
+    # pull out all lineages in lins coalescing before hitting the patch plus eps * sigma
+    coal <- subset(coalevents,params$patchdist[as.matrix(coalevents[,c("y","x")])]>params$patchsize+eps*params$sigma)
+    fams <- lapply( sort(setdiff(coal$coalto,coal$orig)), function (k) {
             thisLL <- t(LL[,,k]) 
             exittime <- max( c( min(which(!is.na(thisLL[,1]))), which( params$patchdist[thisLL]<=params$patchsize ) ) ) # last exit from patch
             coaltime <- min( coal$t[coal$coalto==k] )
             usetimes <- min(coaltime,exittime):max(which(!is.na(thisLL[,1])))
             return( data.frame( k=k, t=usetimes, thisLL[ usetimes, ] ) )
         } )
-    names(fams) <- sort(setdiff(coal$coalto,coal$from))
+    names(fams) <- sort(setdiff(coal$coalto,coal$orig))
     for (j in 1:nrow(coal)) {
         fams[[paste(coal$coalto[j])]] <- rbind( fams[[paste(coal$coalto[j])]], 
                 data.frame( k=coal$orig[j], t=which(!is.na(LL[1,,coal$orig[j]])), na.omit(t(LL[,,coal$orig[j]])) )
@@ -90,12 +92,13 @@ getfams <- function (eps=1, lins, params, LL=lins$lineagelocs, coalevents=lins$c
     return(fams)
 }
 
-plotlins <- function( lineages, coalevents, linit, cols, jit=TRUE, add=FALSE, subset=TRUE, ... ) {
+plotlins <- function( lineages, coalevents, linit, cols, jit=TRUE, add=FALSE, subset=TRUE, dims=sum((apply(lins$lineagelocs,1,max,na.rm=TRUE))>1), do.coalevents=FALSE, do.linit=FALSE, plotit=TRUE, ... ) {
+    # plot lineages, on top of either an image or plotpophistory, depending on dimension
     LL <- if ("lineagelocs" %in% names(lineages)) { lineages$lineagelocs } else { lineages }
-    if (missing(coalevents) & "coalevents" %in% names(lineages)) { coalevents <- lineages$coalevents }
-    if (missing(linit) & "linit" %in% names(lineages)) { linit <- lineages$linit }
-    if (missing(cols) & missing(coalevents)) { cols <- adjustcolor( rainbow_hcl(dim(LL)[3]), min(1,max(.05,20/dim(LL)[3])) ) }
-    if (missing(cols) & !missing(coalevents)) {
+    if (missing(coalevents) & do.coalevents & "coalevents" %in% names(lineages)) { coalevents <- lineages$coalevents }
+    if (missing(linit) & do.linit & "linit" %in% names(lineages)) { linit <- lineages$linit }
+    if (missing(cols) & !do.coalevents) { cols <- adjustcolor( rainbow_hcl(dim(LL)[3]), min(1,max(.05,20/dim(LL)[3])) ) }
+    if (missing(cols) & do.coalevents) {
         cols <- rep(NA, dim(LL)[3])
         cols[ is.na(coalevents$coalto) ] <- rainbow_hcl(sum(is.na(coalevents$coalto)))
         while( any(is.na(cols)) ) {
@@ -104,13 +107,22 @@ plotlins <- function( lineages, coalevents, linit, cols, jit=TRUE, add=FALSE, su
     }
     if (jit) {
         LL <- jitter(LL)
-        if (!missing(coalevents)) { coalevents[c("x","y")] <- lapply( coalevents[c("x","y")], jitter ) }
+        if (do.coalevents) { coalevents[c("x","y")] <- lapply( coalevents[c("x","y")], jitter ) }
     }
     dothese <- (1:dim(LL)[3])[subset]
-    if (!add) { plot( 0, 0, type='n', xlim=c(1,max(LL[2,,],na.rm=TRUE)), ylim=c(1,max(LL[1,,],na.rm=TRUE)), xlab='', ylab='', ... ) }
-    lapply( dothese, function (k) { lines( LL[2,,k], LL[1,,k], col=cols[k] ) } )
-    if (!missing(linit)) { points( linit[dothese,2], linit[dothese,1], pch=20, cex=.5, col=adjustcolor("black",.5) ) }
-    if (!missing(coalevents)) { points( coalevents$x[dothese], coalevents$y[dothese], pch="*", cex=2, col=adjustcolor("black",.5) ) }
-    return( invisible( cols[dothese] ) )
+    cols <- rep(cols,length.out=sum(dothese))
+    if (plotit) {
+        if (dims==2) {
+            if (!add) { plot( 0, 0, type='n', xlim=c(1,max(LL[2,,],na.rm=TRUE)), ylim=c(1,max(LL[1,,],na.rm=TRUE)), xlab='', ylab='', ... ) }
+            lapply( dothese, function (k) { lines( LL[2,,k], LL[1,,k], col=cols[k] ) } )
+            if (do.linit) { points( linit[dothese,2], linit[dothese,1], pch=20, cex=.5, col=adjustcolor("black",.5) ) }
+            if (do.coalevents) { points( coalevents$x[dothese], coalevents$y[dothese], pch="*", cex=2, col=adjustcolor("black",.5) ) }
+        } else {
+            lapply( dothese, function (k) { lines( LL[2,,k], col=cols[k] ) } )
+            if (do.linit) { points( linit[dothese,3], linit[dothese,1], pch=20, cex=.5, col=adjustcolor("black",.5) ) }
+            if (do.coalevents) { points( coalevents$t[dothese], coalevents$x[dothese], pch="*", cex=2, col=adjustcolor("black",.5) ) }
+        }
+    }
+    return( invisible( LL[,,dothese] ) )
 }
 

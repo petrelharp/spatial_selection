@@ -225,6 +225,26 @@ we would like to know the time scale on which copies of $B$ move between patches
 To determine this, we dissect the process by which an allele transits between the patches,
 in the process obtaining other useful information about the genealogy.
 
+\begin{figure}[ht!]
+  \begin{center}
+    \includegraphics{sim-snapshots}
+  \end{center}
+  \label{fig:sim_snapshots}
+  \caption{
+  Results from individual-based simulation, on a one-dimensional grid:
+  the focal allele is beneficial in the central 20 demes, with $s_b=0.1$,
+  and deleterious elsewhere, with $s_m=-0.02$.
+  The dynamics were simulated for 10000 generations; demes had 1000 individuals in each;
+  dispersal was to nearby demes with a mean dispersal distance of $\sigma \approx 1.66$  times the deme spacing.
+  \textbf{(A)} Allele frequencies across space: colored lines are snapshots at an evenly spaced set of times,
+  and the solid lines shows the cumulative mean occupation frequency across all generations.
+  \textbf{(B)} A segment of the temporal dynamics: space is again shown across the horizontal axis;
+  with time on the vertical axis; demes are colored darker red the greater then allele frequency at the corresponding time.
+  The 50\% and 5\% frequency contour lines are in grey,
+  and the genealogy of 50 individuals in a rare long-distance excursion is traced back with black lines.
+  }
+\end{figure}
+
 Migration--selection balance ensures that 
 there will be some number of $B$ alleles present in the regions where they are disadvantageous,
 but only very few, and rarely, far away from the patch where $B$ is established.
@@ -252,6 +272,22 @@ To compute the rate of establishment by such migration,
 we use properties of subcritical branching processes and Brownian motion,
 combined with \eqref{eqn:eqfreq},
 to obtain an approximation that we argue is valid if the distance $r$ is large relative to $\sigma/\sqrt{s_p}$.
+
+\begin{figure}[ht!]
+  \begin{center}
+    \includegraphics{sim-occupation-freqs}
+  \end{center}
+  \label{fig:sim_occupation_freqs}
+  \caption{
+  Mean occupation frequencies from simulation; details are as in figure~\ref{fig:sim_snapshots} except as otherwise noted.
+  Each panel shows mean occupation frequencies of individual demes (grey dots)
+  and averaged over demes at similar distances (black circles), on
+  \textbf{(A)} a one-dimensional grid of 150 demes, and
+  \textbf{(B)} a two-dimensional grid of $50\times 50$ demes.
+  Superimposed in black is the decay predicted by \eqref{eqn:eqfreq} (with $C=1/2$).
+  The two distinct lines of grey points in (A) are to the left and right of the patch, respectively.
+  }
+\end{figure}
 
 The arguments depends on the following decomposition of the genealogy of $B$ alleles.
 First, fix some intermediate distance $r_0$ from the established patch,
