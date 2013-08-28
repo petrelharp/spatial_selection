@@ -23,11 +23,13 @@
 
 \newcommand{\migrate}{\lambda_\text{mig}}
 \newcommand{\mutrate}{\lambda_\text{mut}}
+\newcommand{\Tmig}{T_\text{mig}}
+\newcommand{\Tmut}{T_\text{mut}}
 
 \newcommand{\gc}[1]{{\it\color{green}(#1)} }
 \newcommand{\plr}[1]{{\it\color{blue}(#1)}}
 
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 
 \begin{document}
 
@@ -544,6 +546,25 @@ If the separation between patches is much larger than this value -- certainly, b
 then patches are effectively isolated -- most adaptation will occur independent between patches.
 On the other hand, if the separation is much smaller, then a single
 mutation is likely to fix in both patches.
+
+One way to visualize this is by a phase diagram.
+In figure \ref{fig:phase_diagram},
+we give a contour plot for the time until adaptation by migration ($\Tmig = 1/\migrate$) and by new mutation ($\Tmut=1/\mutrate$)
+as a function of population density, mutation rate, and distance between patches (scaled by $\sqrt{s_m}/\sigma$).
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics{phase-diagram-log}
+  \end{center}
+  \caption{
+  Mean time until adaptation in a new patch occurs by migration ($\Tmig$, blue) or by mutation ($\Tmut$, red),
+  as a function of population density ($\rho$), mutation rate ($\mu$), 
+  and distance to an already adapted patch ($R$), scaled by $\sqrt{s_m}/\sigma$.
+  Note that population density and mutation rate are shown on a log scale.
+  \plr{fix axis labels}
+  \label{fig:phase_diagram}
+  }
+\end{figure}
 
 If we are willing to take these approximations at face value, 
 and assuming both rates are small, 
