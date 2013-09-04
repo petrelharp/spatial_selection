@@ -70,7 +70,7 @@ when geographically separated populations adapt to ecologically similar conditio
 The probability that convergent adaptations arise independently
 before adaptations spread between the populations by migration
 will be larger if these adaptive alleles are maladapted in intervening environments,
-since such adverse conditions can strongly spatially restrict the spread of locally adapted alleles \citep{slatkin1973geneflow,}.
+since such adverse conditions can strongly spatially restrict the spread of locally adapted alleles \citep{slatkin1973geneflow}.
  
 One elegant set of such examples is provided by the assortment of plant species 
 that have repeatedly adapted to patches of soil with high concentrations of heavy metals
@@ -192,7 +192,7 @@ i.e.\ wider than $2 \tan^{-1} (\sqrt{s_m/s_p})$ \citep{slatkin1973geneflow}.
 
 Let $p(x)$ be the probability that a new mutant $B$ allele arising at location $x$ 
 relative to the patch fixes within the poor habitat patch.
-As shown in Appendix \ref{apx:elliptic_integrals},
+As shown in Appendix \ref{apx:eqfreq},
 the function $p(x)$ can be found (in one dimension) in terms of Jacobi elliptic functions,
 but the precise expressions are not particularly helpful.
 The total successful mutational influx per generation is then given by the integral of $p(x)$ over the entire species range,
@@ -829,54 +829,65 @@ Argue that $C=0.5$ is a reasonable number.
 
 %%%%%%%%%%%%
 \section{The equilibrium frequency}
+\label{apx:eqfreq}
 
 One route to the ``equlibrium frequency'' of the allele outside the range where it is advantageous is as follows;
 see \citet{slatkin1973geneflow} or \citet{barton1987establishment,pollak1966survival} for other arguments in this case, 
-or \citet{etheridge} or \citet{dawson} for general theory used below.
+or \citet{etheridge2000introduction} or \citet{dawson1993measurevalued} for general theory used below.
 Suppose that the population is composed of a finite number of small demes of equal size $N$ arranged in a regular grid,
 and that selection (for or against) the allele is given by the function $s(x)$, with $x$ denoting the spatial location.
-Then each individual at location $x$ reproduces after a random lifetime,
+Each individual at location $x$ reproduces after a random lifetime,
 dying and giving birth in the same deme to a random number of offspring with distribution given by $X$;
-who all migrate to a new location chosen as $x+R$
-and replace randomly chosen individuals there.
+each offspring migrates independently to a new location chosen randomly from the distribution given by $x+R$,
+where they replaces a randomly chosen individual.
 If $x+R$ is outside of the range, then they perish.
 Each individual's reproduction time is exponentially distributed, 
-either with rate 1 if it carries the original allele, or with rate $1+s(x)$ if it carries the mutant allele.
-Suppose that $X$ has mean $\mu$; the variance of $X$ will not enter into the formula.
-Also suppose that $R$ has mean zero and variance $\sigma^2$;
+the reproduction rate is 1 if it carries the original allele, or with rate $1+s(x)$ if it carries the mutant allele.
+Suppose that the number of offspring $X$ has mean $\mu$; the variance of $X$ will not enter into the formula.
+Also suppose that the migration displacement $R$ has mean zero and variance $\sigma^2$;
 if we are in more than one dimension, we mean that the components of the dispersal distance are uncorrelated
 and each have variance $\sigma^2$.
-We also assume that the distribution of $X$ makes the resulting Markov chain irreducible and aperiodic.
+We also assume that the distribution of $X$ makes the associated random walk irreducible and aperiodic.
 
-Let $\Phi^N_t(x)$ be the number of mutant alleles present at location $x$ at time $t$,
-and denote by $\delta_x$ a single unit at location $x$, so that e.g.~$\Phi^N_t + \delta_x/N$
+Let $\Phi^N_t(x)$ be the proportion of mutant alleles present at location $x$ at time $t$,
+and $\Phi_t(x)$ the process obtained by taking $N \to \infty$ (which we assume exists).
+Denote by $\delta_x$ a single unit at location $x$, so that e.g.~$\Phi^N_t + \delta_x/N$
 is the configuration after a mutant allele has been added to location $x$.
-For $0\le \phi \le 1$, we also denote by $\bar X_\phi$ the number of mutant alleles added if $X$ new offspring carrying mutant alleles
+For $0\le \phi \le 1$, we also denote by $\bar X_\phi$ the random number of mutant alleles added if $X$ new offspring carrying mutant alleles
 replace randomly chosen individuals in a deme where the mutant allele is at frequncy $\phi$ (i.e.~hypergeometric with parameters $(X,\phi)$);
-similarly, $\tilde X_\phi$ is the number lost if the new offspring do not carry the allele (i.e.~hypergeometric with parameters $(X,1-\phi)$).
+similarly, $\widetilde X_\phi$ is the number lost if the new offspring do not carry the allele (i.e.~hypergeometric with parameters $(X,1-\phi)$).
 (We like to think of $\Phi^N_t$ as a measure, but it does not hurt to think of $\Phi^N$ as a vector;
 we aren't providing the rigorous justification here.)
-Then we know that for any sufficiently nice function $f(\phi)$ that
+Then we know that for any sufficiently nice function $f(\Phi)$ that
 \begin{align} \label{eqn:discrete_generator}
   \begin{split} \frac{\partial}{\partial t} \E\left[ f(\Phi^N_t) \right] 
   &= N \sum_x \left\{ \E\left[ (1+s(x+R)) \Phi^N_t(x+R) \left( f\left(\Phi^N_t + \frac{\bar X_{\Phi_t(x+R)}}{N}\delta_{x}\right) - f(\Phi^N_t) \right) \right] \right. \\
-     & \qquad  \qquad \left. {} + \E\left[ \left(1-\Phi^N_t(x+R)\right) \left( f\left(\Phi^N_t - \frac{\tilde X_{\Phi_t(x+R)}}{N}\delta_{x}\right) - f(\Phi^N_t) \right) \right] \right\}  \end{split} \\
+     & \qquad  \qquad \left. {} + \E\left[ \left(1-\Phi^N_t(x+R)\right) \left( f\left(\Phi^N_t - \frac{\widetilde X_{\Phi_t(x+R)}}{N}\delta_{x}\right) - f(\Phi^N_t) \right) \right] \right\}  \end{split} \\
      &= \mu \sum_x \E\left[ \left(\partial_{\phi(x)} f(\Phi_t) \right) \left\{ \Phi_t(x+R) - \Phi_t(x) + s(x+R) \Phi_t(x+R) (1-\Phi_t(x)) \right\} \right] + O\left(\frac{1}{N}\right).
 \end{align}
-This follows in part from $\E[\bar X_\phi] = \phi \mu$ and $\E[\tilde X_\phi] = (1-\phi)\mu$.
+In the final expectation, $R$ and $\Phi$ are independent.
+This follows by taking first-order terms in $1/N$ in the Taylor series for $f$, 
+and the fact that $\E[\bar X_\phi] = \phi \mu$ and $\E[\widetilde X_\phi] = (1-\phi)\mu$.
 We can see two things from this:
-First, since this is a first-order differential operator, the limiting stochastic process
-is deterministic (check by applying to $f(\phi) = \phi(x)^2$ to find the variance).
+First, since this is a first-order differential operator, the limiting stochastic process $\Phi$
+is in fact deterministic (check by applying to $f(\Phi) = \Phi(x)^2$ to find the variance).
 Second, if we want to rescale space as well to get the usual differential equation, 
 we need to choose $\var[R]=\sigma^2$ and $s(x)$ to be of the same, small, order; 
 this is another way of seeing that $\sigma/\sqrt{s}$ is the relevant length scale.
-More concretely, suppose that the grid size is $\epsilon \to 0$, that $\var[R] = \sigma^2 \epsilon$, and that $s(x)/\epsilon \to \gamma(x)$,
+More concretely, suppose that the grid size is $\epsilon \to 0$, 
+that $\var[R] = (\sigma \epsilon)^2$, and that $s(x)/\epsilon \to \gamma(x)$,
 and suppose that $\Phi_t(x)$ is deterministic (and sufficiently differentiable) and let $\xi(t,x) = \Phi_{t/\epsilon}(x)$;
-then the previous equation converges to the familiar form:
+then the previous equation with $f(\Phi) = \Phi(x)$ converges to the familiar form:
 \begin{align}
   \label{eqn:derived_fkpp}
   \partial_t \xi(t,x) = \mu \left( \frac{\sigma^2}{2} \sum_{k=1}^d \partial_{x_k}^2 \xi(t,x) + \gamma(x) \xi(t,x) (1-\xi(t,x)) \right) .
 \end{align}
+Here we have taken first the population size $N \to \infty$ and then the grid size $\epsilon \to 0$;
+we could alternatively take both limits together, but not if $\epsilon$ goes to zero too much faster than $N$ grows.
+One reason for this is that at finite $N$,
+the process $\Phi_t$ is an irreducible, aperiodic finite-state Markov chain with absorbing states at 0 and 1;
+therefore, the inevitable outcome is extinction of one type or another,
+which is not the regime we want to study.
 
 In one dimension, we are done (see section~\ref{apx:elliptic_integrals});
 in higher dimensions, we are more interested in the mean frequency at a given distance $r$ from a patch.
@@ -888,22 +899,19 @@ then the polar form of the Laplacian in $d$ dimensions gives us that \eqref{eqn:
   \partial_t \xi(t,r) = \mu \left( \frac{\sigma^2}{2} \partial_{r}^2 \xi(t,r) + \sigma^2\frac{d-1}{2r} \partial_r \xi(t,r) + \gamma(r) \xi(t,r) (1-\xi(t,r)) \right) .
 \end{align}
 However, the second term goes to zero as $r \to \infty$,
-leading to the same asymptotic behavior (CITE SOMETHING).
+leading to the same asymptotic behavior for the tail \plr{CITE SOMETHING}.
 
-The process $\Phi_t$ is an irreducible, aperiodic finite-state Markov chain with absorbing states at 0 and 1;
-therefore, the inevitable outcome for finite $N$ is extinction of one type or another.
-Setting the left-hand side to zero in \eqref{eqn:discrete_generator} gives us equations for the moments of the stationary distribution,
-for instance, if $\phi(x) = \lim_{t \to \infty} \E[ \Phi_t(x) ]$
 
 %%%%%%%
 \section{The exact solution to the equilibrium frequency}
-\label{apx:elliptic_integrals},
+\label{apx:elliptic_integrals}
 
-Or, in other words, solving the Fisher-KPP equation with varying selection.
+Here we describe how to solve \eqref{eqn:derived_fkpp} in one dimension,
+i.e.\ the Fisher-KPP equation with varying selection.
 Let $p(t,x)$ be the proportion of the allele under spatially varying selection $s(x)$ in one dimension,
 so that 
 \[
-\partial_t p(t,x) = \frac{1}{2} \sigma^2 \partial_x^2 p(t,x) + s(x) p(t,x) (1-p(t,x)) .
+\partial_t p(t,x) = \frac{\mu}{2} \sigma^2 \partial_x^2 p(t,x) + \mu s(x) p(t,x) (1-p(t,x)) .
 \]
 The stable distribution $\phi(x) = \lim_{t\to\infty} p(t,x)$ then solves
 \begin{align} \label{eqn:definingphi}
@@ -916,25 +924,28 @@ $s(x) = s_i$ for $x \in [x_i,x_{i+1})$, with $x_0=-\infty$ and $x_{n+2}=\infty$,
 then the equation is integrable: if we multiply through by $2\partial_x \phi(x)$ and integrate, then we get that
 \begin{align} \label{eqn:conservation}
     ( \partial_x \phi(x) )^2  &= - \int^{x} 2 s(x) \phi(x) (1-\phi(x)) \partial_x \phi(x) dx \\
-        &= - s_i \phi(x)^2 \left( 1 - \frac{2}{3} \phi(x) \right) - K_i \quad \mbox{for } x \in [x_i,x_{i+1}) \\
-        &:= - V_i(\phi(x)) \quad \mbox{for } x \in [x_i,x_{i+1}) ,
+        &= - s_i \phi(x)^2 \left( 1 - \frac{2}{3} \phi(x) \right) - K_i \quad \mbox{for } x \in [x_i,x_{i+1}) ,
 \end{align}
-where $K_i$ is a constant of integration and we define
+if we define
+\begin{align} 
+  K_i = - s_i \phi(x_i)^2 \left( 1 - \frac{2}{3} \phi(x_i) \right) - ( \partial_x \phi(x_i) )^2  .
+\end{align}
+For ease of reference, we define
 \[
         V_i(\phi) = s_i \phi^2 \left( 1 - \frac{2}{3} \phi \right) + K_i .
 \]
 Note that $V_i'(0)=V_i'(1)=0$, that $V_i(0)=K_i$ and $V_i(1) = K_i+s_i/3$.  
 We will always have that $V(\phi) \le 0$.
-(We have then that $\phi'' = - \partial_\phi V(\phi)$, the equation of motion of a particle in potential $V$.
+(We have then that $\partial_x^2 \phi = - \partial_\phi V(\phi)$, the equation of motion of a particle in potential $V$.
 Also note that this implies ``conservation of energy'', i.e.\ $( \partial_x \phi(x) )^2 + V(\phi(x))$ is constant.)
 Rearranging, we get that $dx = d\phi / \sqrt{-V(\phi)}$, so where $\phi(x)$ is monotone, the inverse is
 \[
-    x(\phi) = x(\phi_0) \pm \int_{\phi_0}^\phi \frac{ d\psi }{ \sqrt{ -V(\psi) } } .
+    x(\phi) = x(\phi^*) \pm \int_{\phi^*}^\phi \frac{ d\psi }{ \sqrt{ -V(\psi) } } .
 \]
 For each $i$ then define the elliptic function
-\[
-    F_i(\phi) = \int_{\phi_i^*}^\phi \frac{ d\psi }{ \sqrt{ -V(\psi) } } ,
-\]
+\begin{align}  \label{eqn:elliptic_function}
+    F_i(\phi) = \int_{\phi_i^*}^\phi \frac{ d\psi }{ \sqrt{ -V_i(\psi) } } ,
+\end{align}
 where take the positive branch of the square root, and $\phi_i^*$ will be chosen later.
 Then we have that
 $x(\phi) - x(\phi_0) = \pm( F(\phi) - F(\phi_0))$,
@@ -954,22 +965,22 @@ which we can rearrange to find an equation for $K_{i+1}$ in terms of $K_i$ and $
 \[
     K_{i+1} - K_i = (s_i - s_{i+1}) \phi(x_{i+1})^2 (1-2\phi(x_{i+1})/3) .
 \]
-What about $\phi(x_i)$?  Well, if $\phi(x)$ is monotone on $[x_i,x_{i+1})$ then we can wolog take $\phi_i^*=0$ or $1$ depending on the sign of $s_i$.
+What about the frequency at the points the selection changes, $\phi(x_i)$?  
+Well, if $\phi(x)$ is monotone on $[x_i,x_{i+1})$ then we can without loss of generality take $\phi_i^*=0$ or $1$ depending on the sign of $s_i$.
 Otherwise, let $\phi_i^*$ be the (unique) root of $V_i$ in $[x_i,x_{i+1})$, so $V_i(\phi_i^*)=0$.
 In this case, $\phi_i^*$ is the maximum or minimum of $\phi$ in the interval:
 if $s>0$, then $\phi_i = \max\{ \phi(x) : x \in [x_i,x_{i+1})\}$. 
 Recall we defined $F_i$ using $\phi_i^*$; now using the fact that $\phi$ is monotone with the opposite sign on either side of $\phi_i^*$,
-$x_{i+1} - x_i = F(\phi(x_{i+1})) - F(\phi_i^*) + F(\phi(x_{i})) - F(\phi_i^*)$,
+$x_{i+1} - x_i = F_i(\phi(x_{i+1})) - F_i(\phi_i^*) + F_i(\phi(x_{i})) - F_i(\phi_i^*)$,
 and that $F(\phi_i^*) = 0$,
 we know that the length of the $i$th stretch is
 \[
     x_{i+1} - x_i = \pm \left( F_i(\phi(x_i)) + F_i(\phi(x_{i+1})) \right).
 \]
-
 Note that all the $\pm{}$'s are easily relatable to the signs of $s_i$.
-If we knew $\phi(x_1)$ and $\phi'(x_1)$, then we'd be all set.
-Unfortunately, we are given $\phi(-\infty)$ and $\phi(\infty)$, and have to work inwards from the ends.
-Monty (in "Gene flow and selection in a cline") deals with this by using symmetry, so he knows $\phi(0)$ and $\phi'(0)$.
+If we knew $\phi(x_1)$ and $\phi'(x_1)$, then we'd be able to solve the equations for $\phi(x_i)$ and $K_i$ recursively upwards.
+In some cases, such as \citet{slatkin1973geneflow}, we can infer $\phi(0)$ and $\partial_x \phi(0)$ by spatial symmetry.
+In other cases, we are only given $\phi(-\infty)$ and $\phi(\infty)$, and have to work inwards from the ends.
 
 We are interested in the following case:
 \[
@@ -980,20 +991,22 @@ We are interested in the following case:
         -s_d \qquad \mbox{for } x>R+2\epsilon .
     \end{cases}
 \]
-We can solve the case with $s_* = s_d$, since $\phi'(0) = 0$ (as can Monty, although he doesn't say what it is).
+We can solve the case with $s_* = s_d$, since $\phi'(0) = 0$ (as done implicitly in \citet{slatkin1973geneflow}).
 We should be able to argue that if $R$ is large then the value of $s_*$ won't make much difference.
 
 \subsection{Doing the integrals}
 
-This from ``NEQwiki, the nonlinear equations encyclopedia'', \url{http://www.primat.mephi.ru/wiki/ow.asp?Korteweg-de_Vries_equation}.
-Recall that $V_i(\phi) =  s_i \phi^2(1-2\phi/3) + K_i$, with $K_i = V_i(0)$ chosen to match $V$ at the boundaries.
-Note that if we rescale space by $\sqrt{s}/\sigma$,
-then $s$ and $\sigma$ drop from the equation.
-We want to integrate
+An important ingredient in the above method is the integral \eqref{eqn:elliptic_function},
+to which a method for solving the Korteweg-de Vries equation can be applied \citep{NEQwiki}.
+Recall that $V_i(\phi) =  s_i \phi^2(1-2\phi/3) + K_i$, with $K_i = V_i(0)$ chosen to match $V$ at the boundaries;
+since we're just working within an interval with $s$ constant, we can rescale space by $\sqrt{2 s_i}/\sigma$,
+so that $s$ and $\sigma$ drop from the equation.
+We then want to integrate
 \[
     \int \frac{ d\phi }{ \sqrt{-V(\phi)} } = 
-         \int \frac{ d\phi }{ \sqrt{ \phi^2 (1-2\phi/3) + K } } .
+         \int \frac{ d\phi }{ \sqrt{ \phi^2 (1-2\phi/3) + K } } ,
 \]
+over a domain where $V$ is always negative.
 Let $\phi^2(1-2\phi/3)+K = (\alpha-\phi)(\phi-\beta)(\phi-\gamma)$,
 and change variables first to $y^2=(\alpha-\phi)$, 
 and then to $x = y/\sqrt{\alpha-\beta}$, so that
@@ -1003,19 +1016,18 @@ and then to $x = y/\sqrt{\alpha-\beta}$, so that
         = \frac{ - 2 dx }{ \sqrt{\alpha-\gamma} \sqrt{ (1-x^2) (1-S^2 x^2) } } ,
 \end{align*}
 with $S^2 = (\alpha-\beta)/(\alpha-\gamma)$.
-Now Jacobi's ``incomplete elliptic integral of the first kind'' is
+Now Jacobi's incomplete elliptic integral of the first kind is defined by
 \[
     F(x;k) = \int_0^x \frac{dt}{\sqrt{ (1-t^2)(1-k^2t^2) }} ,
 \]
 and the Jacobian elliptic function $\sn(x;k)$ is the inverse: $F(\sn(x;k);k) = x$.
-
 As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)$.
 
 Presumably, this gets the same answer as Monty, who finds that in his solvable cases,
 for $x$ in the last interval (which ends in $\infty$), that
 \begin{align*}
-    \phi(x) &= \frac{3}{2}\left( 1 - \tanh^2 ( x \sqrt{2s} / \sigma + C ) \right) \\
-        &\simeq C' \exp\left( - \frac{ 2 x \sqrt{2s} }{ \sigma } \right) .
+    \phi(x) &= \frac{3}{2}\left( 1 - \tanh^2 ( x \sqrt{2s} / 2 \sigma + C ) \right) \\
+        &\simeq C' \exp\left( - \frac{ x \sqrt{2s} }{ \sigma } \right) .
 \end{align*}
 % Indeed, as $\phi \to 0$, we have approximately $\phi' = \frac{ \sqrt{s} }{ \sigma } \phi$.  % huh????
 
