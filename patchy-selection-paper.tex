@@ -125,7 +125,7 @@ In section XX we \dots QUICK OUTLINE
 \subsection{Model of a patchy landscape}
 \label{ss:patchyspace}
 
-Consider a population spread across a landscaper, 
+Consider a population spread across a landscape, 
 within which are patches of habitat to which individuals are (initially) poorly adapted,
 surrounded by large areas to which the population is well adapted.
 (When we refer to ``patches'' it is to these pieces of habitat.)
@@ -160,7 +160,10 @@ the case of a fine-scale hetergeneous environment is treated \citep{elsewhere}.
 
 \paragraph{Previous work} 
 We will make use of several previous results from the literature. 
-\citet{slatkin1973geneflow}, working in a one dimensional, deterministic framework, 
+\citet{haldane1948theory}, working with the one dimensional partial differential equation,
+showed that with large patches, the spatial scale over which the two types intergrade is given by $\sigma/\sqrt{s}$,
+with $s$ either $s_m$ or $s_p$ as appropriate.
+\citet{slatkin1973geneflow}, in the same setting,
 showed that if the physical width of the patch is less than $2 \tan^{-1} (\sqrt{s_m/s_p})$, 
 then there is no stable equilibrium with both $b$ and $B$ present,
 so that migrational swamping prevents $B$ from establishing \citep[see also][ for a review]{lenormand2002limits}.
@@ -231,7 +234,6 @@ in the process obtaining other useful information about the genealogy.
   \begin{center}
     \includegraphics{sim-snapshots}
   \end{center}
-  \label{fig:sim_snapshots}
   \caption{
   Results from individual-based simulation, on a one-dimensional grid:
   the focal allele is beneficial in the central 20 demes, with $s_b=0.1$,
@@ -244,6 +246,7 @@ in the process obtaining other useful information about the genealogy.
   with time on the vertical axis; demes are colored darker red the greater then allele frequency at the corresponding time.
   The 50\% and 5\% frequency contour lines are in grey,
   and the genealogy of 50 individuals in a rare long-distance excursion is traced back with black lines.
+  \label{fig:sim_snapshots}
   }
 \end{figure}
 
@@ -312,7 +315,7 @@ In terms of these families, the equilibrium frequency above is then
 \end{split}
 \end{align}
 and the quantity we wish to compute,
-the effective rate of at which \emph{families of} migrant $B$ alleles establish in a new patch at distance $r$, 
+the effective rate of at which \emph{families} of migrant $B$ alleles establish in a new patch at distance $r$, 
 is
 \begin{align}
     \label{eqn:gestalt_migrate}
@@ -321,7 +324,7 @@ is
     \end{split}
 \end{align}
 All terms except the ``outflux of families'' are simple calculations with spatial branching processes;
-and we can solve for this outflux using the established form for \eqref{eqn:gestalt_q}.
+and we can solve for this outflux using equation \eqref{eqn:eqfreq}.
 Here $\migrate$ reflects the mean number of establishing migrant families per unit time,
 rather than individuals,
 because family establishment events may include more than one individual,
@@ -347,11 +350,11 @@ by first forming a tree in which each individual has a random number of offsprin
 (with mean $1-s_m$ and variance $\xi^2$),
 then assigning spatial locations to each individual in the tree,
 and then pruning any branches that happen to wander into a patch.
-This pruning removes both branches leading back into the already established patch (which are irrelevant)
-and branches leading into the new patch (we will need to count these).
-Since we are concerned with the rare migrant families that transit quickly between patches, 
-backmigrants to the already established patch will contribute little, since they are going the wrong direction;
-so to simplify the analysis we ignore this detail.  % but could add this detail in an appendix
+This pruning removes both 
+branches leading into the new patch (we will need to count these),
+and branches leading back into the already established patch 
+(which contribute little, since they are going the wrong direction;
+so we ignore these).  % but could add detail in appendix
 
 Since each individual has on average $(1-s_m)$ offspring,
 a family has on average $(1-s_m)^t$ members in generation $t$.
@@ -362,7 +365,7 @@ and that the distribution of offspring numbers is not too heavy-tailed \citep[se
 that $K_t$ has a limiting distribution: $K_t \dconv K$ 
 and that $(1-s_m)^{t}/(1-p_e(t)) \to \E[K]$ as $t \to \infty$.
 In other words, the chance of survival to time $t$ is a constant multiplied by $(1-s_m)^t$,
-and conditional on survival, the family size is fixed.
+and conditional on survival, the family size is of fixed magnitude.
 
 We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary}.
 When we condition on survival until $t$, we condition on existence of at least one lineage from time $0$ to time $t$.
@@ -370,8 +373,8 @@ Once given this lineage, nothing distinguishes any of the other reproduction eve
 each individual in this lineage must give birth to at least one offspring,
 and all other reproduction events are unconditioned.
 In other words, the genealogy of a family that survives until $t$
-can be decomposed into a ``trunk'' that lasts until $t$
-sprouting independent ``branches'' that may or may not survive until $t$.
+can be decomposed into a ``trunk'' that 
+sprouts independent ``branches'' that may or may not survive until $t$.
 This process is depicted in Figure~\ref{fig:branching_decomp}A.
 Concretely, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$
 (so $\P\{Z_t = 0\} = p_e(t)$),
@@ -397,10 +400,11 @@ Figure~\ref{fig:sim_snapshots} has a depiction of such a family, from a simulati
 }
 \end{figure}
 
-This suggests that we add in the spatial motion by following only the motion of the ``trunk''
+This suggests that we will lose little by following only the motion of the ``trunk''
 (i.e.\ the red line in figure \ref{fig:branching_decomp}),
-whose motion is is approximately Brownian, with variance $\sigma^2$ per generation.
-(Recall $\sigma$ is the dispersal distance.)
+and adding the other $K-1$ surviving family members as a cluster about this trunk.
+The motion is is approximately Brownian, with variance $\sigma^2$ per generation,
+with $\sigma$ is the dispersal distance.
 Suppose that the new patch is at distance $r$.
 The probability density for the first time such a Brownian motion $B_s$ hits $r$ is
 \citep[XXX]{feller}
@@ -449,11 +453,11 @@ is
     \E[1-(1-p_e)^K] \approx 2 s_p \mu_K/\xi^2 .
 \end{align}
 
-The probability of establishment of an outmigrant from the already-established patch is 
+In summary, the probability that an outmigrant from the already-established patch establishes in a new patch at distance $r$ away is 
 equal to the probably the trunk arrives (equation~\eqref{eqn:estab_prob}) multiplied by the probability it establishes (equation~\eqref{eqn:prob_estab_arrival}),
 namely
 \begin{align} \label{eqn:bp_prob_estab}
-    F(r) &:= \text{( prob family establishes at $r$ )} = \frac{2s_p}{\xi^2} \exp\left( - \frac{\sqrt{2 \alpha} r}{\sigma} \right) ,
+    F(r) &:= \text{( prob family establishes at $r$ )} = \frac{2s_p}{\xi^2} \exp\left( - \frac{r \sqrt{2 \alpha}}{\sigma} \right) ,
 \end{align}
 
 
@@ -463,7 +467,7 @@ namely
 
 Now, we can obtain the effective ``outflux of families'' from information about the migrant families, combined with \eqref{eqn:gestalt_q}.
 Define $\gamma$ to be this outflux; 
-i.e.\ the mean number of individuals per unit time that are born carrying the $B$ allele closer than $r_0$ to the original patch
+i.e.\ the mean number of individuals per unit time whose ancestors carrying the $B$ allele all lived closer than $r_0$ to the original patch
 but migrate to a larger distance.
 Then for $r>r_0$, the mean occupation density $q(r)$ is equal to $\gamma$ 
 multiplied by the mean occupation density of the family descending from such a migrant,
@@ -475,8 +479,8 @@ Since the expected number of individuals present at time $t$ is $e^{\alpha t}$
 and the location of each of these individuals is marginally distributed as a  Gaussian with variance $\sigma^2 t$,
 we can write this expectation as
 \begin{align}
-    u(x) &= \int_0^t \E[ \#\{ k : \; X_k(t) \in dx \} ] dt \\
-    &= \int_0^t e^{\alpha t} \frac{1}{\sqrt{2 \pi t \sigma^2}} e^{-\frac{x^2}{2t\sigma^2}} dt \\
+    u(x) &= \int_0^\infty \E[ \#\{ k : \; X_k(t) \in dx \} ] dt \\
+    &= \int_0^\infty e^{\alpha t} \frac{1}{\sqrt{2 \pi t \sigma^2}} e^{-\frac{x^2}{2t\sigma^2}} dt \\
     &= \frac{ 1 }{ \sigma \sqrt{2 \alpha} } \exp\left( - \frac{ x \sqrt{2\alpha} }{ \sigma } \right) 
 \end{align}
 \plr{check that}
