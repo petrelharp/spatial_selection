@@ -893,18 +893,13 @@ the process $\Phi_t$ is an irreducible, aperiodic finite-state Markov chain with
 therefore, the inevitable outcome is extinction of one type or another,
 which is not the regime we want to study.
 
-In one dimension, we are done (see section~\ref{apx:elliptic_integrals});
-in higher dimensions, we are more interested in the mean frequency at a given distance $r$ from a patch.
-If we take a radially symmetric patch centered at the origin (so $\gamma$ only depends on $r$), 
-and let $\xi(t,r)$ denote the mean occupation frequency at distance $r$,
-then the polar form of the Laplacian in $d$ dimensions gives us that \eqref{eqn:derived_fkpp} is
+We are interested in the equilibrium frequency,
+i.e.\ the mean frequency of the selected allele at migration-selection equilibrium.
+The frequency $\phi(x)$ at location $x$ solves
 \begin{align}
-  \label{eqn:radial_fkpp}
-  \partial_t \xi(t,r) = \mu \left( \frac{\sigma^2}{2} \partial_{r}^2 \xi(t,r) + \sigma^2\frac{d-1}{2r} \partial_r \xi(t,r) + \gamma(r) \xi(t,r) (1-\xi(t,r)) \right) .
+  \label{eqn:general_phi}
+  \frac{\sigma^2}{2} \sum_{k=1}^d \partial_{x_k}^2 \phi(x) + \gamma(x) \phi(x) (1-\phi(x)) = 0 
 \end{align}
-However, the second term goes to zero as $r \to \infty$,
-leading to the same asymptotic behavior for the tail \plr{CITE SOMETHING}.
-
 
 %%%%%%%
 \section{The exact solution to the equilibrium frequency}
@@ -1034,6 +1029,32 @@ for $x$ in the last interval (which ends in $\infty$), that
         &\simeq C' \exp\left( - \frac{ x \sqrt{2s} }{ \sigma } \right) .
 \end{align*}
 % Indeed, as $\phi \to 0$, we have approximately $\phi' = \frac{ \sqrt{s} }{ \sigma } \phi$.  % huh????
+
+
+
+%%%%%%%%%%
+\section{Asymptotics for the equilibrium frequency}
+\label{ss:asymptotic_freq}
+
+We provide the above discussion on exact solutions mostly for completeness;
+in practice, we use asymptotics of the solutions.
+These are furthermore available for $d=2$, where we have no analytic solutions.
+In $d=2$ (and higher) dimensions, we are more interested in the mean frequency at a given distance $r$ from a patch.
+Suppose therefore that the patch is radially symmetric,
+and that the allele is uniformly deleterious outside of some radius $r_0$
+(in the notation above, $\gamma(x) = -s_m$ for $|x|>r_0$).
+Then, denoting by $\phi(r)$ the mean occupation frequency at distance $r$ at equilibrium,
+the polar form of the Laplacian in $d$ dimensions translates equation \eqref{eqn:general_phi} to
+\begin{align}
+  \label{eqn:radial_phi}
+  \frac{\sigma^2}{2} \partial_{r}^2 \phi(r) + \sigma^2\frac{d-1}{2r} \partial_r \phi(r) &= s_m \phi(r) (1-\phi(r)) \quad r>r_0 , \\
+  \phi(r_0) = \phi_0 , \qquad \phi(r) \ge 0 .
+\end{align}
+We wish to find the asymptotic behavior of $\phi$ for large $r$.
+The argument can likely be extended to patches that are not radially symmetric.
+
+The solution with $d=2$ is $C Y_0(ir) \sim C e^{r}/\sqrt{2 \pi r}$ (G\&R 8.451.2).
+
 
 
 %%%%%%%%%%
