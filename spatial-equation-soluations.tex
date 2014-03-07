@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb}
+\usepackage{fullpage}
+
+\begin{document}
+
+Slatkin (1973) argues that if selection at $x$ is $s\gamma(x)$,
+the variance in dispersal distance is $\sigma^2$,
+and $A(x) = 2p(x)-1 = p(x)-q(x)$, then
+\begin{equation}
+    \partial_x^2 A(x) = - \frac{s \gamma(x)}{\sigma^2} \left( 1- A^2(x) \right).
+\end{equation}
+(note the erroneous minus sign in equation (7).
+Rescaling to $\xi = x \sqrt{s}/\sigma$, this is
+\begin{equation} \label{eqn:reaction_diffusion}
+    \partial_\xi^2 A(\xi) = - \gamma(x) \left( 1- A^2(\xi) \right).
+\end{equation}
+
+Note that if $f(x) = 2 - 3 \tanh^2(x/2+x_0)$ then since $\partial_x \tanh(x) = (1-\tanh^2(x))$,
+\begin{align*}
+    2 &\ge f(x) \ge -1 \\
+    \partial_x f(x) &= - 3 \tanh(x/2+x_0) \left( 1- \tanh^2(x/2+x_0) \right) \\
+    \partial^2_x f(x) &= - \frac{3}{2} \left( 1- \tanh^2(x/2+x_0) \right) 
+    + \frac{9}{2} \tanh^2(x/2+x_0) \left(1-\tanh^2(x/2+x_0)\right) \\
+        &= \frac{1}{2} \left\{ - 3 + 12 \tanh^2(x/2+x_0) - 9 \tanh^4(x/2+x_0) \right\} \\
+        &= \frac{1}{2} \left(1-f(x)^2 \right)
+\end{align*}
+and a solution to equation \eqref{eqn:reaction_diffusion}, if $\gamma(x)=\gamma$ is constant,
+is obtained by choosing $x_0$ to match the boundary conditions.
+
+Note that since $-1\le A(x) \le 1$, we certainly can't apply the solution $f(x)$
+for $|x/2+x_0| \le \tanh^{-1}(1/\sqrt{3})$.
+
+\end{document}
