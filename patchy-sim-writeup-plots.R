@@ -113,16 +113,21 @@ par(mar=c(5,4,3,1)+.1)
 for (run.name in c("5038-1-10000-pophistory-run.Rdata","352-1-10000-pophistory-run.Rdata")) {
     load(run.name)
     dimension <- sum(dim(pophist$pophist)[1:2]>1)
-    theory.decay <- dimension * sqrt(2*abs(getgrowth(pophist$pop$params)$gm) / getsigma(pophist$pop$params) )
+    theory.decay <- dimension* sqrt(2*abs(getgrowth(pophist$pop$params)$gm) / getsigma(pophist$pop$params) )
     # the exp'l decay
     patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
     tmpdists <- seq(min(patchloc),max(patchloc),length.out=27)
     tmplocs <- tmpdists[-1] - diff(tmpdists)/2
     patchdist <- cut( as.vector(patchloc), breaks=tmpdists, include.lowest=TRUE, ordered_result=TRUE )
     if (is.null(pophist$occupation)) { pophist$occupation <- rowSums(pophist$pophist,dim=3) }
+    # NOTE: pophist$occupation records *every step*; while pophist$pophist only records every 'stepsize' steps
     plot( patchloc, rowMeans(pophist$pophist[,,2,2000:10000,drop=FALSE],dim=2)/pophist$pop$params$N, log='y', xlab='deme number (space)', ylab='allele frequency', pch=20, cex=.5, col=grey(.7), main=substitute(d==thisdim,list(thisdim=dimension)), ylim=c(1e-4,1) )
     points( tmplocs, tapply(pophist$occupation[,,2]/(pophist$pop$gen*pophist$pop$params$N),patchdist,mean), lwd=2 )
-    lines( tmplocs, (1/2) * exp( - tmplocs * theory.decay ), lwd=2 )
+    if (dimension==1) {
+        lines( tmplocs, (1/2) * exp( - tmplocs * theory.decay ), lwd=2 )
+    } else {
+        lines( tmplocs, 2 * tmplocs^(-1/2) * exp( - tmplocs * theory.decay ), lwd=2 )
+    }
     abline(v=0,lty=2)
 }
 dev.off()

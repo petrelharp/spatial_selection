@@ -167,14 +167,14 @@ so that migrational swamping prevents $B$ from establishing \citep[see also][ fo
 \citet{barton1987establishment}, using general theory of \citet{pollak1966survival}, showed  
 that patches must be at least this critical size so that a new mutation has positive probability of establishment
 (in the large population density limit).
-\citet{barton1987establishment} also showed that
+The same paper also showed that
 this probability of establishment of a new mutation decays exponentially with distance from the patch, 
 with the scale given by $\sigma/\sqrt{s_m}$,
 and that mutations appearing within the patch have probability of establishment
 strictly less than the probability for a panimictic population,
 but approaching this as the size of the patch increases.
 (This latter panmictic probability of establishment we denote $p_e$,
-and often approximate by $2 s_p / \xi^2$ \citep{haldane,fisher}.)
+and often approximate by $2 s_p / \xi^2$ \citep{haldane1927mathematical,fisher1930genetical}.)
 This result holds quite generally for a geographically spread population that experiences a uniform selection
 pressure \citep{maruyama1970fixation,cherry2003diffusion}. 
 
@@ -187,12 +187,12 @@ pressure \citep{maruyama1970fixation,cherry2003diffusion}.
 Consider first a single, isolated poor habitat patch of area $A$ in which no $B$ allele has yet become established. 
 We first compute the time scale on which new $B$ mutations appear and fix in such a patch.
 As we are interested in patches where local adaptation can occur,
-we will assume that our patch is larger than the cutoff for local establishment, 
-i.e.\ wider than $2 \tan^{-1} (\sqrt{s_m/s_p})$ \citep{slatkin1973geneflow}.
+we will assume that our patch is larger than the cutoff for local establishment 
+mentioned above.
 
 Let $p(x)$ be the probability that a new mutant $B$ allele arising at location $x$ 
 relative to the patch fixes within the poor habitat patch.
-As shown in Appendix \ref{apx:eqfreq},
+As shown in Appendix \ref{apx:elliptic_integrals} XXX,
 the function $p(x)$ can be found (in one dimension) in terms of Jacobi elliptic functions,
 but the precise expressions are not particularly helpful.
 The total successful mutational influx per generation is then given by the integral of $p(x)$ over the entire species range,
@@ -234,7 +234,7 @@ in the process obtaining other useful information about the genealogy.
   \label{fig:sim_snapshots}
   \caption{
   Results from individual-based simulation, on a one-dimensional grid:
-  the focal allele is beneficial in the central 20 demes, with $s_b=0.1$,
+  the focal allele is beneficial in the central 20 demes, with $s_p=0.1$,
   and deleterious elsewhere, with $s_m=-0.02$.
   The dynamics were simulated for 10000 generations; demes had 1000 individuals in each;
   dispersal was to nearby demes with a mean dispersal distance of $\sigma \approx 1.66$  times the deme spacing.
@@ -250,17 +250,15 @@ in the process obtaining other useful information about the genealogy.
 Migration--selection balance ensures that 
 there will be some number of $B$ alleles present in the regions where they are disadvantageous,
 but only very few, and rarely, far away from the patch where $B$ is established.
-Denote the expected frequency of allele $B$ at distance $r$ from the patch by $q(r)$.
+Denote the expected frequency of allele $B$ at displacement $r$ relative to the patch by $q(r)$.
 Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(r)$ is the solution,
-which can then be solved to give $q(r)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}).
-Asymptotics of these implies that for large $r$ the mean occupation frequency decays exponentially, 
+which in one dimension can be solved to give $q(r)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}).
+More general, asymptotics of the solution implies that for large $r$ the mean occupation frequency decays exponentially, with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
 \begin{align} \label{eqn:eqfreq}
-    q(r) \approx C \exp( - r \sqrt{2 s_m} / \sigma) \qquad \text{for large $r$},
+    q(r) \approx C |r|^{-(d-1)/2} \exp( - |r| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|r|$},
 \end{align}
 where $d$ is the dimension ($d=1$ or $2$), and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients. 
-In Appendix \ref{apx:patchy_sims} we argue that $C=1/2$ is about right for most parameter values,
-and also that these asymptotics are correct in both one and two dimensions
-(the differential equation is only analytically solvable in one dimension).
+In Appendix \ref{apx:patchy_sims} we argue that $C=1/2$ is about right for most parameter values.
 
 This expected frequency $q(r)$ is the \emph{time-averaged} occupation frequency,
 or in other words, the total number of $B$ alleles found at distance $r$ across $T$ generations, divided by $T$.
@@ -269,11 +267,12 @@ then $q(r) \epsilon$ is equal to the probability of finding any $B$ alleles ther
 multiplied by the mean number of such, if there are any.
 This points to an important fact: 
 close to the original patch, the ``equilibrium frequency'' $q(r)$ describes well the density of the $B$ allele at most times,
-but far away from the patch, there are rare excursions of a family of $B$ alleles, interspersed by long periods of absence.
+but far away from the patch, 
+the equilibrium is composed of rare excursions of a family of $B$ alleles, interspersed by long periods of absence.
 To compute the rate of establishment by such migration,
 we use properties of subcritical branching processes and Brownian motion,
-combined with \eqref{eqn:eqfreq},
-to obtain an approximation that we argue is valid if the distance $r$ is large relative to $\sigma/\sqrt{s_p}$.
+combined with equation \eqref{eqn:eqfreq},
+to obtain an approximation that is valid if the distance $r$ is large (at least five times $\sigma/\sqrt{s_m}$, say).
 
 \begin{figure}[ht!]
   \begin{center}
@@ -286,7 +285,7 @@ to obtain an approximation that we argue is valid if the distance $r$ is large r
   and averaged over demes at similar distances (black circles), on
   \textbf{(A)} a one-dimensional grid of 150 demes, and
   \textbf{(B)} a two-dimensional grid of $50\times 50$ demes.
-  Superimposed in black is the decay predicted by \eqref{eqn:eqfreq} (with $C=1/2$).
+  Superimposed in black is the decay predicted by \eqref{eqn:eqfreq}.
   The two distinct lines of grey points in (A) are to the left and right of the patch, respectively.
   }
 \end{figure}
@@ -906,6 +905,8 @@ leading to the same asymptotic behavior for the tail \plr{CITE SOMETHING}.
 \section{The exact solution to the equilibrium frequency}
 \label{apx:elliptic_integrals}
 
+XXX add equation that probability of establishment solves also XXX
+
 Here we describe how to solve \eqref{eqn:derived_fkpp} in one dimension,
 i.e.\ the Fisher-KPP equation with varying selection.
 Let $p(t,x)$ be the proportion of the allele under spatially varying selection $s(x)$ in one dimension,
@@ -1154,6 +1155,17 @@ Establishment events are correlated to the extent that single such families give
 % We will record the state of the branching process as a finite point measure,
 % so that if there are $n$ individuals alive at $t$, at locations $x_1, \ldots, x_n$,
 % then $Z_t = \sum_{k=1}^n \delta_{x_k}$, and we write $Z_t(A) = \sum_{k=1}^n \bone_{x_k \in A}$ for the number of individuals in a set $A$.
+
+
+%%%%%%%%%%%
+\section{Patchy selection} 
+\label{apx:asymptotics}
+
+The general equation XXX is not analytically solvable,
+but the theory in \citet{wasow1965asymptotic}
+lets us conclude that XXX
+
+
 
 %%%%%%%%%%%
 \section{Patchy selection} 
