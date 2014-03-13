@@ -35,7 +35,7 @@
 
 \section{Introduction}
 
-The covergent evolution of similar phenotypes in response to shared
+The convergent evolution of similar phenotypes in response to shared
 selection pressures is a testiment to the power of selection to
 repeatedly sculpt phenotypic variation. 
 In some cases this convergence extends to the molecular level with
@@ -290,18 +290,19 @@ to obtain an approximation that is valid if the distance $r$ is large (at least 
   }
 \end{figure}
 
-The arguments depends on the following decomposition of the genealogy of $B$ alleles.
-First, fix some intermediate distance $r_0$ from the established patch,
-and classify all $B$ alleles present at any time outside $r_0$ into families
-if they share a common ancestor living outside $r_0$.
+The arguments depend on the following decomposition.
+First, consider the genealogy of all $B$ alleles that were alive at any time outside of the original patch.  
+This is a collection of trees, each rooted at an allele living outside the patch whose parent was born inside the patch.
+Next, fix some intermediate distance $r_0$ from the established patch,
+and erase from the genealogy every allele that has no ancestors living further away than $r_0$ to the patch.
+This fragments the original set of trees into a collection of smaller trees that relate to each other all $B$ alleles living outside of $r_0$ at any time,
+and some living inside of $r_0$;
+we refer to these trees as ``families''.
 If $r_0$ is large enough that there are not too many families
 and interactions between family members are weak,
-then these families can be approximated by a collection of independent spatial branching processes.
-(This can be made formal in the limit of large population density.)
-We can extend these families by 
-including any individual outside the original patch (but perhaps inside $r_0$) 
-that has a parent outside $r_0$,
-so that these branching processes are rooted at $r_0$, and are killed upon reaching the original patch.
+then these families can be approximated by a collection of independent spatial branching processes
+that are killed upon reaching the original patch.
+(This can be made formal in the limit of large population density, also taking $r_0$ large enough that the chance of reaching the original patch is small.)
 This decomposition is illustrated in~\ref{fig:sim_snapshots}, and later in figure~\ref{fig:branching_decomp}.
 In terms of these families, the equilibrium frequency above is then
 \begin{align}
@@ -319,6 +320,7 @@ is
         \migrate(r) &= \text{ ( outflux of families ) } \times \text{ ( probability a family establishes in patch at $r$ ) }
     \end{split}
 \end{align}
+These quantities should not depend on $r_0$, of course.
 All terms except the ``outflux of families'' are simple calculations with spatial branching processes;
 and we can solve for this outflux using the established form for \eqref{eqn:gestalt_q}.
 Here $\migrate$ reflects the mean number of establishing migrant families per unit time,
@@ -333,27 +335,28 @@ will underestimate that time.
 \subsubsection{The genealogy of migrant families}
 
 To understand the process of adaptation by migration,
-we therefore need to look more closely at the rare families of $B$ the allele far from the patches where it is established.
-Consider one such family.
-As noted above, we can model this by assuming that each individual
+we therefore need to look more closely at the rare families of $B$ alleles far from the patch where it is established.
+Consider one such family,
+that lives far from the original patch.
+As noted above, we will model this by assuming that each individual
 migrates, then reproduces, independently of all other family members.
 The mean squared migration distance is $\sigma^2$, takes the migrant in a random direction,
 and if migration takes the individual into a patch where the $B$ allele is favored, 
 we drop the individual from our family.
-Since the $B$ allele is uniformly deleterious elsewhere,
-we can decouple reproduction and migration
+We assume the $B$ allele is uniformly deleterious elsewhere,
+and so can decouple reproduction and migration
 by first forming a tree in which each individual has a random number of offspring
 (with mean $1-s_m$ and variance $\xi^2$),
-then assigning spatial locations to each individual in the tree,
-and then pruning any branches that happen to wander into a patch.
+then recursively assigning spatial locations to each individual in the tree,
+and finally pruning any branches that happen to wander into a patch.
 This pruning removes both branches leading back into the already established patch (which are irrelevant)
 and branches leading into the new patch (we will need to count these).
 Since we are concerned with the rare migrant families that transit quickly between patches, 
 backmigrants to the already established patch will contribute little, since they are going the wrong direction;
 so to simplify the analysis we ignore this detail.  % but could add this detail in an appendix
 
-Since each individual has on average $(1-s_m)$ offspring,
-a family has on average $(1-s_m)^t$ members in generation $t$.
+
+
 Let $p_e(t)$ be the chance of extinction by time $t$, and let $K_t$ be the (random) family size conditioned on nonextinction,
 so that $(1-s_m)^t = (1-p_e(t))\E[K_t]$.
 It turns out that by assuming the fate of each offspring is independent (i.e.\ that this forms a branching process),
@@ -361,7 +364,7 @@ and that the distribution of offspring numbers is not too heavy-tailed \citep[se
 that $K_t$ has a limiting distribution: $K_t \dconv K$ 
 and that $(1-s_m)^{t}/(1-p_e(t)) \to \E[K]$ as $t \to \infty$.
 In other words, the chance of survival to time $t$ is a constant multiplied by $(1-s_m)^t$,
-and conditional on survival, the family size is fixed.
+and conditional on survival, the family size is given by a fixed distribution.
 
 We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary}.
 When we condition on survival until $t$, we condition on existence of at least one lineage from time $0$ to time $t$.
@@ -370,7 +373,7 @@ each individual in this lineage must give birth to at least one offspring,
 and all other reproduction events are unconditioned.
 In other words, the genealogy of a family that survives until $t$
 can be decomposed into a ``trunk'' that lasts until $t$
-sprouting independent ``branches'' that may or may not survive until $t$.
+which sprouts independent ``branches'' that may or may not survive until $t$.
 This process is depicted in Figure~\ref{fig:branching_decomp}A.
 Concretely, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$
 (so $\P\{Z_t = 0\} = p_e(t)$),
@@ -386,7 +389,7 @@ and each $W_s$ is an independent copy of the offspring distribution, conditioned
     \includegraphics{branching-concept}
   \end{center}
 \caption{Cartoon of the decomposition described in the text.
-Migrants families are emerging from the already-established patch (grey circle);
+Migrants families that get further than $r_0$ from the already-established patch (grey circle);
 each is composed of a ``trunk'' lineage (in red), whose spatial motion we follow,
 embellished by transient branches.
 For the depicted long-lived family, these are further distinguished by those still alive at time $t$ (in black)
@@ -400,6 +403,31 @@ This suggests that we add in the spatial motion by following only the motion of 
 (i.e.\ the red line in figure \ref{fig:branching_decomp}),
 whose motion is is approximately Brownian, with variance $\sigma^2$ per generation.
 (Recall $\sigma$ is the dispersal distance.)
+We can use these two ingredients, Brownian motion and a branching process, 
+to compute the terms of equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate}.
+
+\subsubsection*{Mean occupation density}
+
+First, we compute the second term in equation \eqref{eqn:gestalt_q}, ``mean occupation density of a family at $r$'',
+by which we mean the expected total number of offspring of a single family that ever live at distance $r$ from the patch.
+Concretely, suppose that $Z$ is such a branching process, started with a single individual at $r_0$,
+defined so that $Z_t(A)$ is the number of individuals alive at time $t$ living in the set $A$.
+The mean occupation density of $Z$ is then defined to be the density of $\E[\int_0^t Z_t dt]$,
+i.e.\ the smooth function $u(x)$ such that
+\begin{align} \label{eqn:occupation_density_defn}
+    \E\left[ \int_0^\infty Z_t(A) dt \right] = \int_A u(x) dx .
+\end{align}
+Since each individual has on average $(1-s_m)$ offspring,
+a family has on average $(1-s_m)^t$ members in generation $t$;
+and the marginal distribution of any one surviving individual is Gaussian with variance $t \sigma^2$,
+the density $u(x)$ is equal to the Green's function for Brownian motion,
+\begin{align} \label{eqn:occupation_density_solution}
+    u(x) = \int_0^\infty (1-s_m)^t p_{\sigma^2 t}(x_0,x) dt
+\end{align}
+where $p_t$ is the transition density for standard Brownian motion.
+
+\subsubsection*{Probability of establishment}
+
 Suppose that the new patch is at distance $r$.
 The probability density for the first time such a Brownian motion $B_s$ hits $r$ is
 \citep[XXX]{feller}
