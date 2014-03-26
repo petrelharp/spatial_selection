@@ -35,7 +35,7 @@
 
 \section{Introduction}
 
-The covergent evolution of similar phenotypes in response to shared
+The convergent evolution of similar phenotypes in response to shared
 selection pressures is a testiment to the power of selection to
 repeatedly sculpt phenotypic variation. 
 In some cases this convergence extends to the molecular level with
@@ -125,7 +125,7 @@ In section XX we \dots QUICK OUTLINE
 \subsection{Model of a patchy landscape}
 \label{ss:patchyspace}
 
-Consider a population spread across a landscape, 
+Consider a population spread across a landscaper, 
 within which are patches of habitat to which individuals are (initially) poorly adapted,
 surrounded by large areas to which the population is well adapted.
 (When we refer to ``patches'' it is to these pieces of habitat.)
@@ -160,25 +160,21 @@ the case of a fine-scale hetergeneous environment is treated \citep{elsewhere}.
 
 \paragraph{Previous work} 
 We will make use of several previous results from the literature. 
-XXX cite nagylaki 1974: does 2d clines XXX
-\citet{haldane1948theory}, working with the one dimensional partial differential equation,
-showed that with large patches, the spatial scale over which the two types intergrade is given by $\sigma/\sqrt{s}$,
-with $s$ either $s_m$ or $s_p$ as appropriate.
-\citet{slatkin1973geneflow}, in the same setting,
-showed that if the physical width of the patch is less than $2 (\sigma/\sqrt{s_m}) \tan^{-1} (\sqrt{s_m/s_p})$, 
-then there is no stable equilibrium with both $b$ and $B$ present,
+Haldane, Fisher, and later \citet{slatkin1973geneflow} first analyzed models of this sort.
+\citet{nagylaki1975conditions} and \citet{conley1975application} showed that in one dimension, if the physical width of the patch is less than $(\sigma/\sqrt{2s_p}) \tan^{-1} (\sqrt{s_m/s_p})$, 
+then there is no stable equilibrium with both $b$ and $B$ present,  % see p.603 in Nagylaki
 so that migrational swamping prevents $B$ from establishing \citep[see also][ for a review]{lenormand2002limits}.
-\citet{barton1987establishment}, using general theory of \citet{pollak1966survival}, showed (again in one dimension) 
-that this critical patch size also holds in a stochastic framework.
-\citet{barton1987establishment} also showed that
-for patches above this critical size,
-the probability of establishment of a new mutant that appears at distance $r$ from the patch
-decays exponentially with distance from the patch, with the scale given by $\sigma/\sqrt{s_m}$,
+\citet{barton1987establishment}, using general theory of \citet{pollak1966survival}, showed  
+that patches must be at least this critical size so that a new mutation has positive probability of establishment
+(in the large population density limit).
+The same paper also showed that
+this probability of establishment of a new mutation decays exponentially with distance from the patch, 
+with the scale given by $\sigma/\sqrt{s_m}$,
 and that mutations appearing within the patch have probability of establishment
-less than the probability for a panimictic population,
+strictly less than the probability for a panimictic population,
 but approaching this as the size of the patch increases.
 (This latter panmictic probability of establishment we denote $p_e$,
-and often approximate by $2 s_p / \xi^2$ \citep{haldane,fisher}.)
+and often approximate by $2 s_p / \xi^2$ \citep{haldane1927mathematical,fisher1930genetical}.)
 This result holds quite generally for a geographically spread population that experiences a uniform selection
 pressure \citep{maruyama1970fixation,cherry2003diffusion}. 
 
@@ -191,12 +187,12 @@ pressure \citep{maruyama1970fixation,cherry2003diffusion}.
 Consider first a single, isolated poor habitat patch of area $A$ in which no $B$ allele has yet become established. 
 We first compute the time scale on which new $B$ mutations appear and fix in such a patch.
 As we are interested in patches where local adaptation can occur,
-we will assume that our patch is larger than the cutoff for local establishment, 
-i.e.\ wider than XXX $\sigma/\sqrt{s_m}$ times ? XXX $2 \tan^{-1} (\sqrt{s_m/s_p})$ \citep{slatkin1973geneflow}.
+we will assume that our patch is larger than the cutoff for local establishment 
+mentioned above.
 
 Let $p(x)$ be the probability that a new mutant $B$ allele arising at location $x$ 
 relative to the patch fixes within the poor habitat patch.
-As shown in Appendix \ref{apx:eqfreq},
+As shown in Appendix \ref{apx:elliptic_integrals} XXX,
 the function $p(x)$ can be found (in one dimension) in terms of Jacobi elliptic functions,
 but the precise expressions are not particularly helpful.
 The total successful mutational influx per generation is then given by the integral of $p(x)$ over the entire species range,
@@ -235,38 +231,33 @@ in the process obtaining other useful information about the genealogy.
   \begin{center}
     \includegraphics{sim-snapshots}
   \end{center}
+  \label{fig:sim_snapshots}
   \caption{
   Results from individual-based simulation, on a one-dimensional grid:
-  the focal allele is beneficial in the central 20 demes, with $s_b=0.1$,
+  the focal allele is beneficial in the central 20 demes, with $s_p=0.1$,
   and deleterious elsewhere, with $s_m=-0.02$.
   The dynamics were simulated for 10000 generations; demes had 1000 individuals in each;
   dispersal was to nearby demes with a mean dispersal distance of $\sigma \approx 1.66$  times the deme spacing.
   \textbf{(A)} Allele frequencies across space: colored lines are snapshots at an evenly spaced set of times,
   and the solid lines shows the cumulative mean occupation frequency across all generations.
   \textbf{(B)} A segment of the temporal dynamics: space is again shown across the horizontal axis;
-  with time on the vertical axis; demes colored darker have larger allele frequency.
-  The 50\% and 5\% frequency contour lines for the allele are in grey,
+  with time on the vertical axis; demes are colored darker red the greater then allele frequency at the corresponding time.
+  The 50\% and 5\% frequency contour lines are in grey,
   and the genealogy of 50 individuals in a rare long-distance excursion is traced back with black lines.
-  \label{fig:sim_snapshots}
   }
 \end{figure}
 
 Migration--selection balance ensures that 
 there will be some number of $B$ alleles present in the regions where they are disadvantageous,
 but only very few, and rarely, far away from the patch where $B$ is established.
-Denote the expected frequency of allele $B$ at distance $r$ from the patch by $q(r)$.
-Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(r)$ is the solution.
-In one dimension, this equation can be solved to give $q(r)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}),
-but in a fairly cumbersome form.
-We will only be concerned with the large $r$ asymptotics,
-which can be obtained by linearization of the differential equation in any dimension.
-The result, discussed in Appendix \ref{apx:asymptotic_freq}, is that the expected frequency decays exponentially,
-with a polynomial correction in $d=2$:
+Denote the expected frequency of allele $B$ at displacement $r$ relative to the patch by $q(r)$.
+Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(r)$ is the solution,
+which in one dimension can be solved to give $q(r)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}).
+More general, asymptotics of the solution implies that for large $r$ the mean occupation frequency decays exponentially, with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
 \begin{align} \label{eqn:eqfreq}
-  q(r) \approx C \left( \frac{ r \sqrt{2 s_m} }{ \sigma } \right)^{-(d-1)/2} \exp\left( - \frac{ r \sqrt{2 s_m} }{ \sigma } \right) + O(1/r)  ,
+    q(r) \approx C |r|^{-(d-1)/2} \exp( - |r| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|r|$},
 \end{align}
-where $d$ is the dimension, equal to 1 or 2, 
-and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients. 
+where $d$ is the dimension ($d=1$ or $2$), and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients. 
 In Appendix \ref{apx:patchy_sims} we argue that $C=1/2$ is about right for most parameter values.
 
 This expected frequency $q(r)$ is the \emph{time-averaged} occupation frequency,
@@ -276,11 +267,12 @@ then $q(r) \epsilon$ is equal to the probability of finding any $B$ alleles ther
 multiplied by the mean number of such, if there are any.
 This points to an important fact: 
 close to the original patch, the ``equilibrium frequency'' $q(r)$ describes well the density of the $B$ allele at most times,
-but far away from the patch, there are rare excursions of a family of $B$ alleles, interspersed by long periods of absence.
+but far away from the patch, 
+the equilibrium is composed of rare excursions of a family of $B$ alleles, interspersed by long periods of absence.
 To compute the rate of establishment by such migration,
 we use properties of subcritical branching processes and Brownian motion,
-combined with \eqref{eqn:eqfreq},
-to obtain an approximation that we argue is valid if the distance $r$ is large relative to $\sigma/\sqrt{s_p}$.
+combined with equation \eqref{eqn:eqfreq},
+to obtain an approximation that is valid if the distance $r$ is large (at least five times $\sigma/\sqrt{s_m}$, say).
 
 \begin{figure}[ht!]
   \begin{center}
@@ -293,23 +285,24 @@ to obtain an approximation that we argue is valid if the distance $r$ is large r
   and averaged over demes at similar distances (black circles), on
   \textbf{(A)} a one-dimensional grid of 150 demes, and
   \textbf{(B)} a two-dimensional grid of $50\times 50$ demes.
-  Superimposed in black is the decay predicted by \eqref{eqn:eqfreq} (with $C=1/2$).
+  Superimposed in black is the decay predicted by \eqref{eqn:eqfreq}.
   The two distinct lines of grey points in (A) are to the left and right of the patch, respectively.
   }
 \end{figure}
 
-The arguments depends on the following decomposition of the genealogy of $B$ alleles.
-First, fix some intermediate distance $r_0$ from the established patch,
-and classify all $B$ alleles present at any time outside $r_0$ into families
-if they share a common ancestor living outside $r_0$.
+The arguments depend on the following decomposition.
+First, consider the genealogy of all $B$ alleles that were alive at any time outside of the original patch.  
+This is a collection of trees, each rooted at an allele living outside the patch whose parent was born inside the patch.
+Next, fix some intermediate distance $r_0$ from the established patch,
+and erase from the genealogy every allele that has no ancestors living further away than $r_0$ to the patch.
+This fragments the original set of trees into a collection of smaller trees that relate to each other all $B$ alleles living outside of $r_0$ at any time,
+and some living inside of $r_0$;
+we refer to these trees as ``families''.
 If $r_0$ is large enough that there are not too many families
 and interactions between family members are weak,
-then these families can be approximated by a collection of independent spatial branching processes.
-(This can be made formal in the limit of large population density.)
-We can extend these families by 
-including any individual outside the original patch (but perhaps inside $r_0$) 
-that has a parent outside $r_0$,
-so that these branching processes are rooted at $r_0$, and are killed upon reaching the original patch.
+then these families can be approximated by a collection of independent spatial branching processes
+that are killed upon reaching the original patch.
+(This can be made formal in the limit of large population density, also taking $r_0$ large enough that the chance of reaching the original patch is small.)
 This decomposition is illustrated in~\ref{fig:sim_snapshots}, and later in figure~\ref{fig:branching_decomp}.
 In terms of these families, the equilibrium frequency above is then
 \begin{align}
@@ -319,7 +312,7 @@ In terms of these families, the equilibrium frequency above is then
 \end{split}
 \end{align}
 and the quantity we wish to compute,
-the effective rate of at which \emph{families} of migrant $B$ alleles establish in a new patch at distance $r$, 
+the effective rate of at which \emph{families of} migrant $B$ alleles establish in a new patch at distance $r$, 
 is
 \begin{align}
     \label{eqn:gestalt_migrate}
@@ -327,8 +320,9 @@ is
         \migrate(r) &= \text{ ( outflux of families ) } \times \text{ ( probability a family establishes in patch at $r$ ) }
     \end{split}
 \end{align}
+These quantities should not depend on $r_0$, of course.
 All terms except the ``outflux of families'' are simple calculations with spatial branching processes;
-and we can solve for this outflux using equation \eqref{eqn:eqfreq}.
+and we can solve for this outflux using the established form for \eqref{eqn:gestalt_q}.
 Here $\migrate$ reflects the mean number of establishing migrant families per unit time,
 rather than individuals,
 because family establishment events may include more than one individual,
@@ -341,27 +335,28 @@ will underestimate that time.
 \subsubsection{The genealogy of migrant families}
 
 To understand the process of adaptation by migration,
-we therefore need to look more closely at the rare families of $B$ the allele far from the patches where it is established.
-Consider one such family.
-As noted above, we can model this by assuming that each individual
+we therefore need to look more closely at the rare families of $B$ alleles far from the patch where it is established.
+Consider one such family,
+that lives far from the original patch.
+As noted above, we will model this by assuming that each individual
 migrates, then reproduces, independently of all other family members.
 The mean squared migration distance is $\sigma^2$, takes the migrant in a random direction,
 and if migration takes the individual into a patch where the $B$ allele is favored, 
 we drop the individual from our family.
-Since the $B$ allele is uniformly deleterious elsewhere,
-we can decouple reproduction and migration
+We assume the $B$ allele is uniformly deleterious elsewhere,
+and so can decouple reproduction and migration
 by first forming a tree in which each individual has a random number of offspring
 (with mean $1-s_m$ and variance $\xi^2$),
-then assigning spatial locations to each individual in the tree,
-and then pruning any branches that happen to wander into a patch.
-This pruning removes both 
-branches leading into the new patch (we will need to count these),
-and branches leading back into the already established patch 
-(which contribute little, since they are going the wrong direction;
-so we ignore these).  % but could add detail in appendix
+then recursively assigning spatial locations to each individual in the tree,
+and finally pruning any branches that happen to wander into a patch.
+This pruning removes both branches leading back into the already established patch (which are irrelevant)
+and branches leading into the new patch (we will need to count these).
+Since we are concerned with the rare migrant families that transit quickly between patches, 
+backmigrants to the already established patch will contribute little, since they are going the wrong direction;
+so to simplify the analysis we ignore this detail.  % but could add this detail in an appendix
 
-Since each individual has on average $(1-s_m)$ offspring,
-a family has on average $(1-s_m)^t$ members in generation $t$.
+
+
 Let $p_e(t)$ be the chance of extinction by time $t$, and let $K_t$ be the (random) family size conditioned on nonextinction,
 so that $(1-s_m)^t = (1-p_e(t))\E[K_t]$.
 It turns out that by assuming the fate of each offspring is independent (i.e.\ that this forms a branching process),
@@ -369,7 +364,7 @@ and that the distribution of offspring numbers is not too heavy-tailed \citep[se
 that $K_t$ has a limiting distribution: $K_t \dconv K$ 
 and that $(1-s_m)^{t}/(1-p_e(t)) \to \E[K]$ as $t \to \infty$.
 In other words, the chance of survival to time $t$ is a constant multiplied by $(1-s_m)^t$,
-and conditional on survival, the family size is of fixed magnitude.
+and conditional on survival, the family size is given by a fixed distribution.
 
 We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary}.
 When we condition on survival until $t$, we condition on existence of at least one lineage from time $0$ to time $t$.
@@ -377,8 +372,8 @@ Once given this lineage, nothing distinguishes any of the other reproduction eve
 each individual in this lineage must give birth to at least one offspring,
 and all other reproduction events are unconditioned.
 In other words, the genealogy of a family that survives until $t$
-can be decomposed into a ``trunk'' that 
-sprouts independent ``branches'' that may or may not survive until $t$.
+can be decomposed into a ``trunk'' that lasts until $t$
+which sprouts independent ``branches'' that may or may not survive until $t$.
 This process is depicted in Figure~\ref{fig:branching_decomp}A.
 Concretely, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$
 (so $\P\{Z_t = 0\} = p_e(t)$),
@@ -394,7 +389,7 @@ and each $W_s$ is an independent copy of the offspring distribution, conditioned
     \includegraphics{branching-concept}
   \end{center}
 \caption{Cartoon of the decomposition described in the text.
-Migrants families are emerging from the already-established patch (grey circle);
+Migrants families that get further than $r_0$ from the already-established patch (grey circle);
 each is composed of a ``trunk'' lineage (in red), whose spatial motion we follow,
 embellished by transient branches.
 For the depicted long-lived family, these are further distinguished by those still alive at time $t$ (in black)
@@ -404,11 +399,35 @@ Figure~\ref{fig:sim_snapshots} has a depiction of such a family, from a simulati
 }
 \end{figure}
 
-This suggests that we will lose little by following only the motion of the ``trunk''
+This suggests that we add in the spatial motion by following only the motion of the ``trunk''
 (i.e.\ the red line in figure \ref{fig:branching_decomp}),
-and adding the other $K-1$ surviving family members as a cluster about this trunk.
-The motion is is approximately Brownian, with variance $\sigma^2$ per generation,
-with $\sigma$ is the dispersal distance.
+whose motion is is approximately Brownian, with variance $\sigma^2$ per generation.
+(Recall $\sigma$ is the dispersal distance.)
+We can use these two ingredients, Brownian motion and a branching process, 
+to compute the terms of equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate}.
+
+\subsubsection*{Mean occupation density}
+
+First, we compute the second term in equation \eqref{eqn:gestalt_q}, ``mean occupation density of a family at $r$'',
+by which we mean the expected total number of offspring of a single family that ever live at distance $r$ from the patch.
+Concretely, suppose that $Z$ is such a branching process, started with a single individual at $r_0$,
+defined so that $Z_t(A)$ is the number of individuals alive at time $t$ living in the set $A$.
+The mean occupation density of $Z$ is then defined to be the density of $\E[\int_0^t Z_t dt]$,
+i.e.\ the smooth function $u(x)$ such that
+\begin{align} \label{eqn:occupation_density_defn}
+    \E\left[ \int_0^\infty Z_t(A) dt \right] = \int_A u(x) dx .
+\end{align}
+Since each individual has on average $(1-s_m)$ offspring,
+a family has on average $(1-s_m)^t$ members in generation $t$;
+and the marginal distribution of any one surviving individual is Gaussian with variance $t \sigma^2$,
+the density $u(x)$ is equal to the Green's function for Brownian motion,
+\begin{align} \label{eqn:occupation_density_solution}
+    u(x) = \int_0^\infty (1-s_m)^t p_{\sigma^2 t}(x_0,x) dt
+\end{align}
+where $p_t$ is the transition density for standard Brownian motion.
+
+\subsubsection*{Probability of establishment}
+
 Suppose that the new patch is at distance $r$.
 The probability density for the first time such a Brownian motion $B_s$ hits $r$ is
 \citep[XXX]{feller}
@@ -457,11 +476,11 @@ is
     \E[1-(1-p_e)^K] \approx 2 s_p \mu_K/\xi^2 .
 \end{align}
 
-In summary, the probability that an outmigrant from the already-established patch establishes in a new patch at distance $r$ away is 
+The probability of establishment of an outmigrant from the already-established patch is 
 equal to the probably the trunk arrives (equation~\eqref{eqn:estab_prob}) multiplied by the probability it establishes (equation~\eqref{eqn:prob_estab_arrival}),
 namely
 \begin{align} \label{eqn:bp_prob_estab}
-    F(r) &:= \text{( prob family establishes at $r$ )} = \frac{2s_p}{\xi^2} \exp\left( - \frac{r \sqrt{2 \alpha}}{\sigma} \right) ,
+    F(r) &:= \text{( prob family establishes at $r$ )} = \frac{2s_p}{\xi^2} \exp\left( - \frac{\sqrt{2 \alpha} r}{\sigma} \right) ,
 \end{align}
 
 
@@ -471,7 +490,7 @@ namely
 
 Now, we can obtain the effective ``outflux of families'' from information about the migrant families, combined with \eqref{eqn:gestalt_q}.
 Define $\gamma$ to be this outflux; 
-i.e.\ the mean number of individuals per unit time whose ancestors carrying the $B$ allele all lived closer than $r_0$ to the original patch
+i.e.\ the mean number of individuals per unit time that are born carrying the $B$ allele closer than $r_0$ to the original patch
 but migrate to a larger distance.
 Then for $r>r_0$, the mean occupation density $q(r)$ is equal to $\gamma$ 
 multiplied by the mean occupation density of the family descending from such a migrant,
@@ -483,8 +502,8 @@ Since the expected number of individuals present at time $t$ is $e^{\alpha t}$
 and the location of each of these individuals is marginally distributed as a  Gaussian with variance $\sigma^2 t$,
 we can write this expectation as
 \begin{align}
-    u(x) &= \int_0^\infty \E[ \#\{ k : \; X_k(t) \in dx \} ] dt \\
-    &= \int_0^\infty e^{\alpha t} \frac{1}{\sqrt{2 \pi t \sigma^2}} e^{-\frac{x^2}{2t\sigma^2}} dt \\
+    u(x) &= \int_0^t \E[ \#\{ k : \; X_k(t) \in dx \} ] dt \\
+    &= \int_0^t e^{\alpha t} \frac{1}{\sqrt{2 \pi t \sigma^2}} e^{-\frac{x^2}{2t\sigma^2}} dt \\
     &= \frac{ 1 }{ \sigma \sqrt{2 \alpha} } \exp\left( - \frac{ x \sqrt{2\alpha} }{ \sigma } \right) 
 \end{align}
 \plr{check that}
@@ -569,7 +588,7 @@ as a function of population density, mutation rate, and distance between patches
   as a function of population density ($\rho$), mutation rate ($\mu$), 
   and distance to an already adapted patch ($R$), scaled by $\sqrt{s_m}/\sigma$.
   Note that population density and mutation rate are shown on a log scale.
-  \plr{fix axis labels; add $\Tmig=\Tmut$ line}
+  \plr{fix axis labels}
   \label{fig:phase_diagram}
   }
 \end{figure}
@@ -851,7 +870,7 @@ where they replaces a randomly chosen individual.
 If $x+R$ is outside of the range, then they perish.
 Each individual's reproduction time is exponentially distributed, 
 the reproduction rate is 1 if it carries the original allele, or with rate $1+s(x)$ if it carries the mutant allele.
-Suppose that the number of offspring $X$ has mean $\eta$; the variance of $X$ will not enter into the formula.
+Suppose that the number of offspring $X$ has mean $\mu$; the variance of $X$ will not enter into the formula.
 Also suppose that the migration displacement $R$ has mean zero and variance $\sigma^2$;
 if we are in more than one dimension, we mean that the components of the dispersal distance are uncorrelated
 and each have variance $\sigma^2$.
@@ -871,31 +890,24 @@ Then we know that for any sufficiently nice function $f(\Phi)$ that
   \begin{split} \frac{\partial}{\partial t} \E\left[ f(\Phi^N_t) \right] 
   &= N \sum_x \left\{ \E\left[ (1+s(x+R)) \Phi^N_t(x+R) \left( f\left(\Phi^N_t + \frac{\bar X_{\Phi_t(x+R)}}{N}\delta_{x}\right) - f(\Phi^N_t) \right) \right] \right. \\
      & \qquad  \qquad \left. {} + \E\left[ \left(1-\Phi^N_t(x+R)\right) \left( f\left(\Phi^N_t - \frac{\widetilde X_{\Phi_t(x+R)}}{N}\delta_{x}\right) - f(\Phi^N_t) \right) \right] \right\}  \end{split} \\
-     &= \eta \sum_x \E\left[ \left(\partial_{\phi(x)} f(\Phi_t) \right) \left\{ \Phi_t(x+R) - \Phi_t(x) + s(x+R) \Phi_t(x+R) (1-\Phi_t(x)) \right\} \right] + O\left(\frac{1}{N}\right).
+     &= \mu \sum_x \E\left[ \left(\partial_{\phi(x)} f(\Phi_t) \right) \left\{ \Phi_t(x+R) - \Phi_t(x) + s(x+R) \Phi_t(x+R) (1-\Phi_t(x)) \right\} \right] + O\left(\frac{1}{N}\right).
 \end{align}
 In the final expectation, $R$ and $\Phi$ are independent.
 This follows by taking first-order terms in $1/N$ in the Taylor series for $f$, 
-and the fact that $\E[\bar X_\phi] = \phi \eta$ and $\E[\widetilde X_\phi] = (1-\phi)\eta$.
+and the fact that $\E[\bar X_\phi] = \phi \mu$ and $\E[\widetilde X_\phi] = (1-\phi)\mu$.
 We can see two things from this:
 First, since this is a first-order differential operator, the limiting stochastic process $\Phi$
 is in fact deterministic (check by applying to $f(\Phi) = \Phi(x)^2$ to find the variance).
 Second, if we want to rescale space as well to get the usual differential equation, 
 we need to choose $\var[R]=\sigma^2$ and $s(x)$ to be of the same, small, order; 
 this is another way of seeing that $\sigma/\sqrt{s}$ is the relevant length scale.
-Somewhat informally, if we assume we can Taylor expand $\Phi$ and $s$ in $x$, then
-setting $f(\Phi) = \Phi(x)$,
-\begin{align} 
-  \label{eqn:derived_fkpp}
-  \frac{\partial}{\partial t} \Phi_t(x)
-  &= \eta \left( \frac{\sigma^2}{2} \sum_{k=1}^d \partial_{x_k}^2 \Phi_t(x) + s(x) \Phi_t(x) \left(1-\Phi_t(x)\right) \right) + O(\E[R^4]) .
-\end{align} 
-More formally, suppose that the grid size is $\epsilon \to 0$, 
-that $\var[R]/\epsilon^2 \to \sigma^2$, and that $s(x)/\epsilon \to \gamma(x)$,
-that $\Phi_t(x)$ is sufficiently differentiable,
-and let $\xi(t,x) = \Phi_{t/\epsilon}(x)$;
-then equation \eqref{eqn:discrete_generator} converges to the familiar form:
+More concretely, suppose that the grid size is $\epsilon \to 0$, 
+that $\var[R] = (\sigma \epsilon)^2$, and that $s(x)/\epsilon \to \gamma(x)$,
+and suppose that $\Phi_t(x)$ is deterministic (and sufficiently differentiable) and let $\xi(t,x) = \Phi_{t/\epsilon}(x)$;
+then the previous equation with $f(\Phi) = \Phi(x)$ converges to the familiar form:
 \begin{align}
-  \partial_t \xi(t,x) = \eta \left( \frac{\sigma^2}{2} \sum_{k=1}^d \partial_{x_k}^2 \xi(t,x) + \gamma(x) \xi(t,x) (1-\xi(t,x)) \right) .
+  \label{eqn:derived_fkpp}
+  \partial_t \xi(t,x) = \mu \left( \frac{\sigma^2}{2} \sum_{k=1}^d \partial_{x_k}^2 \xi(t,x) + \gamma(x) \xi(t,x) (1-\xi(t,x)) \right) .
 \end{align}
 Here we have taken first the population size $N \to \infty$ and then the grid size $\epsilon \to 0$;
 we could alternatively take both limits together, but not if $\epsilon$ goes to zero too much faster than $N$ grows.
@@ -904,25 +916,31 @@ the process $\Phi_t$ is an irreducible, aperiodic finite-state Markov chain with
 therefore, the inevitable outcome is extinction of one type or another,
 which is not the regime we want to study.
 
-We are interested in the equilibrium frequency,
-i.e.\ the mean frequency of the selected allele at migration-selection equilibrium.
-Setting the left side of \eqref{eqn:derived_fkpp} to zero, the frequency $\phi(x)$ at location $x$ solves
+In one dimension, we are done (see section~\ref{apx:elliptic_integrals});
+in higher dimensions, we are more interested in the mean frequency at a given distance $r$ from a patch.
+If we take a radially symmetric patch centered at the origin (so $\gamma$ only depends on $r$), 
+and let $\xi(t,r)$ denote the mean occupation frequency at distance $r$,
+then the polar form of the Laplacian in $d$ dimensions gives us that \eqref{eqn:derived_fkpp} is
 \begin{align}
-  \label{eqn:general_phi}
-  \frac{\sigma^2}{2} \sum_{k=1}^d \partial_{x_k}^2 \phi(x) + s(x) \phi(x) (1-\phi(x)) = 0 ,
+  \label{eqn:radial_fkpp}
+  \partial_t \xi(t,r) = \mu \left( \frac{\sigma^2}{2} \partial_{r}^2 \xi(t,r) + \sigma^2\frac{d-1}{2r} \partial_r \xi(t,r) + \gamma(r) \xi(t,r) (1-\xi(t,r)) \right) .
 \end{align}
-which we study in subsequent sections.
+However, the second term goes to zero as $r \to \infty$,
+leading to the same asymptotic behavior for the tail \plr{CITE SOMETHING}.
+
 
 %%%%%%%
-\section{The exact solution to the equilibrium frequency in one dimension}
+\section{The exact solution to the equilibrium frequency}
 \label{apx:elliptic_integrals}
+
+XXX add equation that probability of establishment solves also XXX
 
 Here we describe how to solve \eqref{eqn:derived_fkpp} in one dimension,
 i.e.\ the Fisher-KPP equation with varying selection.
 Let $p(t,x)$ be the proportion of the allele under spatially varying selection $s(x)$ in one dimension,
 so that 
 \[
-\partial_t p(t,x) = \frac{\eta}{2} \sigma^2 \partial_x^2 p(t,x) + \eta s(x) p(t,x) (1-p(t,x)) .
+\partial_t p(t,x) = \frac{\mu}{2} \sigma^2 \partial_x^2 p(t,x) + \mu s(x) p(t,x) (1-p(t,x)) .
 \]
 The stable distribution $\phi(x) = \lim_{t\to\infty} p(t,x)$ then solves
 \begin{align} \label{eqn:definingphi}
@@ -1041,34 +1059,6 @@ for $x$ in the last interval (which ends in $\infty$), that
         &\simeq C' \exp\left( - \frac{ x \sqrt{2s} }{ \sigma } \right) .
 \end{align*}
 % Indeed, as $\phi \to 0$, we have approximately $\phi' = \frac{ \sqrt{s} }{ \sigma } \phi$.  % huh????
-
-
-
-%%%%%%%%%%
-\section{Asymptotics for the equilibrium frequency}
-\label{apx:asymptotic_freq}
-
-REFER TO WASOW
-
-We provide the above discussion on exact solutions mostly for completeness;
-in practice, we use asymptotics of the solutions.
-These are furthermore available for $d=2$, where we have no analytic solutions.
-In $d=2$ (and higher) dimensions, we are more interested in the mean frequency at a given distance $r$ from a patch.
-Suppose therefore that the patch is radially symmetric,
-and that the allele is uniformly deleterious outside of some radius $r_0$
-(in the notation above, $\gamma(x) = -s_m$ for $|x|>r_0$).
-Then, denoting by $\phi(r)$ the mean occupation frequency at distance $r$ at equilibrium,
-the polar form of the Laplacian in $d$ dimensions translates equation \eqref{eqn:general_phi} to
-\begin{align}
-  \label{eqn:radial_phi}
-  \frac{\sigma^2}{2} \partial_{r}^2 \phi(r) + \sigma^2\frac{d-1}{2r} \partial_r \phi(r) &= s_m \phi(r) (1-\phi(r)) \quad r>r_0 , \\
-  \phi(r_0) = \phi_0 , \qquad \phi(r) \ge 0 .
-\end{align}
-We wish to find the asymptotic behavior of $\phi$ for large $r$.
-The argument can likely be extended to patches that are not radially symmetric.
-
-The solution with $d=2$ is $C Y_0(ir) \sim C e^{r}/\sqrt{2 \pi r}$ (G\&R 8.451.2).
-
 
 
 %%%%%%%%%%
@@ -1194,11 +1184,20 @@ Establishment events are correlated to the extent that single such families give
 % so that if there are $n$ individuals alive at $t$, at locations $x_1, \ldots, x_n$,
 % then $Z_t = \sum_{k=1}^n \delta_{x_k}$, and we write $Z_t(A) = \sum_{k=1}^n \bone_{x_k \in A}$ for the number of individuals in a set $A$.
 
+
+%%%%%%%%%%%
+\section{Patchy selection} 
+\label{apx:asymptotics}
+
+The general equation XXX is not analytically solvable,
+but the theory in \citet{wasow1965asymptotic}
+lets us conclude that XXX
+
+
+
 %%%%%%%%%%%
 \section{Patchy selection} 
 \label{ss:discretedemes}
-
-\plr{NOTE:} could do the random walk on a lattice with characteristic spacing
 
 We have been working in a continuous model of geographic space; 
 in this section we move to a discrete model of isolated populations exchanging rare migrants,

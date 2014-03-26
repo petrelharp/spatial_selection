@@ -1,7 +1,10 @@
 #!/usr/bin/R
+# example:
+# Rscript generate-patchy-run.R 'nsteps=1e3' 'stepsize=1e3' 'range=c(201,201)'
 
-source("sim-patchy-selection-fns.R")
-source("lineages.R")
+# SOURCE THESE BELOW:
+# source("sim-patchy-selection-fns.R")
+# source("lineages.R")
 
 ngens <- 1e5
 nsteps <- 1000  # record at this many steps
@@ -10,6 +13,7 @@ stepsize <- max(1,floor(ngens/nsteps))
 run.id <- floor(runif(1)*10000)
 nlins <- 500
 do.lineages <- FALSE
+burnin <- 5e3
 
 # Parameters
 params <- list(
@@ -80,7 +84,7 @@ initpop$n[,,2][params$s>0] <- params$N
 
 
 # Generate and save runs
-pophist <- pophistory( pop=initpop, nsteps=nsteps, step=stepsize, progress=stepsize )
+pophist <- pophistory( pop=initpop, nsteps=nsteps, step=stepsize, progress=max(100,stepsize), burnin=burnin )
 
 if (do.lineages) {
     ## trace lineages back
