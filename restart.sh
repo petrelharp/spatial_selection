@@ -10,5 +10,9 @@ do
     ARGS="$ARGS '"$1"'"
     shift
 done
+if [ $(echo $ARGS | grep -v burnin) ]
+then
+    ARGS="$ARGS 'burnin=0'"
+fi
 
 qsub -vARGS="$ARGS" run-sim.pbs 
