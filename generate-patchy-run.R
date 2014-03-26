@@ -1,21 +1,23 @@
 #!/usr/bin/R
-# example:
-# Rscript generate-patchy-run.R 'nsteps=1e3' 'stepsize=1e3' 'range=c(201,201)'
+# usage:
+#   Rscript generate-patchy-run.R 'nsteps=1e3' 'stepsize=1e3' 'range=c(201,201)'
+# or, to restart:
+#   Rscript generate-patchy-run.R 'nsteps=1e3' 'stepsize=1e3' 'restart="42217-1-10-pophistory-run.Rdata"' 
 
 # SOURCE THESE BELOW:
 # source("sim-patchy-selection-fns.R")
 # source("lineages.R")
 
-ngens <- 1e5
-nsteps <- 1000  # record at this many steps
+ngens <- 1e0
+nsteps <- 100  # record at this many steps
 nsteps <- min(ngens,nsteps)
 stepsize <- max(1,floor(ngens/nsteps))
-run.id <- floor(runif(1)*10000)
 nlins <- 500
 do.lineages <- FALSE
 burnin <- 5e3
+restart <- NULL
 
-# Parameters
+# Default parameters
 params <- list(
         mu = 0,           # mutation rate
         r = 0.3,          # reproduction rate
@@ -28,13 +30,16 @@ params <- list(
         sm = -.01
     )
 
-# get command line modifications
+run.id <- floor(runif(1)*10000)
+
+print(commandArgs(TRUE))
+
+# get command line modifications: put them in global and in params$
 for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
 for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
 # print(params)
 
-run.id <- floor(runif(1)*10000)
-filename <- paste(run.id,stepsize,nsteps,"pophistory-run.Rdata",sep="-")
+filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-pophistory-run.Rdata",sep="")
 run.list <- list.files(".","*-pophistory-run.Rdata")
 while (filename %in% run.list) {  # make sure don't overwrite something
     run.id <- floor(runif(1)*10000)
@@ -46,8 +51,22 @@ if (!interactive()) {
     sink(file=logcon, type="message") 
     sink(file=logcon, type="output")   # send both to log file
 }
+
+# load restarting parameters (but then make command-line modifications again)
+if (!is.null(restart)) {
+    stopifnot(file.exists(restart))
+    renv <- new.env()
+    load(restart,envir=renv)
+    old.params <- params
+    params <- with(renv,pophist$pop$params)
+    for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
+    initpop <- with(renv,pophist$pop)
+    initpop$params <- params
+}
+
+# parameters all set up now
 print(run.id)
-print(params)
+paste( paste( names(params), params, sep="="), collapse=", ")
 set.seed(run.id)
 
 source("sim-patchy-selection-fns.R")
@@ -78,10 +97,12 @@ params$sigma <- getsigma(params)
 # compute distance to center of patch
 params$patchdist <- sqrt( (row(params$s)-params$range[1]/2)^2 + (col(params$s)-params$range[2]/2)^2 ) 
 
-initpop <- newpop(params,ntypes=2,nseeds=0)
-initpop$n[,,1][params$s>0] <- 0
-initpop$n[,,2][params$s>0] <- params$N
-
+if (!exists("initpop")) {
+    # if haven't loaded this from previous run already
+    initpop <- newpop(params,ntypes=2,nseeds=0)
+    initpop$n[,,1][params$s>0] <- 0
+    initpop$n[,,2][params$s>0] <- params$N
+}
 
 # Generate and save runs
 pophist <- pophistory( pop=initpop, nsteps=nsteps, step=stepsize, progress=max(100,stepsize), burnin=burnin )
@@ -100,5 +121,6 @@ if (do.lineages) {
     lins <- NULL
 }
 
-save(pophist,lins,file=filename)
+save(pophist,lins,restart,run.id,file=filename)
 
+print("Done!")

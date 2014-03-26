@@ -1,0 +1,27 @@
+#!/bin/bash
+#PBS -q cmb
+#PBS -N patchy-sim
+#PBS -l walltime=48:00:00
+#PBS -l mem=4gb
+#PBS -l pmem=4gb
+#PBS -l vmem=4gb
+
+# USAGE:
+#   qsub -vARGS="'nsteps=10' 'stepsize=10' 'range=c(10,101)'" run-sim.pbs
+#   qsub -vARGS="'nsteps=1e2' 'stepsize=1e2' 'range=c(101,101)'" run-sim.pbs
+
+BASEDIR='/home/rcf-40/pralph/panfs/patchy-sim'
+cd $BASEDIR
+
+JOBNUM=$(echo $PBS_JOBID | sed -e 's/\..*//')
+if [ $JOBNUM == "" ]; then JOBNUM=$RANDOM; fi
+
+source /usr/usc/R/3.0.2/setup.sh
+
+echo $0 $*
+
+Rscript generate-patchy-run.R "run.id=$JOBNUM" "$ARGS"
+
+exit;
+
+
