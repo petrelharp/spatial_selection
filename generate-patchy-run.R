@@ -29,15 +29,16 @@ params <- list(
     )
 
 # get command line modifications
-for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
+cargs <- commandArgs(TRUE)
+for (x in cargs) { eval(parse(text=x)) }
 for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
 # print(params)
 
-run.id <- floor(runif(1)*10000)
+run.id <- floor(runif(1)*100000)
 filename <- paste(run.id,stepsize,nsteps,"pophistory-run.Rdata",sep="-")
 run.list <- list.files(".","*-pophistory-run.Rdata")
 while (filename %in% run.list) {  # make sure don't overwrite something
-    run.id <- floor(runif(1)*10000)
+    run.id <- floor(runif(1)*100000)
     filename <- paste(run.id,stepsize,nsteps,"pophistory-run.Rdata",sep="-")
 }
 if (!interactive()) {
@@ -46,6 +47,7 @@ if (!interactive()) {
     sink(file=logcon, type="message") 
     sink(file=logcon, type="output")   # send both to log file
 }
+print(paste(c("Rscript generate-patchy-run.R",paste(paste("'",cargs,sep=''),"'",sep='')),collapse=' '))
 print(run.id)
 print(params)
 set.seed(run.id)
