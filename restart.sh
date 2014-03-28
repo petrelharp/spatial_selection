@@ -10,7 +10,7 @@ do
     ARGS="$ARGS '"$1"'"
     shift
 done
-if [ $(echo $ARGS | grep -v burnin) ]
+if  $(echo $ARGS | grep -v -q burnin) 
 then
     ARGS="$ARGS 'burnin=0'"
 fi
