@@ -39,6 +39,18 @@ for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
 for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
 # print(params)
 
+# load restarting parameters (but then make command-line modifications again)
+if (!is.null(restart)) {
+    stopifnot(file.exists(restart))
+    renv <- new.env()
+    load(restart,envir=renv)
+    old.params <- params
+    params <- with(renv,pophist$pop$params)
+    for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
+    initpop <- with(renv,pophist$pop)
+    initpop$params <- params
+}
+
 filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-pophistory-run.Rdata",sep="")
 run.list <- list.files(".","*-pophistory-run.Rdata")
 while (filename %in% run.list) {  # make sure don't overwrite something
@@ -50,18 +62,6 @@ if (!interactive()) {
     logcon <- file(logfile,open="wt")
     sink(file=logcon, type="message") 
     sink(file=logcon, type="output")   # send both to log file
-}
-
-# load restarting parameters (but then make command-line modifications again)
-if (!is.null(restart)) {
-    stopifnot(file.exists(restart))
-    renv <- new.env()
-    load(restart,envir=renv)
-    old.params <- params
-    params <- with(renv,pophist$pop$params)
-    for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
-    initpop <- with(renv,pophist$pop)
-    initpop$params <- params
 }
 
 # parameters all set up now

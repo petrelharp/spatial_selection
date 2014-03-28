@@ -255,11 +255,14 @@ Following \citet{slatkin1973geneflow}, one can write down a differential equatio
 which in one dimension can be solved to give $q(x)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}).
 More general, asymptotics of the solution implies that for large $r$ the mean occupation frequency decays exponentially, with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
 \begin{align} \label{eqn:eqfreq}
-    q(x) \approx C |x|^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
+    q(x) \approx C (|x|-r_0)^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
 \end{align}
-where $d$ is the dimension ($d=1$ or $2$), and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients. 
-In practice we take $C=1/2$,
-since from simulations, $C$ does not seem to vary from this by more than a factor of 2 or so (see Appendix \ref{apx:patchy_sims}).
+where $d$ is the dimension ($d=1$ or $2$), and $C$ and $r_0$ are constants depending on the geographic shape of the populations and the selection coefficients
+(but note that $r_0$ is only necessary in $d=2$).
+In applications we fit $C$ and $r_0$ to the data;
+to get concrete numbers from theory we take $C=1$ and $r_0=0$ if necessary.
+From simulations, $C$ seems to be close to 1 in practice (see Appendix \ref{apx:patchy_sims})
+and XXX $r_0$.
 
 This expected frequency $q(r)$ is the \emph{time-averaged} occupation frequency,
 or in other words, the total number of $B$ alleles found at distance $r$ across $T$ generations, divided by $T$.
@@ -322,7 +325,7 @@ is
         \migrate(x) &= \text{ ( outflux of families ) } \times \text{ ( probability a family establishes in patch at $x$ ) }
     \end{split}
 \end{align}
-These quantities should not depend on $r_0$, of course.
+The quantities on the right-hand side depend implicitly on $r_0$.
 All terms except the ``outflux of families'' are calculations with spatial branching processes;
 and we can solve for this outflux using the established form for $q(r)$ in \eqref{eqn:gestalt_q}.
 Note that $\migrate$ reflects the mean number of establishing migrant families per unit time,  rather than individuals.
@@ -430,19 +433,39 @@ the density $u(x_0,x)$ is equal to the Green's function for Brownian motion kill
     u(x_0,x) = \int_0^\infty (1-s_m)^t p_{\sigma^2 t}(x_0,x) dt
 \end{align}
 where $p_t(x,y) = (2 \pi t)^{-d/2} \exp(-\|x-y\|^2/2t)$ is the transition density for standard Brownian motion.
-This is known exactly; the solution is 
+The integral can be expressed in terms of modified Bessel functions:
+using \citet{gradshteyn2007table} (3.471.9 and 8.451.6), the mean occupation density is,
+with $\alpha = -\log(1-s_m)$ and $d$ the dimension,
+\begin{align}
+    u(x_0,x) &= \frac{1}{\sigma^d \pi}\left(\sqrt{ \frac{\|x-x_0\|^2}{2\alpha\sigma^2} }\right)^{(d+2)/2} K_{(d+2)/2}\left( \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right) \\
+             &= \frac{1}{\sigma^d \sqrt{2\pi}} \left(\sqrt{ \frac{\|x-x_0\|^2}{2\alpha\sigma^2} }\right)^{d/2} \exp\left(- \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right)+ O(\sigma/\|x-x_0\|) . \label{eqn:occupation_asymptotics}
+\end{align}
+Since we only have asymptotics for the equilibrium frequency, 
+we will only use the latter (asymptotic) form.
+
 
 
 %%%%%%% %%%%%%%%%%%
 \subsubsection*{Outflux of families}
 
 Now, we can obtain the first term in equation \eqref{eqn:gestalt_q}, the (outflux of families).
-Define $\gamma$ to be this outflux; 
+Define $\gamma(r_0)$ to be this outflux; 
 i.e.\ the mean number of individuals per unit time that are born carrying the $B$ allele closer than $r_0$ to the original patch
 but migrate to a larger distance.
-Then for $r>r_0$, the mean occupation density $q(r)$ is equal to $\gamma$ 
-multiplied by the mean occupation density of the family descending from such a migrant,
-which we denote $u(r)$.
+Then for any point $x$ further than $r_0$ from the patch, 
+the mean occupation density $q(x)$ is equal to the integral of $\gamma$ over all locations $x_0$ at distance $r_0$ from the patch,
+multiplied by the mean occupation density at $x$ for migrant families beginning at at location.
+This is a more precise statement of the decomposition of the equilibrium frequency from equation \eqref{eqn:gestalt_q}.
+However, this integral is not tractable; if we assume that $r_0$ is small relative to $\|x\|$, then we get 
+\begin{align}
+    q(x) &= \int_{B(r_0)} u(y,x) \gamma(|y|) dy \\
+         &\simeq \gamma(r_0) 2 (\pi r_0)^{d-1} u(0,x) .
+\end{align}
+Now, using equations \eqref{eqn:eqfreq} and \eqref{eqn:occupation_asymptotics}, we get that
+\begin{align}
+    \gamma(r_0) \simeq 
+\end{align}
+
 Denote by $Z_t$ the number of individuals such a family has after time $t$,
 and the locations of these by $X_1(t), \ldots, X_{Z_t}(t)$.
 Then this mean occupation density, at $x$, is the expected number of individuals ever present at $x$. 
@@ -934,12 +957,46 @@ then the polar form of the Laplacian in $d$ dimensions gives us that \eqref{eqn:
   \label{eqn:radial_fkpp}
   \partial_t \xi(t,r) = \mu \left( \frac{\sigma^2}{2} \partial_{r}^2 \xi(t,r) + \sigma^2\frac{d-1}{2r} \partial_r \xi(t,r) + \gamma(r) \xi(t,r) (1-\xi(t,r)) \right) .
 \end{align}
-However, the second term goes to zero as $r \to \infty$,
-leading to the same asymptotic behavior for the tail \plr{CITE SOMETHING}.
+
+
+%%%%%%%%%%%
+\subsection{Asymptotic solution for the equilibrium frequency} 
+\label{apx:asymptotics}
+
+If $q(r)$ is a radially symmetric equilibrium frequency and $\xi(t,x)=q(|x|)$,
+then $\partial_t \xi(t,x) = 0$.
+So, using \eqref{eqn:radial_fkpp}, a radially symmetric solution 
+with $\gamma(r) = -s < 0$ for all $r>r_0$ 
+solves, for $r_0 < r < \infty$,
+\begin{align}
+    \partial_r^2 q(r) + \frac{d-1}{r} \partial_r q(r) - \frac{2s}{\sigma^2} q(r) (1-q(r)) = 0 \\
+    \lim_{r \to \infty} q(r) = \lim_{r \to \infty} \partial_r q(r) = 0 \qquad 
+    0 < q(r) < 1 
+\end{align}
+Since $q(r) \to 0$ as $r \to \infty$, so $q(r) (1-q(r)) \approx q(r)$,
+XXX theory in \citet{wasow1965asymptotic} XXX
+implies that the true equilibrium frequency $q$ is close, for large $r$, to the solution to
+\begin{align}
+    \partial_r^2 u(r) + \frac{d-1}{r} \partial_r u(r) - \frac{2s}{\sigma^2} u(r) = 0  \label{eqn:bessel} \\
+    \lim_{r \to \infty} u(r) = \lim_{r \to \infty} \partial_r u(r) = 0 \qquad  .
+\end{align}
+This has general solution given by a modified Bessel function:
+using \citet{gradshteyn2007table} 8.494.8,
+the general solution is
+\begin{align}
+    u(r) = C' (r-r_0)^{d/2} K_{d/2} \left( (r-r_0) \sqrt{2s}/\sigma \right) ,
+\end{align}
+where $C'$ and $r_0$ are chosen to match boundary conditions.
+Asymptotics of Bessel functions \citep[][8.451.6]{gradshteyn2007table} then imply that
+\begin{align}
+    q(r) \simeq C (r-r_0)^{(d-1)/2} \exp \left( -r \sqrt{2s}/\sigma \right) ,
+\end{align}
+where $C$ is a different constant.
+
 
 
 %%%%%%%
-\section{The exact solution to the equilibrium frequency}
+\subsection{The exact solution to the equilibrium frequency}
 \label{apx:elliptic_integrals}
 
 XXX add equation that probability of establishment solves also XXX
@@ -1192,15 +1249,6 @@ Establishment events are correlated to the extent that single such families give
 % We will record the state of the branching process as a finite point measure,
 % so that if there are $n$ individuals alive at $t$, at locations $x_1, \ldots, x_n$,
 % then $Z_t = \sum_{k=1}^n \delta_{x_k}$, and we write $Z_t(A) = \sum_{k=1}^n \bone_{x_k \in A}$ for the number of individuals in a set $A$.
-
-
-%%%%%%%%%%%
-\section{Patchy selection} 
-\label{apx:asymptotics}
-
-The general equation XXX is not analytically solvable,
-but the theory in \citet{wasow1965asymptotic}
-lets us conclude that XXX
 
 
 

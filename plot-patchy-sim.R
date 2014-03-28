@@ -18,7 +18,7 @@ timeslice <- floor( seq( .05*dim(pophist$pophist)[4], dim(pophist$pophist)[4], l
 patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
 obs.freqs <- pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin))
 pred.freqs <-  ( if (dimension==2) {patchloc^(-1/2)} else {1} )  * exp( - patchloc * theory.decay )
-fit.const <- exp( mean( log(obs.freqs/pred.freqs)[obs.freqs<.01], na.rm=TRUE ) )
+fit.const <- exp( mean( log(obs.freqs/pred.freqs)[(obs.freqs<.01)&(obs.freqs>1e-6)], na.rm=TRUE ) )
 tmpdists <- seq(min(patchloc),max(patchloc),length.out=27)
 tmplocs <- tmpdists[-1] - diff(tmpdists)/2
 patchdist <- cut( as.vector(patchloc), breaks=tmpdists, include.lowest=TRUE, ordered_result=TRUE )

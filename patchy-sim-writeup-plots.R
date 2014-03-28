@@ -7,9 +7,6 @@ rundims <- read.csv("run-info.csv")
 
 # run.name <- "3975-1-10000-pophistory-run.Rdata"
 
-for (run.name in run.list) {
-
-}
 
 ### snapshots
 run.name <- "3975-1-10000-pophistory-run.Rdata"
