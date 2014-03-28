@@ -250,15 +250,16 @@ in the process obtaining other useful information about the genealogy.
 Migration--selection balance ensures that 
 there will be some number of $B$ alleles present in the regions where they are disadvantageous,
 but only very few, and rarely, far away from the patch where $B$ is established.
-Denote the expected frequency of allele $B$ at displacement $r$ relative to the patch by $q(r)$.
-Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(r)$ is the solution,
-which in one dimension can be solved to give $q(r)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}).
+Denote the expected frequency of allele $B$ at displacement $x$ relative to the patch by $q(x)$.
+Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(x)$ is the solution,
+which in one dimension can be solved to give $q(x)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}).
 More general, asymptotics of the solution implies that for large $r$ the mean occupation frequency decays exponentially, with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
 \begin{align} \label{eqn:eqfreq}
-    q(r) \approx C |r|^{-(d-1)/2} \exp( - |r| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|r|$},
+    q(x) \approx C |x|^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
 \end{align}
 where $d$ is the dimension ($d=1$ or $2$), and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients. 
-In Appendix \ref{apx:patchy_sims} we argue that $C=1/2$ is about right for most parameter values.
+In practice we take $C=1/2$,
+since from simulations, $C$ does not seem to vary from this by more than a factor of 2 or so (see Appendix \ref{apx:patchy_sims}).
 
 This expected frequency $q(r)$ is the \emph{time-averaged} occupation frequency,
 or in other words, the total number of $B$ alleles found at distance $r$ across $T$ generations, divided by $T$.
@@ -269,6 +270,7 @@ This points to an important fact:
 close to the original patch, the ``equilibrium frequency'' $q(r)$ describes well the density of the $B$ allele at most times,
 but far away from the patch, 
 the equilibrium is composed of rare excursions of a family of $B$ alleles, interspersed by long periods of absence.
+The relevant time scale on which $B$ alleles migrate between patches is given by the rate of appearance of such families.
 To compute the rate of establishment by such migration,
 we use properties of subcritical branching processes and Brownian motion,
 combined with equation \eqref{eqn:eqfreq},
@@ -290,7 +292,7 @@ to obtain an approximation that is valid if the distance $r$ is large (at least 
   }
 \end{figure}
 
-The arguments depend on the following decomposition.
+To make the argument, we decompose the genealogy of $B$ alleles into families in the following way.
 First, consider the genealogy of all $B$ alleles that were alive at any time outside of the original patch.  
 This is a collection of trees, each rooted at an allele living outside the patch whose parent was born inside the patch.
 Next, fix some intermediate distance $r_0$ from the established patch,
@@ -301,14 +303,14 @@ we refer to these trees as ``families''.
 If $r_0$ is large enough that there are not too many families
 and interactions between family members are weak,
 then these families can be approximated by a collection of independent spatial branching processes
-that are killed upon reaching the original patch.
+whose members are killed (actually, ignored) if they enter the original patch.
 (This can be made formal in the limit of large population density, also taking $r_0$ large enough that the chance of reaching the original patch is small.)
 This decomposition is illustrated in~\ref{fig:sim_snapshots}, and later in figure~\ref{fig:branching_decomp}.
 In terms of these families, the equilibrium frequency above is then
 \begin{align}
     \label{eqn:gestalt_q}
     \begin{split}
-        q(r) &= \text{ ( outflux of families ) } \times \text{ ( mean occupation density of a family at $r$ ) } ,
+        q(x) &= \text{ ( outflux of families ) } \times \text{ ( mean occupation density of a family at $x$ ) } ,
 \end{split}
 \end{align}
 and the quantity we wish to compute,
@@ -317,18 +319,13 @@ is
 \begin{align}
     \label{eqn:gestalt_migrate}
     \begin{split}
-        \migrate(r) &= \text{ ( outflux of families ) } \times \text{ ( probability a family establishes in patch at $r$ ) }
+        \migrate(x) &= \text{ ( outflux of families ) } \times \text{ ( probability a family establishes in patch at $x$ ) }
     \end{split}
 \end{align}
 These quantities should not depend on $r_0$, of course.
-All terms except the ``outflux of families'' are simple calculations with spatial branching processes;
-and we can solve for this outflux using the established form for \eqref{eqn:gestalt_q}.
-Here $\migrate$ reflects the mean number of establishing migrant families per unit time,
-rather than individuals,
-because family establishment events may include more than one individual,
-so individual establishment events are clustered in time,
-and using their overall density to obtain a typical waiting time until the next event
-will underestimate that time.
+All terms except the ``outflux of families'' are calculations with spatial branching processes;
+and we can solve for this outflux using the established form for $q(r)$ in \eqref{eqn:gestalt_q}.
+Note that $\migrate$ reflects the mean number of establishing migrant families per unit time,  rather than individuals.
 
 
 %%%%
@@ -343,8 +340,8 @@ migrates, then reproduces, independently of all other family members.
 The mean squared migration distance is $\sigma^2$, takes the migrant in a random direction,
 and if migration takes the individual into a patch where the $B$ allele is favored, 
 we drop the individual from our family.
-We assume the $B$ allele is uniformly deleterious elsewhere,
-and so can decouple reproduction and migration
+Since the $B$ allele is uniformly deleterious elsewhere,
+we can decouple reproduction and migration
 by first forming a tree in which each individual has a random number of offspring
 (with mean $1-s_m$ and variance $\xi^2$),
 then recursively assigning spatial locations to each individual in the tree,
@@ -357,17 +354,19 @@ so to simplify the analysis we ignore this detail.  % but could add this detail 
 
 
 
-Let $p_e(t)$ be the chance of extinction by time $t$, and let $K_t$ be the (random) family size conditioned on nonextinction,
-so that $(1-s_m)^t = (1-p_e(t))\E[K_t]$.
-It turns out that by assuming the fate of each offspring is independent (i.e.\ that this forms a branching process),
-and that the distribution of offspring numbers is not too heavy-tailed \citep[see][for details]{jagers1975branching},
-that $K_t$ has a limiting distribution: $K_t \dconv K$ 
+Since each individual has on average $(1-s_m)$ offspring,
+the expected family size after time $t$ is $(1-s_m)^t$.
+Therefore, if we define $p_e(t)$ to be the chance of extinction by time $t$, 
+and let $K_t$ be the (random) family size conditioned on nonextinction,
+then by Bayes' rule, $(1-s_m)^t = (1-p_e(t))\E[K_t]$.
+It turns out that if the distribution of offspring numbers is not too heavy-tailed \citep[see][for details]{jagers1975branching},
+then $K_t$ has a limiting distribution: $K_t \dconv K$ 
 and that $(1-s_m)^{t}/(1-p_e(t)) \to \E[K]$ as $t \to \infty$.
 In other words, the chance of survival to time $t$ is a constant multiplied by $(1-s_m)^t$,
 and conditional on survival, the family size is given by a fixed distribution.
 
 We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary}.
-When we condition on survival until $t$, we condition on existence of at least one lineage from time $0$ to time $t$.
+When we condition on survival until $t$, we condition on existence of at least one lineage surviving from time $0$ to time $t$.
 Once given this lineage, nothing distinguishes any of the other reproduction events --
 each individual in this lineage must give birth to at least one offspring,
 and all other reproduction events are unconditioned.
@@ -375,9 +374,9 @@ In other words, the genealogy of a family that survives until $t$
 can be decomposed into a ``trunk'' that lasts until $t$
 which sprouts independent ``branches'' that may or may not survive until $t$.
 This process is depicted in Figure~\ref{fig:branching_decomp}A.
-Concretely, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$
-(so $\P\{Z_t = 0\} = p_e(t)$),
-then
+Concretely, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$,
+% (so $\P\{Z_t = 0\} = p_e(t)$),
+then this gives the following decomposition:
 \begin{align}
   \left( Z_t \; \vert \; Z_t>0 \right) \deq \sum_{s=0}^t \sum_{k=1}^{W_s-1} Z^{(s,k)}_{t-s},
 \end{align}
@@ -406,25 +405,64 @@ whose motion is is approximately Brownian, with variance $\sigma^2$ per generati
 We can use these two ingredients, Brownian motion and a branching process, 
 to compute the terms of equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate}.
 
+
+%%%%%%% %%%%%%%%%%%
 \subsubsection*{Mean occupation density}
 
-First, we compute the second term in equation \eqref{eqn:gestalt_q}, ``mean occupation density of a family at $r$'',
+First, we compute the second term in equation \eqref{eqn:gestalt_q}, (mean occupation density of a family at $x$),
 by which we mean the expected total number of offspring of a single family that ever live at distance $r$ from the patch.
-Concretely, suppose that $Z$ is such a branching process, started with a single individual at $r_0$,
-defined so that $Z_t(A)$ is the number of individuals alive at time $t$ living in the set $A$.
+In two dimensions, this depends on where the family began, 
+and right-hand side of equation \eqref{eqn:gestalt_q} should be integrated over this starting point.
+Here we'll write $x_0$ for the starting point, and $u(x_0,x)$ for the mean occupation density at $x$.
+Concretely, suppose that $Z$ is a spatial branching process as above, started with a single individual at $x_0$,
+defined now so that $Z_t(A)$ is the number of descendant individuals alive at time $t$ living in the set $A$.
 The mean occupation density of $Z$ is then defined to be the density of $\E[\int_0^t Z_t dt]$,
-i.e.\ the smooth function $u(x)$ such that
+i.e.\ the smooth function $u(x_0,x)$ that, integrated over a set $A$, 
+gives the expected total number of individuals ever living in $A$:
 \begin{align} \label{eqn:occupation_density_defn}
-    \E\left[ \int_0^\infty Z_t(A) dt \right] = \int_A u(x) dx .
+    \E\left[ \int_0^\infty Z_t(A) dt \right] = \int_A u(x_0,x) dx .
 \end{align}
-Since each individual has on average $(1-s_m)$ offspring,
-a family has on average $(1-s_m)^t$ members in generation $t$;
-and the marginal distribution of any one surviving individual is Gaussian with variance $t \sigma^2$,
-the density $u(x)$ is equal to the Green's function for Brownian motion,
+Since a family has on average $(1-s_m)^t$ members in generation $t$,
+and the marginal distribution of any one surviving individual is approximately Gaussian with variance $t \sigma^2$,
+exchanging the expectation and the integral shows that
+the density $u(x_0,x)$ is equal to the Green's function for Brownian motion killed at rate $1-s_m$,
 \begin{align} \label{eqn:occupation_density_solution}
-    u(x) = \int_0^\infty (1-s_m)^t p_{\sigma^2 t}(x_0,x) dt
+    u(x_0,x) = \int_0^\infty (1-s_m)^t p_{\sigma^2 t}(x_0,x) dt
 \end{align}
-where $p_t$ is the transition density for standard Brownian motion.
+where $p_t(x,y) = (2 \pi t)^{-d/2} \exp(-\|x-y\|^2/2t)$ is the transition density for standard Brownian motion.
+This is known exactly; the solution is 
+
+
+%%%%%%% %%%%%%%%%%%
+\subsubsection*{Outflux of families}
+
+Now, we can obtain the first term in equation \eqref{eqn:gestalt_q}, the (outflux of families).
+Define $\gamma$ to be this outflux; 
+i.e.\ the mean number of individuals per unit time that are born carrying the $B$ allele closer than $r_0$ to the original patch
+but migrate to a larger distance.
+Then for $r>r_0$, the mean occupation density $q(r)$ is equal to $\gamma$ 
+multiplied by the mean occupation density of the family descending from such a migrant,
+which we denote $u(r)$.
+Denote by $Z_t$ the number of individuals such a family has after time $t$,
+and the locations of these by $X_1(t), \ldots, X_{Z_t}(t)$.
+Then this mean occupation density, at $x$, is the expected number of individuals ever present at $x$. 
+Since the expected number of individuals present at time $t$ is $e^{\alpha t}$
+and the location of each of these individuals is marginally distributed as a  Gaussian with variance $\sigma^2 t$,
+we can write this expectation as
+\begin{align}
+    u(x) &= \int_0^t \E[ \#\{ k : \; X_k(t) \in dx \} ] dt \\
+    &= \int_0^t e^{\alpha t} \frac{1}{\sqrt{2 \pi t \sigma^2}} e^{-\frac{x^2}{2t\sigma^2}} dt \\
+    &= \frac{ 1 }{ \sigma \sqrt{2 \alpha} } \exp\left( - \frac{ x \sqrt{2\alpha} }{ \sigma } \right) 
+\end{align}
+\plr{check that}
+The integral is evaluated in Appendix~\ref{apx:some_integrals}.
+\plr{Also examine non-dependence on $r_0$.}
+
+Combining this with the solution for $q(r)$ (equation~\eqref{eqn:eqfreq}) as in \eqref{eqn:q_gestalt},
+we then have that (with $C=1/2$)
+\begin{align} \label{eqn:outflux}
+    \gamma = \text{( outflux of families )} \approx (1/2) \rho \sigma \sqrt{2\alpha} .
+\end{align}
 
 \subsubsection*{Probability of establishment}
 
@@ -485,36 +523,7 @@ namely
 
 
 
-%%%%%
-\subsubsection{The rate of outflux of migrant families}
-
-Now, we can obtain the effective ``outflux of families'' from information about the migrant families, combined with \eqref{eqn:gestalt_q}.
-Define $\gamma$ to be this outflux; 
-i.e.\ the mean number of individuals per unit time that are born carrying the $B$ allele closer than $r_0$ to the original patch
-but migrate to a larger distance.
-Then for $r>r_0$, the mean occupation density $q(r)$ is equal to $\gamma$ 
-multiplied by the mean occupation density of the family descending from such a migrant,
-which we denote $u(r)$.
-Denote by $Z_t$ the number of individuals such a family has after time $t$,
-and the locations of these by $X_1(t), \ldots, X_{Z_t}(t)$.
-Then this mean occupation density, at $x$, is the expected number of individuals ever present at $x$. 
-Since the expected number of individuals present at time $t$ is $e^{\alpha t}$
-and the location of each of these individuals is marginally distributed as a  Gaussian with variance $\sigma^2 t$,
-we can write this expectation as
-\begin{align}
-    u(x) &= \int_0^t \E[ \#\{ k : \; X_k(t) \in dx \} ] dt \\
-    &= \int_0^t e^{\alpha t} \frac{1}{\sqrt{2 \pi t \sigma^2}} e^{-\frac{x^2}{2t\sigma^2}} dt \\
-    &= \frac{ 1 }{ \sigma \sqrt{2 \alpha} } \exp\left( - \frac{ x \sqrt{2\alpha} }{ \sigma } \right) 
-\end{align}
-\plr{check that}
-The integral is evaluated in Appendix~\ref{apx:some_integrals}.
-\plr{Also examine non-dependence on $r_0$.}
-
-Combining this with the solution for $q(r)$ (equation~\eqref{eqn:eqfreq}) as in \eqref{eqn:q_gestalt},
-we then have that (with $C=1/2$)
-\begin{align} \label{eqn:outflux}
-    \gamma = \text{( outflux of families )} \approx (1/2) \rho \sigma \sqrt{2\alpha} .
-\end{align}
+\subsubsection*{Putting it all together}
 
 Combining this with \eqref{eqn:bp_prob_estab}, as in \eqref{eqn:gestalt_q}, 
 the rate of establishment, for a patch of area $A$ at distance $r$ from an already occupied patch, is approximately
