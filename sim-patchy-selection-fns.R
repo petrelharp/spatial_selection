@@ -112,8 +112,8 @@ generation <- function (pop) {
         }
 
         # Migration
-        #  -- also an approximation: this allows some to migrate
-        #   more than once, but with probability < m^2.
+        #   doesn't allow multiple migrations by accumulating migrants in 'inmigrants'
+        #   and adding these back in at the end
         mprobs <- sapply( pop$params$migrsteps, "[[", 1 )  # prob of each migration step
         mprobs <- pop$params$m * mprobs/sum(mprobs)
         for (k in seq_along(mprobs)[-1]) { mprobs[k] <- mprobs[k] / prod(1-mprobs[1:(k-1)]) }  # convert to sequence of binomials

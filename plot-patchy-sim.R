@@ -8,8 +8,10 @@ run.id <- gsub( "([^-]*)-.*","\\1",run.name)
 load(run.name)
 print(c("run",run.id,"range",pophist$pop$params$range))
 
+if (is.null(pophist$occupation)) { stop("occupation densities not recorded") }
+
 dimension <- sum(dim(pophist$pophist)[1:2]>1)
-theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm) / getsigma(pophist$pop$params) )
+theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params) 
 
 # time slices of the process
 timeslice <- floor( seq( .05*dim(pophist$pophist)[4], dim(pophist$pophist)[4], length.out=50 ) )
@@ -18,12 +20,23 @@ timeslice <- floor( seq( .05*dim(pophist$pophist)[4], dim(pophist$pophist)[4], l
 patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
 obs.freqs <- pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin))
 pred.freqs <-  ( if (dimension==2) {patchloc^(-1/2)} else {1} )  * exp( - patchloc * theory.decay )
-fit.const <- exp( mean( log(obs.freqs/pred.freqs)[(obs.freqs<.01)&(obs.freqs>1e-6)], na.rm=TRUE ) )
+fit.const <- exp( mean( log(obs.freqs/pred.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.8))&(log(obs.freqs)>quantile(log(obs.freqs),.2))], na.rm=TRUE ) )
 tmpdists <- seq(min(patchloc),max(patchloc),length.out=27)
 tmplocs <- tmpdists[-1] - diff(tmpdists)/2
 patchdist <- cut( as.vector(patchloc), breaks=tmpdists, include.lowest=TRUE, ordered_result=TRUE )
 # equil <- getequilibrium(pophist,init=rowMeans(pophist$pophist[,,2,2000:10000,drop=FALSE])/pophist$pop$params$N) #,keep.convergence=TRUE)
 if (is.null(pophist$occupation)) { pophist$occupation <- rowSums(pophist$pophist,dim=3); pophist$burnin <- 0 }
+
+# distance vs freq
+pdf(file=paste(run.id,'expl-decay.pdf',sep='-'), width=6, height=6, pointsize=10)
+
+plot( patchloc, pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin)), log='y', xlab='deme number (space)', ylab='allele frequency', pch=20, cex=.5, col=grey(.7) )
+points( tmplocs, tapply(pophist$occupation[,,2]/((pophist$pop$gen-pophist$burnin)*pophist$pop$params$N),patchdist,mean), lwd=2 )
+lines( tmplocs, fit.const * tmplocs^(-(dimension-1)/2) * exp( - tmplocs * theory.decay ), lwd=2 )
+abline(v=0,lty=2)
+
+dev.off()
+
 
 if (dimension==1) {
     sliced <- pophist$pophist[,,2,timeslice]/pophist$pop$params$N
@@ -46,11 +59,3 @@ if (dimension==1) {
     dev.off()
 }
 
-pdf(file=paste(run.id,'expl-decay.pdf',sep='-'), width=6, height=6, pointsize=10)
-
-plot( patchloc, pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin)), log='y', xlab='deme number (space)', ylab='allele frequency', pch=20, cex=.5, col=grey(.7) )
-points( tmplocs, tapply(pophist$occupation[,,2]/(pophist$pop$gen*pophist$pop$params$N),patchdist,mean), lwd=2 )
-lines( tmplocs, fit.const * ( if (dimension==2) {tmplocs^(-1/2)} else {1} ) * exp( - tmplocs * theory.decay ), lwd=2 )
-abline(v=0,lty=2)
-
-dev.off()

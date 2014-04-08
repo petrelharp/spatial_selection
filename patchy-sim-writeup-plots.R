@@ -12,7 +12,7 @@ rundims <- read.csv("run-info.csv")
 run.name <- "3975-1-10000-pophistory-run.Rdata"
 load(run.name)
 dimension <- sum(dim(pophist$pophist)[1:2]>1)
-theory.decay <- dimension * sqrt(2*abs(getgrowth(pophist$pop$params)$gm) / getsigma(pophist$pop$params) )
+theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params)
 
 # lineages
 
@@ -64,7 +64,7 @@ for (run.name in c("5038-1-10000-pophistory-run.Rdata","352-1-10000-pophistory-r
     # see also plot-patchy-sim.R
     load(run.name)
     dimension <- sum(dim(pophist$pophist)[1:2]>1)
-    theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm) / getsigma(pophist$pop$params) )
+    theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params)
     # the exp'l decay
     patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
     obs.freqs <- pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin))
