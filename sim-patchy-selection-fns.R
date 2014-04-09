@@ -197,7 +197,7 @@ getequilibrium <- function (params,nreps=1000,keep.convergence=FALSE, init=0.5 )
     s <- params$s
     migrsteps <- params$migrsteps
     m <- params$m
-    n <- array( c(init,1-init), dim=c(dim(s),2) )
+    n <- array( c(1-init,init), dim=c(dim(s),2) )
     f <- function (n) {
         n[,,1] <- n[,,1] * (1 + params$r)
         n[,,2] <- n[,,2] * (1 + (1+s) * params$r)  #  see above
