@@ -17,16 +17,13 @@ if (is.null(pophist$occupation) | max(pophist$occupation)==0 ) { stop("occupatio
 dimension <- sum(dim(pophist$pophist)[1:2]>1)
 theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params) 
 
-# time slices of the process
-timeslice <- floor( seq( .05*dim(pophist$pophist)[4], dim(pophist$pophist)[4], length.out=50 ) )
-
 # the exp'l decay
 patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
 obs.freqs <- pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin))
-pred.freqs <-  patchloc^(-(dimension-1)/2)  * exp( - patchloc * theory.decay )
+expl.freqs <-  (patchloc*theory.decay)^((dimension-1)/2)  * exp( - patchloc * theory.decay )
 # and the bessel function
-bessel.freqs <- patchloc^(dimension/2) * bessel_Knu( nu=dimension/2, x=patchloc * theory.decay )
-fit.const <- exp( mean( log(obs.freqs/pred.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.9))&(log(obs.freqs)>quantile(log(obs.freqs),.4))], na.rm=TRUE ) )
+bessel.freqs <- (patchloc*theory.decay)^(dimension/2) * bessel_Knu( nu=dimension/2, x=(patchloc * theory.decay) )
+expl.const <- exp( mean( log(obs.freqs/expl.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.5))&(log(obs.freqs)>quantile(log(obs.freqs),.2))], na.rm=TRUE ) )
 bessel.const <- exp( mean( log(obs.freqs/bessel.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.9))&(log(obs.freqs)>quantile(log(obs.freqs),.4))], na.rm=TRUE ) )
 tmpdists <- seq(min(patchloc),max(patchloc),length.out=27)
 tmplocs <- tmpdists[-1] - diff(tmpdists)/2
@@ -45,14 +42,17 @@ pdf(file=paste(run.id,'expl-decay.pdf',sep='-'), width=6, height=6, pointsize=10
 plot( patchloc, obs.freqs, log='y', xlab='deme number (space)', ylab='allele frequency', pch=20, cex=.5, col=grey(.7) )
 abline(v=0,lty=2)
 points( tmplocs, tapply(obs.freqs,patchdist,mean), lwd=2 )
-lines( tmplocs, fit.const * tmplocs^(-(dimension-1)/2) * exp( - tmplocs * theory.decay ), lwd=2, col='green' )
-lines( tmplocs, bessel.const * tapply(bessel.freqs,patchdist,mean), lwd=2 )
+lines( tmplocs, sqrt(pi/2) * bessel.const * (tmplocs*theory.decay)^((dimension-1)/2) * exp( - tmplocs * theory.decay ), lwd=2, col='green' )
+lines( tmplocs, bessel.const * (tmplocs*theory.decay)^(dimension/2) * bessel_Knu( nu=dimension/2, x=( tmplocs*theory.decay ) ), lwd=2 )
 # points( patchloc, equil, col='red' )
 if (do.equilibrium) { lines( tmplocs, tapply(equil,patchdist,mean), col='red' ) }
 
 dev.off()
 
 if (dimension==1) {
+
+    # time slices of the process
+    timeslice <- floor( seq( .05*dim(pophist$pophist)[4], dim(pophist$pophist)[4], length.out=50 ) )
     sliced <- pophist$pophist[,,2,timeslice]/pophist$pop$params$N
     # if (length(dim(sliced))>2) { dim(sliced) <- c( prod(dim(sliced)[1:2]), dim(sliced)[3] ) }
 
