@@ -253,16 +253,15 @@ but only very few, and rarely, far away from the patch where $B$ is established.
 Denote the expected frequency of allele $B$ at displacement $x$ relative to the patch by $q(x)$.
 Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(x)$ is the solution,
 which in one dimension can be solved to give $q(x)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}).
-More general, asymptotics of the solution implies that for large $r$ the mean occupation frequency decays exponentially, with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
+More general, asymptotics of the solution implies that for large $|x|$ the mean occupation frequency decays exponentially, with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
 \begin{align} \label{eqn:eqfreq}
-    q(x) \approx C (|x|-r_0)^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
+    q(x) \approx C |x|^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
 \end{align}
 where $d$ is the dimension ($d=1$ or $2$), and $C$ and $r_0$ are constants depending on the geographic shape of the populations and the selection coefficients
 (but note that $r_0$ is only necessary in $d=2$).
 In applications we fit $C$ and $r_0$ to the data;
 to get concrete numbers from theory we take $C=1$ and $r_0=0$ if necessary.
-From simulations, $C$ seems to be close to 1 in practice (see Appendix \ref{apx:patchy_sims})
-and XXX $r_0$.
+From simulations, $C$ seems to be not too far from 1 in practice (see Appendix \ref{apx:patchy_sims}).
 
 This expected frequency $q(r)$ is the \emph{time-averaged} occupation frequency,
 or in other words, the total number of $B$ alleles found at distance $r$ across $T$ generations, divided by $T$.
@@ -288,10 +287,10 @@ to obtain an approximation that is valid if the distance $r$ is large (at least 
   Mean occupation frequencies from simulation; details are as in figure~\ref{fig:sim_snapshots} except as otherwise noted.
   Each panel shows mean occupation frequencies of individual demes (grey dots)
   and averaged over demes at similar distances (black circles), on
-  \textbf{(A)} a one-dimensional grid of 150 demes, and
-  \textbf{(B)} a two-dimensional grid of $50\times 50$ demes.
-  Superimposed in black is the decay predicted by \eqref{eqn:eqfreq}.
-  The two distinct lines of grey points in (A) are to the left and right of the patch, respectively.
+  \textbf{(A)} a one-dimensional grid of 201 demes, and
+  \textbf{(B)} a two-dimensional grid of $101\times 101$ demes.
+  Superimposed in black is the decay predicted by \eqref{eqn:eqfreq},
+  with $C$ chosen arbitrarily to give a reasonable fit.
   }
 \end{figure}
 
@@ -437,8 +436,8 @@ The integral can be expressed in terms of modified Bessel functions:
 using \citet{gradshteyn2007table} (3.471.9 and 8.451.6), the mean occupation density is,
 with $\alpha = -\log(1-s_m)$ and $d$ the dimension,
 \begin{align}
-    u(x_0,x) &= \frac{1}{\sigma^d \pi}\left(\sqrt{ \frac{\|x-x_0\|^2}{2\alpha\sigma^2} }\right)^{(d+2)/2} K_{(d+2)/2}\left( \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right) \\
-             &= \frac{1}{\sigma^d \sqrt{2\pi}} \left(\sqrt{ \frac{\|x-x_0\|^2}{2\alpha\sigma^2} }\right)^{d/2} \exp\left(- \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right)+ O(\sigma/\|x-x_0\|) . \label{eqn:occupation_asymptotics}
+u(x_0,x) &= \frac{\alpha^{(d-2)/2}}{\sigma^d \pi^{d/2}}\left(\frac{ \sqrt{2 \alpha} \|x-x_0\|}{\sigma} \right)^{(2-d)/2} K_{(2-d)/2}\left( \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right) \\
+         &= \frac{\alpha^{(d-2)/2}}{\sigma^d 2 \pi^{(d-1)/2}} \left( \frac{\sqrt{2 \alpha} \|x-x_0\|}{\sigma} \right)^{(1-d)/2} \exp\left(- \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right)+ O(\sigma/\|x-x_0\|) . \label{eqn:occupation_asymptotics}
 \end{align}
 Since we only have asymptotics for the equilibrium frequency, 
 we will only use the latter (asymptotic) form.
@@ -981,15 +980,15 @@ implies that the true equilibrium frequency $q$ is close, for large $r$, to the 
     \lim_{r \to \infty} u(r) = \lim_{r \to \infty} \partial_r u(r) = 0 \qquad  .
 \end{align}
 This has general solution given by a modified Bessel function:
-using \citet{gradshteyn2007table} 8.494.8,
+using \citet{gradshteyn2007table} 8.494.9,
 the general solution is
 \begin{align}
-    u(r) = C' (r-r_0)^{d/2} K_{d/2} \left( (r-r_0) \sqrt{2s}/\sigma \right) ,
+    u(r) = C' (r-r_0)^{(2-d)/2} K_{(2-d)/2} \left( (r-r_0) \sqrt{2s}/\sigma \right) ,
 \end{align}
 where $C'$ and $r_0$ are chosen to match boundary conditions.
 Asymptotics of Bessel functions \citep[][8.451.6]{gradshteyn2007table} then imply that
 \begin{align}
-    q(r) \simeq C (r-r_0)^{(d-1)/2} \exp \left( -r \sqrt{2s}/\sigma \right) ,
+    q(r) \approx C r^{(1-d)/2} \exp \left( -r \sqrt{2s}/\sigma \right) + O(1/r),
 \end{align}
 where $C$ is a different constant.
 

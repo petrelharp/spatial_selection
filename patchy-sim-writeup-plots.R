@@ -60,28 +60,45 @@ dev.off()
 pdf(file="sim-occupation-freqs.pdf",width=6,height=3,pointsize=10)
 layout(t(1:2))
 par(mar=c(5,4,3,1)+.1)
-for (run.name in c("5038-1-10000-pophistory-run.Rdata","352-1-10000-pophistory-run.Rdata")) {
+# for (run.name in c("2611-r1-201-sb0.05-sm-0.005-pophistory-run.Rdata","7705124-r101-101-sb0.05-sm-0.005-pophistory-run.Rdata")) {
+for (run.name in c("3994-1000-1000-pophistory-run.Rdata","7705124-r101-101-sb0.05-sm-0.005-pophistory-run.Rdata")) {
     # see also plot-patchy-sim.R
     load(run.name)
     dimension <- sum(dim(pophist$pophist)[1:2]>1)
-    theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params)
+    theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params) 
+    # yes, the parentheses differ in the exponents for x:
+    expl.approx <- function (x,d) { sqrt(pi/2) * x^((1-d)/2) * exp(-x) }
+    bessel.approx <- function (x,d) { x^(1-(d/2)) * bessel_Knu( nu=1-d/2, x=x ) } 
     # the exp'l decay
     patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
     obs.freqs <- pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin))
-    pred.freqs <-  ( if (dimension==2) {patchloc^(-1/2)} else {1} )  * exp( - patchloc * theory.decay )
-    fit.const <- exp( mean( log(obs.freqs/pred.freqs)[obs.freqs<.01], na.rm=TRUE ) )
+    expl.freqs <-  expl.approx( (patchloc*theory.decay), d=dimension )
+
+    # also allow a shift?
+    if (FALSE) {
+        f <- function (x0) { 
+            goodones <- (obs.freqs>3e-3) & (patchloc > -x0)
+            bfreqs <- (bessel.approx( (patchloc+x0)*theory.decay, d=dimension ))
+            mean( ((log(obs.freqs)-log(bfreqs))[goodones] - mean(log(obs.freqs)[goodones]) + mean(log(bfreqs)[goodones]) )^2 ) }
+        bessel.shift <- optimize( f, interval=c(0,50) )
+        bessel.shift.const <- exp( mean( log(obs.freqs/bessel.approx( (patchloc+bessel.shift$minimum)*theory.decay, d=dimension ))[(log(obs.freqs)<quantile(log(obs.freqs),.9))&(log(obs.freqs)>quantile(log(obs.freqs),.4))], na.rm=TRUE ) )
+    }
+
+    # and the bessel function
+    bessel.freqs <-  bessel.approx( (patchloc*theory.decay), d=dimension )
+    expl.const <- exp( mean( log(obs.freqs/expl.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.5))&(log(obs.freqs)>quantile(log(obs.freqs),.2))], na.rm=TRUE ) )
+    bessel.const <- exp( mean( log(obs.freqs/bessel.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.9))&(log(obs.freqs)>quantile(log(obs.freqs),.4))], na.rm=TRUE ) )
     tmpdists <- seq(min(patchloc),max(patchloc),length.out=27)
     tmplocs <- tmpdists[-1] - diff(tmpdists)/2
     patchdist <- cut( as.vector(patchloc), breaks=tmpdists, include.lowest=TRUE, ordered_result=TRUE )
+
     # plot
-    plot( patchloc, pophist$occupation[,,2]/((pophist$pop$gen-pophist$burnin)*pophist$pop$params$N), log='y', xlab='deme number (space)', ylab='allele frequency', pch=20, cex=.5, col=grey(.7), main=substitute(d==thisdim,list(thisdim=dimension)), ylim=c(1e-4,1) )
-    points( tmplocs, tapply(pophist$occupation[,,2]/((pophist$pop$gen-pophist$burnin)*pophist$pop$params$N),patchdist,mean), lwd=2 )
-    if (dimension==1) {
-        lines( tmplocs, fit.const * exp( - tmplocs * theory.decay ), lwd=2 )
-    } else {
-        lines( tmplocs, fit.const * tmplocs^(-1/2) * exp( - tmplocs * theory.decay ), lwd=2 )
-    }
+    plot( patchloc, obs.freqs, log='y', xlab='deme number (space)', ylab='allele frequency', pch=20, cex=.5, col=grey(.7) )
     abline(v=0,lty=2)
+    points( tmplocs, tapply(obs.freqs,patchdist,mean), lwd=2 )
+    # lines( tmplocs, bessel.const * expl.approx( tmplocs*theory.decay, d=dimension ), lwd=2, col='green' )
+    lines( tmplocs, bessel.const * bessel.approx( tmplocs*theory.decay, d=dimension ), lwd=2, col='red' )
+    if (FALSE) {  lines( tmplocs, bessel.shift.const * bessel.approx( (tmplocs+bessel.shift$minimum)*theory.decay, d=dimension ), lwd=2, lty=2 ) }
 }
 dev.off()
 
