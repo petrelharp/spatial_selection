@@ -454,12 +454,12 @@ but migrate to a larger distance.
 Then for any point $x$ further than $r_0$ from the patch, 
 the mean occupation density $q(x)$ is equal to the integral of $\gamma$ over all locations $x_0$ at distance $r_0$ from the patch,
 multiplied by the mean occupation density at $x$ for migrant families beginning at at location.
-This is a more precise statement of the decomposition of the equilibrium frequency from equation \eqref{eqn:gestalt_q}.
-However, this integral is not tractable; if we assume that $r_0$ is small relative to $\|x\|$, then we get 
+This is a more precise statement of the decomposition of the equilibrium frequency from equation \eqref{eqn:gestalt_q}:
 \begin{align}
-    q(x) &= \int_{B(r_0)} u(y,x) \gamma(|y|) dy \\
-         &\simeq \gamma(r_0) 2 (\pi r_0)^{d-1} u(0,x) .
+    q(x) &= \gamma(r_0) \int_{B(r_0)} u(y,x) dy,
 \end{align}
+so that $\gamma(r_0) = q(x) / \int_{B(r_0)} u(y,x) dy$, for any choice of $x$.
+XXX Green function for BM killed on disk XXX
 Now, using equations \eqref{eqn:eqfreq} and \eqref{eqn:occupation_asymptotics}, we get that
 \begin{align}
     \gamma(r_0) \simeq 
