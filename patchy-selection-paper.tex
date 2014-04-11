@@ -409,7 +409,56 @@ to compute the terms of equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_m
 
 
 %%%%%%% %%%%%%%%%%%
+\subsubsection*{Putting it together}
+
+We are approximating the dynamics of the focal allele in the region further away than $r_0$ from the patch
+as the sum of independent migrant families, each of whose dynamics are given by a spatial branching process.
+Call $B(r_0)$ the region closer than $r_0$ to the patch, and $\delta B(r_0)$ its boundary.
+Suppose that there is a constant outflux of migrant families of rate $\gamma(x)$ from each point $x \in \delta B(r_0)$,
+e.g.\ with locations and times of appearances as the points of a Poisson process.
+Roughly speaking, equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate}
+differ only by substituting the average number of members of a migrant family in the new patch
+for the probability that a family has any members in the new patch;
+by the discussion of the previous section, these differ only by a constant factor.
+
+First we will make this idea more formal.
+Suppose that $Z$ is one such spatial branching process as above, started with a single individual at $x$,
+defined so that $Z_t(A)$ is the number of descendant individuals alive at time $t$ living in the set $A$.
+The \emph{mean occupation density} of $Z$ is then defined to be the density of $\E[\int_0^t Z_t dt]$,
+i.e.\ the smooth function $u(x,y)$ that, integrated over a set $A$, 
+gives the expected total number of individuals ever living in $A$:
+\begin{align} \label{eqn:occupation_density_defn}
+    \E\left[ \int_0^\infty Z_t(A) dt \right] = \int_A u(x,y) dy .
+\end{align}
+We can think of $u(x,y)$ as the expected total number of offspring of a family beginning at $x$
+that ever live at $y$.
+By independence of reproduction and spatial motion,
+$u(x,y)$ is the sum over all times of the expected number of offspring
+multiplied by the probability density that spatial motion takes a lineage from $x$ to $y$,
+i.e.\
+\begin{align}
+    u(x,y) = \int_0^t e^{-\alpha t} p_t(x,y) dt .
+\end{align}
+Now, \eqref{eqn:gestalt_q} is
+\begin{align}
+    q(y) &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  \\
+         &= \int_{\partial B(r_0)} \gamma(x) \int_0^t e^{-\alpha t} p_t(x,y) dt dx .
+\end{align}
+
+Now consider the probability that a migrant family from $x$ will ever establish in the new patch,
+which we assume has relatively small area $A$ and is located near position $y$.
+The probability that this family reaches $A$ by time $t$ is $(1-p_e(t))$
+multiplied by the probability that the family reaches the patch, given survival.
+If $t$ is large then the previous section argues that $(1-p_e(t)) \approx e^{-\alpha t}/\E[K]$,
+and the probability of reaching the patch by $t$ approximately the chance that a Brownian path
+will have hit the patch by then.
+If $w = A^{1/d}$ is the width of the patch, then 
+
+
+%%%%%%% %%%%%%%%%%%
 \subsubsection*{Mean occupation density}
+
+XXX OMIT FROM HERE? XXX
 
 First, we compute the second term in equation \eqref{eqn:gestalt_q}, (mean occupation density of a family at $x$),
 by which we mean the expected total number of offspring of a single family that ever live at distance $r$ from the patch.
@@ -437,7 +486,13 @@ using \citet{gradshteyn2007table} (3.471.9 and 8.451.6), the mean occupation den
 with $\alpha = -\log(1-s_m)$ and $d$ the dimension,
 \begin{align}
 u(x_0,x) &= \frac{\alpha^{(d-2)/2}}{\sigma^d \pi^{d/2}}\left(\frac{ \sqrt{2 \alpha} \|x-x_0\|}{\sigma} \right)^{(2-d)/2} K_{(2-d)/2}\left( \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right) \\
-         &= \frac{\alpha^{(d-2)/2}}{\sigma^d 2 \pi^{(d-1)/2}} \left( \frac{\sqrt{2 \alpha} \|x-x_0\|}{\sigma} \right)^{(1-d)/2} \exp\left(- \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right)+ O(\sigma/\|x-x_0\|) . \label{eqn:occupation_asymptotics}
+         &= 
+    \exp\left(- \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right)
+    \left\{
+    \frac{\alpha^{(d-2)/2}}{\sigma^d 2 \pi^{(d-1)/2}} \left( \frac{\sqrt{2 \alpha} \|x-x_0\|}{\sigma} \right)^{(1-d)/2} 
++ O\left( \left(\frac{\sqrt{2\alpha}\|x-x_0\|}{\sigma}\right)^{-(d+1)/2} \right) 
+    \right\}
+    . \label{eqn:occupation_asymptotics}
 \end{align}
 Since we only have asymptotics for the equilibrium frequency, 
 we will only use the latter (asymptotic) form.
@@ -459,8 +514,9 @@ This is a more precise statement of the decomposition of the equilibrium frequen
     q(x) &= \gamma(r_0) \int_{B(r_0)} u(y,x) dy,
 \end{align}
 so that $\gamma(r_0) = q(x) / \int_{B(r_0)} u(y,x) dy$, for any choice of $x$.
-XXX Green function for BM killed on disk XXX
-Now, using equations \eqref{eqn:eqfreq} and \eqref{eqn:occupation_asymptotics}, we get that
+Now, using equations \eqref{eqn:eqfreq} and \eqref{eqn:occupation_asymptotics}, 
+we can obtain that (see Appendix \ref{apx:lesbegue})
+the outflux of families 
 \begin{align}
     \gamma(r_0) \simeq 
 \end{align}
@@ -1376,5 +1432,69 @@ However, it is clear that increasing the selection coefficient $s$ will decrease
 while on the other hand, increasing the deme size $N$ will increase the number of types,
 and that the case presented above is at the extreme (see also \cite{Navarro:03} for deterministic approximations). 
 
+
+\subsection{Temporary work: outflux of families}
+\label{apx:lesbegue}
+
+We have that
+\[
+    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
+\]
+for any $y$.  
+Take $y=(r,0)$.
+Note that after scaling by $\sqrt{2\alpha}/\sigma$,
+\begin{align}
+    \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\|} }{ \|y\|^{-(d-1)/2} e^{-\|y\|} } \\
+        &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r (\|\hat x - x/r\| - 1)} .
+\end{align}
+Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
+so that the expression in the exponent is to, first order in $1/r$,
+\begin{align}
+    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
+            &= - 2 r_0 \cos \theta + O(1/r) .
+\end{align}
+This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
+\begin{align}
+    \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \cos \theta} ,
+\end{align}
+and hence, by bounded convergence, then \citet{gradshteyn2007table} (3.339),
+\begin{align}
+    \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to C' \int_0^{2 \pi} e^{-2 r_0 \cos \theta} d\theta \\
+                                         &= 2 \pi C' I_0(-2r_0),
+\end{align}
+where $I_0$ is a modified Bessel function of order zero of the first kind.
+The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing the result to $2 \pi C' I_0( - 2 \sqrt{2\alpha} r_0 / \sigma ) $.
+
+
+
+\subsection{Temporary work: hitting probs}
+
+Now consider the probability that a migrant family from $x$ will ever establish in the new patch,
+which we assume has relatively small area $A$ and is located near position $y$.
+The probability that this family reaches $A$ by time $t$ is $(1-p_e(t))$
+multiplied by the probability that the family reaches the patch, given survival.
+If $t$ is large then the previous section argues that $(1-p_e(t)) \approx e^{-\alpha t}/\E[K]$,
+and the probability of reaching the patch by $t$ approximately the chance that a Brownian path
+will have hit the patch by then.
+If $w = A^{1/d}$ is the width of the patch, then 
+this is the chance that a $d$-dimensional Bessel process begun at $\|y-x\|$ hits $w$ by time $t$.
+Let $\tau_w$ be the hitting time of $w$,
+so, integrating by parts, and using Borodin \& Salminen (2.2.0.1 and 4.2.0.1)
+\begin{align}
+    \int_0^\infty (1-p_e(t)) \P^x\{ \tau_w \le t \} dt  
+    &\approx \int_0^\infty e^{-\alpha t} \P^x\{ \tau_w \le t \} dt  / \E[K] \\
+    &= \frac{1}{\alpha \E[K]} \int_0^\infty e^{-\alpha t} \P^x\{ \tau_w \in dt \} \\
+    &= \frac{1}{\alpha \E[K]} \E^x[e^{-\alpha \tau_w}] \\
+    &= 
+    \frac{1}{\alpha \E[K]} \times
+    \begin{cases}
+        e^{-(x-w) \sqrt{2\alpha}} \qquad & d=1 \\
+        \frac{ K_0(x\sqrt{2\alpha}) }{ K_0(w\sqrt{2\alpha}) } \qquad & d=2 
+    \end{cases}
+\end{align}
+Note that the $d=2$ case
+\begin{align}
+    \frac{ K_0(x\sqrt{2\alpha}) }{ K_0(w\sqrt{2\alpha}) } = \sqrt{\frac{w}{x}} e^{-(x-w)\sqrt{2\alpha}} ( 1 + O(1/w) ).
+\end{align}
 
 \end{document} 
