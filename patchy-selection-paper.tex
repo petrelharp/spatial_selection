@@ -1498,27 +1498,75 @@ Note that the $d=2$ case
     \frac{ K_0(x\sqrt{2\alpha}) }{ K_0(w\sqrt{2\alpha}) } = \sqrt{\frac{w}{x}} e^{-(x-w)\sqrt{2\alpha}} ( 1 + O(1/w) ).
 \end{align}
 
-Now note that if $\tau$ is Exponential($\alpha$), then
+\subsection{Temporary}
+
+Consider a single migrant family $Z$ beginning at $x$.
+Let $B_t$ be a Brownian motion with variance $\sigma^2$, 
+and $\tau_\dagger$ an independent Exponential($\alpha$) time.
+The mean occupation time of $Z$ spent in a region $A$ is 
 \begin{align}
-  q(y) &= \frac{1}{\alpha} \int_{\partial B} \E^x[ \int_0^\tau \one_A(B_t) dt ] dx 
+    u(x,y) &= \E[\int_0^\infty Z_t(A) dt ] \\
+           &= \int_0^\infty \E[Z_t] p_t(x,A) dt \\
+        &= \int_0^\infty e^{-\alpha t} p_t(x,A) dt \\
+        &= \int_0^\infty \P^x\{ \tau_\dagger < t \; \& \; B_t \in A \} dt \\
+        &= \E[ \int_0^{\tau_\dagger} \one_A(B_t) dt ]  .
 \end{align}
-and that if $\mu(x,A)$ is the hitting distribution of $\partial A$ by $B_{\min(t,\tau)}$,
+If we define
+$\tau_A$ to be the hitting time of $A$ by $B$,
+and $\mu(x,A)$ to be the hitting distribution of $\partial A$ by $B_{\min(t,\tau)}$,
+by the strong Markov property this is equal to
 \begin{align}
-  \E^x[ \int_0^\tau \one_A(B_t) dt ] &= \P^x\{ \tau_A < \tau \}  \E^{\mu(x,A)}[ \int_0^\tau \one_A(B_t) dt ] .
+    u(x,y) &= \E^x[ \int_0^{\tau_\dagger} \one_A(B_t) dt ] \\
+           &= \P^x\{ \tau_A < \tau_\dagger \}  \E^{\mu(x,A)}[ \int_0^{\tau_\dagger} \one_A(B_t) dt ] .
 \end{align}
-If $A$ is circular, then the latter term is the integral of the Green function, so using Borodin \& Salminen (Appendix 1),
+If $A$ is circular, the latter expectation will not depend on $x$;
+call this $h(A)$.
+
+Now consider the chance that $Z$ ever hits $A$.
+If we make the approximation that $Z$ hits $A$ iff the trunk of $Z$ does,
+then this is equal to
+\begin{align}
+    F(x,y) &= \int_0^\infty (1-p_e(t)) \P\{ \tau_A \in dt \} \\
+           &= \int_0^\infty e^{\alpha t} (1-p_e(t)) e^{- \alpha t } \P\{ \tau_A < t \} dt \\
+    &=\int_0^\infty e^{\alpha t} (1-p_e(t)) \P\{ \tau_A < t < \tau_\dagger \} dt \\
+    &\approx \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_A < t < \tau_\dagger \} dt \\
+    &= \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_A < t < \tau_\dagger \} dt \\
+    &= \frac{1}{\E[K]} \P^x[ \tau_A < \tau_\dagger ] .
+\end{align}
+Therefore, we have that
+\begin{align}
+    F(x,y) \E[K] 
+    \approx \P^x[ \tau_A < \tau_\dagger ] 
+    = u(x,y) / h(A) .
+\end{align}
+
+Now, 
+\begin{align}
+    q(y)  &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  \\
+          &= h(A) \int_{\partial B(r_0)} \gamma(x) F(x,y) dx \\
+          &= \frac{ h(A) }{ \E[K] } \migrate(y) .
+\end{align}
+The function $h(A)$ is the expected amount of time that a Brownian motion begun on the edge of a disk of area $A$
+is expected to spend inside the disk before $\tau_\dagger$.
+This is integral of the Green function for the Bessel process of the appropriate order, 
+so using Borodin \& Salminen (Appendix 1),
+and letting $w$ be the width of the patch,
 in $d=1$,
 \begin{align}
-  \E^w[ \int_0^\tau \one_A(B_t) dt ] &= \int_0^{2w} G_\alpha(0,y) dy \\
+    h_1(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
+  % &= \int_0^{2w} G_\alpha(0,y) dy \\
   &= \int_0^{2w} \frac{ e^{- y \sqrt{2\alpha} }}{\sqrt{2\alpha}} dy \\
   &= (1-e^{-2w\sqrt{2\alpha}})/(2\alpha)
 \end{align}
 and in $d=2$, by \citet{gradshteyn2007table} 5.56.2,
 \begin{align}
-  \E^w[ \int_0^\tau \one_A(B_t) dt ] &= \int_0^{2w} G_\alpha(0,y) dy \\
+    h_2(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
+    % &= \int_0^{2w} G_\alpha(0,y) dy \\
   &= \int_0^{2w} 2 y K_0(y \sqrt{2\alpha}) dy \\
   &= \frac{1}{\alpha}\int_0^{2w\sqrt{2\alpha}} y K_0(y) dy \\
   &= \frac{1}{2\alpha}\left(1- 2w\sqrt{2\alpha} K_1(2w\sqrt{2\alpha}) \right)  .
 \end{align}
+
+
 
 \end{document} 
