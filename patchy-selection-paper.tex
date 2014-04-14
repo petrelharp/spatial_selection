@@ -16,7 +16,7 @@
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
-\newcommand{\one}{\mathbb{1}}
+\newcommand{\one}{\mathbf{1}}
 \newcommand{\calE}{\mathcal{E}}
 \newcommand{\calC}{\mathcal{C}}
 \newcommand{\dconv}{\xrightarrow{d}}
@@ -1502,20 +1502,23 @@ Now note that if $\tau$ is Exponential($\alpha$), then
 \begin{align}
   q(y) &= \frac{1}{\alpha} \int_{\partial B} \E^x[ \int_0^\tau \one_A(B_t) dt ] dx 
 \end{align}
-and that if $\mu(x,A)$ is the hitting distribution of $\partial A$ by $B_{t \min \tau}$,
+and that if $\mu(x,A)$ is the hitting distribution of $\partial A$ by $B_{\min(t,\tau)}$,
 \begin{align}
   \E^x[ \int_0^\tau \one_A(B_t) dt ] &= \P^x\{ \tau_A < \tau \}  \E^{\mu(x,A)}[ \int_0^\tau \one_A(B_t) dt ] .
 \end{align}
 If $A$ is circular, then the latter term is the integral of the Green function, so using Borodin \& Salminen (Appendix 1),
 in $d=1$,
 \begin{align}
-  \E^w[ \int_0^\tau \one_A(B_t) dt ] &= \alpha \int_0^{2w} G_\alpha(0,y) dy \\
-  &= \alpha \int_0^{2w} \frac{ e^{- y \sqrt{2\alpha} }}{2\sqrt{2\alpha}} dy
+  \E^w[ \int_0^\tau \one_A(B_t) dt ] &= \int_0^{2w} G_\alpha(0,y) dy \\
+  &= \int_0^{2w} \frac{ e^{- y \sqrt{2\alpha} }}{\sqrt{2\alpha}} dy \\
+  &= (1-e^{-2w\sqrt{2\alpha}})/(2\alpha)
 \end{align}
-and in $d=2$,
+and in $d=2$, by \citet{gradshteyn2007table} 5.56.2,
 \begin{align}
-  \E^w[ \int_0^\tau \one_A(B_t) dt ] &= \alpha \int_0^{2w} G_\alpha(0,y) dy \\
-  &= \alpha \int_0^{2w} K_0(y \sqrt{2\alpha}) dy 
+  \E^w[ \int_0^\tau \one_A(B_t) dt ] &= \int_0^{2w} G_\alpha(0,y) dy \\
+  &= \int_0^{2w} 2 y K_0(y \sqrt{2\alpha}) dy \\
+  &= \frac{1}{\alpha}\int_0^{2w\sqrt{2\alpha}} y K_0(y) dy \\
+  &= \frac{1}{2\alpha}\left(1- 2w\sqrt{2\alpha} K_1(2w\sqrt{2\alpha}) \right)  .
 \end{align}
 
 \end{document} 
