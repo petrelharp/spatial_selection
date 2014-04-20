@@ -9,26 +9,28 @@ require(xtable)
 # Plot level sets of time to mut and mig
 #  first against characteristic dist and pop density
 #  then agains mutation rate and pop density
+muttime <- function (env) {with(env,1/(A*mu*2*sb*rho))}
+migtime <- function (env) {with(env,1/(const*(sb/sd)*rho*(1/sqrt(cl*sqrt(sd)))*exp(-cl*sqrt(sd))))}
 rhovals <- logseq(1,1e5,length.out=100) # per km^2
-clvals <- seq(1,20,length.out=100)
-muvals <- logseq(1e-8,1e-6,length.out=100) 
-smvals <- logseq(1e-6,1e-1,length.out=100)
-A <- 100 # per km^2
-rho <- 1e2  # 
+clvals <- seq(1,200,length.out=100)
+muvals <- logseq(1e-9,1e-4,length.out=100) 
+sdvals <- logseq(1e-4,1e-1,length.out=100)
+A <- 100 # km^2
+rho <- 10  # per km^2
 mu <- 1e-8 
 sb <- .1
 sd <- .01
 const <- .5
-cl <- 5  # cline length
+cl <- 50  # R/sigma
 clplot <- expand.grid(cl=clvals,rho=rhovals)
-clplot$mut <- with(clplot, 1/(A*mu*2*sb*rho) )
-clplot$mig <- with(clplot, 1/(const*(sb/sd)*rho*(1/sqrt(cl))*exp(-cl)) )
+clplot$mut <- muttime(clplot)
+clplot$mig <- migtime(clplot)
 muplot <- expand.grid(mu=muvals,rho=rhovals)
-muplot$mut <- with(muplot, 1/(A*mu*2*sb*rho) )
-muplot$mig <- with(muplot, 1/(const*(sb/sd)*rho*(1/sqrt(cl))*exp(-cl)) )
-smplot <- expand.grid(mu=muvals,sm=smvals)
-smplot$mut <- with(muplot, 1/(A*mu*2*sb*rho) )
-smplot$mig <- with(muplot, 1/(const*(sb/sd)*rho*(1/sqrt(cl))*exp(-cl)) )
+muplot$mut <- muttime(muplot)
+muplot$mig <- migtime(muplot)
+sdplot <- expand.grid(mu=muvals,sd=sdvals)
+sdplot$mut <- muttime(sdplot)
+sdplot$mig <- migtime(sdplot)
 f <- function (x) { matrix(x,nrow=(sqrt(length(x)))) }
 pminmax <- function (x,lower,upper) { pmin(upper,pmax(lower,x)) }
 
@@ -41,38 +43,58 @@ labelsets <- levelsets
 # contour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=labelsets, method="edge", lwd=2, add=TRUE )
 logcontour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=labelsets, method="edge", log='y' )
 logcontour( clvals, rhovals, f(clplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, method="edge", log='y' )
+mtext(side=1,line=2.5,text=expression(R / sigma))
+mtext(side=2,line=2.5,expression(rho))
+abline(v=clvals[which.min(abs(migtime(list(cl=clvals))-muttime(.GlobalEnv)))], lwd=2)
 for (lev in levelsets) { # note rho is log10-scale.
-    rholev <- 1/(A*mu*2*sb*lev)  # mutation time determines rho
+    rholev <- muttime(.GlobalEnv)*rho/lev # mutation time determines rho
     if (rholev>min(rhovals) & rholev<max(rhovals)) {
         polygon( range(clvals)[c(1,1,2,2)], log10(c(max(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("red",.1) )
     }
-    miglevs <- 1/(const*2*sd*(sb+sd)*exp(-clvals)*lev)  # migration:
+    miglevs <- 1/(const*(sb/sd)*(1/sqrt(clvals*sqrt(sd)))*exp(-clvals*sqrt(sd))*lev)  # migration:
     polygon( c(clvals,rev(clvals)), log10(c( pminmax(miglevs,min(rhovals),max(rhovals)), rep(max(rhovals),length(clvals)) )), border=NA, col=adjustcolor("blue",.1), )
 }
-mtext(side=1,line=2.5,text=expression(R * sqrt(s[m]) / sigma))
-mtext(side=2,line=2.5,expression(rho))
+legend("topleft",bg="white",legend=c(expression(T[scriptstyle(mut)]),expression(T[scriptstyle(mig)])),fill=c("red","blue"))
+
 # plot(0,type='n',xlab='',ylab='',xlim=range(muvals),ylim=range(rhovals),log='xy')
-
-logcontour( A*muvals*rho, smvals, f(smplot$mut), col='red', labels=labelsets, levels=levelsets, method="edge", lwd=2, log='xy' )
-logcontour( A*muvals*rho, smvals, f(smplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
-
-logcontour( muvals, rhovals, f(muplot$mut), col='red', labels=labelsets, levels=levelsets, method="edge", lwd=2, log='xy' )
-logcontour( muvals, rhovals, f(muplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
+logcontour( A*muvals, sdvals, f(sdplot$mut), col='red', labels=labelsets, levels=levelsets, method="edge", lwd=2, log='xy' )
+logcontour( A*muvals, sdvals, f(sdplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
+mtext(side=1,line=2.5,expression(mu * A))
+mtext(side=2,line=2.5,expression(s[m]))
+lines( log10( muttime(list(A=1,mu=1))/migtime(list(sd=sdvals)) ), log10(sdvals), lwd=2 )
 for (lev in levelsets) { # note rho and mu are log10-scale.
     # mutation:
-    if (any( (1/(A*muvals*2*sb*lev) < max(rhovals)) & (1/(A*muvals*2*sb*lev) > min(rhovals)) )) {
-        polygon( log10(c(muvals,rev(muvals))), log10(c( pminmax(1/(A*muvals*2*sb*lev),min(rhovals),max(rhovals)), rep(max(rhovals),length(muvals)) )), border=NA, col=adjustcolor("red",.1), )
+    mulev <- muttime(list(mu=1))/lev
+    if ( ( mulev>min(muvals) ) & ( mulev < max(muvals) ) ) {
+        polygon( log10(A*c(mulev,max(muvals)))[c(1,1,2,2)], log10(range(sdvals))[c(1,2,2,1)], border=NA, col=adjustcolor("red",.1), )
     }
     # migration:
-    rholev <- 1/(const*2*sd*(sb+sd)*exp(-cl)*lev)
-    if (rholev>min(rhovals) & rholev<max(rhovals)) {
-        polygon( log10(range(muvals))[c(1,1,2,2)], log10(c(max(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
+    sdlev <- uniroot(f=function(sd) migtime(list(sd=sd))-lev, lower=min(sdvals), upper=max(sdvals))$root
+    if (sdlev>min(sdvals) & sdlev<max(sdvals)) {
+        polygon( log10(A*range(muvals))[c(1,1,2,2)], log10(c(min(sdvals),sdlev))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
     }
 }
-mtext(side=1,line=2.5,expression(mu * A))
-mtext(side=2,line=2.5,expression(rho))
-legend("topright",bg="white",legend=c(expression(T[scriptstyle(mut)]),expression(T[scriptstyle(mig)])),fill=c("red","blue"))
 dev.off()
+
+# ALTERNATIVELY
+if (FALSE) {
+    logcontour( muvals, rhovals, f(muplot$mut), col='red', labels=labelsets, levels=levelsets, method="edge", lwd=2, log='xy' )
+    logcontour( muvals, rhovals, f(muplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
+    for (lev in levelsets) { # note rho and mu are log10-scale.
+        # mutation:
+        if (any( (1/(A*muvals*2*sb*lev) < max(rhovals)) & (1/(A*muvals*2*sb*lev) > min(rhovals)) )) {
+            polygon( log10(c(muvals,rev(muvals))), log10(c( pminmax(1/(A*muvals*2*sb*lev),min(rhovals),max(rhovals)), rep(max(rhovals),length(muvals)) )), border=NA, col=adjustcolor("red",.1), )
+        }
+        # migration:
+        rholev <- 1/(const*2*sd*(sb+sd)*exp(-cl)*lev)
+        if (rholev>min(rhovals) & rholev<max(rhovals)) {
+            polygon( log10(range(muvals))[c(1,1,2,2)], log10(c(max(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
+        }
+    }
+    mtext(side=1,line=2.5,expression(mu * A))
+    mtext(side=2,line=2.5,expression(rho))
+    legend("topright",bg="white",legend=c(expression(T[scriptstyle(mut)]),expression(T[scriptstyle(mig)])),fill=c("red","blue"))
+}
 
 pdf(file="phase-diagram.pdf",width=6,height=3,pointsize=10)
 layout(t(1:2))
