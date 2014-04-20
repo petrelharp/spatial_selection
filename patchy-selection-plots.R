@@ -9,21 +9,26 @@ require(xtable)
 # Plot level sets of time to mut and mig
 #  first against characteristic dist and pop density
 #  then agains mutation rate and pop density
-rhovals <- logseq(1,100000,length.out=100)
+rhovals <- logseq(1,1e5,length.out=100) # per km^2
 clvals <- seq(1,20,length.out=100)
-muvals <- logseq(1e-8,1e-6,length.out=100)
-A <- 10000 # km^2
-mu <- 1e-8
+muvals <- logseq(1e-8,1e-6,length.out=100) 
+smvals <- logseq(1e-6,1e-1,length.out=100)
+A <- 100 # per km^2
+rho <- 1e2  # 
+mu <- 1e-8 
 sb <- .1
 sd <- .01
 const <- .5
 cl <- 5  # cline length
 clplot <- expand.grid(cl=clvals,rho=rhovals)
 clplot$mut <- with(clplot, 1/(A*mu*2*sb*rho) )
-clplot$mig <- with(clplot, 1/(const*2*sd*(sd+sb)*rho*exp(-cl)) )
+clplot$mig <- with(clplot, 1/(const*(sb/sd)*rho*(1/sqrt(cl))*exp(-cl)) )
 muplot <- expand.grid(mu=muvals,rho=rhovals)
 muplot$mut <- with(muplot, 1/(A*mu*2*sb*rho) )
-muplot$mig <- with(muplot, 1/(const*2*sd*(sd+sb)*rho*exp(-cl)) )
+muplot$mig <- with(muplot, 1/(const*(sb/sd)*rho*(1/sqrt(cl))*exp(-cl)) )
+smplot <- expand.grid(mu=muvals,sm=smvals)
+smplot$mut <- with(muplot, 1/(A*mu*2*sb*rho) )
+smplot$mig <- with(muplot, 1/(const*(sb/sd)*rho*(1/sqrt(cl))*exp(-cl)) )
 f <- function (x) { matrix(x,nrow=(sqrt(length(x)))) }
 pminmax <- function (x,lower,upper) { pmin(upper,pmax(lower,x)) }
 
@@ -44,9 +49,13 @@ for (lev in levelsets) { # note rho is log10-scale.
     miglevs <- 1/(const*2*sd*(sb+sd)*exp(-clvals)*lev)  # migration:
     polygon( c(clvals,rev(clvals)), log10(c( pminmax(miglevs,min(rhovals),max(rhovals)), rep(max(rhovals),length(clvals)) )), border=NA, col=adjustcolor("blue",.1), )
 }
-mtext(side=1,line=2.5,text=expression(R * sqrt(s[d]) / sigma))
+mtext(side=1,line=2.5,text=expression(R * sqrt(s[m]) / sigma))
 mtext(side=2,line=2.5,expression(rho))
 # plot(0,type='n',xlab='',ylab='',xlim=range(muvals),ylim=range(rhovals),log='xy')
+
+logcontour( A*muvals*rho, smvals, f(smplot$mut), col='red', labels=labelsets, levels=levelsets, method="edge", lwd=2, log='xy' )
+logcontour( A*muvals*rho, smvals, f(smplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
+
 logcontour( muvals, rhovals, f(muplot$mut), col='red', labels=labelsets, levels=levelsets, method="edge", lwd=2, log='xy' )
 logcontour( muvals, rhovals, f(muplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
 for (lev in levelsets) { # note rho and mu are log10-scale.
@@ -60,7 +69,7 @@ for (lev in levelsets) { # note rho and mu are log10-scale.
         polygon( log10(range(muvals))[c(1,1,2,2)], log10(c(max(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
     }
 }
-mtext(side=1,line=2.5,expression(mu))
+mtext(side=1,line=2.5,expression(mu * A))
 mtext(side=2,line=2.5,expression(rho))
 legend("topright",bg="white",legend=c(expression(T[scriptstyle(mut)]),expression(T[scriptstyle(mig)])),fill=c("red","blue"))
 dev.off()
@@ -74,7 +83,7 @@ labelsets <- levelsets
 # contour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=labelsets, method="edge", lwd=2, add=TRUE )
 logcontour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=labelsets, method="edge", lwd=2 )
 logcontour( clvals, rhovals, f(clplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, method="edge", lwd=2 )
-mtext(side=1,line=2.5,text=expression(R * sqrt(s[d]) / sigma))
+mtext(side=1,line=2.5,text=expression(R * sqrt(s[m]) / sigma))
 mtext(side=2,line=2.5,expression(rho))
 # plot(0,type='n',xlab='',ylab='',xlim=range(muvals),ylim=range(rhovals),log='xy')
 logcontour( muvals, rhovals, f(muplot$mut), col='red', labels=labelsets, levels=levelsets, method="edge", lwd=2 )
@@ -129,7 +138,7 @@ with( get.prob.estab(50), {
         # abline(h=1-eqvals[2], lty=2, lwd=2, col='red')
         # abline(v=c(xx[min(which(selx>-sd))],xx[max(which(selx<sb))]),lty=3,lwd=2)
         polygon(xx[c(min(which(selx>-sd)),max(which(selx<sb)))][c(1,1,2,2)], c(0,par("usr")[4])[c(1,2,2,1)],density=5,col=grey(.5))
-        text( xx[min(which(selx>-sd))], max(1-prob.estab), labels=as.expression(substitute(s[d]==sd,list(sd=-sd))), adj=c(1.2,1) )
+        text( xx[min(which(selx>-sd))], max(1-prob.estab), labels=as.expression(substitute(s[m]==sd,list(sd=-sd))), adj=c(1.2,1) )
         text( xx[max(which(selx<sb))], max(1-prob.estab), labels=as.expression(substitute(s[b]==sb,list(sb=sb))), adj=c(-0.2,1) )
         arrows( x0=min(xx) + 5*dx, y0=mean(1-prob.estab), x1=min(xx)+2*dx*m/sqrt(sd) + 5*dx, angle=90, code=3, length=.05 )
         text( min(xx) + 5*dx + (2/2)*dx*m/sqrt(sd), mean(1-prob.estab), pos=3, labels=expression(2*sigma/sqrt(s)) )
@@ -140,7 +149,7 @@ with( get.prob.estab(500), {
         # abline(h=1-eqvals[2], lty=2, lwd=2, col='red')
         # abline(v=c(xx[min(which(selx>-sd))],xx[max(which(selx<sb))]),lty=3,lwd=2)
         polygon(xx[c(min(which(selx>-sd)),max(which(selx<sb)))][c(1,1,2,2)], c(0,par("usr")[4])[c(1,2,2,1)],density=5,col=grey(.5))
-        text( xx[min(which(selx>-sd))], max(1-prob.estab), labels=as.expression(substitute(s[d]==sd,list(sd=-sd))), adj=c(.8,1) )
+        text( xx[min(which(selx>-sd))], max(1-prob.estab), labels=as.expression(substitute(s[m]==sd,list(sd=-sd))), adj=c(.8,1) )
         text( xx[max(which(selx<sb))], max(1-prob.estab), labels=as.expression(substitute(s[b]==sb,list(sb=sb))), adj=c(0.2,1) )
         arrows( x0=min(xx)+5*dx, y0=mean(1-prob.estab), x1=min(xx)+2*dx*m/sqrt(sd)+5*dx, angle=90, code=3, length=.05 )
         text( min(xx) + 5*dx + (2/2)*dx*m/sqrt(sd), mean(1-prob.estab), pos=3, labels=expression(2*sigma/sqrt(s)) )

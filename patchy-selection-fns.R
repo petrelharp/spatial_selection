@@ -43,15 +43,12 @@ minimumPatch <- function(mu, rho, s, gb, gm, sigma, R, A) {
 
 mutationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
     # approximation for mutational influx per patch
-    # XXX to-do: do numerics?
     return( 2 * s*gb * A * rho * mu )
 }
 
 migrationInflux <- function(mu, rho, s, gb, gm, sigma, R, A) {
     # approximation for migrational influx per patch
-    # XXX to-do: do numerics?
-    # return( 2 * s*gb * A * rho * exp( - sqrt(abs(s*gm))*R/sigma ) )
-    return( s*gb * sqrt(s*gm/pi) * rho * exp( - sqrt(abs(s*gm))*R/sigma ) )
+    return( (1/2) * (s*gb / s*gm) * rho * (1/sqrt(sqrt(abs(s*gm))*R/sigma)) * exp( - sqrt(abs(s*gm))*R/sigma ) )
 }
 
 

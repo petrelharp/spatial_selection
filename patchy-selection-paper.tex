@@ -415,7 +415,9 @@ to compute the terms of equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_m
 We are approximating the dynamics of the focal allele in the region further away than $r_0$ from the patch
 as the sum of independent migrant families, each of whose dynamics are given by a spatial branching process.
 Call $B(r_0)$ the region closer than $r_0$ to the patch, and $\partial B(r_0)$ its boundary.
-Suppose that there is a constant outflux of migrant families of rate $\gamma(x)$ from each point $x \in \partial B(r_0)$.
+Suppose that there is a constant outflux of migrant families from each point $x \in \partial B(r_0)$,
+such that the long-term proportion of individuals near a point $x$ in $\partial B(r_0)$ that initiate new migrant families
+is $\gamma(x)$.
 To make expressions \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate} more concrete,
 we need to replace ``outflux of families'' by a sum over points at distance $r_0$ from the patch
 of the outflux $\gamma$ at that point, mulitplied by the relevant second quantity.
@@ -464,7 +466,7 @@ and $f(A)$ for the chance that the family manages to establish in the new patch,
 given that it successfully arrives.
 As for $q(y)$ above, expression \eqref{eqn:gestalt_migrate} is an integral of $h(x,y)$:
 \begin{align}\label{eqn:migrate_integral}
-  \migrate(y) &= \int_{\partial B(r_0)} \gamma(x) h(x,y) f(A) dx .
+  \migrate(y) &= \rho \int_{\partial B(r_0)} \gamma(x) h(x,y) f(A) dx .
 \end{align}
 
 Intuitively, $h(x,y)$ counts each family once if it hits the patch,
@@ -492,9 +494,12 @@ is approximately $\E[1-(1-p_e)^K] \approx 2 s_p \E[K] / \xi^2$.
 % \end{align}
 Combining these terms with the expression for $s(A)$ from Appendix~\ref{apx:hitting_occupation},
 \begin{align}
-  \migrate(y) \approx q(y) \times \frac{ s_p  }{ \alpha \xi^2 } 
-  \left( 1 - \left( \frac{\pi w \sqrt{2 \alpha}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2\alpha}/\sigma} \right).
+  \label{eqn:migrate}
+  \migrate(y) \approx q(y) \times \rho \frac{ s_p  }{ \alpha \xi^2 } 
+  % \left( 1 - \left( \frac{\pi w \sqrt{2 \alpha}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2\alpha}/\sigma} \right).
 \end{align}
+For patches that are small relative to $\sigma/\sqrt{2s_m}$, there is an additional correction term (see Appendix~\ref{apx:hitting_occupation}),
+but at this point we would be violating various other assumptions above, so we omit it.
 
 
 
@@ -648,7 +653,7 @@ namely
 
 Combining this with \eqref{eqn:bp_prob_estab}, as in \eqref{eqn:gestalt_q}, 
 the rate of establishment, for a patch of area $A$ at distance $r$ from an already occupied patch, is approximately
-\begin{align} \label{eqn:migrate}
+\begin{align} % \label{eqn:migrate}
     \migrate(r) = \gamma F(r) = \frac{\rho \sigma s_p\sqrt{2s_m} }{\xi^2}  \exp\left( -\frac{ \sqrt{2 s_m} r}{\sigma} \right).
 \end{align}
 Note that the exponential term is expected based on \eqref{eqn:eqfreq} -- 
@@ -682,24 +687,31 @@ Under this approximation, and the ``selective exclusion'' just discussed,
 after one of the patches becomes colonized by a single $B$ allele, 
 the other patch will become colonized by migration or mutation, but not by both. 
 As such, the question of how the the second patch adapts
-simply comes down to whether the a new mutation or a migrant allele is the first to become established in the second patch. 
+simply comes down to whether a new mutation or a migrant allele is the first to become established in the second patch. 
 
 Taking expressions \eqref{eqn:mutrate} and \eqref{eqn:migrate} above,
 we see that if the patches each have sufficiently large area,
 the rate of migration and mutation will be on the same order if 
-$\mu \approx ((s_p+s_m)/2) \exp(-\sqrt{2 s_m} r / \sigma)$,
-\plr{check}
-where $r$ is the distance between the patches.
-(Note that in both cases, $A$ is the area of the not-yet-adapted patch.)
+$A \mu \approx (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
+where $R$ is the distance between the patches,
+and recall that $A$ is the area of the not-yet-adapted patch.
+In other words, the migrational analogue of ``mutational influx'' ($\mu \rho A$) 
+is $\rho (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
+which depends fairly strongly on the selective disadvantage $s_m$ between patches.
+Equivalently, migration will occur much quicker than mutation 
+if $R/\sigma > (\log(1/s_m) - \log(A\mu))/\sqrt{2s_m}$.
 
-If we take $\mu = 10^{-8}$, and $s_p=s_m=s$, then this is satisfied if $r/\sigma \approx (18+\log(s))/\sqrt{s}$,
-so if the selective pressure is fairly strong (say, $s=.05$),
-then the distance between patches must be about 70 times the dispersal distance (i.e.\ $r/\sigma \approx 68$);
-while if $s$ is much smaller, say $s = .001$, 
-then the patches must be separated by many hundreds of times the dispersal distance (i.e.\ $r/\sigma \approx 368$).
-The situation does not change much if $\mu$ is larger -- even if $\mu = 10^{-6}$, 
-the required separation between patches is only reduced by $5/\sqrt{s_m}$.
-If the separation between patches is much larger than this value -- certainly, by a factor of ten -- 
+If we take the mutational influx in a patch to be one per 1,000 generations ($A \mu = .001$),
+and the selection against transiting alleles $s_m = .01$,
+adaptation procedes independently for distances $R/\sigma > \log(s_m)/\sqrt{s_m}$,
+so if the selective pressure is fairly strong (say, $s_m=.05$),
+then the distance between patches must be about 30 times the dispersal distance (i.e.\ $R/\sigma > 30$),
+while if $s_m$ is much smaller, say $s_m = .001$, 
+then the patches must be separated by several hundred times the dispersal distance (i.e.\ $R/\sigma > 300$).
+The situation does not change much if the influx is quite a bit higher -- even if $A \mu = 1$,
+the required separation between patches is only reduced by $7/\sqrt{s_m}$,
+to $R/\sigma > 10$ with $s_m=.05$ and $R/\sigma>150$ for $s_m=.001$.
+If the separation between patches is much larger than this transitional value -- certainly, by a factor of ten -- 
 then patches are effectively isolated -- most adaptation will occur independent between patches.
 On the other hand, if the separation is much smaller, then a single
 mutation is likely to fix in both patches.
@@ -707,18 +719,22 @@ mutation is likely to fix in both patches.
 One way to visualize this is by a phase diagram.
 In figure \ref{fig:phase_diagram},
 we give a contour plot for the time until adaptation by migration ($\Tmig = 1/\migrate$) and by new mutation ($\Tmut=1/\mutrate$)
-as a function of population density, mutation rate, and distance between patches (scaled by $\sqrt{s_m}/\sigma$).
+as a function of various parameters.
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics{phase-diagram-log}
   \end{center}
   \caption{
-  Mean time until adaptation in a new patch occurs by migration ($\Tmig$, blue) or by mutation ($\Tmut$, red),
-  as a function of population density ($\rho$), mutation rate ($\mu$), 
-  and distance to an already adapted patch ($R$), scaled by $\sqrt{s_m}/\sigma$.
+  Shaded contour plots of
+  mean time until adaptation in a new patch occurs by migration ($\Tmig$, blue) or by mutation ($\Tmut$, red),
+  as a function of population density ($\rho$), 
+  distance to an already adapted patch in units of dispersal distance ($R/\sigma$),
+  strength of deleterious selection ($s_m$),
+  and mutation rate scaled by patch area ($\mu A$).
+  The line at which $\Tmig=\Tmut$ is shown in black.
+  Default parameter values were $A=100$, $\rho=10$, $\mu=10^{-8}$, $s_p=0.1$, $s_m=0.01$, $R/\sigma=50$, and $\xi^2=1$.
   Note that population density and mutation rate are shown on a log scale.
-  \plr{fix axis labels}
   \label{fig:phase_diagram}
   }
 \end{figure}
@@ -729,15 +745,14 @@ the time until the first of the two patches is colonized by the $B$ allele will 
 Following this, the time till the second patch is subsequently colonized 
 (via either migration or new mutation) 
 will be exponentially distributed with mean $1/(\mutrate+\migrate)$.
-Both these times scale linearly with $\xi^2/(\rho A s_{B})$, \plr{check}
+Both these times scale linearly with $\xi^2/(\rho s_{B})$, 
 so that the overall time to adaptation is robustly predicted to increase with offspring variance ($\xi^2$)
-and decrease with patch population size and benefical selection coefficient.
+and decrease with population density and benefical selection coefficient.
 Furthermore, the probability that the second adaptation is a new mutation,
-i.e.\ the probability of parallel adapatation, is
+i.e.\ the probability of parallel adapatation, is in $d=1$ ($d=2$ only differs slightly)
 \begin{equation}
-  \frac{\mutrate}{\mutrate+\migrate} = \frac{2\mu/(s_p+s_m)}{2\mu/(s_p+s_m) + \exp\left(- \sqrt{2 s_m} r / \sigma \right) },
+  \frac{\mutrate}{\mutrate+\migrate} = \frac{2 A \mu s_m}{2 A \mu s_m + \exp\left(- \sqrt{2 s_m} r / \sigma \right) },
 \end{equation}
-\plr{check}
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches, at rate $\sqrt{s_m} /\sigma$. 
 
@@ -762,12 +777,15 @@ If not yet adapted,
 a patch of area $A$ will acquire the adaptation by new mutation at rate $2 s_p \mu \rho A/\xi^2$.
 Without loss of generality, assume that patches $1, \ldots, k$ are already adapted,
 and these patches are at distances $r_1, \ldots, r_k$ away from this unadapted patch, 
-then the total rate of adaptation through migration is
+then the total rate of adaptation through migration is approximately
 \begin{equation}
-  \frac{ s_p (s_p+s_m) \rho A}{\xi^2} \sum_{i=1}^{k} \exp\left(- \sqrt{2 s_m} r_i/\sigma\right),
+  \frac{ s_p \rho }{s_m \xi^2} \sum_{i=1}^{k} \exp\left(- r_i \sqrt{2 s_m} /\sigma\right),
 \end{equation}
 and the probability that the migrant, adapted allele 
-comes from patch $i$ is $\exp\left(- \sqrt{2 s_m} r_i/\sigma\right)/\sum_{j=1}^{k} \exp\left(- \sqrt{2 s_m} r_j/\sigma\right)$.
+comes from patch $i$ is 
+\begin{align}
+  \exp\left(- r_i \sqrt{2 s_m} /\sigma\right)/\sum_{j=1}^{k} \exp\left(- r_j \sqrt{2 s_m} /\sigma\right) .
+\end{align}
 These specify the transition rates of the process.
 
 Since the compound parameter $s_p \rho / \xi^2$ is common to both rates,
@@ -1540,7 +1558,8 @@ Note that the $d=2$ case
     \frac{ K_0(x\sqrt{2\alpha}) }{ K_0(w\sqrt{2\alpha}) } = \sqrt{\frac{w}{x}} e^{-(x-w)\sqrt{2\alpha}} ( 1 + O(1/w) ).
 \end{align}
 
-\subsection{Temporary}
+\subsection{Hitting and occupation}
+\label{apx:hitting_occupation}
 
 Consider a single migrant family $Z$ beginning at $x$.
 Let $B_t$ be a Brownian motion with variance $\sigma^2$, 
