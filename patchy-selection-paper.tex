@@ -193,10 +193,10 @@ mentioned above.
 
 Let $p(x)$ be the probability that a new mutant $B$ allele arising at location $x$ 
 relative to the patch fixes within the poor habitat patch.
-As shown in Appendix \ref{apx:elliptic_integrals} XXX,
-the function $p(x)$ can be found (in one dimension) in terms of Jacobi elliptic functions,
-but the precise expressions are not particularly helpful.
-The total successful mutational influx per generation is then given by the integral of $p(x)$ over the entire species range,
+Under various assumptions, precise expressions can be found for $p(x)$ \citep{barton1987establishment},
+% the function $p(x)$ can be found (in one dimension) in terms of Jacobi elliptic functions,
+but these are not particularly helpful.
+The total successful mutational influx per generation is given by the integral of $p(x)$ over the entire species range,
 % $\int \rho \mu p(x) dx$,
 and hence depends in a complicated way on the relationship of patch width and selection coefficients,
 but still scales linearly with the mutational influx density $\rho \mu$.
@@ -254,20 +254,20 @@ but only very few, and rarely, far away from the patch where $B$ is established.
 Denote the expected frequency of allele $B$ at displacement $x$ relative to the patch by $q(x)$.
 Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(x)$ is the solution,
 which in one dimension can be solved to give $q(x)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}).
-More general, asymptotics of the solution implies that for large $|x|$ the mean occupation frequency decays exponentially, with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
+More general, asymptotics of the solution implies that for large $|x|$ the mean occupation frequency decays exponentially, 
+with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
 \begin{align} \label{eqn:eqfreq}
-    q(x) \approx C |x|^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
+  q(x) \approx C \left( |x| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
 \end{align}
-where $d$ is the dimension ($d=1$ or $2$), and $C$ and $r_0$ are constants depending on the geographic shape of the populations and the selection coefficients
-(but note that $r_0$ is only necessary in $d=2$).
-In applications we fit $C$ and $r_0$ to the data;
-to get concrete numbers from theory we take $C=1$ and $r_0=0$ if necessary.
+where $d$ is the dimension ($d=1$ or $2$), and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients.
+In applications we fit $C$ to the data;
+to get concrete numbers from theory we take $C=1$ if necessary.
 From simulations, $C$ seems to be not too far from 1 in practice (see Appendix \ref{apx:patchy_sims}).
 
 This expected frequency $q(r)$ is the \emph{time-averaged} occupation frequency,
 or in other words, the total number of $B$ alleles found at distance $r$ across $T$ generations, divided by $T$.
-Therefore, if we look at a small area of size $\epsilon$, 
-then $q(r) \epsilon$ is equal to the probability of finding any $B$ alleles there,
+Therefore, if we look at a small area of size $dx$, 
+then $q(r) dx$ is equal to the probability of finding any $B$ alleles there,
 multiplied by the mean number of such, if there are any.
 This points to an important fact: 
 close to the original patch, the ``equilibrium frequency'' $q(r)$ describes well the density of the $B$ allele at most times,
@@ -457,7 +457,7 @@ which we assume is circular, has relatively small area $A$ and is located near p
 % multiplied by the probability that the family reaches the patch, given survival.
 % If $t$ is large then as in the previous section, $(1-p_e(t)) \approx e^{-\alpha t}/\E[K]$.
 It would be possible to analyze directly the probability that a given migrant family establishes in $A$,
-as in \citet{barton1987probability,branchingbrownian};
+as in \citet{barton1987establishment,mckean1975KPP};
 but we make a simpler approximation, approximating this by the chance that the ``trunk'' hits the new patch,
 multiplied by the chance that at least member of the family escapes demographic stochasticity to establish.
 Write $h(x,y)$ for the probability that the Brownian trunk
@@ -487,7 +487,7 @@ Since the integrands in expressions \ref{eqn:occupation_integral} and \ref{eqn:m
 we now know that the outflux of successful migrant families is equal to the mean occupation frequency
 multiplied by $s(A) f(A) / \E[K]$.
 The probability $f(A)$ that the family does not die out once it arrives at the new patch
-is approximately $\E[1-(1-p_e)^K] \approx 2 s_p \E[K] / \xi^2$.
+is if each member arriving has chance $p_e$ of establishing, independently, $\E[1-(1-p_e)^K] \approx 2 s_p \E[K] / \xi^2$.
 % If we let $w$ be the width of the patch, then the remaining term is
 % \begin{align}
 %   s(w) \simeq \frac{1}{2\alpha} \left( 1 - \left( \frac{\pi w \sqrt{2 \alpha}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2\alpha}/\sigma} \right).
@@ -499,172 +499,8 @@ Combining these terms with the expression for $s(A)$ from Appendix~\ref{apx:hitt
   % \left( 1 - \left( \frac{\pi w \sqrt{2 \alpha}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2\alpha}/\sigma} \right).
 \end{align}
 For patches that are small relative to $\sigma/\sqrt{2s_m}$, there is an additional correction term (see Appendix~\ref{apx:hitting_occupation}),
-but at this point we would be violating various other assumptions above, so we omit it.
+but small patches violate other assumptions above, so we omit it.
 
-
-
-%%%%%%% %%%%%%%%%%%
-\subsubsection*{Mean occupation density}
-
-XXX OMIT FROM HERE? XXX
-
-First, we compute the second term in equation \eqref{eqn:gestalt_q}, (mean occupation density of a family at $x$),
-by which we mean the expected total number of offspring of a single family that ever live at distance $r$ from the patch.
-In two dimensions, this depends on where the family began, 
-and right-hand side of equation \eqref{eqn:gestalt_q} should be integrated over this starting point.
-Here we'll write $x_0$ for the starting point, and $u(x_0,x)$ for the mean occupation density at $x$.
-Concretely, suppose that $Z$ is a spatial branching process as above, started with a single individual at $x_0$,
-defined now so that $Z_t(A)$ is the number of descendant individuals alive at time $t$ living in the set $A$.
-The mean occupation density of $Z$ is then defined to be the density of $\E[\int_0^t Z_t dt]$,
-i.e.\ the smooth function $u(x_0,x)$ that, integrated over a set $A$, 
-gives the expected total number of individuals ever living in $A$:
-\begin{align} \label{eqn:occupation_density_defn}
-    \E\left[ \int_0^\infty Z_t(A) dt \right] = \int_A u(x_0,x) dx .
-\end{align}
-Since a family has on average $(1-s_m)^t$ members in generation $t$,
-and the marginal distribution of any one surviving individual is approximately Gaussian with variance $t \sigma^2$,
-exchanging the expectation and the integral shows that
-the density $u(x_0,x)$ is equal to the Green's function for Brownian motion killed at rate $1-s_m$,
-\begin{align} \label{eqn:occupation_density_solution}
-    u(x_0,x) = \int_0^\infty (1-s_m)^t p_{\sigma^2 t}(x_0,x) dt
-\end{align}
-where $p_t(x,y) = (2 \pi t)^{-d/2} \exp(-\|x-y\|^2/2t)$ is the transition density for standard Brownian motion.
-The integral can be expressed in terms of modified Bessel functions:
-using \citet{gradshteyn2007table} (3.471.9 and 8.451.6), the mean occupation density is,
-with $\alpha = -\log(1-s_m)$ and $d$ the dimension,
-\begin{align}
-u(x_0,x) &= \frac{\alpha^{(d-2)/2}}{\sigma^d \pi^{d/2}}\left(\frac{ \sqrt{2 \alpha} \|x-x_0\|}{\sigma} \right)^{(2-d)/2} K_{(2-d)/2}\left( \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right) \\
-         &= 
-    \exp\left(- \sqrt{2\alpha} \frac{\|x-x_0\|}{\sigma} \right)
-    \left\{
-    \frac{\alpha^{(d-2)/2}}{\sigma^d 2 \pi^{(d-1)/2}} \left( \frac{\sqrt{2 \alpha} \|x-x_0\|}{\sigma} \right)^{(1-d)/2} 
-+ O\left( \left(\frac{\sqrt{2\alpha}\|x-x_0\|}{\sigma}\right)^{-(d+1)/2} \right) 
-    \right\}
-    . \label{eqn:occupation_asymptotics}
-\end{align}
-Since we only have asymptotics for the equilibrium frequency, 
-we will only use the latter (asymptotic) form.
-
-
-
-%%%%%%% %%%%%%%%%%%
-\subsubsection*{Outflux of families}
-
-Now, we can obtain the first term in equation \eqref{eqn:gestalt_q}, the (outflux of families).
-Define $\gamma(r_0)$ to be this outflux; 
-i.e.\ the mean number of individuals per unit time that are born carrying the $B$ allele closer than $r_0$ to the original patch
-but migrate to a larger distance.
-Then for any point $x$ further than $r_0$ from the patch, 
-the mean occupation density $q(x)$ is equal to the integral of $\gamma$ over all locations $x_0$ at distance $r_0$ from the patch,
-multiplied by the mean occupation density at $x$ for migrant families beginning at at location.
-This is a more precise statement of the decomposition of the equilibrium frequency from equation \eqref{eqn:gestalt_q}:
-\begin{align}
-    q(x) &= \gamma(r_0) \int_{B(r_0)} u(y,x) dy,
-\end{align}
-so that $\gamma(r_0) = q(x) / \int_{B(r_0)} u(y,x) dy$, for any choice of $x$.
-Now, using equations \eqref{eqn:eqfreq} and \eqref{eqn:occupation_asymptotics}, 
-we can obtain that (see Appendix \ref{apx:lesbegue})
-the outflux of families 
-\begin{align}
-    \gamma(r_0) \simeq 
-\end{align}
-
-Denote by $Z_t$ the number of individuals such a family has after time $t$,
-and the locations of these by $X_1(t), \ldots, X_{Z_t}(t)$.
-Then this mean occupation density, at $x$, is the expected number of individuals ever present at $x$. 
-Since the expected number of individuals present at time $t$ is $e^{\alpha t}$
-and the location of each of these individuals is marginally distributed as a  Gaussian with variance $\sigma^2 t$,
-we can write this expectation as
-\begin{align}
-    u(x) &= \int_0^t \E[ \#\{ k : \; X_k(t) \in dx \} ] dt \\
-    &= \int_0^t e^{\alpha t} \frac{1}{\sqrt{2 \pi t \sigma^2}} e^{-\frac{x^2}{2t\sigma^2}} dt \\
-    &= \frac{ 1 }{ \sigma \sqrt{2 \alpha} } \exp\left( - \frac{ x \sqrt{2\alpha} }{ \sigma } \right) 
-\end{align}
-\plr{check that}
-The integral is evaluated in Appendix~\ref{apx:some_integrals}.
-\plr{Also examine non-dependence on $r_0$.}
-
-Combining this with the solution for $q(r)$ (equation~\eqref{eqn:eqfreq}) as in \eqref{eqn:q_gestalt},
-we then have that (with $C=1/2$)
-\begin{align} \label{eqn:outflux}
-    \gamma = \text{( outflux of families )} \approx (1/2) \rho \sigma \sqrt{2\alpha} .
-\end{align}
-
-\subsubsection*{Probability of establishment}
-
-Suppose that the new patch is at distance $r$.
-The probability density for the first time such a Brownian motion $B_s$ hits $r$ is
-\citep[XXX]{feller}
-\plr{work in $d=2$}
-% note $\sigma B_t \deq B_{\sigma^2 t}$ so $\P\{ \sup_{s\le t} \sigma B_s \le r \} = \P\{ \sup_{s \le \sigma^2 t} B_s \le r \}
-\begin{align} \label{eqn:hitting_dist}
-  \P\{ B_t=r \;\mbox{and} \; B_u<r \;\mbox{for all}\; u<t\} =  \frac{r}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{r^2}{2t\sigma^2}\right) .
-\end{align}
-Let $\tau$ be this random time at which a given migrant family hits the new patch,
-with the convention that $\tau =\infty$ if the family never gets here.
-We approximate the chance that a given family arrives at the new patch at time $t$, i.e.\ that $\tau=t$,
-by the product of equation~\eqref{eqn:hitting_dist} and the probability that the migrant family survives until time $t$.
-For convenience, define $\alpha := - \log(1-s_m)$ to be the rate of decrease between patches (note that $\alpha \approx s_m$),
-and $\mu_K = \E[K]$ to be the limiting mean family size conditioned on survival,
-so that $1-p_e(t) \simeq (1/\mu_K) \exp(-\alpha t)$.
-Then, the probability distribution of $\tau$ is given by
-\begin{align}
-    \P\{ \tau \in dt \} =  \frac{1}{\mu_K} \frac{r}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{r^2}{2t\sigma^2} - \alpha t \right) dt  .
-\end{align}
-
-By integrating over~$t$, the chance that this family ever arrives at the new patch is
-\begin{align} 
-\label{eqn:estab_prob}
-  \begin{split}
-      \P\{ \tau < \infty \} &= \int_0^\infty \P\{ \tau \in dt \} = \frac{1}{\mu_K} \exp\left( - \frac{ r \sqrt{2 \alpha}}{\sigma} \right) .
-  \end{split}
-\end{align}
-This is, up to the constant $\mu_K$, the chance that a Brownian motion killed at rate $\alpha$
-ever hits $r$ \citep{feller}.
-This approximation depends on $r$ being large enough so that the approximation $1-p_e(t) \approx (1-s_m)^t/\mu_K$ holds.
-
-Now, each member of a family that successfully arrives at the new patch
-(where the $B$ allele is again beneficial)
-has a chance $p_e$ of establishing.
-The precise distribution of the number of members of a family that enter the patch
-given the trunk arrives there
-depends on the geometry of the patch,
-but since family members should not be too far from the trunk,
-we can approximate this by the total size of the family.
-If the family has $K$ individuals when the trunk arrives at the new patch,
-the chance that any establish is approximately $1-(1-p_e)^K$;
-and so that chance that the family establishes, given it arrives at the new patch, 
-is 
-\begin{align}
-    \label{eqn:prob_estab_arrival}
-    \E[1-(1-p_e)^K] \approx 2 s_p \mu_K/\xi^2 .
-\end{align}
-
-The probability of establishment of an outmigrant from the already-established patch is 
-equal to the probably the trunk arrives (equation~\eqref{eqn:estab_prob}) multiplied by the probability it establishes (equation~\eqref{eqn:prob_estab_arrival}),
-namely
-\begin{align} \label{eqn:bp_prob_estab}
-    F(r) &:= \text{( prob family establishes at $r$ )} = \frac{2s_p}{\xi^2} \exp\left( - \frac{\sqrt{2 \alpha} r}{\sigma} \right) ,
-\end{align}
-
-
-
-\subsubsection*{Putting it all together}
-
-Combining this with \eqref{eqn:bp_prob_estab}, as in \eqref{eqn:gestalt_q}, 
-the rate of establishment, for a patch of area $A$ at distance $r$ from an already occupied patch, is approximately
-\begin{align} % \label{eqn:migrate}
-    \migrate(r) = \gamma F(r) = \frac{\rho \sigma s_p\sqrt{2s_m} }{\xi^2}  \exp\left( -\frac{ \sqrt{2 s_m} r}{\sigma} \right).
-\end{align}
-Note that the exponential term is expected based on \eqref{eqn:eqfreq} -- 
-since establishment requires rare long distant migrants to be present, and \eqref{eqn:eqfreq} gives the density of such --
-but the first term required other arguments.
-
-If this establishment rate is low, 
-the time (in generations) before migrant copies of the allele successfully establish through migration in the second patch
-is approximately exponentially distributed with mean $1/\migrate$.
-Neglecting the time for such a migrant allele to establish once present in the second patch,
-the time scale on which migrant alleles transit and fix between patchs is $1/\migrate$.
 
 
 %%%%%%%%%
@@ -820,53 +656,78 @@ recombines haplotypes of the $b$ allele closer to the adaptive allele.
 
 As noted above, the length of the hitchhiking segment depends on the time
 spent ``in transit'' between the patches.
-Above, we approximated this by the time $\tau$ it takes the trunk lineage to hit the new patch,
-except that studying a successful migrant family means we need to condition on the establishment occurring, i.e.\ on $\tau < \infty$.
-By the above arguments, and equation~\eqref{eqn:estab_prob}, we have that the conditional probability density is
+Above we argued that a good model for this transit is a single Brownian trunk lineage
+surrounded by a cloud of close relatives of random size $K$
+whose chance of surviving until $t$ generations is $p_e(t) \simeq e^{-\alpha t} / \E[K]$.
+Consider a single such family, and let $\tau$ be the (random) time it first hits the new patch,
+with $\tau = \infty$ if it never does.
+By pulling out the constant $1/\E[K]$, we can use standard results on hitting times of $d$-dimensional Brownian motion
+that is killed at rate $\alpha$.
+In particular, we know that if the patch is circular with radius $w$, then
+using \citet[][(2.2.0.1 and 4.2.0.1)]{borodin2002handbook}
 \begin{align}
-  \P\{\tau\in dt | \tau<\infty \} &= \frac{\P\{\tau \in dt\}}{\P\{\tau<\infty\}} \\
-  &= \frac{r}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{r^2}{2t\sigma^2} -\alpha t + \sqrt{\alpha} \frac{r}{\sigma} \right) .
+  \E[e^{-\ell \tau}] &=
+    \begin{cases}
+      e^{- R \sqrt{2(\alpha+\ell)}/\sigma} \qquad & d=1 \\
+      \frac{ K_0( (R+w)\sqrt{2(\alpha+\ell)}/\sigma) }{ K_0( w\sqrt{2(\alpha+\ell)}/\sigma) } \qquad & d=2 
+    \end{cases} 
+    % &= \left( R/w +1 \right)^{-\frac{d-1}{2}} e^{- R \sqrt{2(\alpha+\ell)}/\sigma}  (1+O(1/w)) .
 \end{align}
-\plr{more dimensions}
+In particular, we can find 
+$\P\{\tau < \infty\} = \lim_{\ell \to 0} \E[\exp(-\ell \tau)]$. % \simeq (R/w+1)^{-(d-1)/2} \exp(- R \sqrt{2\alpha}/\sigma)$.
+
+% Above, we approximated this by the time $\tau$ it takes the trunk lineage to hit the new patch;
+% now that we are studying a successful migrant family means we need to condition on the establishment occurring, i.e.\ on $\tau < \infty$.
+% By the above arguments, and equation~\eqref{eqn:estab_prob}, we have that the conditional probability density is
+% \begin{align}
+%   \P\{\tau\in dt | \tau<\infty \} &= \frac{\P\{\tau \in dt\}}{\P\{\tau<\infty\}} \\
+%   &= \frac{R}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{R^2}{2t\sigma^2} -\alpha t + \sqrt{\alpha} \frac{R}{\sigma} \right) .
+% \end{align}
+% \plr{more dimensions}
+
 Since each generation spent in transit provides an opportunity for recombination,
 if recombination is Poisson, the length of the hitchhiking segment (in Morgans) on each side of the site will be exponentially distributed
-with mean $\tau$, so that if $L$ is the length on, say, the right, then
+with mean $\tau$, so that if $L$ is the length on, say, the right, then in one dimension
 \begin{align} \label{eqn:haplen_cdf}
 \P\{L>\ell\} &= \E[e^{-\ell \tau}|\tau<\infty] \\
-  &= \exp\left\{{-\frac{r}{\sigma}\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} .
+  &= \exp\left\{{-\frac{R}{\sigma}\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} .
 \end{align}
 This is also the Laplace transform of $\tau$;
-we can differentiate it to find that $\E[\tau] = r/(\sigma\sqrt{2\alpha})$
-and $\var[\tau] = r/( 2^{3/2}\alpha^{3/2}\sigma)$.
-Furthermore, this implies that if $Y$ is an exponential random variable with rate $r\sqrt{2}/\sigma$,
+we can differentiate it to find that $\E[\tau] = (R\sqrt{2\alpha}/\sigma)\times 1/(2\alpha)$
+and $\var[\tau] = (R\sqrt{2\alpha}/\sigma) \times 1/(2\alpha)^2$.
+Furthermore, this implies that if $Y$ is an exponential random variable with rate $R\sqrt{2}/\sigma$,
 then $L$ has the same distribution as $(Y + \sqrt{\alpha})^2 - \alpha$,
 from which we can obtain that
-$\E[L] = \sigma \sqrt{2\alpha}/r + \sigma^2/r^2$ and $\var[L] = 2\alpha\sigma^2/r^2 + 4 \sigma^3 \sqrt{2\alpha}/r^3 + 5 \sigma^4 / r^4$.
+$\E[L] = \sigma \sqrt{2\alpha}/R + \sigma^2/R^2$ and $\var[L] = 2\alpha\sigma^2/R^2 + 4 \sigma^3 \sqrt{2\alpha}/R^3 + 5 \sigma^4 / R^4$.
+For two dimensions, asymptotics of Bessel functions show that $L$ has the same tail behavior,
+but how other properties might change is unclear.
 
 %%%
 \subsubsection{Limiting distribution of the transit time and hitchhiking haplotype}
 
-In the above we already assumed that the inter-patch distance $r$ is large relative to the migration-selection cline width $\sigma/\sqrt{s_m}$;
-by taking the large-$r$ limit above we can obtain a more intuitive description of the process
+In the above we already assumed that the inter-patch distance $R$ is large relative to the migration-selection cline width $\sigma/\sqrt{s_m}$;
+by taking the large-$R$ limit above we can obtain a more intuitive description of the process
 via a central limit for $\tau$.
-Define $\eta_r$ to be the deviation of $\tau$ from its mean, normalized by its standard deviation,
-so that $\tau = r/\sigma(2\alpha)^{-1/2} + \eta_r \sqrt{r/\sigma} (2\alpha)^{-3/4}$.
+Define $\eta_\tau$ to be the deviation of $\tau$ from its mean, normalized by its standard deviation,
+so that $\tau = R/\sigma(2\alpha)^{-1/2} + \eta_\tau \sqrt{R/\sigma} (2\alpha)^{-3/4}$.
 Plugging this into equation~\eqref{eqn:haplen_cdf},
-after some algebra (and using that $\sqrt{r+\epsilon} = \sqrt{r} + \frac{\epsilon}{2\sqrt{r}} - \frac{\epsilon^2}{2\sqrt{r}^3} + O(\epsilon^3)$) we obtain that
+after some algebra (and using that $\sqrt{R+\epsilon} = \sqrt{R} + \frac{\epsilon}{2\sqrt{R}} - \frac{\epsilon^2}{2\sqrt{R}^3} + O(\epsilon^3)$) we obtain that
 \begin{align}
-  \E[e^{-\ell \eta}] &= \exp\left\{ \frac{\ell^2}{2} + O\left(\frac{1}{r}\right) \right\}.
+  \E[e^{-\ell \eta}] &= \exp\left\{ \frac{\ell^2}{2} + O\left(\frac{1}{R}\right) \right\}.
 \end{align}
-By the properties of Laplace transforms \citep{durrett},
-this implies that $\eta_r$ converges in distribution to a standard Gaussian random variable as $r \to \infty$.
+Since the Laplace transform uniquely determines a distribution \citep{durrett1996probability},
+this implies that $\eta_\tau$ converges in distribution to a standard Gaussian random variable as $R \to \infty$.
 In other words, we now know that the distribution of $\tau$ about its mean is approximately Gaussian.
 Since the standard deviation of $\tau$ is of lower order than its mean,
-a similar calculation shows that for large $r$, the haplotype halflength $L$ is approximately exponentially distributed, 
-with mean $\sqrt{2\alpha} \sigma/r$.
+a similar calculation shows that for large $R$, the haplotype halflength $L$ is approximately exponentially distributed, 
+with mean $\sqrt{2\alpha} \sigma/R$.
 
 % \begin{align}
-%   \E[e^{-\ell \eta}] &= \E\left[ \exp\left\{-\ell\left(\tau - \frac{r}{\sigma\sqrt{2\alpha}}\right)\frac{(2\alpha)^{3/4}\sqrt{\sigma}}{\sqrt{r}} \right\} \right] \\
-%   &= \E\left[ \exp\left\{ - \left(\frac{\ell (2\alpha)^{3/4} \sqrt{\sigma}}{\sqrt{r}}\right) \tau \right\} \right] \exp\left( (2\alpha)^{1/4} \sqrt{\frac{r}{\sigma}} \right) \\
+%   \E[e^{-\ell \eta}] &= \E\left[ \exp\left\{-\ell\left(\tau - \frac{R}{\sigma\sqrt{2\alpha}}\right)\frac{(2\alpha)^{3/4}\sqrt{\sigma}}{\sqrt{R}} \right\} \right] \\
+%   &= \E\left[ \exp\left\{ - \left(\frac{\ell (2\alpha)^{3/4} \sqrt{\sigma}}{\sqrt{R}}\right) \tau \right\} \right] \exp\left( (2\alpha)^{1/4} \sqrt{\frac{R}{\sigma}} \right) \\
 % \end{align}
+
+XXX Check what happens in two dimensions. XXX
 
 
 %%%%%%%%%%
@@ -944,62 +805,6 @@ small-scale fluctuations
 \bibliography{standing_patches_refs}
 
 \appendix
-
-%%%%%
-\section{Numerical calculation of the probability of establishment}
-\label{apx:establishment_sims}
-
-To investigate the impact of the various approximations surrounding the mutational influx,
-we carried out numerical calculations of a fine-grained, discrete model.
-These are shown, and described, in figure~\ref{fig:prob_estab_calcs}.
-
-Here (and at other parameter choices) we see that the probability of establishment $p(x)$ goes to the equilibrium value
-(approximately $p_e = 2s/\xi^2$) within the patch;
-the transition is fairly symmetrical about the edge of the patch, even if the edge of the patch is not sharp.
-This lends credence to our approximation that the integral of $p(x)$ over the entire range
-is close to $p_e$ multiplied by the area of the patch.
-
-\begin{figure}[ht!]
-    \begin{center}
-        % made in patchy-selection-plots.R
-        \includegraphics{prob-establishment}
-    \end{center}
-    \label{fig:prob_estab_calcs}
-    \caption{The probability of establishment of a new mutant allele as a function of distance from the edge of the region where it is beneficial,
-    in an abrupt transition (left) and a gradual transition (right).
-    The allele is deleterious to the left and beneficial to the right (with selection coefficients $\mp .05$ respecively);
-    and the selection coefficient interpolates linearly between these in the central shaded region.
-    The number of offspring is Poisson.
-    The underlying landscape has demes every 15km and a migration rate of 0.5 between neighboring demes;
-    the probability was found by numerically solving the equation for the probability of establishment of a multi-type branching process.
-    }
-\end{figure}
-
-
-%%%%%%%%%
-\section{Simulations of a patchy environment}
-\label{apx:patchy_sims}
-
-Describe sims.
-
-Argue that $C=0.5$ is a reasonable number.
-
-\begin{figure}[ht!]
-    \begin{center}
-        % made in patchy-sim-writeup-plots.R
-        \includegraphics{example-equilibrium}
-    \end{center}
-    \label{fig:example_equil}
-    \caption{
-    Snapshots of a simulation of allelic frequency dynamics around a patch where the allele is beneficial:
-    the focal allele is benefical in the middle region and deleterious outside.
-    The dynamics were simulated for 10000 generations across demes with 1000 individuals in each
-    and random dispersal to nearby demes with a mean dispersal distance of $\sigma \approx 2$ demes.
-    Colored lines show allele frequencies across space in 50 uniformly spaced generations;
-    the solid line shows the mean across all generations.
-    Below is the same plot, except on a log scale.
-    }
-\end{figure}
 
 
 %%%%%%%%%%%%
@@ -1090,8 +895,9 @@ solves, for $r_0 < r < \infty$,
     0 < q(r) < 1 
 \end{align}
 Since $q(r) \to 0$ as $r \to \infty$, so $q(r) (1-q(r)) \approx q(r)$,
-XXX theory in \citet{wasow1965asymptotic} XXX
-implies that the true equilibrium frequency $q$ is close, for large $r$, to the solution to
+it can be shown 
+% theory in \citet{wasow1965asymptotic} implies 
+that the true equilibrium frequency $q$ is close, for large $r$, to the solution to
 \begin{align}
     \partial_r^2 u(r) + \frac{d-1}{r} \partial_r u(r) - \frac{2s}{\sigma^2} u(r) = 0  \label{eqn:bessel} \\
     \lim_{r \to \infty} u(r) = \lim_{r \to \infty} \partial_r u(r) = 0 \qquad  .
@@ -1115,7 +921,6 @@ where $C$ is a different constant.
 \subsection{The exact solution to the equilibrium frequency}
 \label{apx:elliptic_integrals}
 
-XXX add equation that probability of establishment solves also XXX
 
 Here we describe how to solve \eqref{eqn:derived_fkpp} in one dimension,
 i.e.\ the Fisher-KPP equation with varying selection.
@@ -1206,6 +1011,7 @@ We can solve the case with $s_* = s_d$, since $\phi'(0) = 0$ (as done implicitly
 We should be able to argue that if $R$ is large then the value of $s_*$ won't make much difference.
 
 \subsection{Doing the integrals}
+\label{apx:some_integrals}
 
 An important ingredient in the above method is the integral \eqref{eqn:elliptic_function},
 to which a method for solving the Korteweg-de Vries equation can be applied \citep{NEQwiki}.
@@ -1242,129 +1048,61 @@ for $x$ in the last interval (which ends in $\infty$), that
 \end{align*}
 % Indeed, as $\phi \to 0$, we have approximately $\phi' = \frac{ \sqrt{s} }{ \sigma } \phi$.  % huh????
 
+%%%%%
+\section{Numerical calculation of the probability of establishment}
+\label{apx:establishment_sims}
 
-%%%%%%%%%%
-\section{The probability of establishment}
-\label{ss:prob_estab}
+To investigate the impact of the various approximations surrounding the mutational influx,
+we carried out numerical calculations of a fine-grained, discrete model.
+These are shown, and described, in figure~\ref{fig:prob_estab_calcs}.
 
+Here (and at other parameter choices) we see that the probability of establishment $p(x)$ goes to the equilibrium value
+(approximately $p_e = 2s/\xi^2$) within the patch;
+the transition is fairly symmetrical about the edge of the patch, even if the edge of the patch is not sharp.
+This lends credence to our approximation that the integral of $p(x)$ over the entire range
+is close to $p_e$ multiplied by the area of the patch.
 
-In the main text we have made use of two decompositons of the spatial branching process
-to approximate in two different ways the rate of establishment of migrant alleles.
-Here we make the relationship more formal.
-The decompositions use a similar idea to that found in \citep[section D.12]{athreyaney},
-where a supercritical branching process is decomposed into individuals whose families eventually die out
-and those having infinite lines of descent.
-We also note that the approximations fall generally in the realm covered by \citet{aldouspoissonclumping}.
-
-Consider a discrete-time branching process $Z_t$ with spatial motion and offspring distribution depending on spatial location.
-Suppose that the offspring distribution for an individual at location $x$ is distributed as $X_x$.
-We can record the state of the process simply as the list of locations of individuals:
-$Z_t = (x_1, \ldots, x_{N(t)})$ means that there are $N(t)$ individuals alive at $t$, at locations $x_1, \ldots, x_{N(t)}$.
-We can construct the process iteratively: given $Z_t$,
-we sample first the number of offspring of each, and then the locations the offspring migrate to.
-Concretely, given $Z_{t} = (x_1, \ldots, x_{N(t)})$,
-first let $X_1(t),\ldots,X_{N(t)(t)}$ be independent random draws from the offspring distribution,
-with $X_k(t)$ having distribution $X_{x_k}$.
-The number of new offspring is $N(t+1) = \sum_{k=1}^{N(t)} X_k(t)$,
-and we can sample their locations independently given the location of their parent to obtain $Z_{t+1}$.
-Note that the genealogy is implicitly recorded:
-the parent of the $k^\mathrm{th}$ individual at time $t$ is
-the $a(k,t) = \min\{ \ell : \sum_{j=1}^\ell X_j(t-1) \ge k \}$-th individual at time $t-1$.
-It will be useful to extend this to more distant ancestors:
-let $a_1(k,t) = a(k,t)$ and recursively define $a_m(k,t) = a(a_{m-1}(k,t),t-m+1)$, as long as $m\le t$.
-
-We want to find (approximations to) $p(x)$, the probability that a branching process beginning with a single individual at $x$ does not die out. 
-(In other words, $p(x) = \P\{ N(t) = 0 \; \mbox{for some}\; t>0 \; \vert \; Z_0 = (x) \}$.)
-We assume that the mean number of offspring $\E[X_x]$ is only greater than one for $x \in A$ (``the patch''),
-and so the process can only establish if some offspring eventually get to the patch (with probability one).
-
-The second decomposition we use is simpler, only conditioning on the number of individuals who ever reach the patch.  
-Let $\calE = \{(t_i,k_i)\}$ be the times and indices of individuals who are in the patch but none of whose ancestors have been --
-i.e.\ $(t,k) \in \calE$ iff $x_k(t) \in A$ and $a_m(k,t) \notin A$ for all $1\le m \le t$.
-If we remove these individuals (and their offspring), the resulting branching process has mean number of offspring less than or equal to 1 everywhere,
-so there are a finite number of such individuals with probability one (the process dies out).
-Therefore, the probability that the process dies out is then the probability that the families descending from each individual in $\calE$ dies out.
-By independence of different offspring, this is
-\begin{align}
-  1-p(x) = \E\left[ \prod_{(t,k) \in \calE} (1-p(x_k(t))) \; \vert \; Z_0 = (x) \right] .
-\end{align}
-Above, we make the approximation that $p(x_k(t)) \approx p_e$,
-the probability of establishment ignoring the possibility of migrating outside the patch.
-In this case,
-\begin{align}
-  p(x) \approx \E\left[ p_e^{|\calE|} \; \vert \; Z_0 = (x) \right] .
-\end{align}
-Here $|\calE|$ is the ``size of the family that reaches the patch'';
-in section \ref{ss:haplotype_length} we estimated the probability that any of the family reaches the patch
-and argued that the distribution of $|\calE|$ is given by $K$,
-the size of the subcritical branching process conditioned on still being alive.
+\begin{figure}[ht!]
+    \begin{center}
+        % made in patchy-selection-plots.R
+        \includegraphics{prob-establishment}
+    \end{center}
+    \label{fig:prob_estab_calcs}
+    \caption{The probability of establishment of a new mutant allele as a function of distance from the edge of the region where it is beneficial,
+    in an abrupt transition (left) and a gradual transition (right).
+    The allele is deleterious to the left and beneficial to the right (with selection coefficients $\mp .05$ respecively);
+    and the selection coefficient interpolates linearly between these in the central shaded region.
+    The number of offspring is Poisson.
+    The underlying landscape has demes every 15km and a migration rate of 0.5 between neighboring demes;
+    the probability was found by numerically solving the equation for the probability of establishment of a multi-type branching process.
+    }
+\end{figure}
 
 
-The first approximation uses a similar trick, but rather than treating all individuals migrating into the patch
-as an opportunity for establishment,
-we couple the branching process to a strictly subcritical branching process
-that produces extra offspring, each of which provides an opportunity for establishment.
-To this end, suppose that the offspring distribution off the patch is given by $X'$ (so $X_x \deq X'$ for $x \notin A$),
-and the offspring distribution within the patch stochastically dominates $X$,
-i.e.\ $\P\{X_x\ge n\} \ge \P\{X'\ge n\}$ for all $x\in A$ and $n \ge 0$.
-Stochastic domination implies that we can \emph{couple} any instance of $X_x$ with one of $X'$ and a remainder --
-i.e.\ jointly construct an $X'$ and a $Y_x$ such that $X_x = X' + Y_x$,
-and that $Y_x$ also takes values in the nonnegative integers.
-We can therefore modify the construction of the branching process above,
-so that $X_k(t) = X_k'(t) + Y_k(t)$, where $X_k'(t) \deq X$ and $Y_k(t) \deq Y_{x_k(t)}$.
-We can define a \emph{core} branching process $Z'$ using the $X'$, which will be finite (since $\E[X']<1$).
-Formally, say that the first $X_k'(t)$ offspring of the $(t,k)^\mathrm{th}$ individual are ``core'' offspring,
-denoted by $\calC_t = \{ (t,k) \; : \; 0 \le k - \sum_{j<\ell} X_j(t) \le X_\ell'(t) \; \mbox{for some}\; 1 \le \ell \le N(t) \}$;
-and define $Z'$ as the core individuals whose ancestors are all ``core'' as well,
-i.e.\ $Z'_t = \{ x_k \in Z_t \; : \;  a_m(k,t) \in \calC_{t-m} \; \mbox{for all}\; 0 \le m \le t\}$.
-The boundary analogous to above in the first computation is then the non-core offspring of core individuals;
-denote the times and indices of these by $\partial \calC$,
-so that $(t,k) \in \partial \calC$ iff $(t,k) \notin \calC_t$ and $a(k,t) \in \calC_{t-1}$.
-We can now use this as above to compute the probability of establishment beginning from a single individual:
-\begin{align}
-  1-p(x) = \E\left[ \prod_{(t,k) \in \partial\calC} (1-p(x_k(t))) \; \vert \; Z_0 = (x) \right] ,
-\end{align}
-but this is less helpful, as the distribution of $\calC$ is harder to get at.
+%%%%%%%%%
+\section{Simulations of a patchy environment}
+\label{apx:patchy_sims}
 
-However, recall the actual problem at hand.
-Roughly speaking, we approximate the process of colonization of the new patch by migrants from an established patch
-by imagining that the established patch sends out migrants, and that each of these acts as an independent branching process,
-at least in the region of the new patch.
-We can suppose that migrant families appear at some rate, say, midway between the patches, and far enough from the original one that we can ignore it,
-and leave the precise distribution of their appearance unspecified
-We can decompose each of these branching processes as above into ``core'' and ``extra'',
-so that the point in time of ``establishment'' is well-defined:
-the time $\tau$ of first appearance of an ``extra'' offspring with infinite line of descent.
-Given that establishment has not yet occurred by $t$, 
-and the combined state of the core process $Z'_t$,
-then the mean number of establishment events occurring at time $t$ is $\sum_{x \in Z'_t} p(x) \E[Y_x]$.
+Describe sims.
 
-If establishment events were independent and sufficiently rare,
-the influx of branching processes begain long enough ago that $Z'$ was at stationarity
-with $z_A := \E[ \# \{ (x,t) \in Z'_t : x \in A \} ]$,
-and we again approximate $p(x) \approx p_e$,
-then we would have that 
-\begin{align}
-  \P\{\tau>t\} \approx \exp\left\{ - t z_A \E[Y_x] p_e \right\} ;
-\end{align}
-in our case, $\E[Y_x] \approx (s_p+s_m)$ and $p_e \approx 2 s_p/\xi^2$,
-so $\tau$ is approximately exponentially distributed with rate $ 2 z_A (s_p+s_m) s_p/\xi^2 $.
-We can get $z_A$, the occupation density without the new patch, 
-directly by integrating the expression~\eqref{eqn:eqfreq} over the patch.
+Argue that $C=0.5$ is a reasonable number.
 
-In obtaining an exponential distribution, we have assumed effectively that establishment events
-are independent of each other.
-This will not be strictly true, since an establishment implies that a family of migrants are present in the patch,
-and hence others may produce offspring with infinite lines of descent at a similar time.
-The mean total family size of an allele with fitness $1-s_m$ (i.e.\ a subcritical branching process) is $\sum_{t \ge 0} (1-s_m)^t = 1/s_m$;
-so the mean number of ``extra'' offspring is $1+s_p/s_m$.
-Establishment events are correlated to the extent that single such families give rise to multiple establishment events,
-
-
-
-% We will record the state of the branching process as a finite point measure,
-% so that if there are $n$ individuals alive at $t$, at locations $x_1, \ldots, x_n$,
-% then $Z_t = \sum_{k=1}^n \delta_{x_k}$, and we write $Z_t(A) = \sum_{k=1}^n \bone_{x_k \in A}$ for the number of individuals in a set $A$.
+\begin{figure}[ht!]
+    \begin{center}
+        % made in patchy-sim-writeup-plots.R
+        \includegraphics{example-equilibrium}
+    \end{center}
+    \label{fig:example_equil}
+    \caption{
+    Snapshots of a simulation of allelic frequency dynamics around a patch where the allele is beneficial:
+    the focal allele is benefical in the middle region and deleterious outside.
+    The dynamics were simulated for 10000 generations across demes with 1000 individuals in each
+    and random dispersal to nearby demes with a mean dispersal distance of $\sigma \approx 2$ demes.
+    Colored lines show allele frequencies across space in 50 uniformly spaced generations;
+    the solid line shows the mean across all generations.
+    Below is the same plot, except on a log scale.
+    }
+\end{figure}
 
 
 
@@ -1461,7 +1199,7 @@ Furthermore, if $L$ is large, then $S/L$ has probability density approximately
 \begin{equation} \label{eqn:betadistrn}
    (\mu/m) (1-x)^{(\mu/m)-1}
 \end{equation}
-namely, is a $\mathrm{Beta}((\mu/m), 1)$ distribution--- see \cite{donnelly-joyce} and \cite{permanPitmanYor92}.
+namely, is a $\mathrm{Beta}((\mu/m), 1)$ distribution--- see \cite{donnelly1989continuity} and \cite{perman1992sizebiased}.
 
 % In Figure \ref{fig:discbyratio} we plot mean number of types and size (number of demes occupied) of a sampled type,
 % for a model with 20 interconnected demes, across different parameter values.  
@@ -1493,72 +1231,8 @@ However, it is clear that increasing the selection coefficient $s$ will decrease
 while on the other hand, increasing the deme size $N$ will increase the number of types,
 and that the case presented above is at the extreme (see also \cite{Navarro:03} for deterministic approximations). 
 
-
-\subsection{Temporary work: outflux of families}
-\label{apx:lesbegue}
-
-We have that
-\[
-    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
-\]
-for any $y$.  
-Take $y=(r,0)$.
-Note that after scaling by $\sqrt{2\alpha}/\sigma$,
-\begin{align}
-    \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\|} }{ \|y\|^{-(d-1)/2} e^{-\|y\|} } \\
-        &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r (\|\hat x - x/r\| - 1)} .
-\end{align}
-Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
-so that the expression in the exponent is to, first order in $1/r$,
-\begin{align}
-    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
-            &= - 2 r_0 \cos \theta + O(1/r) .
-\end{align}
-This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
-\begin{align}
-    \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \cos \theta} ,
-\end{align}
-and hence, by bounded convergence, then \citet{gradshteyn2007table} (3.339),
-\begin{align}
-    \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to C' \int_0^{2 \pi} e^{-2 r_0 \cos \theta} d\theta \\
-                                         &= 2 \pi C' I_0(-2r_0),
-\end{align}
-where $I_0$ is a modified Bessel function of order zero of the first kind.
-The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing the result to $2 \pi C' I_0( - 2 \sqrt{2\alpha} r_0 / \sigma ) $.
-
-
-
-\subsection{Temporary work: hitting probs}
-
-Now consider the probability that a migrant family from $x$ will ever establish in the new patch,
-which we assume has relatively small area $A$ and is located near position $y$.
-The probability that this family reaches $A$ by time $t$ is $(1-p_e(t))$
-multiplied by the probability that the family reaches the patch, given survival.
-If $t$ is large then the previous section argues that $(1-p_e(t)) \approx e^{-\alpha t}/\E[K]$,
-and the probability of reaching the patch by $t$ approximately the chance that a Brownian path
-will have hit the patch by then.
-If $w = A^{1/d}$ is the width of the patch, then 
-this is the chance that a $d$-dimensional Bessel process begun at $\|y-x\|$ hits $w$ by time $t$.
-Let $\tau_w$ be the hitting time of $w$,
-so, integrating by parts, and using Borodin \& Salminen (2.2.0.1 and 4.2.0.1)
-\begin{align}
-    \int_0^\infty (1-p_e(t)) \P^x\{ \tau_w \le t \} dt  
-    &\approx \int_0^\infty e^{-\alpha t} \P^x\{ \tau_w \le t \} dt  / \E[K] \\
-    &= \frac{1}{\alpha \E[K]} \int_0^\infty e^{-\alpha t} \P^x\{ \tau_w \in dt \} \\
-    &= \frac{1}{\alpha \E[K]} \E^x[e^{-\alpha \tau_w}] \\
-    &= 
-    \frac{1}{\alpha \E[K]} \times
-    \begin{cases}
-        e^{-(x-w) \sqrt{2\alpha}} \qquad & d=1 \\
-        \frac{ K_0(x\sqrt{2\alpha}) }{ K_0(w\sqrt{2\alpha}) } \qquad & d=2 
-    \end{cases}
-\end{align}
-Note that the $d=2$ case
-\begin{align}
-    \frac{ K_0(x\sqrt{2\alpha}) }{ K_0(w\sqrt{2\alpha}) } = \sqrt{\frac{w}{x}} e^{-(x-w)\sqrt{2\alpha}} ( 1 + O(1/w) ).
-\end{align}
-
-\subsection{Hitting and occupation}
+%%%%%%%%% %%%%%%%%%%%%%%
+\section{Hitting and occupation}
 \label{apx:hitting_occupation}
 
 Consider a single migrant family $Z$ beginning at $x$.
@@ -1629,5 +1303,77 @@ and in $d=2$, by \citet{gradshteyn2007table} 5.56.2,
 \end{align}
 
 
+%%%%%%% %%%%%%%%%%%%
+\section{The outflux of families}
+\label{apx:outflux}
+
+It is of interest to have an expression for the ``outflux of families'',
+$\gamma(r_0)$, 
+defined to be the mean proportion of $B$ alleles at distance $r_0$
+whose lineage traces back to the original patch without venturing further away than $r_0$.
+By expression \eqref{eqn:occupation_integral},
+\[
+    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
+\]
+for any $y$.  
+Take $y=(r,0)$.
+Note that after scaling by $\sqrt{2\alpha}/\sigma$,
+\begin{align}
+    \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\|} }{ \|y\|^{-(d-1)/2} e^{-\|y\|} } \\
+        &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r (\|\hat x - x/r\| - 1)} .
+\end{align}
+Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
+so that the expression in the exponent is to, first order in $1/r$,
+\begin{align}
+    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
+            &= - 2 r_0 \cos \theta + O(1/r) .
+\end{align}
+This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
+\begin{align}
+    \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \cos \theta} .
+\end{align}
+In one dimension we are done.
+In two dimensions,
+by bounded convergence and \citet{gradshteyn2007table} (3.339),
+\begin{align}
+  \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
+            &= C' \int_0^{2 \pi} e^{-2 r_0 \cos \theta} d\theta \\
+                         &= 2 \pi C' I_0(-2r_0),
+\end{align}
+where $I_0$ is a modified Bessel function of order zero of the first kind.
+The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing the result to $2 \pi C' I_0( - 2 \sqrt{2\alpha} r_0 / \sigma ) $.
+
+
 
 \end{document} 
+
+\section{Temporary work: hitting probs}
+
+Now consider the probability that a migrant family from $x$ will ever establish in the new patch,
+which we assume has relatively small area $A$ and is located near position $y$.
+The probability that this family reaches $A$ by time $t$ is $(1-p_e(t))$
+multiplied by the probability that the family reaches the patch, given survival.
+If $t$ is large then the previous section argues that $(1-p_e(t)) \approx e^{-\alpha t}/\E[K]$,
+and the probability of reaching the patch by $t$ approximately the chance that a Brownian path
+will have hit the patch by then.
+If $w = A^{1/d}$ is the width of the patch, then 
+this is the chance that a $d$-dimensional Bessel process begun at $\|y-x\|$ hits $w$ by time $t$.
+Let $\tau_w$ be the hitting time of $w$,
+so, integrating by parts, and using Borodin \& Salminen (2.2.0.1 and 4.2.0.1)
+\begin{align}
+    \int_0^\infty (1-p_e(t)) \P^x\{ \tau_w \le t \} dt  
+    &\approx \int_0^\infty e^{-\alpha t} \P^x\{ \tau_w \le t \} dt  / \E[K] \\
+    &= \frac{1}{\alpha \E[K]} \int_0^\infty e^{-\alpha t} \P^x\{ \tau_w \in dt \} \\
+    &= \frac{1}{\alpha \E[K]} \E^x[e^{-\alpha \tau_w}] \\
+    &= 
+    \frac{1}{\alpha \E[K]} \times
+    \begin{cases}
+        e^{-(x-w) \sqrt{2\alpha}} \qquad & d=1 \\
+        \frac{ K_0(x\sqrt{2\alpha}) }{ K_0(w\sqrt{2\alpha}) } \qquad & d=2 
+    \end{cases}
+\end{align}
+Note that the $d=2$ case
+\begin{align}
+    \frac{ K_0(x\sqrt{2\alpha}) }{ K_0(w\sqrt{2\alpha}) } = \sqrt{\frac{w}{x}} e^{-(x-w)\sqrt{2\alpha}} ( 1 + O(1/w) ).
+\end{align}
+
