@@ -114,9 +114,10 @@ if (do.lineages) {
     fromdemes <- ( demetotals < sort( demetotals )[ 20 ] + 1 )
     # longlins <- arrayInd( sample( (1:length(pophist$pophist[,,2,]))[fromdemes], nlins, replace=TRUE, prob=pophist$pophist[,,2,][fromdemes] ), .dim=dim(pophist$pophist[,,2,,drop=FALSE]) )
     longlins <- arrayInd( sample( (1:length(pophist$pophist[,,2,]))[fromdemes], nlins, replace=TRUE, prob=(pophist$pophist[,,2,][fromdemes]>0) ), .dim=dim(pophist$pophist[,,2,,drop=FALSE]) )
+    colnames(longlins) <- c("y","x","type","t")
     # longlins <- with(pophist, which( (pophist[,,2,,drop=FALSE]>0) & rep(params$patchdist>8*params$sigma,dim(pophist)[4]), arr.ind=TRUE ) )
     # longlins <- longlins[sample(1:nrow(longlins),min(nrow(longlins),500)),]
-    lins <- lineages( pophist, T=longlins[,4], linit=longlins[,1:2], migrsteps=params$migrsteps )
+    lins <- lineages( pophist, T=longlins[,4], linit=longlins[,2:1], migrsteps=params$migrsteps )
 } else {
     lins <- NULL
 }

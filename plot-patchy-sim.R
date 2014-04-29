@@ -1,6 +1,5 @@
 #!/usr/bin/R
 source("sim-patchy-selection-fns.R")
-source("lineages.R")
 require(gsl)
 
 # compute analytic equilibrium? (takes a minute)

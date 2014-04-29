@@ -7,14 +7,14 @@ lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m, linit=NUL
 
     # simulate the movement of nlin selected lineages back through pophist,
     # beginning at locations in linit 
-    #   which is a 3 x nlin matrix recording (x,y,t)
+    #   which is a nlin x 3 matrix recording (x,y,t)
     # using the dispersal pattern migrsteps
     #  migrsteps is of the form list( (prob, dx, dy) ) with sum(prob)=1.
     #  and m is the probability of migrating
     #  pophist is indexed by (x, y, type, time)
     #    with types either 0 (nonselected) or 1 (selected)
     # returns:
-    #  LL = location of lineages through time (2 x T x nlin)
+    #    LL = location of lineages through time (2 x T x nlin)
     if (missing(migrsteps)) { migrsteps <- pophist$pop$params$migrsteps }
     if (missing(m)) { m <- pophist$pop$params$m }
     if ("pophist" %in% names(pophist)) { pophist <- pophist$pophist }
@@ -28,6 +28,8 @@ lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m, linit=NUL
         dim(initpop) <- dim(pophist)[1:2]
         locs <- sample( nx*ny, nlin, replace=TRUE, prob=initpop )
         linit <- cbind( col(initpop)[locs], row(initpop)[locs], T )
+    } else if (ncol(linit)==2) {
+        linit <- cbind(linit,T)
     }
 
     # add a zero step and reweight migrsteps
