@@ -5,7 +5,10 @@
 \usepackage{marginnote}
 \usepackage{graphicx}
 \usepackage{hyperref}
-\usepackage{latexml} % for \iflatexml
+%\usepackage{latexml} % for \iflatexml
+\usepackage{color}
+\newcommand{\gc}[1]{{\it\color{green}(#1)} }
+\newcommand{\plr}[1]{{\it\color{blue}(#1)}}
 
 \newcommand{\var}{\mathop{\mbox{Var}}}
 \renewcommand{\P}{\mathbb{P}}
@@ -86,7 +89,7 @@ Note monty's empircal speeds paper.
 
 % selection pressure changes at $t=0$ from $1-s_d$ to $1+s_b$ -- homogeneous
 
-For now we ignore geographic hetergeneity, and assume that the species range
+We assume that the species range
 is a homogenous, one- or two-dimensional region. 
 There are two selective classes -- the {\em neutral} type, and the {\em mutated} type.
 We assume that different mutations are distinguishable --
@@ -103,7 +106,10 @@ the mutant type has fitness $1-s_d$ relative to the neutral type
 and that after time $t=0$,
 the mutant type has fitness $1+s_b$,
 where $s_b>0$ will usually be assumed to be small, and $0<s_d<1$.
-We assume that diploid fitness is additive, or at least that the important dynamics are determined by the haploid fitness.
+We assume that diploid fitness is additive, or at least that the
+important early dynamics are determined by the haploid fitness
+\gc{heterozygous fintess, with no reference to the fitness of the
+  homozygote for the mutant alleles}.
 The number of offspring has finite variance, which to keep the formulas simple we assume to be equal to one.
 (If the mutation is recessive, XXX more complicated things happen.)
 As for the other parameters,
@@ -158,10 +164,12 @@ resulting in the approximation
         &= \frac{ 2 \mu \rho s_b }{ -\log(1-s_d) } .
 \end{align}
 
-XXX More discussion on whether this is a good approximation?  
+\plr{XXX More discussion on whether this is a good approximation?  
 Compute typical size and radius of a standing cluster?
 
-recall PPP computations; draw cones of opportunity for new mutations 
+recall PPP computations; draw cones of opportunity for new mutations }
+
+\gc{Point out connection to standard mutation selection balance formula}
 
 \subsection{Characteristic parameters}
 
@@ -175,7 +183,7 @@ Furthermore, the time scale over which adaptation occurred could be found by div
 by the speed at which the mutants spread.
 We will define the characteristic length for this model,
 as well as a similar compound parameter describing the relative importance of standing variation to the process of adaptation.
-(Note that a similar approach, summarizing with a {\em characteristic length} was taken by \citep{slatkin1973geneflow} for a different problem.)
+%(Note that a similar approach, summarizing with a {\em characteristic length} was taken by \citep{slatkin1973geneflow} for a different problem.)
 
 Suppose we fix our attention on a particular new mutation that happens to be the first to occur in some region.
 As it spreads, it will cover a distance $L$ in time $L/v$, where $v = \sigma \sqrt{2s_b}$ is the speed of the wave of advance.
@@ -369,6 +377,14 @@ different values of theta as different line types?  but how to do this?
 Mention Monty's empirical speeds paper.}
 We could compare the probability of parallel adaptation under the two models (see eq'n 18 in \citet{softsweepsII}),
 but this seems less useful than an assessment of the degree of parallel adaptation.
+
+
+\section{Applications}
+
+% G6PD frequency across world http://www.google.com/imgres?imgurl=http%3A%2F%2Fwww.plosmedicine.org%2Farticle%2Finfo%3Adoi%2F10.1371%2Fjournal.pmed.1001339.g002%2Flargerimage&imgrefurl=http%3A%2F%2Fwww.plosmedicine.org%2Farticle%2Finfo%253Adoi%252F10.1371%252Fjournal.pmed.1001339&h=2938&w=2381&tbnid=oD_tX3ea8IbLfM%3A&zoom=1&docid=k37axqAZDS7ljM&ei=5rdOU5TVDMqj8QGntICYBg&tbm=isch&ved=0CF8QMygLMAs&iact=rc&uact=3&dur=1447&page=1&start=0&ndsp=15
+
+% Spatial distribution of G6PD alleles:  http://www.malariajournal.com/content/12/1/418
+
 
 \bibliography{standing_patches_refs}
 
