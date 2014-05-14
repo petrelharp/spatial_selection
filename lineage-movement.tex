@@ -1,0 +1,144 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\deriv}[1]{\frac{d}{d#1}}
+\newcommand{\dderiv}[1]{\frac{d^2}{d^2#1}}
+\newcommand{\given}{\;\vert\;}
+
+\begin{document}
+
+\subsection{Discrete model}
+
+Consider a discrete model in which the total number of individuals at location $x$ is $N(x)$,
+each individual is of type either A or B at a selected locus,
+and the number of individuals of type A and location $x$ is $n(x)$.
+Suppose that type A individuals at location $x$ reproduce at rate $1+s_A(x)$, 
+and likewise type B at rate $1+s_B(x)$.
+At reproduction, individuals recombine with others in the same location,
+and the offspring choose a new location according to the kernel $m(x,y)$.
+The population dynamics are random, but suppose that $N(x)$ is sufficiently large that these do not vary with time;
+instead we want to follow a lineage backwards in time,
+at a locus separated from the selected locus by recombination fraction $r$.
+
+Suppose this is a Moran model.
+There are four things that can happen:
+\begin{enumerate}
+    \item[$x\xrightarrow{AA}y$] One type A individual at location $x$ reproduces, 
+        either does not recombine or recombines with another type A,
+        and sends the offspring to $y$.
+    \item[$x\xrightarrow{AB}y$] An individual at location $x$ reproduces, 
+        recombines with the other type,
+        and sends to $y$ an offspring
+        who inherits at the selected locus from the type B parent 
+        and the at the neutral locus from the type A parent.
+    \item[$x\xrightarrow{BA}y$] An individual at location $x$ reproduces, 
+        recombines with the other type,
+        and sends to $y$ an offspring
+        who inherits at the selected locus from the type A parent 
+        and the at the neutral locus from the type B parent.
+    \item[$x\xrightarrow{BB}y$] One type B individual at location $x$ reproduces, 
+        either does not recombine or recombines with another type B,
+        and sends the offspring to $y$.
+\end{enumerate}
+Let $p(x) = n(x)/N(x)$.
+These four things happen at rates:
+\begin{align}
+    & x\xrightarrow{AA}y & \qquad w_{AA}(x,y) &= p(y) (1+s_A(y)) \left(1 - r (1-p(y)) \right)  N(y) m(y,x) \\
+    & x\xrightarrow{AB}y & \qquad w_{AB}(x,y) &= r p(y) (1-p(y)) \left(1+\frac{s_A(y)+s_B(y)}{2}\right) N(y) m(y,x) \\
+    & x\xrightarrow{BA}y & \qquad w_{BA}(x,y) &= r p(y) (1-p(y)) \left(1+\frac{s_A(y)+s_B(y)}{2}\right) N(y) m(y,x) \\
+    & x\xrightarrow{BB}y & \qquad w_{BB}(x,y) &= (1-p(y)) (1+s_B(y)) \left(1 - r p(y) \right) N(y) m(y,x) 
+\end{align}
+
+These rates tell us precisely the rates at which a lineage will move, backwards in time.
+For instance, the rate at which a lineage currently in a type A individual at location $x$
+jumps to another type A individual at location $y$ is just $w_{AA}(y,x)$.
+A lineage at the selected locus (with $r=0$) in a type A individual moves according to these jump rates.
+If we follow a linked locus until the first time it is found in a type B individual,
+it moves according to these jump rates, and at location $x$ recombines at rate
+\begin{align}
+    \gamma_A(x) = \sum_y w_{BA}(y,x) .
+\end{align}
+Suppose that we kill the lineage when it recombines onto type B.
+Let $X_t$ denote the position of the lineage at time $t$ in the past,
+with $X_t = \dagger$ if it has recombined onto B,
+and let $f$ be test function with $f(\dagger)=0$.
+If we let $M_r(y) = p(y) (1+s_A(y)) \left(1 - r (1-p(y)) \right)  N(y)$, then
+\begin{align}
+    \deriv{t} \E[f(X_t) \given X_0=x ] &= \sum_y w_{AA}(y,x) ( f(y)-f(x) ) - \gamma_A(x) f(x) \\
+                                       &= \sum_y  M_r(y) m(y,x) ( f(y) - f(x)  ) - \gamma_A(x) f(x) .
+\end{align}
+
+\section{Diffusion limit}
+
+Now suppose that $m(x,y)$ is symmetric, and depends on a parameter $\sigma$ so that as $\sigma \to 0$,
+the associate random walk converges to Brownian motion, so that
+\begin{align}
+    \lim_{\sigma \to 0} \sum_y \frac{ m(x,y) ( f(y) - f(x) ) }{\sigma^2} = \frac{1}{2} \dderiv{x} f(x) .
+\end{align}
+Write $f'(x) = \deriv{x}f(x)$, and note that
+\begin{align}
+    \frac{1}{\sigma^2} \sum_y g(y) m(y,x) (f(y)-f(x)) 
+    &= \frac{1}{\sigma^2} \sum_y m(y,x) \left( g(y) f(y) - g(x) f(x) + (g(x)-g(y)) f(x) \right) \\
+    &= \frac{1}{\sigma^2} \sum_y m(y,x) \left( g(y) f(y) - g(x) f(x) \right) \\
+    & \qquad - f(x) \frac{1}{\sigma^2} \sum_y m(y,x) (g(y)-g(x)) \\
+    &\xrightarrow{\sigma \to 0} \frac{1}{2} \dderiv{x}\left( g(x)f(x) \right) - \frac{1}{2} f(x) \dderiv{x} g(x) \\
+    &= \frac{1}{2} \left( g(x) f'(x) + 2 g'(x) f'(x) + f(x) g''(x) - f(x) g''(x) \right) \\
+    &= \frac{1}{2} g(x) f''(x) + g'(x) f'(x) .
+\end{align}
+If we also rescale recombination, so that $\rho = r/\sigma^2$,
+then 
+\begin{align}
+    \frac{1}{\sigma^2} \gamma_A(x) \xrightarrow{\sigma \to 0} \rho p(x) (1-p(x)) \left( 1 + \frac{s_A(x)+s_B(x)}{2} \right) N(x) ,
+\end{align}
+which we can define to be equal to $\rho k(x)$.
+In this case, note that since $r = \rho \sigma^2$,
+\begin{align}
+    M_r(x) \xrightarrow{\sigma \to 0} M(x) = p(x) (1+s_A(x)) N(x) .
+\end{align}
+Under these assumptions,
+\begin{align}
+    \deriv{t} \E[f(X_{t/\sigma^2}) \given X_0=x ] &\xrightarrow{\sigma \to 0} 
+    \frac{1}{2} M(x) f''(x) + M'(x) f'(x) - \rho k(x) f(x) ,
+\end{align}
+i.e.\ $X_{t/\sigma^2}$ converges to a diffusion with drift $M'(x)$ and killed at rate $\rho k(x)$.
+
+\paragraph{Stationary distribution}
+If $X$ has a stationary distribution then its density $\pi(x)$ solves the forward Kolmogorov equation,
+\begin{align}
+    0 &= - \deriv{x}\left( M'(x) \pi(x) \right) + \frac{1}{2} \dderiv{x} \left( M(x) \pi(x) \right) \\
+      &= - M''(x) \pi(x) - M'(x) \pi'(x) + \frac{1}{2} M''(x) \pi(x) + M'(x) \pi'(x) + \frac{1}{2} M(x) \pi''(x)  \\
+      &= \frac{1}{2} \left( M(x) \pi''(x) - M''(x) \pi(x) \right) .
+\end{align}
+It is immediate that $\pi(x) = M(x)/Z$,
+where
+\begin{align}
+    Z = \int p(x) (1+s_A(x)) N(x) dx .
+\end{align}
+
+\paragraph{Recombination time}
+Let $\tau_\dagger$ be the first time  the lineage recombines onto type B.
+If $\rho$ is much smaller than the mixing time of a type A lineage,
+then the time to recombination is roughly Exponential,
+with mean
+\begin{align}
+    \E[\tau_\dagger] \approx \frac{1}{ \rho \int \pi(x) k(x) dx } .
+\end{align}
+The product $\pi(x) k(x)$ is:
+\begin{align}
+    \pi(x) k(x) = \frac{1}{Z} N(x)^2 p(x)^2 (1-p(x)) (1+s_A(x)) (1+(s_A(x)+s_B(x))/2) .
+\end{align}
+
+More generally, if we define
+\begin{align}
+    h(x) = \E[\tau_\dagger \given X_0 = x]
+\end{align}
+then $h$ solves the equation
+\begin{align}
+    0 = M'(x) h'(x) + \frac{1}{2} M(x) h''(x) - \rho k(x) h(x) + 1 .
+\end{align}
+
+\end{document}
