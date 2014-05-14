@@ -64,8 +64,8 @@ it moves according to these jump rates, and at location $x$ recombines at rate
 \end{align}
 Suppose that we kill the lineage when it recombines onto type B.
 Let $X_t$ denote the position of the lineage at time $t$ in the past,
-with $X_t = \dagger$ if it has recombined onto B,
-and let $f$ be test function with $f(\dagger)=0$.
+with $X_t = \rho$ if it has recombined onto B,
+and let $f$ be test function with $f(\rho)=0$.
 If we let $M_r(y) = p(y) (1+s_A(y)) \left(1 - r (1-p(y)) \right)  N(y)$, then
 \begin{align}
     \deriv{t} \E[f(X_t) \given X_0=x ] &= \sum_y w_{AA}(y,x) ( f(y)-f(x) ) - \gamma_A(x) f(x) \\
@@ -120,12 +120,12 @@ where
 \end{align}
 
 \paragraph{Recombination time}
-Let $\tau_\dagger$ be the first time  the lineage recombines onto type B.
+Let $\tau_\rho$ be the first time  the lineage recombines onto type B.
 If $\rho$ is much smaller than the mixing time of a type A lineage,
 then the time to recombination is roughly Exponential,
 with mean
 \begin{align}
-    \E[\tau_\dagger] \approx \frac{1}{ \rho \int \pi(x) k(x) dx } .
+    \E[\tau_\rho] \approx \frac{1}{ \rho \int \pi(x) k(x) dx } .
 \end{align}
 The product $\pi(x) k(x)$ is:
 \begin{align}
@@ -134,11 +134,21 @@ The product $\pi(x) k(x)$ is:
 
 More generally, if we define
 \begin{align}
-    h(x) = \E[\tau_\dagger \given X_0 = x]
+    h(x) = \E[\tau_\rho \given X_0 = x]
 \end{align}
 then $h$ solves the equation
 \begin{align}
     0 = M'(x) h'(x) + \frac{1}{2} M(x) h''(x) - \rho k(x) h(x) + 1 .
 \end{align}
+
+The probability that a segment of length $r = \rho \sigma^2$ to one side of the selected locus
+does not recombine across time $t$ is $\P\{\tau_\rho > t\}$.
+Therefore, if $L_t$ is the length of the nonrecombined segment to one side of the selected locus
+after time $t$, then
+\begin{align}
+    \E[ L_t \given X_0=x ] &= \sigma^2 \int_0^\infty \P\{ \tau_\rho > t \} d\rho \\
+\end{align}
+The appropriate thing to do is to look at $\E[L_T]$, where $T$ is the coalescence time.
+
 
 \end{document}
