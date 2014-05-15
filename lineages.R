@@ -4,7 +4,6 @@ require(colorspace)
 #  and record statistics about their path
 
 lineages <- function ( pophist, nlin, migrsteps, T=dim(pophist)[4], m, linit=NULL, coal=TRUE ) {
-
     # simulate the movement of nlin selected lineages back through pophist,
     # beginning at locations in linit 
     #   which is a nlin x 3 matrix recording (x,y,t)
