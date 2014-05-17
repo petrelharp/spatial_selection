@@ -252,6 +252,7 @@ in the process obtaining other useful information about the genealogy of B allel
   as they are both about rare excursions. Could you make the CI or
   sample path in Figure 1B be different colors, the grey and black are
 too close to each other.}
+\plr{how's that?  I'm not sure what to do about the grey; the real problem is that the CIs are too small. If I ran them for less time they would be\dots}
 
 Migration--selection balance ensures that 
 there will be some number of $B$ alleles present in the regions where they are disadvantageous,
@@ -276,13 +277,22 @@ From simulations, $C$ seems to be not too far from 1 in practice (see Appendix \
     \includegraphics{sim-occupation-freqs}
   \end{center}
   \caption{
-  Mean occupation frequencies from simulation; details are as in figure~\ref{fig:sim_snapshots} except as otherwise noted.
-  Each panel shows mean occupation frequencies of individual demes (grey dots)
+  \textbf{(A)} 
+  Mean occupation frequencies of individual demes (grey dots)
   and averaged over demes at similar distances (black circles), on
-  \textbf{(A)} a one-dimensional grid of 201 demes, and
-  \textbf{(B)} a two-dimensional grid of $101\times 101$ demes.
+  a one-dimensional grid of 201 demes, and
+  a two-dimensional grid of $101\times 101$ demes.
   Superimposed in black is the decay predicted by \eqref{eqn:eqfreq},
   with $C$ chosen arbitrarily to give a reasonable fit.
+  \textbf{(B)} 
+  Fluctuations: colored lines are snapshots of allele frequencies at evenly spaced times
+  from a one-dimensional grid of 151 demes;
+  the solid lines shows the cumulative mean occupation frequency across all generations.
+  For both plots, the simulation was run for 1000 generations;
+  the focal allele is beneficial in the central 20 demes, with $s_p=0.1$,
+  and deleterious elsewhere, with $s_m=-0.02$; 
+  demes had 1000 individuals in each;
+  dispersal was to nearby demes with a mean dispersal distance of $\sigma \approx 1.66$  times the deme spacing.
   }   \label{fig:sim_occupation_freqs}
 \end{figure}
 
@@ -310,14 +320,8 @@ an approximation that is valid if the distance $R$ is large (at least five times
     \includegraphics{sim-snapshots}
   \end{center}
   \caption{
-  Results from individual-based simulation, on a one-dimensional grid:
-  the focal allele is beneficial in the central 20 demes, with $s_p=0.1$,
-  and deleterious elsewhere, with $s_m=-0.02$.
-  The dynamics were simulated for 10000 generations; demes had 1000 individuals in each;
-  dispersal was to nearby demes with a mean dispersal distance of $\sigma \approx 1.66$  times the deme spacing.
-  \textbf{(A)} Allele frequencies across space: colored lines are snapshots at an evenly spaced set of times,
-  and the solid lines shows the cumulative mean occupation frequency across all generations.
-  \textbf{(B)} A segment of the temporal dynamics: space is again shown across the horizontal axis;
+  The temporal dynamics of the same simulation as Figure~\ref{fig:sim_occupation_freqs}B.
+  A segment of the temporal dynamics: space is again shown across the horizontal axis;
   with time on the vertical axis; demes are colored darker red the greater then allele frequency at the corresponding time.
   The 50\% and 5\% frequency contour lines are in grey,
   and the genealogy of 50 individuals in a rare long-distance excursion is traced back with black lines.
@@ -337,7 +341,7 @@ and interactions between family members are weak,
 then these families can be approximated by a collection of independent spatial branching processes
 whose members are killed (actually, ignored) if they enter the original patch.
 (This can be made formal in the limit of large population density, also taking $r_0$ large enough that the chance of reaching the original patch is small.)
-This decomposition is illustrated in~\ref{fig:sim_snapshots}, and later in figure~\ref{fig:branching_decomp}.
+This decomposition is illustrated in figure~\ref{fig:branching_decomp}.
 In terms of these families, the equilibrium frequency above is then
 \begin{align}
     \label{eqn:gestalt_q}
@@ -385,39 +389,41 @@ so to simplify the analysis we ignore this detail.  % but could add this detail 
 
 Since each individual has on average $(1-s_m)$ offspring,
 the expected family size after time $t$ is $(1-s_m)^t$.
-Therefore, if we define $p_e(t)$ to be the chance of a \gc{family}
-going extinct by time $t$, 
+Therefore, if we define $k_e(t)$ to be the chance that the family
+has gone extinct by time $t$, 
+\plr{switched from $p_e(t)$ to $k_e(t)$ to not conflict with prob of estab.  better suggestion?}
 and let $K_t$ be the (random) family size conditioned on nonextinction,
-then by Bayes' rule, $(1-s_m)^t = (1-p_e(t))\E[K_t]$.
+then by Bayes' rule, $(1-s_m)^t = (1-k_e(t))\E[K_t]$.
 It turns out that if the distribution of offspring numbers is not too heavy-tailed \citep[see][for details]{jagers1975branching},
 then $K_t$ has a limiting distribution: $K_t \dconv K$ 
-and that $(1-s_m)^{t}/(1-p_e(t)) \to \E[K]$ as $t \to \infty$.
+and that $(1-s_m)^{t}/(1-k_e(t)) \to \E[K]$ as $t \to \infty$.
 In other words, the chance of survival to time $t$ is a constant multiplied by $(1-s_m)^t$,
 and conditional on survival, the family size is given by a fixed distribution.
 
-\gc{We exploit this idea to consider the survival of a central ``trunk'',
-  and then conditional on that consider the family size of side
-  ``branches'' off of this trunk. This process is depicted in Figure~\ref{fig:branching_decomp}.}
+This suggests that families can be well-described by motion of a central ``trunk'',
+dies at a random time whose distribution is given by $k_e(t)$,
+and conditional on survival of this trunk, the family is composed of side ``branches'' off of this trunk,
+as depicted in Figure~\ref{fig:branching_decomp}.
 We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary} \citep[see also][]{chauvin1991growing}.
 When we condition on survival until $t$, we condition on existence of
-at least one lineage surviving from time $0$ to time $t$ (the long red
+at least one ``trunk'' lineage surviving from time $0$ to time $t$ (the long red
 lineage in Figure \ref{fig:branching_decomp}).
-\gc{Given this lineage, nothing distinguishes any of the other reproduction events --
-each individual along this lineage} must give birth to at least one offspring,
+Given this lineage, nothing distinguishes any of the other reproduction events --
+each individual along the trunk lineage must give birth to at least one offspring,
 and all other reproduction events are unconditioned.
 In other words, the genealogy of a family that survives until $t$
 can be decomposed into a ``trunk'' that lasts until $t$
 which sprouts independent ``branches'' that may or may not survive until $t$.
 Concretely, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$,
-% (so $\P\{Z_t = 0\} = p_e(t)$),
+% (so $\P\{Z_t = 0\} = k_e(t)$),
 then this gives the following decomposition:
 \begin{align}
-  \left( Z_t \; \vert \; Z_t>0 \right) \deq \sum_{s=0}^t \sum_{k=1}^{W_s-1} Z^{(s,k)}_{t-s},
+  \left( Z_t \; \vert \; Z_t>0 \right) \deq 1 + \sum_{s=0}^t \sum_{k=1}^{W_s-1} Z^{(s,k)}_{t-s},
 \end{align}
-where each $Z^{(s,k)}$ is an independent copy of $Z$ \gc{that arose
-  from the main branch in generation $s$},
+where each $Z^{(s,k)}$ is an independent copy of $Z$ 
+that arose from the main branch in generation $s$,
 and each $W_s$ is an independent copy of the offspring distribution, conditioned on $W_s \ge 1$.
-\gc{Is there no 1+ in the equation above for the main branch? }
+\gc{Is there no 1+ in the equation above for the main branch? } \plr{oops; yep.}
 
 
 \begin{figure}[ht!!]
@@ -430,9 +436,9 @@ each is composed of a ``trunk'' lineage (in red), whose spatial motion we follow
 embellished by transient branches.
 For the depicted long-lived family, these are further distinguished by those still alive at time $t$ (in black)
 and those that did not survive until $t$ (in grey).
-Figure~\ref{fig:sim_snapshots} has a depiction of such a family, from
-a simulation. \gc{In reality the spatial paths taken by lineages are
-  much more wiggly but they are shown as straight lines here for simplicity.}
+Figure~\ref{fig:sim_snapshots} has a depiction of such a family, from a simulation. 
+Note that the spatial motions of lineages are independent random walks
+(and hence should be much wigglier than in this cartoon).
 } \label{fig:branching_decomp}
 \end{figure}
 
@@ -458,11 +464,11 @@ To make expressions \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate} more c
 we need to replace ``outflux of families'' by a sum over points at distance $r_0$ from the patch
 of the outflux $\gamma$ at that point, mulitplied by the relevant second quantity.
 By examining the constituent terms,
-it will turn out that eqn. \eqref{eqn:gestalt_migrate} is a constant multiple of \eqref{eqn:gestalt_q}.
+it will turn out that equation \eqref{eqn:gestalt_migrate} is a constant multiple of \eqref{eqn:gestalt_q}.
 
-First consider eqn. \eqref{eqn:gestalt_q}.
-Suppose that $Z$ is one such spatial branching process as above, started with a single individual at $x$,
-defined so that $Z_t(A)$ is the number of descendant individuals alive at time $t$ living in the \gc{area} $A$.
+First consider equation \eqref{eqn:gestalt_q}.
+Suppose that $Z$ is one such spatial branching process as above, started at time 0 with a single individual at $x$,
+defined so that $Z_t(A)$ is the number of descendant individuals alive at time $t$ living in the spatial region $A$.
 The \emph{mean occupation density} of $Z$ can be thought of 
 as the expected total number of offspring of a family beginning at $x$ that ever live at $y$.
 Concretely, it is the density of $\E[\int_0^t Z_t dt]$,
@@ -472,38 +478,41 @@ gives the expected total number of individuals ever living in $A$:
     \E\left[ \int_0^\infty Z_t(A) dt \right] = \int_A u(x,y) dy .
 \end{align}
 \gc{do we need to talk about u a little more it }
+\plr{not sure what to say}
 Since reproduction and spatial motion are independent,
 $u(x,y)$ is the sum across all generations of the expected number of individuals alive in that generation,
 multiplied by the probability density that spatial motion takes a lineage from $x$ to $y$,
 i.e.\
 \begin{align}
-    u(x,y) = \int_0^t e^{-\alpha t} p_t(x,y) dt .
+    u(x,y) = \int_0^t (1-s_m)^t p_t(x,y) dt .
 \end{align}
-\gc{$\alpha$ introduced here? Switch from $(1-s_m)^t$ }
 The equilibrium frequency as decomposed in expression \eqref{eqn:gestalt_q} 
 is the sum of mean occupation densities of a constant outflux of branching processes
 from $\partial B(r_0)$:
 \begin{align} \label{eqn:occupation_integral}
-    q(y) &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  % \\
-         % &= \int_{\partial B(r_0)} \gamma(x) \int_0^t e^{-\alpha t} p_t(x,y) dt dx .
+    q(y) &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  . % \\
+         % &= \int_{\partial B(r_0)} \gamma(x) \int_0^t (1-s_m)^t p_t(x,y) dt dx .
 \end{align}
 \gc{define $\gamma(x)$ presumably the outflux of branches leaving ball}
+\plr{it was defined at the start of this paragraph.}
 
-Now we turn to the expression \eqref{eqn:gestalt_migrate} for the outflux of successful migrants.
+This form we can now compare to 
+the expression \eqref{eqn:gestalt_migrate} for the outflux of successful migrants.
 Consider the probability that a migrant family beginning with a single individual at $x$ will ever establish in the new patch,
 which we assume is circular, has relatively small area $A$ and is located near position $y$.
-% The probability that this family reaches $A$ at time $t$ is the probability that it survives until $t$, $(1-p_e(t))$,
+% The probability that this family reaches $A$ at time $t$ is the probability that it survives until $t$, $(1-k_e(t))$,
 % multiplied by the probability that the family reaches the patch, given survival.
-% If $t$ is large then as in the previous section, $(1-p_e(t)) \approx e^{-\alpha t}/\E[K]$.
+% If $t$ is large then as in the previous section, $(1-k_e(t)) \approx e^{-\alpha t}/\E[K]$.
 It would be possible to analyze directly the probability that a given migrant family establishes in $A$,
-as in \citet{barton1987establishment,mckean1975KPP};
-but we make a simpler approximation, approximating this by the chance that the ``trunk'' hits the new patch,
-multiplied by the chance that at least member of the family escapes demographic stochasticity to establish.
+as in \citet{barton1987establishment};
+but we make a simpler approximation, approximating this probability by the chance that the ``trunk'' hits the new patch,
+multiplied by the chance that at least one member of the family escapes demographic stochasticity,
+successfulling establishing in the new patch.
 Write $h(x,y)$ for the probability that the Brownian trunk
 hits the new patch centered at $y$ before the family dies out,
 and $f(A)$ for the chance that the family manages to establish in the new patch,
 given that it successfully arrives.
-As for $q(y)$ above, expression \eqref{eqn:gestalt_migrate} is an integral of $h(x,y)$:
+As for $q(y)$ above, expression \eqref{eqn:gestalt_migrate} is properly an integral of $h(x,y)$:
 \begin{align}\label{eqn:migrate_integral}
   \migrate(y) &= \rho \int_{\partial B(r_0)} \gamma(x) h(x,y) f(A) dx .
 \end{align}
@@ -513,28 +522,29 @@ while the occupation density $u(x,y)$ counts the total amount of time that the f
 Since the expected total time spent in the patch does not depend on the distance at which the family started
 if we know that it survived to hit the patch,
 it is intuitively reasonable that $u(x,y)$ and $h(x,y)$ are simply related.
-Using this fact,
-and that $(1-p_e(t)) \approx e^{-\alpha t}/\E[K]$,
+Following this intuition,
+and that $(1-k_e(t)) \approx (1-s_m)^t/\E[K]$,
 it turns out (see Appendix~\ref{apx:hitting_occupation}) that
 \begin{align} 
-  h(x,y) = \frac{ s(A) }{ \E[K] } u(x,y),
+  h(x,y) = \frac{ g(A) }{ \E[K] } u(x,y),
 \end{align}
-where $s(A)$ is the total expected occupation time of the patch given the family arrives,
+where $g(A)$ is the total expected occupation time of the patch given the family arrives,
 and recall that $\E[K]$ is the expected family size after a large number of generations, given survival.
 Since the integrands in expressions \ref{eqn:occupation_integral} and \ref{eqn:migrate_integral} only differ by a constant factor
-(at least asymptotically for large distances),
+(at least asymptotically as $x$ and $y$ are far apart),
 we now know that the outflux of successful migrant families is equal to the mean occupation frequency
-multiplied by $s(A) f(A) / \E[K]$.
-The probability $f(A)$ that the family does not die out once it arrives at the new patch
-is if each member arriving has chance $p_e$ of establishing, independently, $\E[1-(1-p_e)^K] \approx 2 s_p \E[K] / \xi^2$.
+multiplied by $g(A) f(A) / \E[K]$.
+The probability $f(A)$ that the family does not die out once it arrives at the new patch is
+$\E[1-(1-p_e)^K] \approx 2 s_p \E[K] / \xi^2$,
+if each member arriving has chance $p_e$ of establishing, independently.
 % If we let $w$ be the width of the patch, then the remaining term is
 % \begin{align}
 %   s(w) \simeq \frac{1}{2\alpha} \left( 1 - \left( \frac{\pi w \sqrt{2 \alpha}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2\alpha}/\sigma} \right).
 % \end{align}
-Combining these terms with the expression for $s(A)$ from Appendix~\ref{apx:hitting_occupation},
+Combining these terms with the expression for $g(A)$ from Appendix~\ref{apx:hitting_occupation},
 \begin{align}
   \label{eqn:migrate}
-  \migrate(y) \approx q(y) \times \rho \frac{ s_p  }{ \alpha \xi^2 } 
+  \migrate(y) \approx q(y) \times \frac{ \rho s_p  }{ \xi^2 \log(1/(1-s_m)) } 
   % \left( 1 - \left( \frac{\pi w \sqrt{2 \alpha}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2\alpha}/\sigma} \right).
 \end{align}
 For patches that are small relative to $\sigma/\sqrt{2s_m}$, there is an additional correction term (see Appendix~\ref{apx:hitting_occupation}),
@@ -554,20 +564,19 @@ poor habitat patch, subsequent mutations that arise after an allele becomes esta
 Similarly, an allele introduced into a patch by migration will not be favored by selection to spread, 
 if the patch has already been colonized. 
 Therefore, mutations selectively exclude each other from patches, over short time scales, 
-and will only slowly mix together over longer time scales by drift \gc{and
-migration. We made use of this selective exclusion of alleles in our
-previous paper \citep{RalphCoop}. In reality different mutations may
-not be truly selective equivalent in which case the mixing will occur
-over a time-scale dictated by the difference in selection
-coefficients. } 
+and will only slowly mix together over longer time scales by drift and migration,
+an assumption we also made in \citep{ralph2010parallel}. 
+In reality, different mutations will likely not be truly selective equivalent,
+in which case this mixing occurs over a time-scale dictated by the difference in selection coefficients.
 
-We will assume that once a $B$ allele is introduced (by migration or mutation), 
-\gc{condition on it escaping loss,} it becomes established in the poor habitat patch rapidly. 
+We will assume that once a $B$ allele is introduced (by migration or mutation) and successfully begins to establish,
+it becomes established in the poor habitat patch rapidly. 
 Under this approximation, and the ``selective exclusion'' just discussed,
 after one of the patches becomes colonized by a single $B$ allele, 
 the other patch will become colonized by migration or mutation, but not by both. 
 As such, the question of how the the second patch adapts
-simply comes down to whether a new mutation or a migrant allele is the first to become established in the second patch. Taking expressions \eqref{eqn:mutrate} and \eqref{eqn:migrate} above,
+simply comes down to whether a new mutation or a migrant allele is the first to become established in the second patch. 
+Taking expressions \eqref{eqn:mutrate} and \eqref{eqn:migrate} above,
 we see that if the patches each have sufficiently large area,
 the rate of migration and mutation will be on the same order if 
 $A \mu \approx (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
@@ -579,6 +588,7 @@ which depends fairly strongly on the selective disadvantage $s_m$ between patche
 Equivalently, migration will occur much quicker than mutation 
 if $R/\sigma > (\log(1/s_m) - \log(A\mu))/\sqrt{2s_m}$.
 \gc{the two paragraphs either side of this will need some reworking.}
+\plr{want to do that? or be a bit more specific? what works/doesn't?}
 
 If we take the mutational influx in a patch to be one per 1,000
 generations ($A \mu = .001$), \gc{don't think this is mutational
@@ -713,7 +723,7 @@ because each reproductive event in locations where the allele is at low frequenc
 
 Above we argued that a good model for this transit is a single Brownian trunk lineage
 surrounded by a cloud of close relatives of random size $K$
-whose chance of surviving until $t$ generations is $p_e(t) \simeq e^{-\alpha t} / \E[K]$.
+whose chance of surviving until $t$ generations is $k_e(t) \simeq e^{-\alpha t} / \E[K]$.
 Consider a single such family, and let $\tau$ be the (random) time it first hits the new patch,
 with $\tau = \infty$ if it never does. The length of the hitchhiking segment depends on the time
 spent by this trunk lineage ``in transit'' between the patches, i.e. $\tau$.
@@ -1360,15 +1370,15 @@ by the strong Markov property this is equal to
            &= \P^x\{ \tau_A < \tau_\dagger \}  \E^{\mu(x,A)}[ \int_0^{\tau_\dagger} \one_A(B_t) dt ] .
 \end{align}
 If $A$ is circular, the latter expectation will not depend on $x$;
-call this $h(A)$.
+call this $g(A)$.
 
 Now consider the chance that $Z$ ever hits $A$.
 If we make the approximation that $Z$ hits $A$ iff the trunk of $Z$ does,
 then this is equal to
 \begin{align}
-    F(x,y) &= \int_0^\infty (1-p_e(t)) \P\{ \tau_A \in dt \} \\
-           &= \int_0^\infty e^{\alpha t} (1-p_e(t)) e^{- \alpha t } \P\{ \tau_A < t \} dt \\
-    &=\int_0^\infty e^{\alpha t} (1-p_e(t)) \P\{ \tau_A < t < \tau_\dagger \} dt \\
+    F(x,y) &= \int_0^\infty (1-k_e(t)) \P\{ \tau_A \in dt \} \\
+           &= \int_0^\infty e^{\alpha t} (1-k_e(t)) e^{- \alpha t } \P\{ \tau_A < t \} dt \\
+    &=\int_0^\infty e^{\alpha t} (1-k_e(t)) \P\{ \tau_A < t < \tau_\dagger \} dt \\
     &\approx \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_A < t < \tau_\dagger \} dt \\
     &= \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_A < t < \tau_\dagger \} dt \\
     &= \frac{1}{\E[K]} \P^x[ \tau_A < \tau_\dagger ] .
@@ -1377,16 +1387,16 @@ Therefore, we have that
 \begin{align}
     F(x,y) \E[K] 
     \approx \P^x[ \tau_A < \tau_\dagger ] 
-    = u(x,y) / h(A) .
+    = u(x,y) / g(A) .
 \end{align}
 
 Now, 
 \begin{align}
     q(y)  &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  \\
-          &= h(A) \int_{\partial B(r_0)} \gamma(x) F(x,y) dx \\
-          &= \frac{ h(A) }{ \E[K] } \migrate(y) .
+          &= g(A) \int_{\partial B(r_0)} \gamma(x) F(x,y) dx \\
+          &= \frac{ g(A) }{ \E[K] } \migrate(y) .
 \end{align}
-The function $h(A)$ is the expected amount of time that a Brownian motion begun on the edge of a disk of area $A$
+The function $g(A)$ is the expected amount of time that a Brownian motion begun on the edge of a disk of area $A$
 is expected to spend inside the disk before $\tau_\dagger$.
 This is integral of the Green function for the Bessel process of the appropriate order, 
 so using Borodin \& Salminen (Appendix 1),
@@ -1456,9 +1466,9 @@ The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing t
 
 Now consider the probability that a migrant family from $x$ will ever establish in the new patch,
 which we assume has relatively small area $A$ and is located near position $y$.
-The probability that this family reaches $A$ by time $t$ is $(1-p_e(t))$
+The probability that this family reaches $A$ by time $t$ is $(1-k_e(t))$
 multiplied by the probability that the family reaches the patch, given survival.
-If $t$ is large then the previous section argues that $(1-p_e(t)) \approx e^{-\alpha t}/\E[K]$,
+If $t$ is large then the previous section argues that $(1-k_e(t)) \approx e^{-\alpha t}/\E[K]$,
 and the probability of reaching the patch by $t$ approximately the chance that a Brownian path
 will have hit the patch by then.
 If $w = A^{1/d}$ is the width of the patch, then 
@@ -1466,7 +1476,7 @@ this is the chance that a $d$-dimensional Bessel process begun at $\|y-x\|$ hits
 Let $\tau_w$ be the hitting time of $w$,
 so, integrating by parts, and using Borodin \& Salminen (2.2.0.1 and 4.2.0.1)
 \begin{align}
-    \int_0^\infty (1-p_e(t)) \P^x\{ \tau_w \le t \} dt  
+    \int_0^\infty (1-k_e(t)) \P^x\{ \tau_w \le t \} dt  
     &\approx \int_0^\infty e^{-\alpha t} \P^x\{ \tau_w \le t \} dt  / \E[K] \\
     &= \frac{1}{\alpha \E[K]} \int_0^\infty e^{-\alpha t} \P^x\{ \tau_w \in dt \} \\
     &= \frac{1}{\alpha \E[K]} \E^x[e^{-\alpha \tau_w}] \\
