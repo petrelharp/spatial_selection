@@ -1,13 +1,82 @@
 #!/usr/bin/R
 source("sim-patchy-selection-fns.R")
 source("lineages.R")
+require(gsl)
 
 run.list <- list.files(".","*-pophistory-run.Rdata")
 rundims <- read.csv("run-info.csv")
 
 # run.name <- "3975-1-10000-pophistory-run.Rdata"
 
+#######
+### occupation frequencies
+plotdecay <- function (pophist, shift=FALSE) {
+    # return averaged freqs and theoretical prediction
+    dimension <- sum(dim(pophist$pophist)[1:2]>1)
+    theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params) 
+    # yes, the parentheses differ in the exponents for x:
+    expl.approx <- function (x,d) { sqrt(pi/2) * x^((1-d)/2) * exp(-x) }
+    bessel.approx <- function (x,d) { x^(1-(d/2)) * bessel_Knu( nu=1-d/2, x=x ) } 
+    # the exp'l decay
+    patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
+    obs.freqs <- pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin))
+    expl.freqs <-  expl.approx( (patchloc*theory.decay), d=dimension )
+    # also estimate the shift?
+    if (shift) {
+        f <- function (x0) { 
+            goodones <- (obs.freqs>3e-3) & (patchloc > -x0)
+            bfreqs <- (bessel.approx( (patchloc+x0)*theory.decay, d=dimension ))
+            mean( ((log(obs.freqs)-log(bfreqs))[goodones] - mean(log(obs.freqs)[goodones]) + mean(log(bfreqs)[goodones]) )^2 ) }
+        bessel.shift <- optimize( f, interval=c(0,50) )
+        bessel.shift.const <- exp( mean( log(obs.freqs/bessel.approx( (patchloc+bessel.shift$minimum)*theory.decay, d=dimension ))[(log(obs.freqs)<quantile(log(obs.freqs),.9))&(log(obs.freqs)>quantile(log(obs.freqs),.4))], na.rm=TRUE ) )
+    } else {
+        bessel.shift.const <- bessel.shift <- NA
+    }
+    # and the bessel function
+    bessel.freqs <-  bessel.approx( (patchloc*theory.decay), d=dimension )
+    expl.const <- exp( mean( log(obs.freqs/expl.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.5))&(log(obs.freqs)>quantile(log(obs.freqs),.2))], na.rm=TRUE ) )
+    bessel.const <- exp( mean( log(obs.freqs/bessel.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.9))&(log(obs.freqs)>quantile(log(obs.freqs),.4))], na.rm=TRUE ) )
+    plotdists <- seq(min(patchloc),max(patchloc),length.out=27)
+    plotlocs <- plotdists[-1] - diff(plotdists)/2
+    patchdist <- cut( as.vector(patchloc), breaks=plotdists, include.lowest=TRUE, ordered_result=TRUE )
+    return( list( patchloc=patchloc, obs.freqs=obs.freqs, plotlocs=plotlocs, patchdist=patchdist, bessel.const=bessel.const, bessel.shift.const=bessel.shift.const, bessel.shift=bessel.shift, theory.decay=theory.decay, dimension=dimension) )
+}
 
+plotinfo <- lapply( c("3994-1000-1000-pophistory-run.Rdata","7705124-r101-101-sb0.05-sm-0.005-pophistory-run.Rdata"), function (run.name) {
+    load(run.name); plotdecay(pophist) } )
+
+pdf(file="sim-occupation-freqs.pdf",width=6,height=3,pointsize=10)
+layout(t(1:2))
+par(mar=c(5,4,1,1)+.1)
+# averaged
+plot( 1, 1, xlim=range(unlist(lapply(plotinfo,"[[","patchloc"))), ylim=range(unlist(lapply(plotinfo,"[[","obs.freqs"))), 
+        log='y', xlab='deme number (space)', ylab='allele frequency', type='n' )
+abline(v=0,lty=2)
+lapply( plotinfo, function (x) { with(x, {
+        lines( patchloc, obs.freqs, pch=20, cex=.5, col=grey(.7) )
+        lines( plotlocs, bessel.const * bessel.approx( plotlocs*theory.decay, d=dimension ), col=c('red','green')[dimension] )
+        points( plotlocs, tapply(obs.freqs,patchdist,mean), pch=20, cex=.5 )
+        if (FALSE) {  lines( plotlocs, bessel.shift.const * bessel.approx( (plotlocs+bessel.shift$minimum)*theory.decay, d=dimension ), lwd=2, lty=2 ) }
+} ) } )
+legend('topright',legend=paste("d=",c(1,2)),lty=1,col=c('red','green'))
+# and, snapshots
+run.name <- "3975-1-10000-pophistory-run.Rdata"
+load(run.name)
+dimension <- sum(dim(pophist$pophist)[1:2]>1)
+theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params)
+timeslice <- floor( seq( .05*dim(pophist$pophist)[4], dim(pophist$pophist)[4], length.out=50 ) )
+sliced <- pophist$pophist[,,2,timeslice]/pophist$pop$params$N
+# plot
+matplot( sliced, type='l', xlab='deme number (space)', ylab='allele frequency' )
+abline(v=0.5 + which(diff(as.vector(pophist$pop$params$s))!=0), lty=2 )
+text( mean(which(as.vector(pophist$pop$params$s)>0)), .05, labels=as.expression(substitute(s==sb,list(sb=max(pophist$pop$params$s)))) )
+text( c(.15,.85)*dim(pophist$pophist)[2], .900, labels=as.expression(substitute(s==sb,list(sb=min(pophist$pop$params$s)))) )
+lines( rowMeans(pophist$pophist[,,2,min(timeslice):max(timeslice)])/pophist$pop$params$N, lwd=2 )
+# done
+dev.off()
+
+
+########
 ### snapshots
 run.name <- "3975-1-10000-pophistory-run.Rdata"
 load(run.name)
@@ -16,19 +85,9 @@ theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist
 
 # lineages
 
-pdf(file="sim-snapshots.pdf",width=6,height=3,pointsize=10)
-layout(t(1:2))
+pdf(file="sim-snapshots.pdf",width=5,height=3,pointsize=10)
 par(mar=c(5,4,1,1)+.1)
-
-timeslice <- floor( seq( .05*dim(pophist$pophist)[4], dim(pophist$pophist)[4], length.out=50 ) )
-sliced <- pophist$pophist[,,2,timeslice]/pophist$pop$params$N
-
-matplot( sliced, type='l', xlab='deme number (space)', ylab='allele frequency' )
-abline(v=0.5 + which(diff(as.vector(pophist$pop$params$s))!=0), lty=2 )
-text( mean(which(as.vector(pophist$pop$params$s)>0)), .05, labels=as.expression(substitute(s==sb,list(sb=max(pophist$pop$params$s)))) )
-text( c(.15,.85)*dim(pophist$pophist)[2], .900, labels=as.expression(substitute(s==sb,list(sb=min(pophist$pop$params$s)))) )
-lines( rowMeans(pophist$pophist[,,2,min(timeslice):max(timeslice)])/pophist$pop$params$N, lwd=2 )
-
+# countours
 maxouttime <- 8250
 maxoutloc <- 130
 outind <- with(pophist, which(
@@ -39,7 +98,6 @@ sum( pophist$pophist[,,2,][ outind ] )
 outind <- cbind( x=outind[,1], y=1, t=outind[,2] )
 stopifnot( all(pophist$pophist[cbind(outind[,2:1],2,outind[,3])] > 0 ) )
 lins <- lineages( pophist, linit=outind[sample(1:nrow(outind),50),] )
-
 # just lineages
 timeslice <- seq(7000,8600,length.out=200)
 subph <- (pophist$pophist[,,2,timeslice])/pophist$pop$params$N
@@ -53,53 +111,6 @@ image( x=1:dim(pophist$pophist)[2], y=seq(min(timeslice),max(timeslice),length.o
 image( x=1:dim(pophist$pophist)[2], y=seq(min(timeslice),max(timeslice),length.out=200), subph>0, col=c(NA,adjustcolor("red",.1)), add=TRUE )
 contour( x=1:dim(pophist$pophist)[2], y=seq(min(timeslice),max(timeslice),length.out=200), subph, levels=c(.5,.05), add=TRUE, col=grey(.4) )
 invisible( lapply( 1:dim(LL)[3], function (k) { lines( LL[2,,k], Ltimes[useLtimes] ) } ) )
-
-dev.off()
-
-### occupation frequencies
-pdf(file="sim-occupation-freqs.pdf",width=6,height=3,pointsize=10)
-layout(t(1:2))
-par(mar=c(5,4,3,1)+.1)
-# for (run.name in c("2611-r1-201-sb0.05-sm-0.005-pophistory-run.Rdata","7705124-r101-101-sb0.05-sm-0.005-pophistory-run.Rdata")) {
-for (run.name in c("3994-1000-1000-pophistory-run.Rdata","7705124-r101-101-sb0.05-sm-0.005-pophistory-run.Rdata")) {
-    # see also plot-patchy-sim.R
-    load(run.name)
-    dimension <- sum(dim(pophist$pophist)[1:2]>1)
-    theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params) 
-    # yes, the parentheses differ in the exponents for x:
-    expl.approx <- function (x,d) { sqrt(pi/2) * x^((1-d)/2) * exp(-x) }
-    bessel.approx <- function (x,d) { x^(1-(d/2)) * bessel_Knu( nu=1-d/2, x=x ) } 
-    # the exp'l decay
-    patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
-    obs.freqs <- pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin))
-    expl.freqs <-  expl.approx( (patchloc*theory.decay), d=dimension )
-
-    # also allow a shift?
-    if (FALSE) {
-        f <- function (x0) { 
-            goodones <- (obs.freqs>3e-3) & (patchloc > -x0)
-            bfreqs <- (bessel.approx( (patchloc+x0)*theory.decay, d=dimension ))
-            mean( ((log(obs.freqs)-log(bfreqs))[goodones] - mean(log(obs.freqs)[goodones]) + mean(log(bfreqs)[goodones]) )^2 ) }
-        bessel.shift <- optimize( f, interval=c(0,50) )
-        bessel.shift.const <- exp( mean( log(obs.freqs/bessel.approx( (patchloc+bessel.shift$minimum)*theory.decay, d=dimension ))[(log(obs.freqs)<quantile(log(obs.freqs),.9))&(log(obs.freqs)>quantile(log(obs.freqs),.4))], na.rm=TRUE ) )
-    }
-
-    # and the bessel function
-    bessel.freqs <-  bessel.approx( (patchloc*theory.decay), d=dimension )
-    expl.const <- exp( mean( log(obs.freqs/expl.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.5))&(log(obs.freqs)>quantile(log(obs.freqs),.2))], na.rm=TRUE ) )
-    bessel.const <- exp( mean( log(obs.freqs/bessel.freqs)[(log(obs.freqs)<quantile(log(obs.freqs),.9))&(log(obs.freqs)>quantile(log(obs.freqs),.4))], na.rm=TRUE ) )
-    tmpdists <- seq(min(patchloc),max(patchloc),length.out=27)
-    tmplocs <- tmpdists[-1] - diff(tmpdists)/2
-    patchdist <- cut( as.vector(patchloc), breaks=tmpdists, include.lowest=TRUE, ordered_result=TRUE )
-
-    # plot
-    plot( patchloc, obs.freqs, log='y', xlab='deme number (space)', ylab='allele frequency', pch=20, cex=.5, col=grey(.7) )
-    abline(v=0,lty=2)
-    points( tmplocs, tapply(obs.freqs,patchdist,mean), lwd=2 )
-    # lines( tmplocs, bessel.const * expl.approx( tmplocs*theory.decay, d=dimension ), lwd=2, col='green' )
-    lines( tmplocs, bessel.const * bessel.approx( tmplocs*theory.decay, d=dimension ), lwd=2, col='red' )
-    if (FALSE) {  lines( tmplocs, bessel.shift.const * bessel.approx( (tmplocs+bessel.shift$minimum)*theory.decay, d=dimension ), lwd=2, lty=2 ) }
-}
 dev.off()
 
 if (FALSE) {

@@ -39,12 +39,11 @@
 The convergent evolution of similar phenotypes in response to shared
 selection pressures is a testiment to the power of selection to
 repeatedly sculpt phenotypic variation. 
-In some cases this convergence extends to the molecular level with
-dispate taxa converging to the same phenotype through parallel genetic
-changes in the same pathway, genes, 
+In some cases this convergence extends to the molecular level, 
+with disparate taxa converging to the same phenotype through parallel 
+genetic changes in the same pathway, genes, 
 or even by precisely the same genetic changes \citep{zhen2012parallel}. 
-Such precise convergence points to the conservation of function of the genes
-underlying adaptive traits, 
+Such precise convergence points to the conservation of function of the genes underlying adaptive traits, 
 sometimes over deep time scales \citep{deephomologypapers}. 
 Convergence on a molecular level also suggests that the path 
 accessible to adaptation is sometimes relatively constrained, 
@@ -56,8 +55,8 @@ and are sufficiently free of deleterious pleiotropic consequences.
 Convergent adaptation can also occur within species, if individuals within a species 
 adapt to the same environment, in parallel, through different genotypic changes. 
 There are a growing number of examples of this in a range of well studied organisms and phenotypes REFs.
-All else being equal, such evolution of convergent phenotypes is more likely with a 
-higher mutational input, that is, when the mutational target and population sizes are larger \citep{}. 
+Such evolution of convergent phenotypes is favored by higher mutational input, 
+i.e.\ larger mutational target and/or population size \citep{dmitri}.
 The geographic distribution of populations can also affect the probability of parallel mutation within a species:
 a widespread species is more likely to adapt by multiple, parallel mutations if dispersal is geographically limited, 
 since subpopulations will adapt via new mutations before the adaptive allele arrives via migration \citep{ralph2010parallel}. 
@@ -85,7 +84,8 @@ which is primarily dark on a number of black lava flows separated by much lighte
 Strong predator-mediated selection appears to favour such crypsis \citep{kaufman1974adaptive},
 and, perhaps as a result of this strong selection against migrants, 
 at least two distinct genetic changes are responsible from the dark pigmentation adaptation on different outcrops \citep{nachman2003different}. 
-Similar situations have been demonstrated in other small rodent systems \citep{steiner2009genetic,kingsley2009melanism}.
+Similar situations have been demonstrated in other small rodent systems \citep{steiner2009genetic,kingsley2009melanism}
+and in lizards \citep{whitesands}.
 
 In this paper, we study this situation, namely,
 when a set of alleles provide an adaptive benefit in geographically localized patches, 
@@ -103,7 +103,10 @@ In section XX we \dots QUICK OUTLINE
   folks can understand the biologically important results and then work
   their way back through math, once they know where we are going}
 
-%http://www.nature.com/hdy/journal/v94/n2/full/6800600a.html
+  new mutation: \eqref{eqn:mutrate}; 
+
+
+% http://www.nature.com/hdy/journal/v94/n2/full/6800600a.html   -- this is \citep{hoekstra2004local}
 
 
 %and that a single mutational change was sufficient to adapt populations to the novel environment. 
@@ -135,13 +138,12 @@ surrounded by large areas to which the population is well adapted.
 (When we refer to ``patches'' it is to these pieces of poor habitat.)
 Suppose it takes only a single mutational change to create an allele
 ($B$) that adapts an individual to the poor habitat type.
-This change could be as specific as a single base change, a knock out
-of a gene, or a mutation anywhere in a set of genes. We assume that
-this mutational change occurs at a (low) rate of $\mu$ per chromosome per generation. 
-We assume that this initially rare new
-allele has fitness $1+s_p$ relative to the unmutated type ($b$) in these ``poor'' habitat patches.
-Outside of these patches we assume that $B$ has a relative fitness
-$1-s_m$  when rare in the intervening areas, with $s_p, s_m > 0$.
+The required change could be as specific as a single base change, 
+or as general as a knock out of a gene or one of a set of genes.
+We assume that this mutational change occurs at a (low) rate of $\mu$ per chromosome per generation,
+and that this initially rare new allele has fitness $1+s_p$ relative to the unmutated type ($b$) in these ``poor'' habitat patches.
+Outside of these patches we assume that the new allele has a relative fitness
+$1-s_m$  when rare in the intervening areas, with $s_p$ and $s_m$ both positive.
 To simplify matters, we assume that the disadvantage $s_m$ 
 is sufficiently large that, on the relevant timescale,
 the allele is very unlikely to fix locally in the regions where it is at a disadvantage.
@@ -153,23 +155,23 @@ can escape initial loss by drift when rare.
 Therefore, we do not have to specify the the fitness of the homozygote; 
 only that the dynamics of the allele when rare 
 are determined by the fitness of the heterozygote. 
-More general dominance will only make small corrections,
+More general dominance will only make small corrections to the the dynamics until initial fixation,
 with the exception of the recessive case, which we omit.
 For the most part, 
 we follow the literature in treating the diploid model as essentially haploid.
 
 For the sake of simplicity, we assume a constant haploid population density $\rho$, 
-across both types of habitat (we return to discuss this equal density point later). 
+across both types of habitat (but return to this point later),
 We further assume that the variance in offspring number is $\xi^2$, 
 and that the mean squared distance between parent and child is $\sigma^2$
 (i.e.\ $\sigma$ is the dispersal distance).
 We also aim to describe the scenario where it is sensible to think of large, discrete patches;
-the case of a fine-scale hetergeneous environment is treated \citep{elsewhere}.
+the case of a fine-scale heterogeneous environment is treated \citep{elsewhere}.
 
-\paragraph{Previous work} 
+\paragraph{Past work on spatial models}
 We will make use of several previous results from the literature on
-migration in spatially varying selection models. \gc{cite Haldane and zfisher} 
-Haldane, Fisher, and later \citet{slatkin1973geneflow} first analyzed
+migration in spatially varying selection models. 
+\citet{haldane1948theory}, \citet{fisher1950frequencies}, and later \citet{slatkin1973geneflow} first analyzed
 deterministic models of of this sort.
 \citet{nagylaki1975conditions} and \citet{conley1975application} showed that in one dimension, if the physical width of the patch is less than $(\sigma/\sqrt{2s_p}) \tan^{-1} (\sqrt{s_m/s_p})$, 
 then there is no stable equilibrium with both $b$ and $B$ present,  % see p.603 in Nagylaki
@@ -199,31 +201,33 @@ As we are interested in patches where local adaptation can occur,
 we will assume that our patch is larger than the cutoff for local establishment 
 mentioned above.
 
-Let $p(x)$ be the probability that a new mutant $B$ allele arising at
-location $x$
+Let $p(x)$ be the probability that a new mutant $B$ allele arising at location $x$
 relative to the patch fixes within the poor habitat patch.
 Under various assumptions, precise expressions can be found for $p(x)$ \citep{barton1987establishment},
 % the function $p(x)$ can be found (in one dimension) in terms of Jacobi elliptic functions,
-but these are not particularly helpful.
-The total successful mutational influx per generation is given by the
+but results will be more interpretable if we proceed with a simple approxmation.
+The total influx per generation of mutations that successfully establish is given by the
 integral of $p(x)$ over the entire species range:
 \begin{equation}
   \mutrate = \rho \mu \int p(x) dx \label{eqn:exactmutrate}
 \end{equation}
 % $\int \rho \mu p(x) dx$,
-and hence depends in a complicated way on the relationship of patch width and selection coefficients,
+and hence depends in a complicated way on the patch geometry and selection coefficients,
 but still scales linearly with the mutational influx density $\rho \mu$.
-If we consider a patch of area $A$, whose width of the patch is large relative to $\sigma/\sqrt{2s_m}$, 
-then a reasonable approximation is to assume that $p(x) = p_e$ within the patch, and $p(x) = 0$ otherwise.
+If we consider a patch of area $A$, whose width is large relative to $\sigma/\sqrt{2s_m}$, 
+then a reasonable approximation is to assume that $p(x) = p_e \approx 2 s_p / \xi^2$ within the patch, and $p(x) = 0$ otherwise.
 %for a patch of area $A$ approximating $\int p(x) dx \approx 2 s_p A / \xi^2$. 
-This holds for large patches, in which the rate at which mutations arise within the patch is larger 
-than the rate at which they appear nearby;
-we examine this more generally via simulation in Appendix \ref{apx:establishment_sims}.
+We would then approximate the integrand $p(x)$ in \eqref{eqn:exactmutrate} by a step function,
+which will be a good approximation if the patch is large relative the scale over which $p(x)$ goes from 0 to $p_e$,
+or if $p(x)$ is symmetric about the edge of the patch.
+We examine this more generally via exact calculation of $p(x)$ in Appendix \ref{apx:establishment_sims}.
 
-The rate at which mutations arise and colonize a patch of area $A$ is therefore
+The rate at which mutations arise and colonize a patch of area $A$ is then
 \begin{align} \label{eqn:mutrate}
-  \mutrate = \rho \mu \int p(x) dx  \approx 2 s_p \rho A \mu / \xi^2.
+  \mutrate % = \rho \mu \int p(x) dx  
+  \approx 2 s_p \rho A \mu / \xi^2,
 \end{align}
+i.e.\ the product of mutational influx in the patch ($A\rho\mu$) and the probability of establishment ($2s_p/\xi^2$).
 If this rate is low, then the time (in generations) until a mutation arises that
 will become locally established within the patch is exponentially distributed with mean $1/\mutrate$.  
 Assuming that once a mutation becomes established it quickly reaches its equilibrium frequency across the patch, 
@@ -234,12 +238,12 @@ the time scale on which new patches become colonized by the $B$ allele from new 
 \subsection{Establishment of a locally adaptive allele due to migrational influx}
 \label{ss:patchymigration}
 \gc{There's a bunch of switching between x and r in this section}
-Now suppose that there are two patches, each of area $A$ and separated by distance $r$. 
+Now suppose that there are two patches, each of area $A$ and separated by distance $R$. 
 If the $B$ allele has arisen and become established in the first patch, but has not yet appeared in the second,
 we would like to know the time scale on which copies of $B$ move between patches by migration
 (so, ignoring the possibility that a $B$ allele arises independently by mutation in the first patch).
 To determine this, we dissect the process by which an allele transits between the patches,
-in the process obtaining other useful information about the genealogy.
+in the process obtaining other useful information about the genealogy of B alleles.
 
 \gc{I'd suggest making Figure 2 and Fig 1A all part of same figure
   they are showing the same basic thing good fit of equation of
@@ -248,6 +252,58 @@ in the process obtaining other useful information about the genealogy.
   as they are both about rare excursions. Could you make the CI or
   sample path in Figure 1B be different colors, the grey and black are
 too close to each other.}
+
+Migration--selection balance ensures that 
+there will be some number of $B$ alleles present in the regions where they are disadvantageous,
+but only very few, and rarely, far away from the patch where $B$ is established.
+Denote the expected frequency of allele $B$ at location $x$ relative to the patch by $q(x)$,
+and assume that the shape of the patch is at least roughly circular.
+Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(x)$ is the solution,
+and show that $q(x)$ decays exponentially for large $|x|$,
+with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
+\begin{align} \label{eqn:eqfreq}
+  q(x) \approx C \left( |x| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
+\end{align}
+where $d$ is the dimension ($d=1$ or $2$), and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients.
+These asymptotics fit simulations quite well, as shown in Figure~\ref{fig:sim_occupation_freqs}.
+(In one dimension, the equation can be solved to give $q(x)$ in terms of Jacobi elliptic functions; see Appendix \ref{apx:elliptic_integrals}.)
+In applications we fit $C$ to the data;
+to get concrete numbers from theory we take $C=1$ if necessary.
+From simulations, $C$ seems to be not too far from 1 in practice (see Appendix \ref{apx:patchy_sims}).
+
+\begin{figure}[ht!]
+  \begin{center}
+    \includegraphics{sim-occupation-freqs}
+  \end{center}
+  \caption{
+  Mean occupation frequencies from simulation; details are as in figure~\ref{fig:sim_snapshots} except as otherwise noted.
+  Each panel shows mean occupation frequencies of individual demes (grey dots)
+  and averaged over demes at similar distances (black circles), on
+  \textbf{(A)} a one-dimensional grid of 201 demes, and
+  \textbf{(B)} a two-dimensional grid of $101\times 101$ demes.
+  Superimposed in black is the decay predicted by \eqref{eqn:eqfreq},
+  with $C$ chosen arbitrarily to give a reasonable fit.
+  }   \label{fig:sim_occupation_freqs}
+\end{figure}
+
+This expected frequency $q(x)$ is the \emph{time-averaged} occupation frequency,
+or in other words, the total number of $B$ alleles found across $T$ generations near location $x$, per unit area, divided by $T$.
+If, for instance, $q(x)=.01$ and the population density is $\rho=10$ individuals per unit area, 
+then in a survey tract of unit area around $x$ we expect to find one individual every 10 generations
+-- or, perhaps more likely, 10 individuals every 100 generations.
+This points to an important fact: 
+close to the original patch, the ``equilibrium frequency'' $q(x)$ describes well the density of the $B$ allele at most times,
+but far away from the patch, 
+the equilibrium is composed of rare excursions of families of $B$
+alleles, interspersed by long periods of absence. 
+An example of one of these rare excursions is shown in Figure~\ref{fig:sim_snapshots}.
+The relevant time scale on which $B$ alleles migrate between patches is given by the rate of appearance of such families.
+To compute the rate of establishment by such migration,
+we argue that these families (suitably defined) can be approximated by
+independent branching processes whose spatial motion is described by Brownian motion.
+Properties of these, combined with equation \eqref{eqn:eqfreq},
+leads us to the expression \eqref{eqn:migrate} for the rate of effective migration,
+an approximation that is valid if the distance $R$ is large (at least five times $\sigma/\sqrt{2s_m}$, say).
 
 \begin{figure}[ht!]
   \begin{center}
@@ -266,57 +322,6 @@ too close to each other.}
   The 50\% and 5\% frequency contour lines are in grey,
   and the genealogy of 50 individuals in a rare long-distance excursion is traced back with black lines.
   }   \label{fig:sim_snapshots}
-\end{figure}
-
-Migration--selection balance ensures that 
-there will be some number of $B$ alleles present in the regions where they are disadvantageous,
-but only very few, and rarely, far away from the patch where $B$ is established.
-Denote the expected frequency of allele $B$ at displacement $x$ relative to the patch by $q(x)$.
-Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(x)$ is the solution,
-which in one dimension can be solved to give $q(x)$ in terms of Jacobi elliptic functions (see Appendix \ref{apx:elliptic_integrals}).
-More general, asymptotics of the solution implies that for large $|x|$ the mean occupation frequency decays exponentially, 
-with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
-\begin{align} \label{eqn:eqfreq}
-  q(x) \approx C \left( |x| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
-\end{align}
-where $d$ is the dimension ($d=1$ or $2$), and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients.
-In applications we fit $C$ to the data;
-to get concrete numbers from theory we take $C=1$ if necessary.
-From simulations, $C$ seems to be not too far from 1 in practice (see Appendix \ref{apx:patchy_sims}).
-
-This expected frequency $q(r)$ is the \emph{time-averaged} occupation frequency,
-or in other words, the total number of $B$ alleles found at distance $r$ across $T$ generations, divided by $T$.
-Therefore, if we look at a small area of size $dx$, 
-then $q(r) dx$ is equal to the probability of finding any $B$ alleles there,
-multiplied by the mean number of such, if there are any.
-This points to an important fact: 
-close to the original patch, the ``equilibrium frequency'' $q(r)$ describes well the density of the $B$ allele at most times,
-but far away from the patch, 
-the equilibrium is composed of rare excursions of a family of $B$
-alleles, interspersed by long periods of absence. An example of one of these rare
-excursions of a migrant families is shown in Figure \gc{XXX} in \gc{XXXcolour}.
-The relevant time scale on which $B$ alleles migrate between patches is given by the rate of appearance of such families.
-To compute the rate of establishment by such migration,
-we use properties of subcritical branching processes and Brownian motion,
-combined with equation \eqref{eqn:eqfreq},
-to obtain an approximation that is valid if the distance $r$ is large (at least five times $\sigma/\sqrt{s_m}$, say).
-\gc{We now work through the steps in developing this approximation,
-  and give our resulting approximation for $\migrate(y)$ in eqn. \eqref{eqn:migrate}. } 
-
-\begin{figure}[ht!]
-  \begin{center}
-    \includegraphics{sim-occupation-freqs}
-  \end{center}
-
-  \caption{
-  Mean occupation frequencies from simulation; details are as in figure~\ref{fig:sim_snapshots} except as otherwise noted.
-  Each panel shows mean occupation frequencies of individual demes (grey dots)
-  and averaged over demes at similar distances (black circles), on
-  \textbf{(A)} a one-dimensional grid of 201 demes, and
-  \textbf{(B)} a two-dimensional grid of $101\times 101$ demes.
-  Superimposed in black is the decay predicted by \eqref{eqn:eqfreq},
-  with $C$ chosen arbitrarily to give a reasonable fit.
-  }   \label{fig:sim_occupation_freqs}
 \end{figure}
 
 To make the argument, we decompose the genealogy of $B$ alleles into families in the following way.
