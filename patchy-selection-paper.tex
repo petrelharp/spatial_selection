@@ -144,6 +144,7 @@ We assume that this mutational change occurs at a (low) rate of $\mu$ per chromo
 and that this initially rare new allele has fitness $1+s_p$ relative to the unmutated type ($b$) in these ``poor'' habitat patches.
 Outside of these patches we assume that the new allele has a relative fitness
 $1-s_m$  when rare in the intervening areas, with $s_p$ and $s_m$ both positive.
+(Here ``fitness'' we take to be the intrinsic growth rate of the type when rare.)
 To simplify matters, we assume that the disadvantage $s_m$ 
 is sufficiently large that, on the relevant timescale,
 the allele is very unlikely to fix locally in the regions where it is at a disadvantage.
@@ -245,13 +246,7 @@ we would like to know the time scale on which copies of $B$ move between patches
 To determine this, we dissect the process by which an allele transits between the patches,
 in the process obtaining other useful information about the genealogy of B alleles.
 
-\gc{I'd suggest making Figure 2 and Fig 1A all part of same figure
-  they are showing the same basic thing good fit of equation of
-  cline. The s's in 1A should be labeled sm and sb. I'd suggest that
-  the second part of 1 become its own figure or be paired with fig.3
-  as they are both about rare excursions. Could you make the CI or
-  sample path in Figure 1B be different colors, the grey and black are
-too close to each other.}
+\gc{Could you make the CI or sample path in Figure 1B be different colors, the grey and black are too close to each other.}
 \plr{how's that?  I'm not sure what to do about the grey; the real problem is that the CIs are too small. If I ran them for less time they would be\dots}
 
 Migration--selection balance ensures that 
@@ -284,6 +279,7 @@ From simulations, $C$ seems to be not too far from 1 in practice (see Appendix \
   a two-dimensional grid of $101\times 101$ demes.
   Superimposed in black is the decay predicted by \eqref{eqn:eqfreq},
   with $C$ chosen arbitrarily to give a reasonable fit.
+  (The uptick at the right end is due to boundary effects near the edge of the range.)
   \textbf{(B)} 
   Fluctuations: colored lines are snapshots of allele frequencies at evenly spaced times
   from a one-dimensional grid of 151 demes;
@@ -378,26 +374,30 @@ we drop the individual from our family.
 Since the $B$ allele is uniformly deleterious elsewhere,
 we can decouple reproduction and migration
 by first forming a tree in which each individual has a random number of offspring
-(with mean $1-s_m$ and variance $\xi^2$),
 then recursively assigning spatial locations to each individual in the tree,
 and finally pruning any branches that happen to wander into a patch.
+By our definition of fitness, the mean number of offspring per individual is $\exp(-s_m)\approx 1-s_m$,
+and the variance is $\xi^2$.
+\plr{I changed this since equation \eqref{eqn:eqfreq} is in the small-$s_m$ limit, 
+and therefore doesn't differentiate between $s_m$ and $\log(1/(1-s_m))$;
+doing it this way means we don't have to define another parameter.}
 This pruning removes both branches leading back into the already established patch (which are irrelevant)
 and branches leading into the new patch (we will need to count these).
 Since we are concerned with the rare migrant families that transit quickly between patches, 
 back migrants to the already established patch will contribute little, since they are going the wrong direction;
 so to simplify the analysis we ignore this detail.  % but could add this detail in an appendix
 
-Since each individual has on average $(1-s_m)$ offspring,
-the expected family size after time $t$ is $(1-s_m)^t$.
+Since each individual has on average $e^{-s_m}$ offspring,
+the expected family size after time $t$ is $e^{t s_m}$.
 Therefore, if we define $k_e(t)$ to be the chance that the family
 has gone extinct by time $t$, 
 \plr{switched from $p_e(t)$ to $k_e(t)$ to not conflict with prob of estab.  better suggestion?}
 and let $K_t$ be the (random) family size conditioned on nonextinction,
-then by Bayes' rule, $(1-s_m)^t = (1-k_e(t))\E[K_t]$.
+then by Bayes' rule, $e^{-s_m t} = (1-k_e(t))\E[K_t]$.
 It turns out that if the distribution of offspring numbers is not too heavy-tailed \citep[see][for details]{jagers1975branching},
 then $K_t$ has a limiting distribution: $K_t \dconv K$ 
-and that $(1-s_m)^{t}/(1-k_e(t)) \to \E[K]$ as $t \to \infty$.
-In other words, the chance of survival to time $t$ is a constant multiplied by $(1-s_m)^t$,
+and that $e^{-s_m t}/(1-k_e(t)) \to \E[K]$ as $t \to \infty$.
+In other words, the chance of survival to time $t$ is a constant multiplied by $e^{-s_m t}$,
 and conditional on survival, the family size is given by a fixed distribution.
 
 This suggests that families can be well-described by motion of a central ``trunk'',
@@ -484,14 +484,14 @@ $u(x,y)$ is the sum across all generations of the expected number of individuals
 multiplied by the probability density that spatial motion takes a lineage from $x$ to $y$,
 i.e.\
 \begin{align}
-    u(x,y) = \int_0^t (1-s_m)^t p_t(x,y) dt .
+    u(x,y) = \int_0^t e^{-s_m t} p_t(x,y) dt .
 \end{align}
 The equilibrium frequency as decomposed in expression \eqref{eqn:gestalt_q} 
 is the sum of mean occupation densities of a constant outflux of branching processes
 from $\partial B(r_0)$:
 \begin{align} \label{eqn:occupation_integral}
     q(y) &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  . % \\
-         % &= \int_{\partial B(r_0)} \gamma(x) \int_0^t (1-s_m)^t p_t(x,y) dt dx .
+         % &= \int_{\partial B(r_0)} \gamma(x) \int_0^t e^{-s_m t} p_t(x,y) dt dx .
 \end{align}
 \gc{define $\gamma(x)$ presumably the outflux of branches leaving ball}
 \plr{it was defined at the start of this paragraph.}
@@ -523,7 +523,7 @@ Since the expected total time spent in the patch does not depend on the distance
 if we know that it survived to hit the patch,
 it is intuitively reasonable that $u(x,y)$ and $h(x,y)$ are simply related.
 Following this intuition,
-and that $(1-k_e(t)) \approx (1-s_m)^t/\E[K]$,
+and that $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$,
 it turns out (see Appendix~\ref{apx:hitting_occupation}) that
 \begin{align} 
   h(x,y) = \frac{ g(A) }{ \E[K] } u(x,y),
@@ -541,15 +541,21 @@ if each member arriving has chance $p_e$ of establishing, independently.
 % \begin{align}
 %   s(w) \simeq \frac{1}{2\alpha} \left( 1 - \left( \frac{\pi w \sqrt{2 \alpha}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2\alpha}/\sigma} \right).
 % \end{align}
-Combining these terms with the expression for $g(A)$ from Appendix~\ref{apx:hitting_occupation},
+Combining the terms with expressions for $g(A)$ in Appendix~\ref{apx:hitting_occupation},
+we obtain that
 \begin{align}
   \label{eqn:migrate}
-  \migrate(y) \approx q(y) \times \frac{ \rho s_p  }{ \xi^2 \log(1/(1-s_m)) } 
+  \migrate(y) &\approx q(y) \times \frac{ \rho s_p  }{ \xi^2 s_m }  \\
   % \left( 1 - \left( \frac{\pi w \sqrt{2 \alpha}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2\alpha}/\sigma} \right).
+  &\approx C \frac{ \rho s_p  }{ \xi^2 s_m } \left( |x| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) .
 \end{align}
-For patches that are small relative to $\sigma/\sqrt{2s_m}$, there is an additional correction term (see Appendix~\ref{apx:hitting_occupation}),
-but small patches violate other assumptions above, so we omit it.
-
+This does not depend on $A$, because although
+$f(A)$ and $g(A)$ in principle depend on the patch size (and geometry),
+the dependence is very weak:
+for instance, the width of a circular patch only very weakly affects the chance 
+of establishment of a new migrant that appears on its edge,
+as long as the patch is large enough.
+For more discussion, and correction terms, see Appendix~\ref{apx:hitting_occupation}.
 
 
 %%%%%%%%%
@@ -576,43 +582,49 @@ after one of the patches becomes colonized by a single $B$ allele,
 the other patch will become colonized by migration or mutation, but not by both. 
 As such, the question of how the the second patch adapts
 simply comes down to whether a new mutation or a migrant allele is the first to become established in the second patch. 
-Taking expressions \eqref{eqn:mutrate} and \eqref{eqn:migrate} above,
-we see that if the patches each have sufficiently large area,
-the rate of migration and mutation will be on the same order if 
+To work out how adaptation is likely to proceed, 
+we can compare expressions \eqref{eqn:mutrate} and \eqref{eqn:migrate} above
+for the effective rates of adaptation by new mutation and by migration.
+
+The first thing to notice is that effective migration and mutation rates will be on the same order if 
 $A \mu \approx (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
-where $R$ is the distance between the patches,
-and recall that $A$ is the area of the not-yet-adapted patch.
+where recall that $R$ is the distance between the patches,
+and $A$ is the area of the not-yet-adapted patch.
 In other words, the migrational analogue of ``mutational influx'' ($\mu \rho A$) 
 is $\rho (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
 which depends fairly strongly on the selective disadvantage $s_m$ between patches.
-Equivalently, migration will occur much quicker than mutation 
-if $R/\sigma > (\log(1/s_m) - \log(A\mu))/\sqrt{2s_m}$.
-\gc{the two paragraphs either side of this will need some reworking.}
-\plr{want to do that? or be a bit more specific? what works/doesn't?}
+Equivalently, the rates are roughly equal if
+$R/\sigma = \log(1/(s_m A \mu))/\sqrt{2s_m}$,
+which gives the critical gap size past which adaptation will be mostly parallel
+in terms of selection coefficients, patch size, and mutation rate.
 
-If we take the mutational influx in a patch to be one per 1,000
-generations ($A \mu = .001$), \gc{don't think this is mutational
-  influx as it doesn't have $\rho in it$}
-and the selection against transiting alleles $s_m = .01$,
-adaptation procedes independently for distances $R/\sigma > \log(s_m)/\sqrt{s_m}$,
-so if the selective pressure is fairly strong (say, $s_m=.05$),
-then the distance between patches must be about 30 times the dispersal distance (i.e.\ $R/\sigma > 30$),
-while if $s_m$ is much smaller, say $s_m = .001$, 
+% ss <- 10^(-(1:6))
+% log(1/ss)
+% 1/sqrt(2*ss)
+% sm <- .05; (-log(c(1e-3,1))-log(sm))/sqrt(2*sm)
+% sm <- .001; (-log(c(1e-3,1))-log(sm))/sqrt(2*sm)
+% (7+log(1/ss))/sqrt(2*(ss))
+% (7+log(1/(.5*ss)))/sqrt(2*(.5*ss))
+If we take the mutational influx in a patch to be one per 1,000 generations ($\rho A \mu = .001$)
+and the population density to be 1 ($\rho =1$, so $\log(A\mu)\approx 7$)
+then adaptation is mostly parallel for patches separated by gaps larger than $R/\sigma > (7+\log(s_m))/\sqrt{s_m}$.
+If the selective pressure is fairly strong (say, $s_m=.05$),
+then for migration to be slower than mutation,
+the distance between patches must be at least 30 times the dispersal distance (i.e.\ $R/\sigma > 30$).
+If $s_m$ is much smaller, say $s_m = .001$, 
 then the patches must be separated by several hundred times the dispersal distance (i.e.\ $R/\sigma > 300$).
-The situation does not change much if the influx is quite a bit higher -- even if $A \mu = 1$,
-the required separation between patches is only reduced by $7/\sqrt{s_m}$,
-to $R/\sigma > 10$ with $s_m=.05$ and $R/\sigma>150$ for $s_m=.001$.
-If the separation between patches is much larger than this transitional value -- certainly, by a factor of ten -- 
-then patches are effectively isolated -- most adaptation will occur independent between patches.
-On the other hand, if the separation is much smaller, then a single
-mutation is likely to fix in both patches.
+The situation does not change much if the influx is quite a bit higher -- even if $A \mu = 1$ (so $\log(A\mu) \approx 2.3$),
+the required separation between patches is only reduced to $R/\sigma > 10$ with $s_m=.05$ and $R/\sigma>150$ for $s_m=.001$.
+On the other hand, if the separation is much smaller than this transitional value, 
+then adaptations are likely to be shared between patches.
 
 One way to visualize this is by a phase diagram.
 In figure \ref{fig:phase_diagram},
 we give a contour plot for the time until adaptation by migration ($\Tmig = 1/\migrate$) and by new mutation ($\Tmut=1/\mutrate$)
-as a function of various parameters. \gc{Parallel mutation will occur
-where $\Tmut \gg \Tmig $ (reder areas), while adpatation by migration will occur
-where $\Tmig \gg \Tmut $ (bluer areas).}
+as a function of various parameters. 
+This gives us an idea of not only the parameter space where parallel adaptation is likely ($\Tmig \ll \Tmut$),
+but also where adaptation by any means takes a very long time ($\Tmig$ and $\Tmut$ both very large),
+and important check in applications.
 
 \begin{figure}[ht]
   \begin{center}
@@ -625,29 +637,29 @@ where $\Tmig \gg \Tmut $ (bluer areas).}
   distance to an already adapted patch in units of dispersal distance ($R/\sigma$),
   strength of deleterious selection ($s_m$),
   and mutation rate scaled by patch area ($\mu A$).
-  The line at which $\Tmig=\Tmut$ is shown in black.
+  The black, dotted line shows values where $\Tmig=\Tmut$.
   Default parameter values were $A=100$, $\rho=10$, $\mu=10^{-8}$, $s_p=0.1$, $s_m=0.01$, $R/\sigma=50$, and $\xi^2=1$.
   Note that population density and mutation rate are shown on a log scale.
   \label{fig:phase_diagram}
   }
 \end{figure}
 
-If we are willing to take these approximations at face value, 
+Taking these approximations at face value, 
 and assuming both rates are small, 
 the time until the first of the two patches is colonized by the $B$
 allele will be approximately exponentially distributed with mean $1/(2
 \mutrate)$.
-Following this, the time till the second patch is subsequently colonized 
+Following this, the time until the second patch is subsequently colonized 
 (via either migration or new mutation) 
 will be exponentially distributed with mean $1/(\mutrate+\migrate)$.
-Both these times scale linearly with $\xi^2/(\rho s_{B})$, 
+Both these rates scale linearly with population density ($\rho$) 
+and the probability of establishment of a rare allele ($p_e\approx 2 s_b/\xi^2$),
 so that the overall time to adaptation is robustly predicted to increase with offspring variance ($\xi^2$)
 and decrease with population density and benefical selection coefficient.
 Furthermore, the probability that the second adaptation is a new mutation,
 i.e.\ the probability of parallel adapatation, is in $d=1$ ($d=2$ only differs slightly)
 \begin{equation}
-  \frac{\mutrate}{\mutrate+\migrate(r)} = \frac{ A \mu \alpha }{2 A \mu \alpha +
-    \left(r \sqrt{2 s_m} r / \sigma \right)^{(d-1)/2} \exp\left(- \sqrt{2 s_m} r / \sigma \right) },
+  \frac{\mutrate}{\mutrate+\migrate(r)} = \frac{ A \mu \alpha }{2 A \mu \alpha + \exp\left(- \sqrt{2 s_m} r / \sigma \right) },
 \end{equation}
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches, at rate $\sqrt{s_m} /\sigma$. 
