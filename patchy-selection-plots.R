@@ -45,7 +45,8 @@ logcontour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=
 logcontour( clvals, rhovals, f(clplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, method="edge", log='y' )
 mtext(side=1,line=2.5,text=expression(R / sigma))
 mtext(side=2,line=2.5,expression(rho))
-abline(v=clvals[which.min(abs(migtime(list(cl=clvals))-muttime(.GlobalEnv)))], lwd=2)
+# Tmut == Tmig line:
+abline(v=clvals[which.min(abs(migtime(list(cl=clvals))-muttime(.GlobalEnv)))], lwd=2, lty=2)
 for (lev in levelsets) { # note rho is log10-scale.
     rholev <- muttime(.GlobalEnv)*rho/lev # mutation time determines rho
     if (rholev>min(rhovals) & rholev<max(rhovals)) {
@@ -61,7 +62,8 @@ logcontour( A*muvals, sdvals, f(sdplot$mut), col='red', labels=labelsets, levels
 logcontour( A*muvals, sdvals, f(sdplot$mig), col='blue', add=TRUE, labels=labelsets, levels=levelsets, lwd=2, log='xy' )
 mtext(side=1,line=2.5,expression(mu * A))
 mtext(side=2,line=2.5,expression(s[m]))
-lines( log10( muttime(list(A=1,mu=1))/migtime(list(sd=sdvals)) ), log10(sdvals), lwd=2 )
+# Tmut == Tmig line:
+lines( log10( muttime(list(A=1,mu=1))/migtime(list(sd=sdvals)) ), log10(sdvals), lwd=2, lty=2 )
 for (lev in levelsets) { # note rho and mu are log10-scale.
     # mutation:
     mulev <- muttime(list(mu=1))/lev

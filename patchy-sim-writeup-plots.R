@@ -3,6 +3,10 @@ source("sim-patchy-selection-fns.R")
 source("lineages.R")
 require(gsl)
 
+# yes, the parentheses differ in the exponents for x:
+expl.approx <- function (x,d) { sqrt(pi/2) * x^((1-d)/2) * exp(-x) }
+bessel.approx <- function (x,d) { x^(1-(d/2)) * bessel_Knu( nu=1-d/2, x=x ) } 
+
 run.list <- list.files(".","*-pophistory-run.Rdata")
 rundims <- read.csv("run-info.csv")
 
@@ -14,9 +18,6 @@ plotdecay <- function (pophist, shift=FALSE) {
     # return averaged freqs and theoretical prediction
     dimension <- sum(dim(pophist$pophist)[1:2]>1)
     theory.decay <- sqrt(2*abs(getgrowth(pophist$pop$params)$gm)) / getsigma(pophist$pop$params) 
-    # yes, the parentheses differ in the exponents for x:
-    expl.approx <- function (x,d) { sqrt(pi/2) * x^((1-d)/2) * exp(-x) }
-    bessel.approx <- function (x,d) { x^(1-(d/2)) * bessel_Knu( nu=1-d/2, x=x ) } 
     # the exp'l decay
     patchloc <- with(pophist$pop$params, (-1)^(s>0) * sqrt( abs( ( row(s) - range[1]/2 )^2 + ( col(s) - range[2]/2 )^2 - (patchsize/2)^2 ) ) )
     obs.freqs <- pophist$occupation[,,2]/(pophist$pop$params$N*(pophist$pop$gen-pophist$burnin))
@@ -69,8 +70,8 @@ sliced <- pophist$pophist[,,2,timeslice]/pophist$pop$params$N
 # plot
 matplot( sliced, type='l', xlab='deme number (space)', ylab='allele frequency' )
 abline(v=0.5 + which(diff(as.vector(pophist$pop$params$s))!=0), lty=2 )
-text( mean(which(as.vector(pophist$pop$params$s)>0)), .05, labels=as.expression(substitute(s==sb,list(sb=max(pophist$pop$params$s)))) )
-text( c(.15,.85)*dim(pophist$pophist)[2], .900, labels=as.expression(substitute(s==sb,list(sb=min(pophist$pop$params$s)))) )
+text( mean(which(as.vector(pophist$pop$params$s)>0)), .05, labels=as.expression(substitute(s[b]==sb,list(sb=max(pophist$pop$params$s)))) )
+text( c(.15,.85)*dim(pophist$pophist)[2], .900, labels=as.expression(substitute(s[m]==sm,list(sm=min(pophist$pop$params$s)))) )
 lines( rowMeans(pophist$pophist[,,2,min(timeslice):max(timeslice)])/pophist$pop$params$N, lwd=2 )
 # done
 dev.off()
