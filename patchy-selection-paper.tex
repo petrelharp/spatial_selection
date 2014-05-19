@@ -667,29 +667,30 @@ approximately logistically with the distance between the patches, at rate $\sqrt
 
 %%%%%%%%%%%%
 \subsection{Multiple patches}
-We can extend this reasoning to multiple patches of unadapted habitat 
+Above we worked with two patches separated by distance $R$;
+but these calculations apply as well to multiple patches
 in which the $B$ allele can facilitate local adaptation. 
 Under our assumptions of mutational exclusion and rapid establishment, 
 each patch will adapt through establishment of a single copy of the $B$ allele, 
 either by migration or mutation.
 If we imagine that the times between successive establishments is the result of many nearly-independent attempts
 with small probability of success,
-the process of occupation is well approximated by a discrete-state Markov chain,
-whose state is the labeling of patches according to the colonizing allele
+the process of occupation is well approximated by a Markov chain,
+whose state records the labeling of patches according to the colonizing allele
 (or none, for those that haven't yet adapted).
 
-If not yet adapted, a patch of area $A$ will acquire the adaptation by new mutation at rate $2 s_p \mu \rho A/\xi^2$.
-Without loss of generality, assume that patches $1, \ldots, k$ are already adapted,
-and these patches are at distances $r_1, \ldots, r_k$ away from this unadapted patch, 
-then the total rate of adaptation through migration is approximately
+If not yet adapted, a patch of area $A$ will acquire the adaptation by new mutation at rate $2 s_p \mu \rho A/\xi^2$ (equation \eqref{eqn:mutrate}).
+Suppose that patches $1, \ldots, k$ are already adapted,
+and that these patches are at distances $r_1, \ldots, r_k$ away from this unadapted patch.
+The total rate of adaptation through migration, from equation \eqref{eqn:migrate}, is
 \begin{equation}
-  \frac{ s_p \rho }{\alpha \xi^2} \sum_{i=1}^{k} \left(r_i \sqrt{2 s_m} /\sigma \right) \exp\left(- r_i \sqrt{2 s_m} /\sigma\right),
+  \migrate(r_i) = C \frac{ \rho s_p }{\xi^2 s_m} \sum_{i=1}^{k} \left(r_i \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m} /\sigma\right),
 \end{equation}
-and conditional on coming from migration the probability the adapted allele 
+and if the patch adapts through migration, the probability the adapted allele 
 comes from patch $i$ is 
 \begin{align}
-  \frac{\left(r_i \sqrt{2 s_m} /\sigma \right) \exp\left(- r_i \sqrt{2 s_m}
-    /\sigma\right)} {\sum_{j=1}^{k}  \left(r_i \sqrt{2 s_m} /\sigma \right) \exp\left(- r_i \sqrt{2 s_m}
+  \frac{\left(r_i \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m}
+  /\sigma\right)} {\sum_{j=1}^{k}  \left(r_i \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m}
     /\sigma\right) } .
 \end{align}
 These specify the transition rates of the process.
@@ -714,11 +715,11 @@ If a patch adapts through new mutation or a rare migrant lineage, the
 genomic region surrounding the selected site will hitchhike along with
 it \citep{maynardsmith1974hitchhiking},
 so that at least initially, all adapted individuals within a patch
-share a fairly long stretch of haplotype. \gc{Pairs of individuals
-  within a patch will share a haplotype of mean genetic length of
-  $\approx \approx \log(\rho A s_p)/s_p$ around the selected site,
+share a fairly long stretch of haplotype. 
+Pairs of individuals within a patch will share a haplotype of mean genetic length of
+$\approx \log(\rho A s_p)/s_p$ around the selected site, 
 as long as the patch is reasonably well mixed by dispersal
-\citep[otherwise see][]{BartonEtheridge13spatialHH}. }
+\citep[otherwise see][]{barton2013genetic}.
 This association gets slowly whittled down by recombination during interbreeding at the edge of the patch;
 but there will always be longer LD nearby to the selected site. 
 \plr{Could work out on what time scale it gets whittled down and the shared length at stationarity.}
@@ -731,112 +732,117 @@ because each reproductive event in locations where the allele is at low frequenc
 (In this case, the haplotype is literally hitchhiking across geography!)
 
 
-
-
 Above we argued that a good model for this transit is a single Brownian trunk lineage
 surrounded by a cloud of close relatives of random size $K$
-whose chance of surviving until $t$ generations is $k_e(t) \simeq e^{-\alpha t} / \E[K]$.
-Consider a single such family, and let $\tau$ be the (random) time it first hits the new patch,
-with $\tau = \infty$ if it never does. The length of the hitchhiking segment depends on the time
-spent by this trunk lineage ``in transit'' between the patches, i.e. $\tau$.
+whose chance of surviving until $t$ generations is $k_e(t)$.
+Consider a single such family, and let $\tau$ be the (random) time at which it first hits the new patch,
+with $\tau = \infty$ if it never does. 
+We assume that the length of the hitchhiking segment depends only on 
+the time spent by the trunk lineage of the first successful migrant ``in transit'' between the patches,
+i.e.\ $\tau$ conditioned on $\tau < \infty$.
+In so doing, we neglect 
+recombination between B alleles (since they are at low density in transit, we assume this is rare),
+and the possibility that more than one migrant family is in transit at once
+(so that faster migrants would be more likely to have arrived first);
+but these factors should be minor if the rest of our framework fits.
 
-By pulling out the constant $1/\E[K]$, we can use standard results on hitting times of $d$-dimensional Brownian motion
-that is killed at rate $\alpha$ \citet[][(2.2.0.1 and 4.2.0.1)]{borodin2002handbook} 
+Our first obstacle is that we do not know $k_e(t)$, 
+the distribution of the time until a family dies out, exactly.
+However, we do know that $k_e(t) \simeq e^{-s_m t} / \E[K]$,
+i.e.\ that it has exponential tails.
+Since $\E[K] \approx 1/s_m$, it is sensible to make one further approximation,
+replacing this random time by an exponential with rate $s_m$.
+Once we do this, 
+we can use standard results on hitting times of $d$-dimensional Brownian motion
+that is killed at rate $s_m$ \citet[][(2.2.0.1 and 4.2.0.1)]{borodin2002handbook} 
 In particular, if the patch is circular with radius $w$ and a distance
-$R$ from the already adapted patch, then we have the useful result
-about the Laplace transform of $\tau$ our transit time
+$R$ from the already adapted patch, then 
+we know that the Laplace transform of the transit time $\tau$ is
 \begin{align}
   \E[e^{-\ell \tau}] &=
     \begin{cases}
-      e^{- R \sqrt{2(\alpha+\ell)}/\sigma} \qquad & d=1 \\
-      \frac{ K_0( (R+w)\sqrt{2(\alpha+\ell)}/\sigma) }{ K_0( w\sqrt{2(\alpha+\ell)}/\sigma) } \qquad & d=2 
-    \end{cases} \label{borodinresult}
-    % &= \left( R/w +1 \right)^{-\frac{d-1}{2}} e^{- R \sqrt{2(\alpha+\ell)}/\sigma}  (1+O(1/w)) .
+      e^{- R \sqrt{2(s_m+\ell)}/\sigma} \qquad & d=1 \\
+      \frac{ K_0( (R+w)\sqrt{2(s_m+\ell)}/\sigma) }{ K_0( w\sqrt{2(s_m+\ell)}/\sigma) } \qquad & d=2  ,
+    \end{cases} \label{eqn:borodinresult}
+    % &= \left( R/w +1 \right)^{-\frac{d-1}{2}} e^{- R \sqrt{2(s_m+\ell)}/\sigma}  (1+O(1/w)) .
 \end{align}
-\gc{define $K_0$, bessel? We've used K for family size}
-We can find that the probability that a particular
-trunk lineageis killed before it reaches the new patch is
-$\P\{\tau < \infty\} = \lim_{\ell \to 0} \E \left[\exp(-\ell \tau)
-\right]$. We are interested in lineages that
-manage to establish on the patch i.e. $\tau< \infty$, and so in one dimension
-\begin{equation} \label{eqn:haplen_cdf}
-\E[e^{-\ell \tau}|\tau<\infty]  = \exp\left\{{-\frac{R}{\sigma}\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} .
-\end{equation}
-We can differentiate this to find that our expected transit time is
-\begin{equation}
-\E[\tau] = (R\sqrt{2\alpha}/\sigma)\times 1/(2\alpha)
-\end{equation}
-and $\var[\tau] = (R\sqrt{2\alpha}/\sigma) \times 1/(2\alpha)^2$ in
-one dimension. 
+where $K_0$ is a modified Bessel function of the second kind.
+We are interested in lineages that manage to reach the patch before being killed,
+i.e.\ having $\tau < \infty$,
+which occurs with probability
+$\P\{\tau < \infty\} = \lim_{\ell \to 0} \E \left[\exp(-\ell \tau) \right]$. 
 
-% \simeq (R/w+1)^{-(d-1)/2} \exp(- R \sqrt{2\alpha}/\sigma)$.
+To keep the expressions simple, in the remainder of this section we only compute quantities for one dimension.
+By Bayes' rule, the Laplace transform of $\tau$ for a successful lineage is
+\begin{equation} \label{eqn:haplen_cdf}
+\E[e^{-\ell \tau}|\tau<\infty]  = \exp\left\{{-\frac{R}{\sigma}\left(\sqrt{2(\ell+s_m)} - \sqrt{2s_m}\right)}\right\} .
+\end{equation}
+This can be differentiated to find that the expected transit time is
+\begin{equation} 
+  \E[\tau] = (R\sqrt{2s_m}/\sigma)\times 1/(2s_m) \label{eqn:mean_tau}
+\end{equation}
+and that $\var[\tau] = (R\sqrt{2s_m}/\sigma) \times 1/(2s_m)^2$.
+
+% \simeq (R/w+1)^{-(d-1)/2} \exp(- R \sqrt{2s_m}/\sigma)$.
 
 % Above, we approximated this by the time $\tau$ it takes the trunk lineage to hit the new patch;
 % now that we are studying a successful migrant family means we need to condition on the establishment occurring, i.e.\ on $\tau < \infty$.
 % By the above arguments, and equation~\eqref{eqn:estab_prob}, we have that the conditional probability density is
 % \begin{align}
 %   \P\{\tau\in dt | \tau<\infty \} &= \frac{\P\{\tau \in dt\}}{\P\{\tau<\infty\}} \\
-%   &= \frac{R}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{R^2}{2t\sigma^2} -\alpha t + \sqrt{\alpha} \frac{R}{\sigma} \right) .
+%   &= \frac{R}{\sigma^3 t^{3/2}\sqrt{2\pi}} \exp\left(-\frac{R^2}{2t\sigma^2} -s_m t + \sqrt{s_m} \frac{R}{\sigma} \right) .
 % \end{align}
 % \plr{more dimensions}
 
 Since each generation spent in transit provides an opportunity for recombination,
 if recombination is Poisson, the length of the haplotype (in Morgans)
-initially shared between populations on each side of the site will be exponentially distributed
+initially shared between populations on each side of the selected locus is exponentially distributed
 with mean $\tau$, so that if $L$ is the length of hitchhiking segment on, say, the right of
 the selected locus, then
 \begin{equation} \label{eqn:haplen_cdf2}
-\P\{L>\ell\} = \E[e^{-\ell \tau}|\tau<\infty] 
-%  &= \exp\left\{{-\frac{R}{\sigma}\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} .
+\P\{L>\ell\} = \E[e^{-\ell \tau}|\tau<\infty] ,
+%  &= \exp\left\{{-\frac{R}{\sigma}\left(\sqrt{2(\ell+s_m)} - \sqrt{2s_m}\right)}\right\} .
 \end{equation}
-which is our Laplace transform from above that in one dimension
-gives us eqn. \eqref{eqn:haplen_cdf}. This implies that in one dimension, if $Y$ is an exponential random variable with rate $R\sqrt{2}/\sigma$,
-then $L$ has the same distribution as $(Y + \sqrt{\alpha})^2 - \alpha$,
-from which we can obtain that the expected length of shared hitchiking
-haplotype is
+and so (one minus) equation~\eqref{eqn:haplen_cdf} in fact gives the cumulative distribution function of $L$.
+The form of this distribution function implies that if $Y$ is an exponential random variable with rate $R\sqrt{2}/\sigma$,
+then $L$ has the same distribution as $(Y + \sqrt{s_m})^2 - s_m$.
+Furthermore, the expected length of shared hitchiking haplotype is
 \begin{equation} \label{eqn:haplotype_length}
-\E[L] = \sigma \sqrt{2\alpha}/R + \sigma^2/R^2
+\E[L] = \sigma \sqrt{2s_m}/R + \sigma^2/R^2
 \end{equation}
-and thar $\var[L] = 2\alpha\sigma^2/R^2 + 4 \sigma^3 \sqrt{2\alpha}/R^3 + 5 \sigma^4 / R^4$.
+and $\var[L] = 2s_m\sigma^2/R^2 + 4 \sigma^3 \sqrt{2s_m}/R^3 + 5 \sigma^4 / R^4$.
 For two dimensions, asymptotics of Bessel functions show that $L$ has the same tail behavior,
-but how other properties might change is unclear. \gc{add some
+but how other properties might change is unclear. 
+
+As a general rule of thumb, equation~\eqref{eqn:mean_tau} means that families who successfully establish
+move at speed $\sqrt{s_m} \sigma$ towards the new patch 
+-- if $s_m$, the strength of the selection against them, is smaller, the need to move quickly is less imperative.
+Then, equation~\eqref{eqn:haplotype_length} means that the haplotype length
+is roughly the length one would expect given the mean transit time.
+Note that we have become used to seeing $\sigma$ divided by $\sqrt{s_m}$, rather than multiplied,
+the $\sigma/\sqrt{s_m}$ is a length scale, and to convert it to a time this is divided by $1/s_m$.
+
+
+\gc{add some
   sentences of intuition of how parameters play into haplotype length
-  here. is it really $\sigma \sqrt{\alpha}$ in \eqref{eqn:haplotype_length} and not $\sqrt{\alpha}/sigma$???}
+  here. is it really $\sigma \sqrt{s_m}$ in \eqref{eqn:haplotype_length} and not $\sqrt{s_m}/sigma$???}
 
 \gc{Perhaps we should separate the above bit into things that are
-  useful about $\tau$ and put those up by  \eqref{borodinresult} and
+  useful about $\tau$ and put those up by  \eqref{eqn:borodinresult} and
   things that are useful about $L$ here? We should also turn some of
   this into numbered equations. I tried to do this above, and have the
 commented out original below}
 
 
 
-% Since each generation spent in transit provides an opportunity for recombination,
-% if recombination is Poisson, the length of the hitchhiking segment (in Morgans) on each side of the site will be exponentially distributed
-% with mean $\tau$, so that if $L$ is the length of hitchhiking segment on, say, the right of
-% the selected locus, then in one dimension
-% \begin{align} \label{eqn:haplen_cdf}
-% \P\{L>\ell\} &= \E[e^{-\ell \tau}|\tau<\infty] \\
-%   &= \exp\left\{{-\frac{R}{\sigma}\left(\sqrt{2(\ell+\alpha)} - \sqrt{2\alpha}\right)}\right\} .
-% \end{align}
-% found by using eqn. \eqref{borodinresult}. This is also the Laplace transform of $\tau$;
-% we can differentiate it to find that $\E[\tau] = (R\sqrt{2\alpha}/\sigma)\times 1/(2\alpha)$
-% and $\var[\tau] = (R\sqrt{2\alpha}/\sigma) \times 1/(2\alpha)^2$.
-% Furthermore, this implies that if $Y$ is an exponential random variable with rate $R\sqrt{2}/\sigma$,
-% then $L$ has the same distribution as $(Y + \sqrt{\alpha})^2 - \alpha$,
-% from which we can obtain that
-% $\E[L] = \sigma \sqrt{2\alpha}/R + \sigma^2/R^2$ and $\var[L] = 2\alpha\sigma^2/R^2 + 4 \sigma^3 \sqrt{2\alpha}/R^3 + 5 \sigma^4 / R^4$.
-% For two dimensions, asymptotics of Bessel functions show that $L$ has the same tail behavior,
-% but how other properties might change is unclear.
-
 %%%
 \subsubsection{Limiting distribution of the transit time and hitchhiking haplotype}
 
 In the above we already assumed that the inter-patch distance $R$ is large relative to the migration-selection cline width $\sigma/\sqrt{s_m}$;
 by taking the large-$R$ limit above we can obtain a more intuitive description of the process
-via a central limit for $\tau$.
+via a central limit theorem for $\tau$.
 Define $\eta_\tau$ to be the deviation of $\tau$ from its mean, normalized by its standard deviation,
-so that $\tau = R/\sigma(2\alpha)^{-1/2} + \eta_\tau \sqrt{R/\sigma} (2\alpha)^{-3/4}$.
+so that $\tau = R/\sigma(2s_m)^{-1/2} + \eta_\tau \sqrt{R/\sigma} (2s_m)^{-3/4}$.
 Plugging this into equation~\eqref{eqn:haplen_cdf},
 after some algebra (and using that $\sqrt{R+\epsilon} = \sqrt{R} + \frac{\epsilon}{2\sqrt{R}} - \frac{\epsilon^2}{2\sqrt{R}^3} + O(\epsilon^3)$) we obtain that
 \begin{align}
@@ -847,14 +853,14 @@ this implies that $\eta_\tau$ converges in distribution to a standard Gaussian r
 In other words, we now know that the distribution of $\tau$ about its mean is approximately Gaussian.
 Since the standard deviation of $\tau$ is of lower order than its mean,
 a similar calculation shows that for large $R$, the haplotype halflength $L$ is approximately exponentially distributed, 
-with mean $\sqrt{2\alpha} \sigma/R$.
+with mean $\sqrt{2s_m} \sigma/R$.
 
 % \begin{align}
-%   \E[e^{-\ell \eta}] &= \E\left[ \exp\left\{-\ell\left(\tau - \frac{R}{\sigma\sqrt{2\alpha}}\right)\frac{(2\alpha)^{3/4}\sqrt{\sigma}}{\sqrt{R}} \right\} \right] \\
-%   &= \E\left[ \exp\left\{ - \left(\frac{\ell (2\alpha)^{3/4} \sqrt{\sigma}}{\sqrt{R}}\right) \tau \right\} \right] \exp\left( (2\alpha)^{1/4} \sqrt{\frac{R}{\sigma}} \right) \\
+%   \E[e^{-\ell \eta}] &= \E\left[ \exp\left\{-\ell\left(\tau - \frac{R}{\sigma\sqrt{2s_m}}\right)\frac{(2s_m)^{3/4}\sqrt{\sigma}}{\sqrt{R}} \right\} \right] \\
+%   &= \E\left[ \exp\left\{ - \left(\frac{\ell (2s_m)^{3/4} \sqrt{\sigma}}{\sqrt{R}}\right) \tau \right\} \right] \exp\left( (2s_m)^{1/4} \sqrt{\frac{R}{\sigma}} \right) \\
 % \end{align}
 
-XXX Check what happens in two dimensions. XXX
+\plr{let's leave two dimensions for the revisions. or, as an exercise? =)}
 
 
 %%%%%%%%%%
@@ -928,6 +934,8 @@ Graph: from simulation showing local proportions in a single patch showing initi
 unequal density: Lenormand, gene flow and limits of\dots
 
 small-scale fluctuations
+
+when landscape is not made of discrete (circular) patches
 
 \bibliography{standing_patches_refs}
 
