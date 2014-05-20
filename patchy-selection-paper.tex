@@ -863,6 +863,60 @@ with mean $\sqrt{2s_m} \sigma/R$.
 \plr{let's leave two dimensions for the revisions. or, as an exercise? =)}
 
 
+%%%%%%% %%%%%%%%%%
+\subsection{Length of the shared haplotype within a patch}
+
+To really make use of the expressions in the previous section for the length of a haplotype shared
+between patches that are coadapted through migration,
+we need to know the length of the haplotype shared by individuals \emph{within} a patch.
+A detailed treatment of this is well beyond the scope of this paper,
+but we can get a good idea of the scale through heuristic arguments.
+To do this, we compare the rates of coalescence to the rate of recombination between B and b haplotypes.
+
+Sharing is ultimately determined by the coalescence time within a patch at the B allele.
+We could make arguments about coalescence between lineages moving in the patch \citep[as in][]{hallatschek},
+but given the well-known difficulties to spatial coalescence \citep{felsenstein1978pain,bartonetheridgedepaulis},
+it seems reasonable to treat the patch as panmictic as far as coalescence is concerned.
+In other words, we suppose that all adapted individuals in a given patch have inherited their B allele from a single common ancestor living in the patch,
+and that the time back to the common ancestor at the selected locus between two randomly sampled individuals
+is exponentially distributed, with mean inversely proportional to the patch size, $1/(A\rho)$.
+If this is sufficiently shorter than the typical time to a common ancestor with a b allele,
+then the signal of a shared haplotype will be noticible.
+
+Consider a site at some distance to the selected locus, in two chromosomes carrying the B allele.
+The most recent common ancestor at this site may not be the same as that at the selected locus,
+but the two chromosomes will still share a haplotype at this site
+if coalescence at this site occurs before recombination onto the b background.
+In other words, if all ancestral chromosomes along the lineages connecting the two chromosomes to their most recent common ancestor
+carried the B allele,
+they share a B haplotype at that site.
+Therefore, we need to understand how often the ancestral lineage at a site linked to the selected locus
+moves between b and B backgrounds, as it moves across geography.
+\plr{alternate setup:}
+Consider the genotypes of two B-carrying chromosomes at a site linked to the selected site.
+The main thing we need to know is which of the following lived more recently:
+their most recent common ancestor at that site,
+or an ancestor of either of them at that site that carried the b allele.
+
+First consider the lineage of a single B allele, moving back through time.
+Suppose that the B allele is at mutation-selection balance, 
+with the local proportion of B alleles near $x$ equal to $p(x)$,
+and that we are close enough to the patch that fluctuations are small (unlike in previous sections).
+If we suppose that type B individuals at location $y$ reproduce at rate $1+s(y)$,
+and the chance their offspring move to $x$ is $m(y,x)$ (with $\sum_x m(y,x)=1$),
+then the total rate of influx of B alleles from $y$ into $x$ is $\rho p(y) (1+s(y)) m(y,x)$.
+This means that in time $dt$, a total of $ dt \, \rho p(y) (1+s(y)) m(y,x) \, dy \, dx $ new, type B migrants 
+will move from an area near $y$ of size $dy$ to an area near $x$ of size $dx$.
+Looking backwards in time, this is the number of $B$ alleles living at $x$
+who were produced by a parent from near $y$ in time $dt$.
+At equilibrium, there are $ \rho p(x) dx$ type B alleles in this area,
+so the probability that the lineage of a B allele at $x$ moves to near $y$ in time $dt$
+is 
+\begin{align}
+  r(x,y) \, dy = \frac{p(y)}{p(x)} (1+s(y)) m(y,x) \, dy .
+\end{align}
+
+
 %%%%%%%%%%
 \section{Applications} 
 Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, \emph{Chaetodipus intermedius}, building on classic work by \citet{dice1940ecologic,benson1933concealing}. These mice live on rock outcrops throughout the southwestern United States and northern Mexico, 
