@@ -1,4 +1,5 @@
 \documentclass{article}
+
 \usepackage{fullpage}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -11,13 +12,13 @@
 
 \begin{document}
 
-\subsection{Discrete model}
+\section{Discrete model}
 
 Consider a discrete model in which the total number of individuals at location $x$ is $N(x)$,
-each individual is of type either A or B at a selected locus,
-and the number of individuals of type A and location $x$ is $n(x)$.
-Suppose that type A individuals at location $x$ reproduce at rate $1+s_A(x)$, 
-and likewise type B at rate $1+s_B(x)$.
+each individual is of type either B or b at a selected locus,
+and the number of individuals of type B and location $x$ is $n(x)$.
+Suppose that type B individuals at location $x$ reproduce at rate $s_B(x)$, 
+and likewise type b at rate $s_b(x)$.
 At reproduction, individuals recombine with others in the same location,
 and the offspring choose a new location according to the kernel $m(x,y)$.
 The population dynamics are random, but suppose that $N(x)$ is sufficiently large that these do not vary with time;
@@ -27,49 +28,64 @@ at a locus separated from the selected locus by recombination fraction $r$.
 Suppose this is a Moran model.
 There are four things that can happen:
 \begin{enumerate}
-    \item[$x\xrightarrow{AA}y$] One type A individual at location $x$ reproduces, 
-        either does not recombine or recombines with another type A,
+    \item[$x\xrightarrow{BB}y$] One type B individual at location $x$ reproduces, 
+        either does not recombine or recombines with another type B,
         and sends the offspring to $y$.
-    \item[$x\xrightarrow{AB}y$] An individual at location $x$ reproduces, 
+    \item[$x\xrightarrow{Bb}y$] An individual at location $x$ reproduces, 
+        recombines with the other type,
+        and sends to $y$ an offspring
+        who inherits at the selected locus from the type b parent 
+        and the at the neutral locus from the type B parent.
+    \item[$x\xrightarrow{bB}y$] An individual at location $x$ reproduces, 
         recombines with the other type,
         and sends to $y$ an offspring
         who inherits at the selected locus from the type B parent 
-        and the at the neutral locus from the type A parent.
-    \item[$x\xrightarrow{BA}y$] An individual at location $x$ reproduces, 
-        recombines with the other type,
-        and sends to $y$ an offspring
-        who inherits at the selected locus from the type A parent 
-        and the at the neutral locus from the type B parent.
-    \item[$x\xrightarrow{BB}y$] One type B individual at location $x$ reproduces, 
-        either does not recombine or recombines with another type B,
+        and the at the neutral locus from the type b parent.
+    \item[$x\xrightarrow{bb}y$] One type b individual at location $x$ reproduces, 
+        either does not recombine or recombines with another type b,
         and sends the offspring to $y$.
 \end{enumerate}
 Let $p(x) = n(x)/N(x)$.
 These four things happen at rates:
 \begin{align}
-    & x\xrightarrow{AA}y & \qquad w_{AA}(x,y) &= p(y) (1+s_A(y)) \left(1 - r (1-p(y)) \right)  N(y) m(y,x) \\
-    & x\xrightarrow{AB}y & \qquad w_{AB}(x,y) &= r p(y) (1-p(y)) \left(1+\frac{s_A(y)+s_B(y)}{2}\right) N(y) m(y,x) \\
-    & x\xrightarrow{BA}y & \qquad w_{BA}(x,y) &= r p(y) (1-p(y)) \left(1+\frac{s_A(y)+s_B(y)}{2}\right) N(y) m(y,x) \\
-    & x\xrightarrow{BB}y & \qquad w_{BB}(x,y) &= (1-p(y)) (1+s_B(y)) \left(1 - r p(y) \right) N(y) m(y,x) 
+    & x\xrightarrow{BB}y & \qquad w_{BB}(x,y) &= p(x) s_B(x) \left(1 - r (1-p(x)) \right)  N(x) m(x,y) \\
+    & x\xrightarrow{Bb}y & \qquad w_{Bb}(x,y) &= r p(x) (1-p(x)) \frac{s_B(x)+s_b(x)}{2} N(x) m(x,y) \\
+    & x\xrightarrow{bB}y & \qquad w_{bB}(x,y) &= r p(x) (1-p(x)) \frac{s_B(x)+s_b(x)}{2} N(x) m(x,y) \\
+    & x\xrightarrow{bb}y & \qquad w_{bb}(x,y) &= (1-p(x)) s_b(x) \left(1 - r p(x) \right) N(x) m(x,y) 
 \end{align}
 
-These rates tell us precisely the rates at which a lineage will move, backwards in time.
-For instance, the rate at which a lineage currently in a type A individual at location $x$
-jumps to another type A individual at location $y$ is just $w_{AA}(y,x)$.
-A lineage at the selected locus (with $r=0$) in a type A individual moves according to these jump rates.
-If we follow a linked locus until the first time it is found in a type B individual,
+Note that at equilibrium, we require
+\begin{align}
+  0 = \sum_y N(y) m(y,x) \left\{ p(y)s_B(y)(1-p(x)) - (1-p(y))s_b(y)p(x) \right\} .
+\end{align}
+
+\subsection{Lineage movement}
+
+These rates tell us the rates at which a lineage will move, backwards in time.
+For instance, the rate at which a lineage at the selected locus
+currently in a type B individual at location $x$
+jumps to another type B individual at location $y$ is equal to the rate of influx of migrants from $y$
+divided by the number of B alleles at $x$,
+or
+\begin{align}
+  r_A(x,y) &= \frac{w_{BB}(y,x)}{p(x)N(x)} \\
+  &= N(y) p(y)  s_B(y) m(y,x) \frac{ 1 }{ N(x) p(x) }
+\end{align}
+
+If we follow a linked locus until the first time it is found in a type b individual,
 it moves according to these jump rates, and at location $x$ recombines at rate
 \begin{align}
-    \gamma_A(x) = \sum_y w_{BA}(y,x) .
+  \gamma_B(x) &= \frac{1}{N(x)p(x)}\sum_y w_{bB}(y,x)  \\
+  &= r p(y) (1-p(y)) \frac{s_B(y)+s_b(y)}{2} N(y) m(y,x) \frac{1}{N(x)p(x)}.
 \end{align}
-Suppose that we kill the lineage when it recombines onto type B.
+Suppose that we kill the lineage when it recombines onto type b.
 Let $X_t$ denote the position of the lineage at time $t$ in the past,
-with $X_t = \rho$ if it has recombined onto B,
+with $X_t = \rho$ if it has recombined onto b,
 and let $f$ be test function with $f(\rho)=0$.
-If we let $M_r(y) = p(y) (1+s_A(y)) \left(1 - r (1-p(y)) \right)  N(y)$, then
+If we let $M_r(y) = s_B(y) \left(1 - r (1-p(y)) \right)$, then
 \begin{align}
-    \deriv{t} \E[f(X_t) \given X_0=x ] &= \sum_y w_{AA}(y,x) ( f(y)-f(x) ) - \gamma_A(x) f(x) \\
-                                       &= \sum_y  M_r(y) m(y,x) ( f(y) - f(x)  ) - \gamma_A(x) f(x) .
+    \deriv{t} \E[f(X_t) \given X_0=x ] &= \sum_y r_{B}(y,x) ( f(y)-f(x) ) - \gamma_B(x) f(x) \\
+    &= \frac{1}{N(x)p(x)} \sum_y  N(y) p(y) M_r(y) m(y,x) ( f(y) - f(x)  ) - \gamma_B(x) f(x) . \label{eqn:discrete_generator}
 \end{align}
 
 \section{Diffusion limit}
@@ -87,41 +103,80 @@ Write $f'(x) = \deriv{x}f(x)$, and note that
     & \qquad - f(x) \frac{1}{\sigma^2} \sum_y m(y,x) (g(y)-g(x)) \\
     &\xrightarrow{\sigma \to 0} \frac{1}{2} \dderiv{x}\left( g(x)f(x) \right) - \frac{1}{2} f(x) \dderiv{x} g(x) \\
     &= \frac{1}{2} \left( g(x) f'(x) + 2 g'(x) f'(x) + f(x) g''(x) - f(x) g''(x) \right) \\
-    &= \frac{1}{2} g(x) f''(x) + g'(x) f'(x) .
+    &= \frac{1}{2} g(x) f''(x) + g'(x) f'(x) . \label{eqn:deriv_limit}
 \end{align}
+
 If we also rescale recombination, so that $\rho = r/\sigma^2$,
 then 
 \begin{align}
-    \frac{1}{\sigma^2} \gamma_A(x) \xrightarrow{\sigma \to 0} \rho p(x) (1-p(x)) \left( 1 + \frac{s_A(x)+s_B(x)}{2} \right) N(x) ,
+    \frac{1}{\sigma^2} \gamma_B(x) \xrightarrow{\sigma \to 0} \rho (1-p(x)) \frac{s_B(x)+s_b(x)}{2} ,
 \end{align}
 which we can define to be equal to $\rho k(x)$.
 In this case, note that since $r = \rho \sigma^2$,
 \begin{align}
-    M_r(x) \xrightarrow{\sigma \to 0} M(x) = p(x) (1+s_A(x)) N(x) .
+    M_r(x) \xrightarrow{\sigma \to 0} M(x) = s_B(x) .
 \end{align}
-Under these assumptions,
+Under these assumptions, combining \eqref{eqn:discrete_generator} and \eqref{eqn:deriv_limit},
 \begin{align}
     \deriv{t} \E[f(X_{t/\sigma^2}) \given X_0=x ] &\xrightarrow{\sigma \to 0} 
-    \frac{1}{2} M(x) f''(x) + M'(x) f'(x) - \rho k(x) f(x) ,
+    \frac{1}{2} s_B(x) \dderiv{x} f(x) + \frac{1}{N(x)p(x)} \deriv{x} \left\{ N(x)p(x) s_B(x) \right\}  \deriv{x} f(x) - \rho k(x) f(x) \\
+    &= \frac{1}{2} s_B(x) f''(x) + \left( s_B'(x) + \log(N(x)p(x))' s_B(x) \right) f'(x)  - \rho k(x) f(x) ,
 \end{align}
-i.e.\ $X_{t/\sigma^2}$ converges to a diffusion with drift $M'(x)$ and killed at rate $\rho k(x)$.
+i.e.\ $X_{t/\sigma^2}$ converges to a diffusion with drift $\frac{1}{ N(x)p(x)} \deriv{x} ( N(x) p(x) s_B(x) )$ and killed at rate $\rho k(x)$.
 
 \paragraph{Stationary distribution}
 If $X$ has a stationary distribution then its density $\pi(x)$ solves the forward Kolmogorov equation,
+which is here (letting $n(x) = N(x) p(x)$ for convenience)
 \begin{align}
-    0 &= - \deriv{x}\left( M'(x) \pi(x) \right) + \frac{1}{2} \dderiv{x} \left( M(x) \pi(x) \right) \\
-      &= - M''(x) \pi(x) - M'(x) \pi'(x) + \frac{1}{2} M''(x) \pi(x) + M'(x) \pi'(x) + \frac{1}{2} M(x) \pi''(x)  \\
-      &= \frac{1}{2} \left( M(x) \pi''(x) - M''(x) \pi(x) \right) .
+  0 &= \frac{1}{2} \dderiv{x} \left( s_B(x) \pi(x) \right) - \deriv{x} \left( \frac{\pi(x)}{n(x)} \deriv{x}(n(x) s_B(x)) \right) .
 \end{align}
-It is immediate that $\pi(x) = M(x)/Z$,
-where
+It is easy to check that $\pi(x) \propto n(x)^2 s(x) $ is a solution,
+and since it is nonnegative, the stationary distribution,
+i.e.
 \begin{align}
-    Z = \int p(x) (1+s_A(x)) N(x) dx .
+  \pi(x) = \frac{ \left( N(x) p(x) \right)^2 s_B(x) }{ \int_y \left( N(y) p(y) \right)^2 s_B(y) dy } ,
 \end{align}
+if the denominator (below denoted by $Z$) is finite.
+
+In other words, the stationary distribution is proportional to the local rate of production of $B$ alleles, \emph{squared}.
+
+
+\paragraph{Speed and scale}
+It will be useful to think about the Dubins-Schwartz construction of this diffusion.
+Note that if we define
+\begin{align}
+  z(x) = \int_{0}^x \frac{ dy }{ n(y)^2 s_B(y)^2 },
+\end{align}
+where $n(x) = N(x) p(x)$ as before,
+then
+\begin{align}
+  \deriv{t} \E^x[z(X_t)] &= \frac{1}{2} s_B(x) \deriv{x} \frac{1}{ n(x)^2 s_B(x)^2 } + \frac{1}{n(x)} \frac{ \deriv{x}(n(x)s_B(x)) }{  n(x)^2 s_B(x)^2 } \\
+  &= - s_B(x) \frac{ \deriv{x} (n(x)s_B(x)) }{ n(x)^3 s_B(x)^3 } + \frac{1}{n(x)} \frac{ \deriv{x}(n(x)s_B(x)) }{  n(x)^2 s_B(x)^2 } \\
+  &= 0 ,
+\end{align}
+that $Z_t = z(X_t)$ is a martingale.
+
+Since
+\begin{align}
+  dX_t = \frac{\deriv{x}(n(X_t)s_B(X_t))}{n(X_t)} dt + \sqrt{s_B(X_t)} dB_t,
+\end{align}
+then if $s_B(x)$ is bounded below, the lineage won't get stuck,
+and will always come back to the patch.
+Since $z'(x) = 1/(n(x)s_B(x))^2$,
+applying It\^o's formula,
+\begin{align}
+  dZ_t &=  z'(X_t) dX_t + \frac{1}{2} z''(X_t) s_B(X_t) dt \\
+  &= \frac{ dB_t }{ n^2(X_t) s_B^{3/2}(X_t) } ,
+\end{align}
+i.e.\ $Z_t$ ``looks like Brownian motion moving at speed $1/(n^4(X_t) s_B^3(X_t))$''.
+This happens because the transformation $z(x)$ squooshes up locations far away from the patch,
+where the lineage moves at a more-or-less constant speed;
+so that $Z_t$ has to move faster in those squooshed-up regions.
+
 
 \paragraph{Recombination time}
-Let $\tau_\rho$ be the first time  the lineage recombines onto type B.
-If $\rho$ is much smaller than the mixing time of a type A lineage,
+Let $\tau_\rho$ be the first time  the lineage recombines onto type b.
+If $\rho$ is much smaller than the mixing time of a type B lineage,
 then the time to recombination is roughly Exponential,
 with mean
 \begin{align}
@@ -129,7 +184,7 @@ with mean
 \end{align}
 The product $\pi(x) k(x)$ is:
 \begin{align}
-    \pi(x) k(x) = \frac{1}{Z} N(x)^2 p(x)^2 (1-p(x)) (1+s_A(x)) (1+(s_A(x)+s_B(x))/2) .
+    \pi(x) k(x) = \frac{1}{Z} N(x)^2 p(x)^2 s_B(x) (1-p(x)) (s_B(x)+s_b(x))/2 .
 \end{align}
 
 More generally, if we define
@@ -138,7 +193,7 @@ More generally, if we define
 \end{align}
 then $h$ solves the equation
 \begin{align}
-    -1 = M'(x) h'(x) + \frac{1}{2} M(x) h''(x) - \rho k(x) h(x) .
+  -1 = \frac{1}{n(x)}(n(x)s_B(x))' h'(x) + \frac{1}{2} s_B(x) h''(x) - \rho k(x) h(x) .
 \end{align}
 
 The probability that a segment of length $r = \rho \sigma^2$ to one side of the selected locus
@@ -161,7 +216,7 @@ However, if we let $T$ instead be independent Exponential($\lambda$), then
 \end{align}
 solves the equation
 \begin{align}
-  M'(x) \ell'(x) + \frac{1}{2} M(x) \ell''(x) - (\lambda + \rho k(x) ) \ell(x) = \lambda .
+  \frac{1}{n(x)}(n(x)s_B(x))' h'(x) + \frac{1}{2} s_B(x) h''(x) - (\lambda + \rho k(x)) h(x) = \lambda .
 \end{align}
 
 \paragraph{Questions:} 
