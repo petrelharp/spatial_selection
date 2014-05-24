@@ -273,8 +273,25 @@ I have the feeling Barton does similar things in one of his papers,
 but haven't been able to track it down.
 
 
+%%%%%%
+\section{Haplotype lengths}
 
-\paragraph{Questions:} 
+Some statements above about ``haplotype length'' aren't quite right.
+Consider the haplotype shared about two B alleles;
+by the time these coalesce, their ``shared haplotype'' in the above sense may be broken up into a number of blocks --
+all coalescing linked to other B alleles.
+More properly, the length of the contiguous haplotype
+is determined by branching diffusions.
+The single-lineage version is thus:
+begin a diffusion with mass equal to genetic length (of something, rescaled);
+then, any remaining particles split in two at rate proportional to their length,
+always labeling the particle corresponding to the selected allele;
+when this happens any particles other than the labeled particle may die
+or may continue as an independent diffusion.
+
+
+
+\section{Questions:} 
 \begin{enumerate}
 
     \item Do we get the same system using, say, a Wright--Fisher model?  (I assume so?)

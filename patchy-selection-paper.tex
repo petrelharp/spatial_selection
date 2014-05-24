@@ -833,6 +833,7 @@ the $\sigma/\sqrt{s_m}$ is a length scale, and to convert it to a time this is d
   this into numbered equations. I tried to do this above, and have the
 commented out original below}
 
+\plr{how's that?}
 
 
 %%%
@@ -905,17 +906,62 @@ and that we are close enough to the patch that fluctuations are small (unlike in
 If we suppose that type B individuals at location $y$ reproduce at rate $1+s(y)$,
 and the chance their offspring move to $x$ is $m(y,x)$ (with $\sum_x m(y,x)=1$),
 then the total rate of influx of B alleles from $y$ into $x$ is $\rho p(y) (1+s(y)) m(y,x)$.
-This means that in time $dt$, a total of $ dt \, \rho p(y) (1+s(y)) m(y,x) \, dy \, dx $ new, type B migrants 
-will move from an area near $y$ of size $dy$ to an area near $x$ of size $dx$.
-Looking backwards in time, this is the number of $B$ alleles living at $x$
-who were produced by a parent from near $y$ in time $dt$.
+As argued by \citet{hudson},
+in a discrete model the rate at which a B lineage moves from $x$ to $y$
+is this influx divided by the local abundance of $B$ alleles:
+\begin{align}
+  r(x,y) = \frac{ p(y) (1+s(y)) m(y,x) }{ p(x) } .
+\end{align}
+After the same large-population, continuous-space limit that underlies the rest of this paper,
+this motion should converge to a diffusion process \citep[that is similar to that studied by][]{hallatschek},
+notwithstanding some technical difficulties (e.g.\ discontinuity of $s(x)$).
+In It\^o differential notation, 
+the location $X_t$ of a B lineage $t$ generations ago satisfies
+\begin{align}
+  d X_t &= (1+s(X_t)) D \log( p(X_t) (1+s(X_t)) ) dt + \sigma \sqrt{1+s(X_t)} dB_t,\\
+    % &=  ( \log(p(X_t))' (1+s(X_t)) + s'(X_t) ) dt + \sqrt{1+s(X_t)} dB_t,\\
+\end{align}
+where $s(x)=s_p$ if $x$ is in the patch and $s(x)=s_m$ otherwise, 
+$B_t$ is a standard Brownian motion, and $D$ denotes the gradient operator.
+The main effect is the drift term, that pulls the lineage towards regions where $p(x)$ is larger;
+since $s$ is generally small, the speed of the Brownian noise term has little effect.
+Furthermore, it is easy to verify that the stationary distribution of this process is
+\begin{align}
+  \pi(x) = \frac{ p(x)^2 (1+s(x)) }{ \int_y p(y)^2 (1+s(y)) dy } .
+\end{align}
 
-XXX
+If we are instead following a lineage at a locus at genetic distance $r$ from the selected locus,
+and begin linked to a B allele,
+then the lineage will move as a B lineage up until the most recent time
+it is found linked to a b allele.
+If the lineage is at $x$, the probability that a recombination that moves it from a B background
+to a b background occurs in time $dt$ is $dt (1-p(x)) (1+s(x)/2)$.
+The Feynman-Kac formula could then be used to write down differential equations
+solved by various moments of the haplotype length as a function of the sampling location of the lineage.
+
+More simply, consider: within the patch, where $p(x) \approx 1$, 
+a linked lineage moves roughly as Brownian motion, and is unlikely to recombine onto a b background.
+The rate of recombination between B and b backgrounds depends on the proportion of the patch in which $p(x)$ is intermediate.
+This region where $p(x)$ is intermediate has width of order $\sigma/\sqrt{s}$, where $s = \min(s_p,s_m)$.
+As we increase the size of a patch, the area on which $p(x)$ is intermediate scales with the perimeter of the patch.
+Therefore, the proportion of the time a lineage at stationarity is found in the intermediate regions
+(and, therefore, the rate of recombination)
+is roughly $r (\sigma/\sqrt{s})A^{-1/d}$.
+This will be equal to the coalescence rate if
+$1/(A\rho) = r (\sigma/\sqrt{s}) A^{-1/d}$, 
+and hence the length of linkage shared within the patch is on the order of
+\begin{align}
+  \frac{1}{r} = \frac{ \sigma A^{(d-1)/d} }{\sqrt{s}} ,
+\end{align}
+which does not increase with $A$ in one dimension,
+but increases with $\sqrt{A}$ in two dimensions.
+
 
 
 %%%%%%%%%%
 \section{Applications} 
-Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, \emph{Chaetodipus intermedius}, building on classic work by \citet{dice1940ecologic,benson1933concealing}. These mice live on rock outcrops throughout the southwestern United States and northern Mexico, 
+Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, \emph{Chaetodipus intermedius}, building on classic work by \citet{dice1940ecologic,benson1933concealing}. 
+These mice live on rock outcrops throughout the southwestern United States and northern Mexico, 
 and generally have light pigmentation, presumably to match the color of the rock, avoiding visual-based predators. 
 However, in some regions these mice live on darker substrates such as old lava flows, 
 and in these patches have much darker pigmentation. 
