@@ -104,7 +104,11 @@ In section XX we \dots QUICK OUTLINE
   their way back through math, once they know where we are going}
 
   new mutation: \eqref{eqn:mutrate}; 
+ via migration  \eqref{eqn:migrate}
 
+
+Expected transit time \label{eqn:mean_tau}
+Expected haplotype length \label{eqn:haplotype_length}
 
 % http://www.nature.com/hdy/journal/v94/n2/full/6800600a.html   -- this is \citep{hoekstra2004local}
 
@@ -659,8 +663,9 @@ so that the overall time to adaptation is robustly predicted to increase with of
 and decrease with population density and benefical selection coefficient.
 Furthermore, the probability that the second adaptation is a new mutation,
 i.e.\ the probability of parallel adapatation, is in $d=1$ ($d=2$ only differs slightly)
-\begin{equation}
-  \frac{\mutrate}{\mutrate+\migrate(r)} = \frac{ A \mu \alpha }{2 A \mu \alpha + \exp\left(- \sqrt{2 s_m} r / \sigma \right) },
+\begin{equation} \label{eqn:parallel_prob}
+  \frac{\mutrate}{\mutrate+\migrate(r)} = \frac{ A \mu \alpha }{2 A
+    \mu \alpha + \exp\left(- \sqrt{2 s_m} r / \sigma \right) },  
 \end{equation}
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches, at rate $\sqrt{s_m} /\sigma$. 
@@ -689,7 +694,7 @@ The total rate of adaptation through migration, from equation \eqref{eqn:migrate
 \end{equation}
 and if the patch adapts through migration, the probability the adapted allele 
 comes from patch $i$ is 
-\begin{align}
+\begin{align}  \label{eqn:prob-parallel}
   \frac{\left(r_i \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m}
   /\sigma\right)} {\sum_{j=1}^{k}  \left(r_i \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m}
     /\sigma\right) } .
@@ -824,16 +829,6 @@ Note that we have become used to seeing $\sigma$ divided by $\sqrt{s_m}$, rather
 the $\sigma/\sqrt{s_m}$ is a length scale, and to convert it to a time this is divided by $1/s_m$.
 
 
-\gc{add some
-  sentences of intuition of how parameters play into haplotype length
-  here. is it really $\sigma \sqrt{s_m}$ in \eqref{eqn:haplotype_length} and not $\sqrt{s_m}/sigma$???}
-
-\gc{Perhaps we should separate the above bit into things that are
-  useful about $\tau$ and put those up by  \eqref{eqn:borodinresult} and
-  things that are useful about $L$ here? We should also turn some of
-  this into numbered equations. I tried to do this above, and have the
-commented out original below}
-
 
 
 %%%
@@ -929,7 +924,9 @@ The Pinacate allele is not present in a number of other populations of dark colo
 suggesting these populations have adapted in parallel. 
 However, there is some evidence \citep{Hoekstra:05} that, elsewhere in the range, 
 multiple dark outcrops may share a dark phenotype whose genetic basis has been spread by migration
-despite intervening light habitat.
+despite intervening light habitat. We use our framework to investigate
+how the probability of parallel mutation depends on the distance
+between lava flow patches.
 
 As can be seen from the above, a key parameter is the characteristic length $\sigma/\sqrt{s_m}$. 
 \citep{Hoekstra:04} studied the frequency of the dark MC1R allele, and coat color phenotypes, at sites on the Pinacate lava flow and at two nearby sites in light-colored rock.
@@ -956,8 +953,25 @@ broadly across vertebrates \citep{REF}.To span a range of plausible
 values we use a low mutation rate of $\mu= 10^{-8}$, where the adaptive
 mtation has to occur at a single base pair; and a high mutation
 rate $\mu= 10^{-5}$, equivalent to the mutation being able to arise at any of a thousand base pairs
-e.g. any of the coding bases of a typical length gene.  We set $A=100km^2$ reflecting a patch with a width of $\sim 10km$. 
+e.g. any of the coding bases of a typical length gene.  Finally we set
+$A=100km^2$ reflecting a patch with a width of $\sim 10km$. In Figure
+\ref{fig:mice_prob_parallel} we show the dependance of the probability
+of parallel mutation on the distance between lava flow patches using
+these parameters. As can be seen parallel mutation should become
+likely over a scale of tens to a few hundred kilometers between patches. 
 
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics{Lava_flow_mice_prob_parallel}
+  \end{center}
+  \caption{
+The probability of parallel mutation as a function of the distance
+between environmental patches for two different cline widths
+and two different mutation rates (using eqn. \eqref{eqn:prob-parallel}). The parameters were chosen to match  
+  \label{fig:mice_prob_parallel}
+  }
+\end{figure}
 
 
 \section{Discussion} 
