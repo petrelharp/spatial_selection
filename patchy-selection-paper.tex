@@ -954,54 +954,59 @@ but increases with $\sqrt{A}$ in two dimensions.
 
 %%%%%%%%%%
 \section{Applications} 
-Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, \emph{Chaetodipus intermedius}, building on classic work by \citet{dice1940ecologic,benson1933concealing}. 
-These mice live on rock outcrops throughout the southwestern United States and northern Mexico, 
-and generally have light pigmentation, presumably to match the color of the rock, avoiding visual-based predators. 
-However, in some regions these mice live on darker substrates such as old lava flows, 
-and in these patches have much darker pigmentation. 
-\citet{nachman2003different} demonstrated that on one of these flows (Pinacate), an allele at the MC1R locus is responsible for much of the change to a dark pelage.
+Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, 
+\emph{Chaetodipus intermedius}, building on classic work by \citet{benson1933concealing} and \citet{dice1940ecologic}.
+These mice live on rocky outcrops throughout the southwestern United States and northern Mexico, 
+and generally have a light pelage similar to the predominant rock color.
+However, in some regions these mice live on darker substrates (e.g.\ old lava flows),
+and in these patches have much darker pigmentation, 
+presumably to avoid visual predators.
+\citet{nachman2003different} demonstrated that on one of these flows (Pinacate), 
+much of the change in coloration is due to an allele at the MC1R locus.
 This dark allele differs from the light allele by four amino acid changes, 
 and has a dominant or partially dominant effect depending on the measure of coat color assessed. 
-These lava flows are separated from each other by a range of distances, 
+These areas of dark rock are separated from each other by a range of distances, 
 with some being separated from any other by hundreds of kilometers of light colored substrate. 
 The Pinacate allele is not present in a number of other populations of dark colored rock pocket mouse, 
-suggesting these populations have adapted in parallel. 
+suggesting these populations have adapted in parallel \citep{xxx}.
 However, there is some evidence \citep{Hoekstra:05} that, elsewhere in the range, 
 multiple dark outcrops may share a dark phenotype whose genetic basis has been spread by migration
-despite intervening light habitat. We use our framework to investigate
-how the probability of parallel mutation depends on the distance
-between lava flow patches.
+despite intervening light habitat. 
+We apply our theory to this example,
+in particular investigating how the probability of parallel mutation depends on 
+the distance between lava flow patches.
 
-As can be seen from the above, a key parameter is the characteristic length $\sigma/\sqrt{s_m}$. 
-\citep{Hoekstra:04} studied the frequency of the dark MC1R allele, and coat color phenotypes, at sites on the Pinacate lava flow and at two nearby sites in light-colored rock.
-On the lava flow the dark MC1R allele is at 86\% frequency. 
-At the Tule light substrate site, which is $\sim$ 12km from the flow, the dark MC1R allele was at $\sim$ 3\% frequency. 
-At a greater distance from the lava (XXXkm) the light colored substrate the dark MC1R was absent from a sample at the Christmas pass. 
-While at the other light substrate site (O'Neill), which is 10km from the flow on opposite side from Tule, 
-the dark MC1R allele has a frequency of $\sim$ 34\%. 
-On the basis of these numbers we can gain a sense of a plausible range of characteristic lengths.
+A key parameter above was the dispersal distance divided by the square root of strength of selection against the focal allele between patches, $\sigma/\sqrt{s_m}$. 
+\citep{hoekstra2004ecological} studied the frequency of the dark MC1R allele and coat color phenotypes, 
+at sites across the (dark) Pinacate lava flow and at two nearby sites in light-colored rock.
+On the lava flow the dark MC1R allele is at 86\% frequency,
+while at a site with light substrate 12km to the west (Tule), the frequency is 3\%.
+The dark allele was entirely absent from Christmas pass, a site with light substrate 7km north of Tule, and 3km further from the lava flow.
+In the other direction, the dark MC1R allele was at 34\% at a site with light substrate 10km to the east of the flow (O'Neill).
+These numbers give us a sense of a plausible range of characteristic lengths.
 Assuming the dark allele is at 50\% frequency at the edge of the lava flow, 
-we can fit the frequency found at each of the light substrate sites that are 
-polymorphic for the dark allele under a simple allele frequency cline model \citep{XXX}.
-Doing this for the Tule we obtain $\sigma/\sqrt{s_m} \approx 3$km and for the O'Neill site
-$\sigma/\sqrt{s_m} \approx 30$km, giving us a range of cline widths. We also need estimate of $s_m$,
-using  $\sigma=1km$ \gc{REF} our cline widths imply $s_m=3^{-1/2}$ and
-$30^{-1/2}$ are reasonable values.
+we can fit formula \eqref{eqn:eqfreq} to these frequencies.
+Doing this for Tule we obtain $\sigma/\sqrt{s_m} \approx 3$km, 
+and for O'Neill, $\sigma/\sqrt{s_m} \approx 30$km, giving us a range of cline widths. 
+We also need estimate of $s_m$. 
+Using $\sigma=1km$ \gc{REF}, these cline widths imply $s_m=1/\sqrt{3}$ and
+$1/\sqrt{30}$ are reasonable values.
+\plr{Going back to previous conversations, we came upon \citet{mullen2008natural}, 
+which has dispersal distance of 0.26km.  Shall we ask Nachman?}
 
 The mutational target size $\mu$ for the trait is unclear. 
 While the Pinacate dark haplotype differs from the light haplotype at three amino-acid residues,
-it is likely that not all of these changes are needed for a population to begin to  
-adapt. Also there a number of genes, beyond MC1R, at which adaptative changes affecting 
-pigmentation have been identified in closely related species and more
-broadly across vertebrates \citep{REF}.To span a range of plausible
-values we use a low mutation rate of $\mu= 10^{-8}$, where the adaptive
-mtation has to occur at a single base pair; and a high mutation
-rate $\mu= 10^{-5}$, equivalent to the mutation being able to arise at any of a thousand base pairs
-e.g. any of the coding bases of a typical length gene.  Finally we set
-$A=100km^2$ reflecting a patch with a width of $\sim 10km$. In Figure
-\ref{fig:mice_prob_parallel} we show the dependance of the probability
-of parallel mutation on the distance between lava flow patches using
-these parameters. As can be seen parallel mutation should become
+it is likely that not all of these changes are needed for a population to begin to  adapt. 
+Also there a number of genes besides MC1R at which adaptative changes affecting pigmentation 
+have been identified in closely related species and more broadly across vertebrates \citep{REF}.
+To span a range of plausible values, we use a low mutation rate of $\mu= 10^{-8}$, 
+where the adaptive mtation has to occur at a single base pair; 
+and a high mutation rate $\mu= 10^{-5}$, equivalent to the mutation being able to arise at any of a thousand base pairs,
+e.g.\ any of the coding bases of a typical gene.  
+Finally, we set $A=100\text{km}^2$.
+Figure~\ref{fig:mice_prob_parallel} shows the dependance of the probability
+of parallel mutation on the distance between lava flow patches using these parameters. 
+As can be seen parallel mutation should become
 likely over a scale of tens to a few hundred kilometers between patches. 
 
 
@@ -1012,7 +1017,8 @@ likely over a scale of tens to a few hundred kilometers between patches.
   \caption{
 The probability of parallel mutation as a function of the distance
 between environmental patches for two different cline widths
-and two different mutation rates (using eqn. \eqref{eqn:prob-parallel}). The parameters were chosen to match  
+and two different mutation rates (using equation \eqref{eqn:prob-parallel}). 
+The parameters were chosen to match  
   \label{fig:mice_prob_parallel}
   }
 \end{figure}
