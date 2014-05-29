@@ -102,7 +102,7 @@ params$patchdist <- sqrt( (row(params$s)-params$range[1]/2)^2 + (col(params$s)-p
 # and dispersal distance (for plotting)
 params$sigma <- getsigma(params)
 
-if (exists("initpop")) {
+if (!is.null(restart)) {
     # already loaded this from previous run 
     initpop <- with(renv,pophist$pop)
     initpop$params <- params
