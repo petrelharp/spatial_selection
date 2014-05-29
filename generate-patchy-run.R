@@ -30,14 +30,14 @@ params <- list(
         sm = -.01
     )
 
-run.id <- floor(runif(1)*10000)
-
 print(commandArgs(TRUE))
 
 # get command line modifications: put them in global and in params$
 for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
 for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
 # print(params)
+
+if (!exists("run.id")) { run.id <- floor(runif(1)*10000) }
 
 # load restarting parameters (but then make command-line modifications again)
 if (!is.null(restart)) {
@@ -73,29 +73,34 @@ source("sim-patchy-selection-fns.R")
 source("lineages.R")
 
 # postcompute
-if (min(params$range)>1) { # 2D
-    params$migrsteps <- c( lapply( 1:5, function (n) { c( 2^(-(n+2)), n, 0 ) } ),  ## 2D
-            lapply( 1:5, function (n) { c( 2^(-(n+2)), -n, 0 ) } ),
-            lapply( 1:5, function (n) { c( 2^(-(n+2)), floor(sqrt(n/2)), floor(sqrt(n/2)) ) } ), 
-            lapply( 1:5, function (n) { c( 2^(-(n+2)), -floor(sqrt(n/2)), floor(sqrt(n/2)) ) } ), 
-            lapply( 1:5, function (n) { c( 2^(-(n+2)), floor(sqrt(n/2)), -floor(sqrt(n/2)) ) } ), 
-            lapply( 1:5, function (n) { c( 2^(-(n+2)), -floor(sqrt(n/2)), -floor(sqrt(n/2)) ) } ), 
-            lapply( 1:5, function (n) { c( 2^(-(n+2)), 0, n ) } ), 
-            lapply( 1:5, function (n) { c( 2^(-(n+2)), 0, -n ) } ) )
-} else if (params$range[1]==1) {
-    params$migrsteps = c( lapply( 1:5, function (n) { c( 2^(-(n+2)), n, 0 ) } ),  ## 1D, y
-                          lapply( 1:5, function (n) { c( 2^(-(n+2)), -n, 0 ) } ) )
-} else {
-    params$migrsteps = c( lapply( 1:5, function (n) { c( 2^(-(n+2)), 0, n ) } ),  ## 1D, x
-                          lapply( 1:5, function (n) { c( 2^(-(n+2)), 0, -n ) } ) )
+if (is.null(params$migrsteps)) {
+    if (min(params$range)>1) { # 2D
+        params$migrsteps <- c( lapply( 1:5, function (n) { c( 2^(-(n+2)), n, 0 ) } ),  ## 2D
+                lapply( 1:5, function (n) { c( 2^(-(n+2)), -n, 0 ) } ),
+                lapply( 1:5, function (n) { c( 2^(-(n+2)), floor(sqrt(n/2)), floor(sqrt(n/2)) ) } ), 
+                lapply( 1:5, function (n) { c( 2^(-(n+2)), -floor(sqrt(n/2)), floor(sqrt(n/2)) ) } ), 
+                lapply( 1:5, function (n) { c( 2^(-(n+2)), floor(sqrt(n/2)), -floor(sqrt(n/2)) ) } ), 
+                lapply( 1:5, function (n) { c( 2^(-(n+2)), -floor(sqrt(n/2)), -floor(sqrt(n/2)) ) } ), 
+                lapply( 1:5, function (n) { c( 2^(-(n+2)), 0, n ) } ), 
+                lapply( 1:5, function (n) { c( 2^(-(n+2)), 0, -n ) } ) )
+    } else if (params$range[1]==1) {
+        params$migrsteps = c( lapply( 1:5, function (n) { c( 2^(-(n+2)), n, 0 ) } ),  ## 1D, y
+                              lapply( 1:5, function (n) { c( 2^(-(n+2)), -n, 0 ) } ) )
+    } else {
+        params$migrsteps = c( lapply( 1:5, function (n) { c( 2^(-(n+2)), 0, n ) } ),  ## 1D, x
+                              lapply( 1:5, function (n) { c( 2^(-(n+2)), 0, -n ) } ) )
+    }
+    params$migrsteps <- { msum <- sum( sapply(params$migrsteps,"[",1) ); lapply( params$migrsteps, function (x) { c(x[1]/msum,x[-1]) } ) }
 }
-params$migrsteps <- { msum <- sum( sapply(params$migrsteps,"[",1) ); lapply( params$migrsteps, function (x) { c(x[1]/msum,x[-1]) } ) }
 # define patch
-params$s <- with(params, matrix( sm, nrow=range[1], ncol=range[2] ) )
-params$s[ (row(params$s)-params$range[1]/2)^2 + (col(params$s)-params$range[2]/2)^2 <= (params$patchsize/2)^2 ] <- params$sb  # a central circle
-params$sigma <- getsigma(params)
-# compute distance to center of patch
+if (is.null(params$s)) {
+    params$s <- with(params, matrix( sm, nrow=range[1], ncol=range[2] ) )
+    params$s[ (row(params$s)-params$range[1]/2)^2 + (col(params$s)-params$range[2]/2)^2 <= (params$patchsize/2)^2 ] <- params$sb  # a central circle
+}
+# compute distance to center of patch (for plotting)
 params$patchdist <- sqrt( (row(params$s)-params$range[1]/2)^2 + (col(params$s)-params$range[2]/2)^2 ) 
+# and dispersal distance (for plotting)
+params$sigma <- getsigma(params)
 
 if (!exists("initpop")) {
     # if haven't loaded this from previous run already
