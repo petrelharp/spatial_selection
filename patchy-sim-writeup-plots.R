@@ -127,21 +127,25 @@ par(mar=c(5,4,1,1)+.1)
 # make a copy of the slice we want
 tmphist <- pophist
 # reverse time to get it going the right way on the plot
-tmphist$pophist <- tmphist$pophist[,,,(58e3:48e3),drop=FALSE]
+tmphist$pophist <- tmphist$pophist[,,,rev(5.5e4:6.3e4),drop=FALSE]
 ntimes <- dim(tmphist$pophist)[4]
 plotpophist(tmphist,transposed=TRUE,plotlegend=FALSE)
 # put time back
 tmphist$pophist <- tmphist$pophist[,,,ntimes:1,drop=FALSE]
 linit <- matrix( c(
         1, 1, ntimes,
-        30, 1, ntimes,
-        200, 1, ntimes,
+        # 10, 1, ntimes,
+        # 20, 1, ntimes,
+        # 30, 1, ntimes,
+        # 200, 1, ntimes,
+        # 190, 1, ntimes ,
+        # 180, 1, ntimes ,
         170, 1, ntimes ),
         ncol=3, byrow=TRUE )
 lins <- lineages( tmphist, linit=linit )
 LL <- plotlins(lins,plotit=FALSE)
 ltimes <- seq(from=1,to=dim(LL)[2],length.out=250)
-lcols <- c('black','blue','green','purple')
+lcols <- terrain_hcl(length(linit))
 invisible( lapply( 1:dim(LL)[3], function (k) { lines( LL[2,ltimes,k], dim(LL)[2]-ltimes, col=lcols[k]) } ) )
 dev.off()
 
