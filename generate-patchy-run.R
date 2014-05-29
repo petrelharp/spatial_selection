@@ -30,9 +30,13 @@ default.params <- list(
         sm = -.01
     )
 
-print(commandArgs(TRUE))
+opts <- commandArgs(TRUE)
+print(opts)
 
-# load restarting parameters (but then make command-line modifications again)
+# get command line modifications: put them in global here (need restart); in params$ below
+for (x in opts) { eval(parse(text=x)) }
+
+# load restarting parameters
 if (!is.null(restart)) {
     stopifnot(file.exists(restart))
     renv <- new.env()
@@ -42,9 +46,8 @@ if (!is.null(restart)) {
     params <- default.params
 }
 
-# get command line modifications: put them in global and in params$
-for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
-for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
+# get command line modifications: put them in params$ here; in global above
+for (x in gsub("^([^ <=]*[ <=])","params$\\1",opts)) { eval(parse(text=x)) }
 
 if (!exists("run.id")) { run.id <- floor(runif(1)*10000) }
 
