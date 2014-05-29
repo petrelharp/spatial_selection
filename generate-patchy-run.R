@@ -98,7 +98,7 @@ params$patchdist <- sqrt( (row(params$s)-params$range[1]/2)^2 + (col(params$s)-p
 # and dispersal distance (for plotting)
 params$sigma <- getsigma(params)
 
-if (exists(initpop)) {
+if (exists("initpop")) {
     # already loaded this from previous run 
     initpop <- with(renv,pophist$pop)
     initpop$params <- params
@@ -129,4 +129,4 @@ if (do.lineages) {
 
 save(pophist,lins,restart,run.id,file=filename)
 
-print("Done!")
+cat("\n",filename,"\n")
