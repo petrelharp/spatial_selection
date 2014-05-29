@@ -114,6 +114,39 @@ contour( x=1:dim(pophist$pophist)[2], y=seq(min(timeslice),max(timeslice),length
 invisible( lapply( 1:dim(LL)[3], function (k) { lines( LL[2,,k], Ltimes[useLtimes] ) } ) )
 dev.off()
 
+
+###
+# watch a lineage cross over
+run.name <- "67890-r1-301-sb0.05-sm-0.006-pophistory-run.Rdata"
+load(run.name)
+dimension <- sum(dim(pophist$pophist)[1:2]>1)
+
+
+pdf(file="sim-transit.pdf",width=5,height=3,pointsize=10)
+par(mar=c(5,4,1,1)+.1)
+# make a copy of the slice we want
+tmphist <- pophist
+# reverse time to get it going the right way on the plot
+tmphist$pophist <- tmphist$pophist[,,,(58e3:48e3),drop=FALSE]
+ntimes <- dim(tmphist$pophist)[4]
+plotpophist(tmphist,transposed=TRUE,plotlegend=FALSE)
+# put time back
+tmphist$pophist <- tmphist$pophist[,,,ntimes:1,drop=FALSE]
+linit <- matrix( c(
+        1, 1, ntimes,
+        30, 1, ntimes,
+        200, 1, ntimes,
+        170, 1, ntimes ),
+        ncol=3, byrow=TRUE )
+lins <- lineages( tmphist, linit=linit )
+LL <- plotlins(lins,plotit=FALSE)
+ltimes <- seq(from=1,to=dim(LL)[2],length.out=250)
+lcols <- c('black','blue','green','purple')
+invisible( lapply( 1:dim(LL)[3], function (k) { lines( LL[2,ltimes,k], dim(LL)[2]-ltimes, col=lcols[k]) } ) )
+dev.off()
+
+
+
 if (FALSE) {
     # trippy contours for 2D sims:
     f <- function (k,...) contour(pophist$pophist[,,2,k]/pophist$pop$params$N,levels=c(2/pophist$pop$params$N,.125,.5,.75),...)
