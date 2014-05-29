@@ -18,7 +18,7 @@ burnin <- 5e3
 restart <- NULL
 
 # Default parameters
-params <- list(
+default.params <- list(
         mu = 0,           # mutation rate
         r = 0.3,          # reproduction rate
         m = 0.2,         # probability of migration
@@ -37,8 +37,9 @@ if (!is.null(restart)) {
     stopifnot(file.exists(restart))
     renv <- new.env()
     load(restart,envir=renv)
-    old.params <- params
     params <- with(renv,pophist$pop$params)
+} else {
+    params <- default.params
 }
 
 # get command line modifications: put them in global and in params$
