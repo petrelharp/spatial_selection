@@ -32,13 +32,6 @@ params <- list(
 
 print(commandArgs(TRUE))
 
-# get command line modifications: put them in global and in params$
-for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
-for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
-# print(params)
-
-if (!exists("run.id")) { run.id <- floor(runif(1)*10000) }
-
 # load restarting parameters (but then make command-line modifications again)
 if (!is.null(restart)) {
     stopifnot(file.exists(restart))
@@ -46,16 +39,19 @@ if (!is.null(restart)) {
     load(restart,envir=renv)
     old.params <- params
     params <- with(renv,pophist$pop$params)
-    for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
-    initpop <- with(renv,pophist$pop)
-    initpop$params <- params
 }
+
+# get command line modifications: put them in global and in params$
+for (x in commandArgs(TRUE)) { eval(parse(text=x)) }
+for (x in gsub("^([^ <=]*[ <=])","params$\\1",commandArgs(TRUE))) { eval(parse(text=x)) }
+
+if (!exists("run.id")) { run.id <- floor(runif(1)*10000) }
 
 filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-pophistory-run.Rdata",sep="")
 run.list <- list.files(".","*-pophistory-run.Rdata")
 while (filename %in% run.list) {  # make sure don't overwrite something
     run.id <- floor(runif(1)*10000)
-    filename <- paste(run.id,stepsize,nsteps,"pophistory-run.Rdata",sep="-")
+    filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-pophistory-run.Rdata",sep="")
 }
 if (!interactive()) {
     logfile <- gsub(".Rdata",".Rout",filename,fixed=TRUE)
@@ -102,7 +98,11 @@ params$patchdist <- sqrt( (row(params$s)-params$range[1]/2)^2 + (col(params$s)-p
 # and dispersal distance (for plotting)
 params$sigma <- getsigma(params)
 
-if (!exists("initpop")) {
+if (exists(initpop)) {
+    # already loaded this from previous run 
+    initpop <- with(renv,pophist$pop)
+    initpop$params <- params
+} else {
     # if haven't loaded this from previous run already
     initpop <- newpop(params,ntypes=2,nseeds=0)
     initpop$n[,,1][params$s>0] <- 0
