@@ -126,12 +126,16 @@ pdf(file="sim-transit.pdf",width=5,height=3,pointsize=10)
 par(mar=c(5,4,1,1)+.1)
 # make a copy of the slice we want
 tmphist <- pophist
-# reverse time to get it going the right way on the plot
-tmphist$pophist <- tmphist$pophist[,,,rev(5.5e4:6.3e4),drop=FALSE]
+tmphist$pophist <- tmphist$pophist[,,,(5.5e4:6.3e4),drop=FALSE]
 ntimes <- dim(tmphist$pophist)[4]
-plotpophist(tmphist,transposed=TRUE,plotlegend=FALSE)
-# put time back
-tmphist$pophist <- tmphist$pophist[,,,ntimes:1,drop=FALSE]
+# plotpophist(tmphist,transposed=TRUE,plotlegend=FALSE)
+timeslice <- seq(1,ntimes,length.out=200)
+subph <- (tmphist$pophist[,,2,timeslice])/tmphist$pop$params$N
+image( x=1:dim(tmphist$pophist)[2], y=seq(min(timeslice),max(timeslice),length.out=200), subph, 
+    col=colorRampTrans('red',n=32)[c(1,7:32)], xlab='space (demes)', ylab='time (generations)' )
+image( x=1:dim(tmphist$pophist)[2], y=seq(min(timeslice),max(timeslice),length.out=200), subph>0, col=c(NA,adjustcolor("red",.1)), add=TRUE )
+contour( x=1:dim(tmphist$pophist)[2], y=seq(min(timeslice),max(timeslice),length.out=200), subph, levels=c(.5,.05), add=TRUE, col=grey(.4) )
+# lineages
 linit <- matrix( c(
         1, 1, ntimes,
         # 10, 1, ntimes,
@@ -145,10 +149,42 @@ linit <- matrix( c(
 lins <- lineages( tmphist, linit=linit )
 LL <- plotlins(lins,plotit=FALSE)
 ltimes <- seq(from=1,to=dim(LL)[2],length.out=250)
-lcols <- terrain_hcl(length(linit))
-invisible( lapply( 1:dim(LL)[3], function (k) { lines( LL[2,ltimes,k], dim(LL)[2]-ltimes, col=lcols[k]) } ) )
+lcols <- rep("black",length(linit)) # terrain_hcl(length(linit))
+invisible( lapply( 1:dim(LL)[3], function (k) { lines( LL[2,ltimes,k], ltimes, col=lcols[k]) } ) )
 dev.off()
 
+# same sim, longer plot
+# lineages
+linit <- matrix( c(
+        1, 1, max(timeslice),
+        10, 1, max(timeslice),
+        20, 1, max(timeslice),
+        30, 1, max(timeslice),
+        200, 1, max(timeslice),
+        190, 1, max(timeslice) ,
+        180, 1, max(timeslice) ,
+        170, 1, max(timeslice) ),
+        ncol=3, byrow=TRUE )
+lins <- lineages( pophist, linit=linit )
+LL <- plotlins(lins,plotit=FALSE)
+ltimes <- seq(from=1,to=dim(LL)[2],length.out=length(timeslice))
+
+# plot
+pdf(file="sim-stationary.pdf",width=5,height=8,pointsize=10)
+par(mar=c(5,4,2,2)+.1)
+timeslice <- seq(1,dim(pophist$pophist)[4],length.out=1000)
+subph <- (pophist$pophist[,,2,timeslice])/pophist$pop$params$N
+image( x=1:dim(pophist$pophist)[2], y=timeslice, subph, 
+    col=colorRampTrans('red',n=32)[c(1,7:32)], xlab='space (demes)', ylab='time (generations)' )
+image( x=1:dim(pophist$pophist)[2], y=timeslice, subph>0, col=c(NA,adjustcolor("red",.1)), add=TRUE )
+contour( x=1:dim(pophist$pophist)[2], y=timeslice, subph, levels=c(.5,.05), add=TRUE, col=grey(.4) )
+lcols <- diverge_hcl(length(linit), h = c(255, 330), l = c(40, 40))
+invisible( lapply( 1:dim(LL)[3], function (k) { 
+            lines( LL[2,ltimes,k], ltimes, col=lcols[k]) 
+        } ) )
+# coalescent events
+with( lins$coalevents, points( x, t, cex=4 ) )
+dev.off()
 
 
 if (FALSE) {
