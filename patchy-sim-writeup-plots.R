@@ -153,7 +153,7 @@ ltimes <- seq(from=1,to=dim(LL)[2],length.out=250)
 lcols <- rep("black",length(linit)) # terrain_hcl(length(linit))
 invisible( lapply( 1:dim(LL)[3], function (k) { lines( LL[2,ltimes,k], ltimes, col=lcols[k]) } ) )
 # simulate shared haplotype length
-localprops <- lins$localsizes[,,,drop=TRUE] / tmphist$pop$params$N
+localprops <- 1-lins$localsizes[,,,drop=TRUE] / tmphist$pop$params$N
 recombs <- list( matrix( rexp(prod(dim(localprops))), nrow=nrow(localprops) ),
         matrix( rexp(prod(dim(localprops))), nrow=nrow(localprops) ) )
 coaltime <- lins$coalevents$t[2]

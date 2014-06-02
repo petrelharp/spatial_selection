@@ -717,8 +717,11 @@ if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
   An initially unadapted patch (10 demes at the left end of the range) is colonized around generation 5000;
   a representative lineage from the new patch is shown transiting between the two and coalescing with a lineage
   in the unadapted patch.
-  As in Figure~\ref{fig:sim_snapshots}, color and contours show allele frequency across space and time;
+  In the left panel, as in Figure~\ref{fig:sim_snapshots}, color and contours show allele frequency across space and time;
   other simulation parameters are as in Figures~\ref{fig:sim_occupation_freqs}B and \ref{fig:sim_snapshots}.
+  The right panel shows (in red) the length of the shared haplotype between the two lineages
+  around the selected locus,
+  which decreases as time progresses.
   \label{fig:lineagesmotion}
   }
 \end{figure}
@@ -731,12 +734,11 @@ if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
 \label{ss:haplotype_length}
 
 If a patch adapts through new mutation or a rare migrant lineage, the
-genomic region surrounding the selected site will hitchhike along with
-it \citep{maynardsmith1974hitchhiking},
+genomic region surrounding the selected site will hitchhike along with it \citep{maynardsmith1974hitchhiking},
 so that at least initially, all adapted individuals within a patch
 share a fairly long stretch of haplotype. 
 Pairs of individuals within a patch will share a haplotype of mean genetic length of
-$\approx \log(\rho A s_p)/s_p$ around the selected site, 
+about $\log(\rho A s_p)/s_p$ around the selected site, 
 as long as the patch is reasonably well mixed by dispersal
 \citep[otherwise see][]{barton2013genetic}.
 This association gets slowly whittled down by recombination during interbreeding at the edge of the patch;
@@ -747,18 +749,17 @@ then the newly colonized patch will inherit a long piece of haplotype around the
 The genetic length of this haplotype is roughly inversely proportional to the
 number of generations the allele spends ``in transit'', 
 because each reproductive event in locations where the allele is at
-low frequency recombines haplotypes of the $b$ allele closer to the
-adaptive allele. In this case, the haplotype is literally hitchhiking across geography!
-\gc{In Figure \ref{fig:lineagesmotion} we show the lineage that founds a
-mutant population on a second patch. The entire time that the lineage
-is outside the dark red zone (where the B allele is common) the
-haplotype that accompanies it is being broken down. After the lineage
-establishes on the patch the rate of decay of the haplotype is
-significant slowed as it is again surrounded by other B
-gneotypes with the similar haplotypic backgrounds. We first discuss
-the transit of the lineage, and its accompanying haplotype, and return
-to this point about the whittling down of haplotypes within
-estalbished patches in the next section.}
+low frequency will likely recombine haplotypes of the $b$ allele closer to the adaptive allele. 
+In this case, the haplotype is literally hitchhiking across geography!
+Figure~\ref{fig:lineagesmotion} shows a simulation of such an event,
+including the lineage that founds an adaptive population on a second patch,
+and the length of the haplotype shared between this lineage and one in the original patch.
+The entire time that the lineage is outside the region where the B allele is common (dark red in Figure~\ref{fig:lineagesmotion}), 
+the haplotype that accompanies it is broken down rapidly. 
+After the lineage establishes on the patch, the rate of decay of the haplotype is slowed significantly, 
+since most others with which it recombines have similar haplotypic backgrounds. 
+We first discuss the transit of the lineage, and its accompanying haplotype, and return
+to how haplotypes are whittled down within estalbished patches in the next section.
 
 
 Above we argued that a good model for this transit is a single Brownian trunk lineage
@@ -840,7 +841,7 @@ Furthermore, the expected length of shared hitchiking haplotype is
 \E[L] = \sigma \sqrt{2s_m}/R + \sigma^2/R^2
 \end{equation}
 and $\var[L] = 2s_m\sigma^2/R^2 + 4 \sigma^3 \sqrt{2s_m}/R^3 + 5 \sigma^4 / R^4$.
-For two dimensions, asymptotics of Bessel functions show that $L$ has the same tail behavior,
+For two dimensions, asymptotics of Bessel functions show that $L$ has the same tail behavior;
 but how other properties might change is unclear. 
 
 As a general rule of thumb, equation~\eqref{eqn:mean_tau} means that families who successfully establish
@@ -848,15 +849,40 @@ move at speed $\sqrt{s_m} \sigma$ towards the new patch
 -- if $s_m$, the strength of the selection against them, is smaller, the need to move quickly is less imperative.
 Then, equation~\eqref{eqn:haplotype_length} means that the haplotype length
 is roughly the length one would expect given the mean transit time.
-Note that we have become used to seeing $\sigma$ divided by $\sqrt{s_m}$, rather than multiplied,
-the $\sigma/\sqrt{s_m}$ is a length scale, and to convert it to a time this is divided by $1/s_m$.
-\gc{In the Appendix Section \ref{apx:limiting_dist_of_HH_haplotype} we
-  give some expressions for the limiting distribution of
-  the length of shared haplotype.}
+Note that we have become used to seeing $\sigma$ divided by $\sqrt{s_m}$, rather than multiplied;
+it appears here because $\sigma/\sqrt{s_m}$ is a length scale, 
+and to convert it to a time this is divided by $1/s_m$.
+This intuitive picture can be expanded by a central limit theorem:
+for large $R$, the deviation of $\tau$ about its mean is asymptotically Gaussian,
+and the haplotype halflength $L$ is exponential.
 
-\gc{Graham pasted this to the appendix as it felt like too much information to drop on
-  people}
+% In Appendix~\ref{apx:limiting_dist_of_HH_haplotype}, 
+% we also give some expressions for the limiting distribution of the length of shared haplotype.
+
+\gc{Graham pasted this to the appendix as it felt like too much information to drop on people}
+\plr{I am sympathetic, but it's only a paragraph\dots how about that last sentence, instad?}
 %%%
+% 
+% \section{Limiting distribution of the transit time and hitchhiking haplotype}
+% \label{apx:limiting_dist_of_HH_haplotype}
+% 
+% In the above we already assumed that the inter-patch distance $R$ is large relative to the migration-selection cline width $\sigma/\sqrt{s_m}$;
+% also taking the large-$R$ limit, obtains a more intuitive description of the process
+% via a central limit theorem for $\tau$.
+% Define $\eta_\tau$ to be the deviation of $\tau$ from its mean, normalized by its standard deviation,
+% so that $\tau = R/\sigma(2s_m)^{-1/2} + \eta_\tau \sqrt{R/\sigma} (2s_m)^{-3/4}$.
+% Plugging this into equation~\eqref{eqn:haplen_cdf},
+% after some algebra (and using that $\sqrt{R+\epsilon} = \sqrt{R} + \frac{\epsilon}{2\sqrt{R}} - \frac{\epsilon^2}{2\sqrt{R}^3} + O(\epsilon^3)$) we obtain that
+% \begin{align}
+%   \E[e^{-\ell \eta}] &= \exp\left\{ \frac{\ell^2}{2} + O\left(\frac{1}{R}\right) \right\}.
+% \end{align}
+% Since the Laplace transform uniquely determines a distribution \citep{durrett1996probability},
+% this implies that $\eta_\tau$ converges in distribution to a standard Gaussian random variable as $R \to \infty$.
+% In other words, we now know that the distribution of $\tau$ about its mean is approximately Gaussian.
+% Since the standard deviation of $\tau$ is of lower order than its mean,
+% a similar calculation shows that for large $R$, the haplotype halflength $L$ is approximately exponentially distributed, 
+% with mean $\sqrt{2s_m} \sigma/R$.
+
 
 
 % \begin{align}
@@ -870,29 +896,30 @@ the $\sigma/\sqrt{s_m}$ is a length scale, and to convert it to a time this is d
 \subsection{Length of the shared haplotype within a patch}
 \label{ss:patch_haplotype}
 
-The other key issue in thinking about the population genetic signal of
-adaptation to spatial patches is the process by which haplotypes are
-whittled down within patches, which plays into a number of aspects of
-haplotype sharing. Thee initial haplotype of the sweep within a patch will
-diserpate over time as recombination brokes up the haplotype; likewise the haplotype that is shared 
-between patches that have
-adapted through a shared migrant allele
-(eqn. \ref{eqn:haplotype_length}) will also breakdown. 
-We first develop a simple approximation to the rate of
-recombination controling the breakdown of haplotypes within patches. 
-If we wait long enough after the initial sweep,
-either due to migration or mutation, the initial pattern will have
-decayed due to this process of recombination. However, within patches
-we should expect to find a larger extent of haplotype sharing close to
-the selected locus, than in surrounding geographic regions as
-selection against migrant lineage slows the diserpation of
-genetic drift accumulated within the patch \citep{bartonpaper,charlesworths}. 
+The other key issue in thinking about the population genetic signal of adaptation in spatial patches 
+is the process by which haplotypes are whittled down within patches, 
+which plays into a number of aspects of haplotype sharing. 
+The initial haplotype that sweeps within a patch 
+will be dispersed over time by recombination;
+likewise, the haplotype that is shared between patches coadapted by migration
+(equation~\ref{eqn:haplotype_length}) will also break down. 
+We first develop a simple approximation to the rate 
+at which recombination breaks down haplotypes within patches. 
+If we wait long enough after the initial adaptation of a patch,
+the haplotype that swept initially will have decayed due to this process of recombination. 
+However, we still expect to find individuals within the patch sharing long haplotypes around the selected locus
+than with individuals elsewhere,
+since selection against migrants 
+decreases mean coalescence times within the patch near the selected locus.
+\citep{bartonpaper,charlesworths}. 
 
-We refer the reader again to Figure \ref{fig:lineagesmotion}. When a lineage in
-established patch is in the dark red area, where the B allele is common, it is very unlikely to
-recombine off the B background. However, when it wanders out of the
-patch into the paler red and white areas when it recombines it will
-usually be on to the b allele background.
+Refer again to Figure~\ref{fig:lineagesmotion}. 
+When a lineage is in a region with high frequency of B alleles (dark red), 
+it is very unlikely to recombine off the B background. 
+However, when it wanders out of the patch,
+into regions with lower frequency of B alleles,
+when it recombines it will
+usually be on to the background of the b allele.
 
 A detailed treatment of this is well beyond the scope of this paper,
 but we can get a good idea of the genomic scale of these effects through heuristic arguments.
@@ -903,7 +930,8 @@ Consider the lineage of a single B allele, moving back through time,
 in a patch at migration-selection balance, 
 i.e.\ with the local proportion of B alleles near $x$ equal to $p(x)$,
 and that the lineage stays close enough to the patch 
-that fluctuations about $p(x)$ are small. (Note that this assumption differs from
+that fluctuations about $p(x)$ are small. 
+(Note that this assumption differs from
 previous sections, but here our focus is on a typical lineage in the
 patch rather than the rare lineages that make it far from the patch).
 If we suppose that type B individuals at location $y$ reproduce at rate $1+s(y)$,
@@ -937,70 +965,80 @@ moves as a B lineage up until the most recent time
 it recombined from a b background to a B background,
 which occurs when at $x$ with rate $r (1-p(x)) (1+s(x)/2)$.
 The Feynman-Kac formula could then be used to write down differential equations
-solved by various moments of the haplotype length as a function of the sampling location of the lineage.
+solved by various moments of the haplotype length as a function of the sampling location of the lineage;
+instead, we only use the above as a guide for rough approximation.
 
-As our goal here to describe the rough genomic length scale, 
-based on the above, we view 
-the lineage is simply bouncing around in the patch backward in time and we propose a
-simple heurstic to describe the probability of recombination. 
+Based on this picture of
+the lineage bouncing around in the patch,
+we propose a simple heurstic to describe the probability of recombination. 
 If recombination is on a slower time scale than mixing within the patch,
 then the time until the last recombination is the integral of $r (1-p(x)) (1+s(x)/2)$ 
-against the stationary distribution (eqn. \ref{eqn:lineagestatdist}).
+against the stationary distribution (equation~\ref{eqn:lineagestatdist}).
 Within the patch, $p(x) \approx 1$,
 so recombination off the $B$ background is unlikely to occur,
 and so the rate of recombination depends to a first approximation 
 on the proportion of the patch in which $p(x)$ is intermediate,
-i.e. were both $B$ and $b$ are present.
+i.e.\ where both $B$ and $b$ are present.
 This region where $p(x)$ is intermediate has width of order $\sigma/\sqrt{s}$, where $s = \min(s_p,s_m)$.
 As we increase the size of a patch, the area on which $p(x)$ is intermediate scales with the perimeter of the patch.
 Therefore, the proportion of the time a lineage at stationarity is found in the intermediate regions
 multiplied by $p(x)$ in these intermediate regions, where we assume
 $p(x) \approx 1/2$. Under these approximations the per generation rate of
-recombination of a linked lineage to the b background is, taking in this region, roughly 
+recombination of a linked lineage to the b background is
+reduced by a factor roughly equal to the proportion of the patch lying within distance $\sigma/\sqrt{s}$ of the boundary,
+i.e.
 % \begin{equation}
 % r (\sigma/\sqrt{s})A^{-1/d} \label{eqn:rate-rec-in-patch}
 % \end{equation}
+\plr{Note to ourselves: If a $d$-dimensional object with area A has radius $r$ (in any sense)
+and you shrink it to have radius $r_0$,
+then the resulting object has area $A \times (r_0/r)^d$;
+here we have $r_0 = r - \sigma/\sqrt{s}$,
+in $d=1$ the radius is $A/2$ and in $d=2$ it is $\sqrt{A/\pi}$.}
 \begin{align}
-&=
+  r_\text{eff} &=
     \begin{cases}
-    r \frac{\frac{\sigma}{\sqrt{s}} }{\frac{\sigma}{\sqrt{s}} + A }    \qquad & d=1 \\
-   r \frac{\pi  \frac{\sigma}{\sqrt{s}} \left( \frac{\sigma}{\sqrt{s}} +
-  \sqrt{\frac{A}{\pi}} \right)}{A+\pi  \frac{\sigma}{\sqrt{s}} \left( \frac{\sigma}{\sqrt{s}} +
-  \sqrt{\frac{A}{\pi}} \right) }    \qquad & d=2 \\  
-\end{cases}
+      r \frac{2\sigma}{A\sqrt{s}}    \qquad & d=1 \\
+      r \frac{\sqrt{\pi} \sigma }{ \sqrt{ s A } } \qquad & d=2 \\  
+\end{cases} ,
 \label{eqn:rate-rec-in-patch}   %(\sigma/\sqrt{s})A^{-1/d}
 \end{align}
-We can use this to first of all think about the length of haplotype
-associated with the $B$ allele after a given length of time $\tau$,
-this could the the time since the sweep within a patch due to a
-mutation or migration of a beneficial allele. If the recombination
-rate per base is $r_{BP}$ then the length of haplotype associated with
-the $B$ allele is
+i.e.\ the reduction in recombination rate is proportional to $(\sigma/\sqrt{s})A^{-1/d}$.
+We can use this to think about the length of the haplotype
+associated with the $B$ allele after a given length of time $T$,
+for instance, the time since the $B$ allele joined the patch.
+\plr{changed this to genetic lengths so as not to introduce another parameter, $r_{BP}$}
+% If the recombination rate per base is $r_{BP}$, 
+% then the length of the haplotype associated with the $B$ allele is
+% \begin{equation}
+% \frac{\sqrt{s}}{\sigma A^{-1/d}}\frac{1}{r_{BP}}
+% \end{equation} 
+In units of genetic length (Morgans),
+the length of the haplotype associated with the $B$ allele is, up to a constant,
 \begin{equation}
-\frac{\sqrt{s}}{\sigma A^{-1/d}}\frac{1}{r_{BP}}
+  \frac{A^{1/d}\sqrt{s}}{\sigma T}
 \end{equation} 
-note that the length of haplotype decays at a rate proportional to the
+Note that the length of haplotype decays at a rate proportional to the
 cline width $\sqrt{s} / \sigma$, as the narrower the cline the less
-opportunity for recombination to move our lineage off the $B$
-background. 
+opportunity for recombination to move our lineage off the $B$ background. 
  
-Finally we can consider the expected length of haplotype shared within
-a patch. To do this, we compare the rate of recombination between B
-and b haplotypes (eqn. \ref{eqn:rate-rec-in-patch})
-to the rate of coalescence of B haplotypes within a patch. We will
-assume that mixing within the patch is fast compared to the rate of
-drift, so that the rate of coalescence of B alleles within a patch is 
-$1/(A\rho)$ 
+Finally we can consider the expected length of haplotype shared within a patch. 
+To do this, we compare the rate of recombination between B and b haplotypes (equation~\ref{eqn:rate-rec-in-patch})
+to the rate of coalescence of B haplotypes within a patch. 
+We will assume that mixing within the patch is fast compared to the rate of drift, 
+so that the rate of coalescence of B alleles within a patch is 
+$\xi^2/(A\rho)$,
+the ``variance effective population size'' of the patch
 (this bypasses the well-known difficulties to spatial coalescence \citep{felsenstein1978pain,bartonetheridgedepaulis}).
 The rate of recombination and coalescence will be on the same order if
-$\xi /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$, 
+$\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$, 
 and hence the genetic length of haplotype shared between pairs of
 individuals within the patches is on the order of
 \begin{align}
-  r = \frac{\sqrt{s} \xi}{\sigma \rho A^{(d-1)/d}} 
+  r = \frac{\sqrt{s} \xi^2}{\sigma \rho A^{(d-1)/d}} 
 \end{align}
-which does not increase with $A$ in one dimension,
-but decreases with $\sqrt{A}$ in two dimensions .
+which does not depend on $A$ in one dimension,
+but decreases with $\sqrt{A}$ in two dimensions.
 
 %%%%%%%%%%
 \section{Applications} 
@@ -1422,26 +1460,6 @@ Argue that $C=0.5$ is a reasonable number.
     }
 \end{figure}
 
-
-\section{Limiting distribution of the transit time and hitchhiking haplotype}
-\label{apx:limiting_dist_of_HH_haplotype}
-
-In the above we already assumed that the inter-patch distance $R$ is large relative to the migration-selection cline width $\sigma/\sqrt{s_m}$;
-by taking the large-$R$ limit above we can obtain a more intuitive description of the process
-via a central limit theorem for $\tau$.
-Define $\eta_\tau$ to be the deviation of $\tau$ from its mean, normalized by its standard deviation,
-so that $\tau = R/\sigma(2s_m)^{-1/2} + \eta_\tau \sqrt{R/\sigma} (2s_m)^{-3/4}$.
-Plugging this into equation~\eqref{eqn:haplen_cdf},
-after some algebra (and using that $\sqrt{R+\epsilon} = \sqrt{R} + \frac{\epsilon}{2\sqrt{R}} - \frac{\epsilon^2}{2\sqrt{R}^3} + O(\epsilon^3)$) we obtain that
-\begin{align}
-  \E[e^{-\ell \eta}] &= \exp\left\{ \frac{\ell^2}{2} + O\left(\frac{1}{R}\right) \right\}.
-\end{align}
-Since the Laplace transform uniquely determines a distribution \citep{durrett1996probability},
-this implies that $\eta_\tau$ converges in distribution to a standard Gaussian random variable as $R \to \infty$.
-In other words, we now know that the distribution of $\tau$ about its mean is approximately Gaussian.
-Since the standard deviation of $\tau$ is of lower order than its mean,
-a similar calculation shows that for large $R$, the haplotype halflength $L$ is approximately exponentially distributed, 
-with mean $\sqrt{2s_m} \sigma/R$.
 
 
 %%%%%%%%%%%
