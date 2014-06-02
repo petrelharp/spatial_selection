@@ -953,13 +953,22 @@ i.e. were both $B$ and $b$ are present.
 This region where $p(x)$ is intermediate has width of order $\sigma/\sqrt{s}$, where $s = \min(s_p,s_m)$.
 As we increase the size of a patch, the area on which $p(x)$ is intermediate scales with the perimeter of the patch.
 Therefore, the proportion of the time a lineage at stationarity is found in the intermediate regions
-is roughly $2(\sigma/\sqrt{s})A^{-1/d}$, and in these regions $p(x)
-\approx 1/2$. Under these approximations the per generation rate of
+multiplied by $p(x)$ in these intermediate regions, where we assume
+$p(x) \approx 1/2$. Under these approximations the per generation rate of
 recombination of a linked lineage to the b background is, taking in this region, roughly 
-\plr{THIS CAN GET VALUES $>$ 1}
-\begin{equation}
-r (\sigma/\sqrt{s})A^{-1/d} \label{eqn:rate-rec-in-patch}
-\end{equation}
+% \begin{equation}
+% r (\sigma/\sqrt{s})A^{-1/d} \label{eqn:rate-rec-in-patch}
+% \end{equation}
+\begin{align}
+&=
+    \begin{cases}
+    r \frac{\frac{\sigma}{\sqrt{s}} }{\frac{\sigma}{\sqrt{s}} + A }    \qquad & d=1 \\
+   r \frac{\pi  \frac{\sigma}{\sqrt{s}} \left( \frac{\sigma}{\sqrt{s}} +
+  \sqrt{\frac{A}{\pi}} \right)}{A+\pi  \frac{\sigma}{\sqrt{s}} \left( \frac{\sigma}{\sqrt{s}} +
+  \sqrt{\frac{A}{\pi}} \right) }    \qquad & d=2 \\  
+\end{cases}
+\label{eqn:rate-rec-in-patch}   %(\sigma/\sqrt{s})A^{-1/d}
+\end{align}
 We can use this to first of all think about the length of haplotype
 associated with the $B$ allele after a given length of time $\tau$,
 this could the the time since the sweep within a patch due to a
@@ -1040,15 +1049,30 @@ it is likely that not all of these changes are needed for a population to begin 
 Also there a number of genes besides MC1R at which adaptative changes affecting pigmentation 
 have been identified in closely related species and more broadly across vertebrates \citep{REF}.
 To span a range of plausible values, we use a low mutation rate of $\mu= 10^{-8}$, 
-where the adaptive mtation has to occur at a single base pair; 
-and a high mutation rate $\mu= 10^{-5}$, equivalent to the mutation being able to arise at any of a thousand base pairs,
-e.g.\ any of the coding bases of a typical gene.  
+where the adaptive mutation has to occur at a single base pair; 
+and a high mutation rate $\mu= 10^{-5}$, equivalent to the mutation
+being able to arise at any of a thousand base pairs.  
 Finally, we set $A=100\text{km}^2$.
 Figure~\ref{fig:mice_prob_parallel} shows the dependance of the probability
 of parallel mutation on the distance between lava flow patches using these parameters. 
 As can be seen parallel mutation should become
 likely over a scale of tens to a few hundred kilometers between patches. 
 
+Givn the large selection coefficient associated with the dark allele
+on the dark substrate we expect the initial sweep associated with
+either a new mutation or migrant allele to be large ($s/\log(\rho A
+s)$). We can use eqn \eqref{eqn:haplotype_length} to calculate how long a
+founding haplotype we initially expect to find shared between populations
+this in Figure \ref{fig:mice_prob_parallel}. The initial length can be
+quite long between geographically close patches (tens of km). However,
+for our wider cline width ($\sigma/\sqrt{s_m} =30km$) adaptation by
+migration can still be likely for patches 100km apart but its shared
+basis may be hard to detect as the length of shared haplotype can be
+quite short. 
+
+Given the relatively small size of the dark substrate patches where
+$A$ is often $<10km$ we should expect the haplotype to be rapidly
+whittled down within patches (eqn. \ref{})
 
 \begin{figure}[ht]
   \begin{center}
@@ -1079,6 +1103,12 @@ standing variation will be important under these circumstances;
 migration rate (and so geographic structure) will not affect numbers of types if this is true; 
 however migration always affcts spatial patterns. 
 
+recessive alleles will have different dynamics. Actually not really
+obvious what will happen here, cline width will be much wider but
+prob. of taking off will go as the square of the occupancy density.
+
+
+
 discussion of applications. 
 
 discuss mixing of types; 
@@ -1087,7 +1117,6 @@ Graph: from simulation showing local proportions in a single patch showing initi
 unequal density: Lenormand, gene flow and limits of\dots
 
 small-scale fluctuations
-
 when landscape is not made of discrete (circular) patches
 
 \bibliography{standing_patches_refs}
