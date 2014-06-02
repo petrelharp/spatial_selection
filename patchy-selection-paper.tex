@@ -242,16 +242,13 @@ the time scale on which new patches become colonized by the $B$ allele from new 
 %%%%%%%
 \subsection{Establishment of a locally adaptive allele due to migrational influx}
 \label{ss:patchymigration}
-\gc{There's a bunch of switching between x and r in this section}
+
 Now suppose that there are two patches, each of area $A$ and separated by distance $R$. 
 If the $B$ allele has arisen and become established in the first patch, but has not yet appeared in the second,
 we would like to know the time scale on which copies of $B$ move between patches by migration
 (so, ignoring the possibility that a $B$ allele arises independently by mutation in the first patch).
 To determine this, we dissect the process by which an allele transits between the patches,
 in the process obtaining other useful information about the genealogy of B alleles.
-
-\gc{Could you make the CI or sample path in Figure 1B be different colors, the grey and black are too close to each other.}
-\plr{how's that?  I'm not sure what to do about the grey; the real problem is that the CIs are too small. If I ran them for less time they would be\dots}
 
 Migration--selection balance ensures that 
 there will be some number of $B$ alleles present in the regions where they are disadvantageous,
@@ -428,7 +425,6 @@ then this gives the following decomposition:
 where each $Z^{(s,k)}$ is an independent copy of $Z$ 
 that arose from the main branch in generation $s$,
 and each $W_s$ is an independent copy of the offspring distribution, conditioned on $W_s \ge 1$.
-\gc{Is there no 1+ in the equation above for the main branch? } \plr{oops; yep.}
 
 
 \begin{figure}[ht!!]
@@ -498,8 +494,6 @@ from $\partial B(r_0)$:
     q(y) &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  . % \\
          % &= \int_{\partial B(r_0)} \gamma(x) \int_0^t e^{-s_m t} p_t(x,y) dt dx .
 \end{align}
-\gc{define $\gamma(x)$ presumably the outflux of branches leaving ball}
-\plr{it was defined at the start of this paragraph.}
 
 This form we can now compare to 
 the expression \eqref{eqn:gestalt_migrate} for the outflux of successful migrants.
@@ -718,6 +712,13 @@ if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
   \end{center}
   \caption{
   BLAH BLAH WIGGLY LINE
+  \plr{can we please keep that caption? ok, fine\dots}
+  \textbf{Adaptation by migration:}
+  An initially unadapted patch (10 demes at the left end of the range) is colonized around generation 5000;
+  a representative lineage from the new patch is shown transiting between the two and coalescing with a lineage
+  in the unadapted patch.
+  As in Figure~\ref{fig:sim_snapshots}, color and contours show allele frequency across space and time;
+  other simulation parameters are as in Figures~\ref{fig:sim_occupation_freqs}B and \ref{fig:sim_snapshots}.
   \label{fig:lineagesmotion}
   }
 \end{figure}

@@ -123,6 +123,7 @@ dimension <- sum(dim(pophist$pophist)[1:2]>1)
 
 
 pdf(file="sim-transit.pdf",width=5,height=3,pointsize=10)
+layout(t(1:2),width=c(3,1))
 par(mar=c(5,4,1,1)+.1)
 # make a copy of the slice we want
 tmphist <- pophist
@@ -151,6 +152,28 @@ LL <- plotlins(lins,plotit=FALSE)
 ltimes <- seq(from=1,to=dim(LL)[2],length.out=250)
 lcols <- rep("black",length(linit)) # terrain_hcl(length(linit))
 invisible( lapply( 1:dim(LL)[3], function (k) { lines( LL[2,ltimes,k], ltimes, col=lcols[k]) } ) )
+# simulate shared haplotype length
+localprops <- lins$localsizes[,,,drop=TRUE] / tmphist$pop$params$N
+recombs <- list( matrix( rexp(prod(dim(localprops))), nrow=nrow(localprops) ),
+        matrix( rexp(prod(dim(localprops))), nrow=nrow(localprops) ) )
+coaltime <- lins$coalevents$t[2]
+visible <- list( matrix( rbinom(prod(dim(localprops)),size=1, prob=ifelse(seq_along(localprops)>coaltime,localprops[,1],0) ), nrow=nrow(localprops) ),
+        matrix( rbinom(prod(dim(localprops)),size=1, prob=ifelse(seq_along(localprops)>coaltime,localprops[,2],0) ), nrow=nrow(localprops) ) )
+for (k in 1:2) {
+    recombs[[k]][!visible[[k]]] <- Inf
+    recombs[[k]] <- cummin( recombs[[k]] )
+}
+par(mar=c(5,1,1,1)+.1)
+changepoints <- lapply( recombs, function (x) { z <- sort(unique(c(1,outer(which(diff(x)!=0),c(1,0),"+")),length(x))); z[z>0] } )
+x1 <- (-1)*recombs[[1]][changepoints[[1]]]
+x2 <- rev(recombs[[2]][changepoints[[2]]])
+xx <- c( -1, x1, max(x1), min(x2), x2, 1 )
+y1 <- changepoints[[1]]
+y2 <- rev(changepoints[[2]])
+yy <- c(1, y1, length(recombs[[1]]), length(recombs[[1]]), y2 , 1)
+plot( xx, yy, type='l', xlim=c(-1,1)*1e-3, ylim=range(timeslice), yaxt='n', ylab='', xlab="shared haplotype" )
+# lines( (-1)*recombs[[2]], seq_along(recombs[[1]]), type='l', xlim=c(-1,1)*1e-3 )
+polygon( x=xx, y=yy, col='red' )
 dev.off()
 
 # same sim, longer plot
