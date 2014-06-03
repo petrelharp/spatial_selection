@@ -996,13 +996,16 @@ then the resulting object has area $A \times (r_0/r)^d$;
 here we have $r_0 = r - \sigma/\sqrt{s}$,
 in $d=1$ the radius is $A/2$ and in $d=2$ it is $\sqrt{A/\pi}$.}
 \begin{align}
-  r_\text{eff} &=
+&=
     \begin{cases}
-      r \frac{2\sigma}{A\sqrt{s}}    \qquad & d=1 \\
-      r \frac{\sqrt{\pi} \sigma }{ \sqrt{ s A } } \qquad & d=2 \\  
-\end{cases} ,
+    r \frac{\frac{\sigma}{\sqrt{s}} }{\frac{\sigma}{\sqrt{s}} + A }    \qquad & d=1 \\
+   r \frac{\pi  \frac{\sigma}{\sqrt{s}} \left( \frac{\sigma}{\sqrt{s}} +
+  \sqrt{\frac{A}{\pi}} \right)}{A+\pi  \frac{\sigma}{\sqrt{s}} \left( \frac{\sigma}{\sqrt{s}} +
+  \sqrt{\frac{A}{\pi}} \right) }    \qquad & d=2 \\  
+\end{cases}
 \label{eqn:rate-rec-in-patch}   %(\sigma/\sqrt{s})A^{-1/d}
 \end{align}
+\gc{Altered the above.}
 i.e.\ the reduction in recombination rate is proportional to $(\sigma/\sqrt{s})A^{-1/d}$.
 We can use this to think about the length of the haplotype
 associated with the $B$ allele after a given length of time $T$,
