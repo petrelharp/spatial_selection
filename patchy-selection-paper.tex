@@ -228,9 +228,9 @@ or if $p(x)$ is symmetric about the edge of the patch.
 We examine this more generally via exact calculation of $p(x)$ in Appendix \ref{apx:establishment_sims}.
 
 The rate at which mutations arise and colonize a patch of area $A$ is then
-\begin{align} \label{eqn:mutrate}
+\begin{align} \label{eqn:mutrate} 
   \mutrate % = \rho \mu \int p(x) dx  
-  \approx 2 s_p \rho A \mu / \xi^2,
+  \approx 2 s_p \rho A \mu / \xi^2,  
 \end{align}
 i.e.\ the product of mutational influx in the patch ($A\rho\mu$) and the probability of establishment ($2s_p/\xi^2$).
 If this rate is low, then the time (in generations) until a mutation arises that
@@ -543,7 +543,7 @@ if each member arriving has chance $p_e$ of establishing, independently.
 Combining the terms with expressions for $g(A)$ in Appendix~\ref{apx:hitting_occupation},
 we obtain that
 \begin{align}
-  \label{eqn:migrate}
+  \label{eqn:migrate} 
   \migrate(y) &\approx q(y) \times \frac{ \rho s_p  }{ \xi^2 s_m }  \\
   % \left( 1 - \left( \frac{\pi w \sqrt{2 \alpha}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2\alpha}/\sigma} \right).
   &\approx C \frac{ \rho s_p  }{ \xi^2 s_m } \left( |x| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) .
@@ -859,9 +859,6 @@ and the haplotype halflength $L$ is exponential.
 % In Appendix~\ref{apx:limiting_dist_of_HH_haplotype}, 
 % we also give some expressions for the limiting distribution of the length of shared haplotype.
 
-\gc{Graham pasted this to the appendix as it felt like too much information to drop on people}
-\plr{I am sympathetic, but it's only a paragraph\dots how about that last sentence, instad?}
-%%%
 % 
 % \section{Limiting distribution of the transit time and hitchhiking haplotype}
 % \label{apx:limiting_dist_of_HH_haplotype}
@@ -996,17 +993,17 @@ then the resulting object has area $A \times (r_0/r)^d$;
 here we have $r_0 = r - \sigma/\sqrt{s}$,
 in $d=1$ the radius is $A/2$ and in $d=2$ it is $\sqrt{A/\pi}$.}
 \begin{align}
-&=
+r_{eff} &=
     \begin{cases}
-    r \frac{\frac{\sigma}{\sqrt{s}} }{\frac{\sigma}{\sqrt{s}} + A }    \qquad & d=1 \\
-   r \frac{\pi  \frac{\sigma}{\sqrt{s}} \left( \frac{\sigma}{\sqrt{s}} +
-  \sqrt{\frac{A}{\pi}} \right)}{A+\pi  \frac{\sigma}{\sqrt{s}} \left( \frac{\sigma}{\sqrt{s}} +
-  \sqrt{\frac{A}{\pi}} \right) }    \qquad & d=2 \\  
+    r \frac{ \sigma /\sqrt{s} }{ \sigma/\sqrt{s} + A }    \qquad & d=1 \\
+   r \frac{\pi  \sigma /\sqrt{s}  \left( \sigma /\sqrt{s}+
+  \sqrt{A/\pi} \right)}{A+\pi \sigma/\sqrt{s} \left( \sigma/\sqrt{s} +
+  \sqrt{A/\pi} \right) }    \qquad & d=2 \\  
 \end{cases}
 \label{eqn:rate-rec-in-patch}   %(\sigma/\sqrt{s})A^{-1/d}
 \end{align}
 \gc{Altered the above.}
-i.e.\ the reduction in recombination rate is proportional to $(\sigma/\sqrt{s})A^{-1/d}$.
+which scales the recombination rate roughly with $(\sigma/\sqrt{s})A^{-1/d}$.
 We can use this to think about the length of the haplotype
 associated with the $B$ allele after a given length of time $T$,
 for instance, the time since the $B$ allele joined the patch.
@@ -1067,8 +1064,7 @@ We apply our theory to this example,
 in particular investigating how the probability of parallel mutation depends on 
 the distance between lava flow patches.
 
-A key parameter above was the dispersal distance divided by the square root of strength of selection against the focal allele between patches, $\sigma/\sqrt{s_m}$. 
-\citep{hoekstra2004ecological} studied the frequency of the dark MC1R allele and coat color phenotypes, 
+A key parameter above was the dispersal distance divided by the square root of strength of selection against the focal allele between patches, $\sigma/\sqrt{s_m}$. \citep{hoekstra2004ecological} studied the frequency of the dark MC1R allele and coat color phenotypes, 
 at sites across the (dark) Pinacate lava flow and at two nearby sites in light-colored rock.
 On the lava flow the dark MC1R allele is at 86\% frequency,
 while at a site with light substrate 12km to the west (Tule), the frequency is 3\%.
@@ -1087,7 +1083,7 @@ which has dispersal distance of 0.26km.  Shall we ask Nachman?}
 
 The mutational target size $\mu$ for the trait is unclear. 
 While the Pinacate dark haplotype differs from the light haplotype at three amino-acid residues,
-it is likely that not all of these changes are needed for a population to begin to  adapt. 
+it is likely that not all of these changes are needed for a population to begin to adapt. 
 Also there a number of genes besides MC1R at which adaptative changes affecting pigmentation 
 have been identified in closely related species and more broadly across vertebrates \citep{REF}.
 To span a range of plausible values, we use a low mutation rate of $\mu= 10^{-8}$, 
@@ -1131,6 +1127,73 @@ The parameters were chosen to match
 
 
 \section{Discussion} 
+
+We have developed a simple set of approximations to describe the rate
+at which organisms in a patchy environment adapt through novel
+mutations or migration from other nearby patches (eqn.
+\eqref{eqn:mutrate} and \eqref{eqn:migrate}), and the relative
+probability of each of these outcomes (eqn. \eqref{eqn:parallel_prob}). 
+We have also determined the characteristic genomic length scales over which
+the various signals of hitchhiking should be visable
+(eqn. \eqref{eqn:haplotype_length} and ). 
+
+These results show that the probability of parallel adaptation is
+independent of both the population density and the beneficial
+selection coefficient. This follows from the fact that these
+parameters both increase the rate of adaptation via both migration and
+mutation equally. Thus they are important for the time-scale over
+which adaptation occurs but not the mode of adaptation. This
+constrasts with models of convergent adaptation within panmictic
+populations \citep{} and geographically spread populations adapting to
+homogeneous populations \citep{RalphCoop}, where the number of
+adaptive alleles increases with the population size/density. In all of these models the dependence on the beneficial selection
+coefficient is absent or weak, due to the fact that selection both
+aids establiishment of new alleles and the spread of existing
+alleles. 
+
+The primary determinant of the probability of parallel adaptation is
+$\sigma/\sqrt{s_d}$, the characteristic geographic distance of the
+allele frequency decay off the patch. We find that patches that are close together on
+this scale will adapt via migration, but there will be a sharp
+transition to convergent adaptation as we move to patches that are further apart. 
+ 
+In coming to this conclusion, we have ignored the possibility of very long distance migration,
+instead focusing local dispersal (as parameterized by a Gaussian
+dispersal model). However, dispersal distributions can be very heavy
+tailed, with a small fraction of individuals moving very long distances indeed, in
+addition over long time-scales very rare chance events (mice sucked up in
+hurricanes etc) could play a role in spreading migrant alleles. Such
+tail events could greatly increase the probability of parallel
+adaptation above that predicted by our model. Furthermore, if
+adaptive alleles do move between distant patches via rare long distance
+migration they will be associated with a much longer shared haplotype than
+predicted by eqn. \eqref{eqn:haplotype_length}. As such we view our
+results as a null model by which the contribution of long distribution
+migrants to adaptation could be empirically judged.   
+
+
+We have also assumed that the alleles have a fitness effect in
+heterozygotes both on and off the patch. However, 
+ recessive alleles could also contribute to adaptation to patchy
+ environments. \gc{should we cite Nachman eg here}.  Our
+ simple branching process framework does not easily accomodate recessive
+ alleles as it ignores the selection interaction of alleles, and so a
+ different approach will be needed. At first sight it
+ seems like recessive alleles may be able to contribute to adaptation
+ via migration over longer distances, as the migrant alleles will be at low
+ frequency between patches and so usually invisible to
+ selection. However, this fact also means that they are unlikely to
+ establish on the beneficial patch upon reaching it via migration. As
+ such it is not clear what our intuition should be about the
+ contribution of recessive alleles to adaptation via migration. 
+  
+\gc{will write a couple more broader paragraphs}
+
+
+The falling cost of sequencing over the next decade offers the
+opportunity to investigate the genomics of parallel adaptation over a
+large s
+Over the coming decade population genomic data will be generated  
 
 \plr{Note that optimal $s_m$ for migration makes migration harder to spot.}
 
