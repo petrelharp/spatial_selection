@@ -107,8 +107,8 @@ In section XX we \dots QUICK OUTLINE
  via migration  \eqref{eqn:migrate}
 
 
-Expected transit time \label{eqn:mean_tau}
-Expected haplotype length \label{eqn:haplotype_length}
+Expected transit time \eqref{eqn:mean_tau}
+Expected haplotype length \eqref{eqn:haplotype_length}
 
 % http://www.nature.com/hdy/journal/v94/n2/full/6800600a.html   -- this is \citep{hoekstra2004local}
 
@@ -232,7 +232,7 @@ The rate at which mutations arise and colonize a patch of area $A$ is then
   \mutrate % = \rho \mu \int p(x) dx  
   \approx 2 s_p \rho A \mu / \xi^2,
 \end{align}
-i.e.\ the product of mutational influx in the patch ($A\rho\mu$) and the probability of establishment ($2s_p/\xi^2$).
+i.e.\ the product of mutational influx in the patch ($\rho A\mu$) and the probability of establishment ($2s_p/\xi^2$).
 If this rate is low, then the time (in generations) until a mutation arises that
 will become locally established within the patch is exponentially distributed with mean $1/\mutrate$.  
 Assuming that once a mutation becomes established it quickly reaches its equilibrium frequency across the patch, 
@@ -246,7 +246,7 @@ the time scale on which new patches become colonized by the $B$ allele from new 
 Now suppose that there are two patches, each of area $A$ and separated by distance $R$. 
 If the $B$ allele has arisen and become established in the first patch, but has not yet appeared in the second,
 we would like to know the time scale on which copies of $B$ move between patches by migration
-(so, ignoring the possibility that a $B$ allele arises independently by mutation in the first patch).
+(supposing that no $B$ allele arises independently by mutation in the meantime).
 To determine this, we dissect the process by which an allele transits between the patches,
 in the process obtaining other useful information about the genealogy of B alleles.
 
@@ -257,16 +257,21 @@ Denote the expected frequency of allele $B$ at location $x$ relative to the patc
 and assume that the shape of the patch is at least roughly circular.
 Following \citet{slatkin1973geneflow}, one can write down a differential equation to which $q(x)$ is the solution,
 and show that $q(x)$ decays exponentially for large $|x|$,
-with a square-root correction in two dimensions (see Appendix \ref{apx:asymptotics}): 
+with a square-root correction in two dimensions:
 \begin{align} \label{eqn:eqfreq}
   q(x) \approx C \left( |x| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) \qquad \text{for large $|x|$},
 \end{align}
-where $d$ is the dimension ($d=1$ or $2$), and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients.
+where $d$ is the dimension ($d=1$ or $2$), 
+and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients.
 These asymptotics fit simulations quite well, as shown in Figure~\ref{fig:sim_occupation_freqs}.
-(In one dimension, the equation can be solved to give $q(x)$ in terms of Jacobi elliptic functions; see Appendix \ref{apx:elliptic_integrals}.)
+To be clear about the assumptions (especially regarding scaling) implicit here,
+we provide a derivation in Appendix~\ref{apx:eqfreq}; 
+as well as justification for the asymptotics in Appendix \ref{apx:asymptotics}.
+In one dimension, the equation can be solved to give $q(x)$ 
+in terms of Jacobi elliptic functions; see Appendix \ref{apx:elliptic_integrals}.
 In applications we fit $C$ to the data;
 to get concrete numbers from theory we take $C=1$ if necessary.
-From simulations, $C$ seems to be not too far from 1 in practice (see Appendix \ref{apx:patchy_sims}).
+From simulations, $C$ seems to be not too far from 1 in practice (see below).
 
 \begin{figure}[ht!]
   \begin{center}
@@ -280,7 +285,7 @@ From simulations, $C$ seems to be not too far from 1 in practice (see Appendix \
   a two-dimensional grid of $101\times 101$ demes.
   Superimposed in black is the decay predicted by \eqref{eqn:eqfreq},
   with $C$ chosen arbitrarily to give a reasonable fit.
-  (The uptick at the right end is due to boundary effects near the edge of the range.)
+  (The disagreement at long distances is due to boundary effects near the edge of the range.)
   \textbf{(B)} 
   Fluctuations: colored lines are snapshots of allele frequencies at evenly spaced times
   from a one-dimensional grid of 151 demes;
@@ -290,8 +295,7 @@ From simulations, $C$ seems to be not too far from 1 in practice (see Appendix \
   and deleterious elsewhere, with $s_m=-0.02$; 
   demes had 1000 individuals in each;
   dispersal was to nearby demes with a mean dispersal distance of $\sigma \approx 1.66$  times the deme spacing.
- \gc{The approximation and simulations disagree at long distances from
-   the patch, but this is due to edge effects in the simulations.} }   \label{fig:sim_occupation_freqs}
+   }   \label{fig:sim_occupation_freqs}
 \end{figure}
 
 This expected frequency $q(x)$ is the \emph{time-averaged} occupation frequency,
@@ -310,7 +314,7 @@ To compute the rate of establishment by such migration,
 we argue that these families (suitably defined) can be approximated by
 independent branching processes whose spatial motion is described by Brownian motion.
 Properties of these, combined with equation \eqref{eqn:eqfreq},
-leads us to the expression \eqref{eqn:migrate} for the rate of effective migration,
+will lead us eventually to the expression \eqref{eqn:migrate} for the rate of effective migration,
 an approximation that is valid if the distance $R$ is large (at least five times $\sigma/\sqrt{2s_m}$, say).
 
 \begin{figure}[ht!]
@@ -380,9 +384,6 @@ then recursively assigning spatial locations to each individual in the tree,
 and finally pruning any branches that happen to wander into a patch.
 By our definition of fitness, the mean number of offspring per individual is $\exp(-s_m)\approx 1-s_m$,
 and the variance is $\xi^2$.
-\plr{I changed this since equation \eqref{eqn:eqfreq} is in the small-$s_m$ limit, 
-and therefore doesn't differentiate between $s_m$ and $\log(1/(1-s_m))$;
-doing it this way means we don't have to define another parameter.}
 This pruning removes both branches leading back into the already established patch (which are irrelevant)
 and branches leading into the new patch (we will need to count these).
 Since we are concerned with the rare migrant families that transit quickly between patches, 
@@ -478,8 +479,7 @@ gives the expected total number of individuals ever living in $A$:
 \begin{align} \label{eqn:occupation_density_defn}
     \E\left[ \int_0^\infty Z_t(A) dt \right] = \int_A u(x,y) dy .
 \end{align}
-\gc{do we need to talk about u a little more it }
-\plr{not sure what to say}
+Said another way, $u(x,y)$ is the expected number of offspring of a progenitor at $x$ that will ever be observed near $y$.
 Since reproduction and spatial motion are independent,
 $u(x,y)$ is the sum across all generations of the expected number of individuals alive in that generation,
 multiplied by the probability density that spatial motion takes a lineage from $x$ to $y$,
@@ -705,14 +705,32 @@ making the properties (other that the time scaling) of the discrete model indepe
 This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise \emph{within} a panmictic deme
 if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
 
+\paragraph{Island model}
+The resulting discrete process is quite general,
+but if we oversimplify back to the island model, it is tractable:
+suppose the probability of adaptaton by mutation is the same for each patch
+and by migration is the same for each pair of patches.
+The resulting process is a continuous-time version of the ``Chinese restaurant process''
+described in \citet{aldous1985exchangeability} and \citet{pitman1995partitions},
+and so the final partition of types across demes has the Ewens sampling distribution with parameter $\mu/m$.
+
+Now we can compute most properties we might want about the process.
+For instance, the proportion of demes that shares the same origin as a randomly sampled deme
+is approximately Beta distributed -- see \cite{donnelly1989continuity} and \cite{perman1992sizebiased}.
+The high connectedness of the discrete deme island model means that the expected number of distinct alleles
+grows with the $\log$ of the number of demes, 
+which strongly contrasts with the continuous spatial model 
+where the local nature of dispersal means that doubling the species range will double the number of mutations expected. 
+Furthermore, while in the continuous model the areas occupied by distinct mutations are similar in area, 
+in this strong-selection discrete island model, 
+only a few types tend to dominate even as the number of demes (and thus, distinct types) grows large.
+
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics{sim-transit.pdf}
   \end{center}
   \caption{
-  BLAH BLAH WIGGLY LINE
-  \plr{can we please keep that caption? ok, fine\dots}
   \textbf{Adaptation by migration:}
   An initially unadapted patch (10 demes at the left end of the range) is colonized around generation 5000;
   a representative lineage from the new patch is shown transiting between the two and coalescing with a lineage
@@ -1127,9 +1145,74 @@ The parameters were chosen to match
 \end{figure}
 
 
+%%%%%%% %%%%%%% %%%%%%%
 \section{Discussion} 
+\label{ss:discussion}
 
-\plr{Note that optimal $s_m$ for migration makes migration harder to spot.}
+This paper is an investigation into the basic, ill-formed question: 
+What is the spatial resolution of adaptation?
+In other words, what scale of environmental patchiness can a species develop and sustain local adaptations,
+and over what spatial scale will evolution develop independent solutions to evolutionary problems?
+The answer to this depends most strongly on $\sigma/\sqrt{s_m}$, 
+the dispersal distance divided by the square root of the selection against the new allele between patches,
+and much more weakly on the selective benefit within the patches or (perhaps suprisingly) the population density.
+Weaker selection against alleles will make sharing of adaptations between patches easier,
+but will also make it harder to spot,
+since the lucky, transiting alleles move slower and carry a shorter haplotype.
+
+Observations of similar adaptations occuring within the same species in widely separated patches
+is strongly suggestive of parallel, independent adaptations.
+Such observations are very interesting 
+as they tell us about the degree of constraint faced by evolution --
+how many different methods are there typically available to a species
+with which to solve an evolutionary problem?
+
+It is already well-appreciated that larger populations can lead to more parallelism \citep{softsweepsI}
+\plr{fisher probably said this too?}
+and that spatial structure contributes to this \citep{ralph2010parallel}.
+Naturally, then, local adaptation to well-separated patches of some environment is even more likely to occur in parallel;
+we have studied the case where patches are separated by long distances.
+This is complementary to the work of \citet{XXX}, who studied local adaptation in rapidly varying environments.
+Intermediate cases where habitat types are distributed in some more complex geometry
+-- archipelagos of patches of varying sizes, or connected by long, skinny corridors, for instance --
+remains to be studied.
+
+To complement this theory, we need more empirical work,
+in which the parameters (migration rate, sensitivity to environmental factors, etc)
+are reasonably well-understood.
+However, learning about these aspects is difficult in the field,
+and it is still not understood how much of the intraspecific variation we observe
+is due to adaptation to local conditions, or even how to tell.
+Notable steps forward include \citet{turner2010serpentine}, Mimulus, Amity, others?
+
+\paragraph{Standing variation} 
+We have tended to focus on relative rates of adaptation,
+since we are thinking of applications in which we know that adaptation has occurred,
+and the question is whether or not adaptations in distinct patches
+have adapted indpendently or not.
+However, especially if rates of adaptation by new mutation are very low,
+any adaptation that does occur may have to make use of standing variation.
+The unstructured case was studied by \citet{softsweepsI}
+and we study the continuous, spatial case in \citet{toappear}.
+If local, parallel adaptation is from standing variation,
+then the dynamics of adaptation should not depend strongly on migration patterns
+(but note that the spatial distribution of standing variation will be).
+
+\paragraph{Dominance}
+We have mostly swept the issue of dominance under the rug
+by dealing with essentially haploid models,
+and appealing to the fact that the dynamics we study occur where the mutation is rare,
+and hence mostly present only in heterozygotes.
+If, however, the mutation is recessive, then it is essentially neutral where rare,
+and so could have a much easier time spreading between patches.
+This is counteracted, however, by the increased difficulty with which the mutation would establish
+once arriving in a new patch.
+On the other hand, a dominant mutation would not differ greatly from the theory presented here.
+In fact, MC1r is ?dominant? and agouti is ?recessive?
+Other schemes could be obtained.
+
+
+optimal $s_m$ for migration makes migration harder to spot
 
 if populations and mutation rates are large enough, parallel adaptation is likely, aided by geography. 
 recall others' work. 
@@ -1161,6 +1244,36 @@ when landscape is not made of discrete (circular) patches
 \bibliography{standing_patches_refs}
 
 \appendix
+
+%%%%%
+\section{Numerical calculation of the probability of establishment}
+\label{apx:establishment_sims}
+
+To investigate the impact of the various approximations surrounding the mutational influx,
+we carried out numerical calculations of a fine-grained, discrete model.
+These are shown, and described, in figure~\ref{fig:prob_estab_calcs}.
+
+Here (and at other parameter choices) we see that the probability of establishment $p(x)$ goes to the equilibrium value
+(approximately $p_e = 2s/\xi^2$) within the patch;
+the transition is fairly symmetrical about the edge of the patch, even if the edge of the patch is not sharp.
+This lends credence to our approximation that the integral of $p(x)$ over the entire range
+is close to $p_e$ multiplied by the area of the patch.
+
+\begin{figure}[ht!]
+    \begin{center}
+        % made in patchy-selection-plots.R
+        \includegraphics{prob-establishment}
+    \end{center}
+    \caption{The probability of establishment of a new mutant allele as a function of distance from the edge of the region where it is beneficial,
+    in an abrupt transition (left) and a gradual transition (right).
+    The allele is deleterious to the left and beneficial to the right (with selection coefficients $\mp 0.05$ respecively);
+    and the selection coefficient interpolates linearly between these in the central shaded region.
+    The number of offspring is Poisson.
+    The underlying landscape has demes every 15km and a migration rate of 0.5 between neighboring demes;
+    the probability was found by numerically solving the equation for the probability of establishment of a multi-type branching process.
+    \label{fig:prob_estab_calcs}
+    }
+\end{figure}
 
 
 %%%%%%%%%%%%
@@ -1404,36 +1517,123 @@ for $x$ in the last interval (which ends in $\infty$), that
 \end{align*}
 % Indeed, as $\phi \to 0$, we have approximately $\phi' = \frac{ \sqrt{s} }{ \sigma } \phi$.  % huh????
 
-%%%%%
-\section{Numerical calculation of the probability of establishment}
-\label{apx:establishment_sims}
 
-To investigate the impact of the various approximations surrounding the mutational influx,
-we carried out numerical calculations of a fine-grained, discrete model.
-These are shown, and described, in figure~\ref{fig:prob_estab_calcs}.
 
-Here (and at other parameter choices) we see that the probability of establishment $p(x)$ goes to the equilibrium value
-(approximately $p_e = 2s/\xi^2$) within the patch;
-the transition is fairly symmetrical about the edge of the patch, even if the edge of the patch is not sharp.
-This lends credence to our approximation that the integral of $p(x)$ over the entire range
-is close to $p_e$ multiplied by the area of the patch.
+%%%%%%%%% %%%%%%%%%%%%%%
+\section{Hitting and occupation}
+\label{apx:hitting_occupation}
 
-\begin{figure}[ht!]
-    \begin{center}
-        % made in patchy-selection-plots.R
-        \includegraphics{prob-establishment}
-    \end{center}
-    \label{fig:prob_estab_calcs}
-    \caption{The probability of establishment of a new mutant allele as a function of distance from the edge of the region where it is beneficial,
-    in an abrupt transition (left) and a gradual transition (right).
-    The allele is deleterious to the left and beneficial to the right (with selection coefficients $\mp .05$ respecively);
-    and the selection coefficient interpolates linearly between these in the central shaded region.
-    The number of offspring is Poisson.
-    The underlying landscape has demes every 15km and a migration rate of 0.5 between neighboring demes;
-    the probability was found by numerically solving the equation for the probability of establishment of a multi-type branching process.
-    }
-\end{figure}
+Consider a single migrant family $Z$ beginning at $x$.
+Let $B_t$ be a Brownian motion with variance $\sigma^2$, 
+and $\tau_\dagger$ an independent Exponential($\alpha$) time.
+The mean occupation time of $Z$ spent in a region $A$ is 
+\begin{align}
+    u(x,y) &= \E[\int_0^\infty Z_t(A) dt ] \\
+           &= \int_0^\infty \E[Z_t] p_t(x,A) dt \\
+        &= \int_0^\infty e^{-\alpha t} p_t(x,A) dt \\
+        &= \int_0^\infty \P^x\{ \tau_\dagger < t \; \& \; B_t \in A \} dt \\
+        &= \E[ \int_0^{\tau_\dagger} \one_A(B_t) dt ]  .
+\end{align}
+If we define
+$\tau_A$ to be the hitting time of $A$ by $B$,
+and $\mu(x,A)$ to be the hitting distribution of $\partial A$ by $B_{\min(t,\tau)}$,
+by the strong Markov property this is equal to
+\begin{align}
+    u(x,y) &= \E^x[ \int_0^{\tau_\dagger} \one_A(B_t) dt ] \\
+           &= \P^x\{ \tau_A < \tau_\dagger \}  \E^{\mu(x,A)}[ \int_0^{\tau_\dagger} \one_A(B_t) dt ] .
+\end{align}
+If $A$ is circular, the latter expectation will not depend on $x$;
+call this $g(A)$.
 
+Now consider the chance that $Z$ ever hits $A$.
+If we make the approximation that $Z$ hits $A$ iff the trunk of $Z$ does,
+then this is equal to
+\begin{align}
+    F(x,y) &= \int_0^\infty (1-k_e(t)) \P\{ \tau_A \in dt \} \\
+           &= \int_0^\infty e^{\alpha t} (1-k_e(t)) e^{- \alpha t } \P\{ \tau_A < t \} dt \\
+    &=\int_0^\infty e^{\alpha t} (1-k_e(t)) \P\{ \tau_A < t < \tau_\dagger \} dt \\
+    &\approx \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_A < t < \tau_\dagger \} dt \\
+    &= \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_A < t < \tau_\dagger \} dt \\
+    &= \frac{1}{\E[K]} \P^x[ \tau_A < \tau_\dagger ] .
+\end{align}
+Therefore, we have that
+\begin{align}
+    F(x,y) \E[K] 
+    \approx \P^x[ \tau_A < \tau_\dagger ] 
+    = u(x,y) / g(A) .
+\end{align}
+
+Now, 
+\begin{align}
+    q(y)  &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  \\
+          &= g(A) \int_{\partial B(r_0)} \gamma(x) F(x,y) dx \\
+          &= \frac{ g(A) }{ \E[K] } \migrate(y) .
+\end{align}
+The function $g(A)$ is the expected amount of time that a Brownian motion begun on the edge of a disk of area $A$
+is expected to spend inside the disk before $\tau_\dagger$.
+This is integral of the Green function for the Bessel process of the appropriate order, 
+so using Borodin \& Salminen (Appendix 1),
+and letting $w$ be the width of the patch,
+in $d=1$,
+\begin{align}
+    h_1(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
+  % &= \int_0^{2w} G_\alpha(0,y) dy \\
+  &= \int_0^{2w} \frac{ e^{- y \sqrt{2\alpha} }}{\sqrt{2\alpha}} dy \\
+  &= (1-e^{-2w\sqrt{2\alpha}})/(2\alpha)
+\end{align}
+and in $d=2$, by \citet{gradshteyn2007table} 5.56.2,
+\begin{align}
+    h_2(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
+    % &= \int_0^{2w} G_\alpha(0,y) dy \\
+  &= \int_0^{2w} 2 y K_0(y \sqrt{2\alpha}) dy \\
+  &= \frac{1}{\alpha}\int_0^{2w\sqrt{2\alpha}} y K_0(y) dy \\
+  &= \frac{1}{2\alpha}\left(1- 2w\sqrt{2\alpha} K_1(2w\sqrt{2\alpha}) \right)  .
+\end{align}
+
+
+
+
+%%%%%%% %%%%%%%%%%%%
+\section{The outflux of families}
+\label{apx:outflux}
+
+It is of interest to have an expression for the ``outflux of families'',
+$\gamma(r_0)$, 
+defined to be the mean proportion of $B$ alleles at distance $r_0$
+whose lineage traces back to the original patch without venturing further away than $r_0$.
+By expression \eqref{eqn:occupation_integral},
+\[
+    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
+\]
+for any $y$.  
+Take $y=(r,0)$.
+Note that after scaling by $\sqrt{2\alpha}/\sigma$,
+\begin{align}
+    \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\|} }{ \|y\|^{-(d-1)/2} e^{-\|y\|} } \\
+        &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r (\|\hat x - x/r\| - 1)} .
+\end{align}
+Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
+so that the expression in the exponent is to, first order in $1/r$,
+\begin{align}
+    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
+            &= - 2 r_0 \cos \theta + O(1/r) .
+\end{align}
+This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
+\begin{align}
+    \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \cos \theta} .
+\end{align}
+In one dimension we are done.
+In two dimensions,
+by bounded convergence and \citet{gradshteyn2007table} (3.339),
+\begin{align}
+  \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
+            &= C' \int_0^{2 \pi} e^{-2 r_0 \cos \theta} d\theta \\
+                         &= 2 \pi C' I_0(-2r_0),
+\end{align}
+where $I_0$ is a modified Bessel function of order zero of the first kind.
+The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing the result to $2 \pi C' I_0( - 2 \sqrt{2\alpha} r_0 / \sigma ) $.
+
+\section{UNUSED AFTER HERE?}
 
 %%%%%%%%%
 \section{Simulations of a patchy environment}
@@ -1459,8 +1659,6 @@ Argue that $C=0.5$ is a reasonable number.
     Below is the same plot, except on a log scale.
     }
 \end{figure}
-
-
 
 %%%%%%%%%%%
 \section{Patchy selection} 
@@ -1586,118 +1784,6 @@ One is that the final distribution of types is no longer independent of $s_p$, w
 However, it is clear that increasing the selection coefficient $s$ will decrease the number of types (independent mutational origins),
 while on the other hand, increasing the deme size $N$ will increase the number of types,
 and that the case presented above is at the extreme (see also \cite{Navarro:03} for deterministic approximations). 
-
-%%%%%%%%% %%%%%%%%%%%%%%
-\section{Hitting and occupation}
-\label{apx:hitting_occupation}
-
-Consider a single migrant family $Z$ beginning at $x$.
-Let $B_t$ be a Brownian motion with variance $\sigma^2$, 
-and $\tau_\dagger$ an independent Exponential($\alpha$) time.
-The mean occupation time of $Z$ spent in a region $A$ is 
-\begin{align}
-    u(x,y) &= \E[\int_0^\infty Z_t(A) dt ] \\
-           &= \int_0^\infty \E[Z_t] p_t(x,A) dt \\
-        &= \int_0^\infty e^{-\alpha t} p_t(x,A) dt \\
-        &= \int_0^\infty \P^x\{ \tau_\dagger < t \; \& \; B_t \in A \} dt \\
-        &= \E[ \int_0^{\tau_\dagger} \one_A(B_t) dt ]  .
-\end{align}
-If we define
-$\tau_A$ to be the hitting time of $A$ by $B$,
-and $\mu(x,A)$ to be the hitting distribution of $\partial A$ by $B_{\min(t,\tau)}$,
-by the strong Markov property this is equal to
-\begin{align}
-    u(x,y) &= \E^x[ \int_0^{\tau_\dagger} \one_A(B_t) dt ] \\
-           &= \P^x\{ \tau_A < \tau_\dagger \}  \E^{\mu(x,A)}[ \int_0^{\tau_\dagger} \one_A(B_t) dt ] .
-\end{align}
-If $A$ is circular, the latter expectation will not depend on $x$;
-call this $g(A)$.
-
-Now consider the chance that $Z$ ever hits $A$.
-If we make the approximation that $Z$ hits $A$ iff the trunk of $Z$ does,
-then this is equal to
-\begin{align}
-    F(x,y) &= \int_0^\infty (1-k_e(t)) \P\{ \tau_A \in dt \} \\
-           &= \int_0^\infty e^{\alpha t} (1-k_e(t)) e^{- \alpha t } \P\{ \tau_A < t \} dt \\
-    &=\int_0^\infty e^{\alpha t} (1-k_e(t)) \P\{ \tau_A < t < \tau_\dagger \} dt \\
-    &\approx \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_A < t < \tau_\dagger \} dt \\
-    &= \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_A < t < \tau_\dagger \} dt \\
-    &= \frac{1}{\E[K]} \P^x[ \tau_A < \tau_\dagger ] .
-\end{align}
-Therefore, we have that
-\begin{align}
-    F(x,y) \E[K] 
-    \approx \P^x[ \tau_A < \tau_\dagger ] 
-    = u(x,y) / g(A) .
-\end{align}
-
-Now, 
-\begin{align}
-    q(y)  &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  \\
-          &= g(A) \int_{\partial B(r_0)} \gamma(x) F(x,y) dx \\
-          &= \frac{ g(A) }{ \E[K] } \migrate(y) .
-\end{align}
-The function $g(A)$ is the expected amount of time that a Brownian motion begun on the edge of a disk of area $A$
-is expected to spend inside the disk before $\tau_\dagger$.
-This is integral of the Green function for the Bessel process of the appropriate order, 
-so using Borodin \& Salminen (Appendix 1),
-and letting $w$ be the width of the patch,
-in $d=1$,
-\begin{align}
-    h_1(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
-  % &= \int_0^{2w} G_\alpha(0,y) dy \\
-  &= \int_0^{2w} \frac{ e^{- y \sqrt{2\alpha} }}{\sqrt{2\alpha}} dy \\
-  &= (1-e^{-2w\sqrt{2\alpha}})/(2\alpha)
-\end{align}
-and in $d=2$, by \citet{gradshteyn2007table} 5.56.2,
-\begin{align}
-    h_2(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
-    % &= \int_0^{2w} G_\alpha(0,y) dy \\
-  &= \int_0^{2w} 2 y K_0(y \sqrt{2\alpha}) dy \\
-  &= \frac{1}{\alpha}\int_0^{2w\sqrt{2\alpha}} y K_0(y) dy \\
-  &= \frac{1}{2\alpha}\left(1- 2w\sqrt{2\alpha} K_1(2w\sqrt{2\alpha}) \right)  .
-\end{align}
-
-
-%%%%%%% %%%%%%%%%%%%
-\section{The outflux of families}
-\label{apx:outflux}
-
-It is of interest to have an expression for the ``outflux of families'',
-$\gamma(r_0)$, 
-defined to be the mean proportion of $B$ alleles at distance $r_0$
-whose lineage traces back to the original patch without venturing further away than $r_0$.
-By expression \eqref{eqn:occupation_integral},
-\[
-    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
-\]
-for any $y$.  
-Take $y=(r,0)$.
-Note that after scaling by $\sqrt{2\alpha}/\sigma$,
-\begin{align}
-    \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\|} }{ \|y\|^{-(d-1)/2} e^{-\|y\|} } \\
-        &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r (\|\hat x - x/r\| - 1)} .
-\end{align}
-Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
-so that the expression in the exponent is to, first order in $1/r$,
-\begin{align}
-    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
-            &= - 2 r_0 \cos \theta + O(1/r) .
-\end{align}
-This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
-\begin{align}
-    \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \cos \theta} .
-\end{align}
-In one dimension we are done.
-In two dimensions,
-by bounded convergence and \citet{gradshteyn2007table} (3.339),
-\begin{align}
-  \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
-            &= C' \int_0^{2 \pi} e^{-2 r_0 \cos \theta} d\theta \\
-                         &= 2 \pi C' I_0(-2r_0),
-\end{align}
-where $I_0$ is a modified Bessel function of order zero of the first kind.
-The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing the result to $2 \pi C' I_0( - 2 \sqrt{2\alpha} r_0 / \sigma ) $.
 
 
 
