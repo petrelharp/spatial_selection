@@ -44,7 +44,7 @@ with disparate taxa converging to the same phenotype through parallel
 genetic changes in the same pathway, genes, 
 or even by precisely the same genetic changes \citep{zhen2012parallel}. 
 Such precise convergence points to the conservation of function of the genes underlying adaptive traits, 
-sometimes over deep time scales \citep{deephomologypapers}. 
+sometimes over deep time scales \citep{zhen2012parallel,martin2013repeated,deephomologypapers}. 
 Convergence on a molecular level also suggests that the path 
 accessible to adaptation is sometimes relatively constrained \citep{stern2013genetic}, 
 as would be the case if only a few changes confer the advantagous phenotype 
@@ -56,7 +56,7 @@ Convergent adaptation can also occur within species, if individuals within a spe
 adapt to the same environment, in parallel, through different genotypic changes. 
 There are a growing number of examples of this in a range of well studied organisms and phenotypes REFs.
 Such evolution of convergent phenotypes is favored by higher mutational input, 
-i.e.\ larger mutational target and/or population size \citep{dmitri}.
+i.e.\ larger mutational target and/or population size \citep{softsweepsII}.
 The geographic distribution of populations can also affect the probability of parallel mutation within a species:
 a widespread species is more likely to adapt by multiple, parallel mutations if dispersal is geographically limited, 
 since subpopulations will adapt via new mutations before the adaptive allele arrives via migration \citep{ralph2010parallel}. 
@@ -74,23 +74,23 @@ since such adverse conditions can strongly spatially restrict the spread of loca
  
 One elegant set of such examples is provided by the assortment of plant species 
 that have repeatedly adapted to patches of soil with high concentrations of heavy metals
-(e.g.\ serpentine outcrops and mine tailings) \citep{macnair1991evolution,schat1996identical,turner2010serpentine,mimulus};
+(e.g.\ serpentine outcrops and mine tailings) \citep{macnair1991evolution,schat1996identical,turner2010serpentine};
 the alleles conferring heavy metal tolerance are thought to be locally restricted 
-because they incur a cost off of these patches. 
+because they incur a cost off of these patches \citep{wright2013indirect}.
 Similarly, across the American Southwest, a variety of species of animals have developed locally adaptive cryptic coloration
 to particular substrates, e.g.\ dark rock outcrops or white sand dunes \citep{benson1933concealing}.
+\plr{we are missing what Nachman said was the original ref for this... I think you took a picture?}
 One of the best-known examples is the rock pocket mouse (\textit{Chaetodipus intermedius}),
 which is primarily dark on a number of black lava flows separated by much lighter soil \citep{dice1940ecologic}.
 Strong predator-mediated selection appears to favour such crypsis \citep{kaufman1974adaptive},
 and, perhaps as a result of this strong selection against migrants, 
 at least two distinct genetic changes are responsible from the dark pigmentation adaptation on different outcrops \citep{nachman2003different}. 
 Similar situations have been demonstrated in other small rodent systems \citep{steiner2009genetic,kingsley2009melanism}
-and in lizards \citep{whitesands}.
+and in lizards \citep{rosenblum2010molecular}.
 
 In this paper, we study this situation, namely,
 when a set of alleles provide an adaptive benefit in geographically localized patches, 
 separated by (inhabited) regions where the alleles are deleterious.
-\plr{or neutral?}
 The main questions are:
 Under what conditions is it likely that each patch adapts in parallel, through new mutation,
 and when is it likely that migration carries these alleles between patches?
@@ -193,7 +193,10 @@ This latter panmictic probability of establishment we denote $p_e$,
 and often approximate by $2 s_p / \xi^2$ \citep{haldane1927mathematical,fisher1930genetical}.
 This result holds quite generally for a geographically spread population that experiences a uniform selection
 pressure \citep{maruyama1970fixation,cherry2003diffusion}. 
-
+More general work on the mathematically equivalent problem of density-dependent population growth 
+has obtained much more general criteria
+under which a habitat configuration will support a stable polymorphic equilibrium \citep{cantrell1991diffusive},
+and determined the habitat configuration that maximizes the probability of establishment \citep{lou2006minimization}.
 
 
 %%%%%
@@ -1047,7 +1050,7 @@ We will assume that mixing within the patch is fast compared to the rate of drif
 so that the rate of coalescence of B alleles within a patch is 
 $\xi^2/(A\rho)$,
 the ``variance effective population size'' of the patch
-(this bypasses the well-known difficulties to spatial coalescence \citep{felsenstein1978pain,bartonetheridgedepaulis}).
+(this bypasses the well-known difficulties to spatial coalescence \citep{felsenstein1975pain,barton2002neutral}).
 The rate of recombination and coalescence will be on the same order if
 $\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$, 
 and hence the genetic length of haplotype shared between pairs of
