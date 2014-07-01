@@ -137,7 +137,7 @@ xx <- seq(-rangesize,rangesize,by=dx)  # deme locations (km)
 sb <- .05
 sd <- .05
 
-get.prob.estab <- function (clinewidth) {
+get.prob.extinct <- function (clinewidth) {
     alpha <- (sb+sd)/clinewidth      # slope of selection with altitude (units of s per km)
     selfn <- function (x) { pmin( sb, pmax( -sd, alpha*x ) ) }
     selx <- selfn(xx)
@@ -150,33 +150,33 @@ get.prob.estab <- function (clinewidth) {
     ff <- matrix(NA,ncol=niter,nrow=length(xx))
     ff[,1] <- f(xx)
     for (k in 2:niter) { ff[,k] <- genfn(ff[,k-1],selx) }
-    return( list( prob.estab=ff[,niter], selx=selx, eqvals=eqvals, m=m ) )
+    return( list( prob.extinct=ff[,niter], selx=selx, eqvals=eqvals, m=m ) )
 }
 
 pdf(file="prob-establishment.pdf",width=6,height=3,pointsize=10)
 layout(t(1:2))
 par(mar=c(4,4,1,1)+.1,mgp=c(2.5,1,0))
-with( get.prob.estab(50), {
-        plot(xx,1-prob.estab,type='n',lwd=2,ylim=c(0,max(1-prob.estab)),xlab="distance (km)", ylab="prob of establishment")
-        polygon(c(xx,rev(xx)),c(1-prob.estab,rep(0,length(xx))),col=adjustcolor("blue",.5))
+with( get.prob.extinct(50), {
+        plot(xx,1-prob.extinct,type='n',lwd=2,ylim=c(0,max(1-prob.extinct)),xlab="distance (km)", ylab="prob of establishment")
+        polygon(c(xx,rev(xx)),c(1-prob.extinct,rep(0,length(xx))),col=adjustcolor("blue",.5))
         # abline(h=1-eqvals[2], lty=2, lwd=2, col='red')
         # abline(v=c(xx[min(which(selx>-sd))],xx[max(which(selx<sb))]),lty=3,lwd=2)
         polygon(xx[c(min(which(selx>-sd)),max(which(selx<sb)))][c(1,1,2,2)], c(0,par("usr")[4])[c(1,2,2,1)],density=5,col=grey(.5))
-        text( xx[min(which(selx>-sd))], max(1-prob.estab), labels=as.expression(substitute(s[m]==sd,list(sd=-sd))), adj=c(1.2,1) )
-        text( xx[max(which(selx<sb))], max(1-prob.estab), labels=as.expression(substitute(s[b]==sb,list(sb=sb))), adj=c(-0.2,1) )
-        arrows( x0=min(xx) + 5*dx, y0=mean(1-prob.estab), x1=min(xx)+2*dx*m/sqrt(sd) + 5*dx, angle=90, code=3, length=.05 )
-        text( min(xx) + 5*dx + (2/2)*dx*m/sqrt(sd), mean(1-prob.estab), pos=3, labels=expression(2*sigma/sqrt(s)) )
+        text( xx[min(which(selx>-sd))], max(1-prob.extinct), labels=as.expression(substitute(s[m]==sd,list(sd=-sd))), adj=c(1.2,1) )
+        text( xx[max(which(selx<sb))], max(1-prob.extinct), labels=as.expression(substitute(s[b]==sb,list(sb=sb))), adj=c(-0.2,1) )
+        arrows( x0=min(xx) + 5*dx, y0=mean(1-prob.extinct), x1=min(xx)+2*dx*m/sqrt(sd) + 5*dx, angle=90, code=3, length=.05 )
+        text( min(xx) + 5*dx + (2/2)*dx*m/sqrt(sd), mean(1-prob.extinct), pos=3, labels=expression(2*sigma/sqrt(s)) )
     } )
-with( get.prob.estab(500), {
-        plot(xx,1-prob.estab,type='l',lwd=2,ylim=c(0,max(1-prob.estab)),xlab="distance (km)", ylab="prob of establishment")
-        polygon(c(xx,rev(xx)),c(1-prob.estab,rep(0,length(xx))),col=adjustcolor("blue",.5))
+with( get.prob.extinct(500), {
+        plot(xx,1-prob.extinct,type='l',lwd=2,ylim=c(0,max(1-prob.extinct)),xlab="distance (km)", ylab="prob of establishment")
+        polygon(c(xx,rev(xx)),c(1-prob.extinct,rep(0,length(xx))),col=adjustcolor("blue",.5))
         # abline(h=1-eqvals[2], lty=2, lwd=2, col='red')
         # abline(v=c(xx[min(which(selx>-sd))],xx[max(which(selx<sb))]),lty=3,lwd=2)
         polygon(xx[c(min(which(selx>-sd)),max(which(selx<sb)))][c(1,1,2,2)], c(0,par("usr")[4])[c(1,2,2,1)],density=5,col=grey(.5))
-        text( xx[min(which(selx>-sd))], max(1-prob.estab), labels=as.expression(substitute(s[m]==sd,list(sd=-sd))), adj=c(.8,1) )
-        text( xx[max(which(selx<sb))], max(1-prob.estab), labels=as.expression(substitute(s[b]==sb,list(sb=sb))), adj=c(0.2,1) )
-        arrows( x0=min(xx)+5*dx, y0=mean(1-prob.estab), x1=min(xx)+2*dx*m/sqrt(sd)+5*dx, angle=90, code=3, length=.05 )
-        text( min(xx) + 5*dx + (2/2)*dx*m/sqrt(sd), mean(1-prob.estab), pos=3, labels=expression(2*sigma/sqrt(s)) )
+        text( xx[min(which(selx>-sd))], max(1-prob.extinct), labels=as.expression(substitute(s[m]==sd,list(sd=-sd))), adj=c(.8,1) )
+        text( xx[max(which(selx<sb))], max(1-prob.extinct), labels=as.expression(substitute(s[b]==sb,list(sb=sb))), adj=c(0.2,1) )
+        arrows( x0=min(xx)+5*dx, y0=mean(1-prob.extinct), x1=min(xx)+2*dx*m/sqrt(sd)+5*dx, angle=90, code=3, length=.05 )
+        text( min(xx) + 5*dx + (2/2)*dx*m/sqrt(sd), mean(1-prob.extinct), pos=3, labels=expression(2*sigma/sqrt(s)) )
 } )
 # legend('topleft',legend=c('prob of establishment','cline location'),lty=c(1,1),col=c('black','green'),lwd=c(2,1),bg='white')
 dev.off()

@@ -46,7 +46,7 @@ or even by precisely the same genetic changes \citep{zhen2012parallel}.
 Such precise convergence points to the conservation of function of the genes underlying adaptive traits, 
 sometimes over deep time scales \citep{deephomologypapers}. 
 Convergence on a molecular level also suggests that the path 
-accessible to adaptation is sometimes relatively constrained, 
+accessible to adaptation is sometimes relatively constrained \citep{stern2013genetic}, 
 as would be the case if only a few changes confer the advantagous phenotype 
 and are sufficiently free of deleterious pleiotropic consequences.
 
@@ -74,7 +74,7 @@ since such adverse conditions can strongly spatially restrict the spread of loca
  
 One elegant set of such examples is provided by the assortment of plant species 
 that have repeatedly adapted to patches of soil with high concentrations of heavy metals
-(e.g.\ serpentine outcrops and mine tailings) \citep{turner2010serpentine,mimulus};
+(e.g.\ serpentine outcrops and mine tailings) \citep{macnair1991evolution,schat1996identical,turner2010serpentine,mimulus};
 the alleles conferring heavy metal tolerance are thought to be locally restricted 
 because they incur a cost off of these patches. 
 Similarly, across the American Southwest, a variety of species of animals have developed locally adaptive cryptic coloration
@@ -1353,8 +1353,11 @@ speciation under some scenerios.
 \label{apx:establishment_sims}
 
 To investigate the impact of the various approximations surrounding the mutational influx,
-we carried out numerical calculations of a fine-grained, discrete model.
-These are shown, and described, in figure~\ref{fig:prob_estab_calcs}.
+we calculated the probability of establishment for an spatial branching process moving across discrete demes.
+The solution was obtained by iterating the multivariate generating function until convergence
+(since the function which gives the probability of extinction as a function of location of the progenitor
+is an attractive fixed point of the generating function; see \citet{jagers1975branching}).
+These solutions are shown, and parameters described, in figure~\ref{fig:prob_estab_calcs}.
 
 Here (and at other parameter choices) we see that the probability of establishment $p(x)$ goes to the equilibrium value
 (approximately $p_e = 2s/\xi^2$) within the patch;
@@ -1370,7 +1373,7 @@ is close to $p_e$ multiplied by the area of the patch.
     \caption{The probability of establishment of a new mutant allele as a function of distance from the edge of the region where it is beneficial,
     in an abrupt transition (left) and a gradual transition (right).
     The allele is deleterious to the left and beneficial to the right (with selection coefficients $\mp 0.05$ respecively);
-    and the selection coefficient interpolates linearly between these in the central shaded region.
+    and the selection coefficient interpolates linearly between these in the central hatched region.
     The number of offspring is Poisson.
     The underlying landscape has demes every 15km and a migration rate of 0.5 between neighboring demes;
     the probability was found by numerically solving the equation for the probability of establishment of a multi-type branching process.
@@ -1383,23 +1386,27 @@ is close to $p_e$ multiplied by the area of the patch.
 \section{The equilibrium frequency}
 \label{apx:eqfreq}
 
+For completeness, and clarity as to the scalings on the relevant parameters,
+here we provide a derivation of the differential equations referred to above equation~\eqref{eqn:eqfreq},
+and establish the asymptotics given in that equation.
 One route to the ``equlibrium frequency'' of the allele outside the range where it is advantageous is as follows;
 see \citet{slatkin1973geneflow} or \citet{barton1987establishment,pollak1966survival} for other arguments in this case, 
-or \citet{etheridge2000introduction} or \citet{dawson1993measurevalued} for general theory used below.
+or \citet{etheridge2000introduction} and/or \citet{dawson1993measurevalued} for general theory used below.
+Following is a description of a discrete model (which is nearly the one we simulate from).
 Suppose that the population is composed of a finite number of small demes of equal size $N$ arranged in a regular grid,
 and that selection (for or against) the allele is given by the function $s(x)$, with $x$ denoting the spatial location.
 Each individual at location $x$ reproduces after a random lifetime,
-dying and giving birth in the same deme to a random number of offspring with distribution given by $X$;
-each offspring migrates independently to a new location chosen randomly from the distribution given by $x+R$,
-where they replaces a randomly chosen individual.
-If $x+R$ is outside of the range, then they perish.
-Each individual's reproduction time is exponentially distributed, 
+dying, and then leaving behind in the same deme a random number of offspring with distribution given by $X$;
+each offspring then migrates independently to a new location chosen randomly from the distribution given by $x+R$,
+where she replaces a randomly chosen individual.
+If $x+R$ is outside of the range, then she perishes.
+Each individual's time until reproduction is exponentially distributed:
 the reproduction rate is 1 if it carries the original allele, or with rate $1+s(x)$ if it carries the mutant allele.
 Suppose that the number of offspring $X$ has mean $\mu$; the variance of $X$ will not enter into the formula.
 Also suppose that the migration displacement $R$ has mean zero and variance $\sigma^2$;
 if we are in more than one dimension, we mean that the components of the dispersal distance are uncorrelated
 and each have variance $\sigma^2$.
-We also assume that the distribution of $X$ makes the associated random walk irreducible and aperiodic.
+We also assume that the distribution of $R$ makes the associated random walk irreducible and aperiodic.
 
 Let $\Phi^N_t(x)$ be the proportion of mutant alleles present at location $x$ at time $t$,
 and $\Phi_t(x)$ the process obtained by taking $N \to \infty$ (which we assume exists).
@@ -1425,7 +1432,7 @@ First, since this is a first-order differential operator, the limiting stochasti
 is in fact deterministic (check by applying to $f(\Phi) = \Phi(x)^2$ to find the variance).
 Second, if we want to rescale space as well to get the usual differential equation, 
 we need to choose $\var[R]=\sigma^2$ and $s(x)$ to be of the same, small, order; 
-this is another way of seeing that $\sigma/\sqrt{s}$ is the relevant length scale.
+this is another way of seeing that $\sigma/\sqrt{s}$ is the relevant length scale \citep[as noted by][]{slatkin1973geneflow}.
 More concretely, suppose that the grid size is $\epsilon \to 0$, 
 that $\var[R] = (\sigma \epsilon)^2$, and that $s(x)/\epsilon \to \gamma(x)$,
 and suppose that $\Phi_t(x)$ is deterministic (and sufficiently differentiable) and let $\xi(t,x) = \Phi_{t/\epsilon}(x)$;
@@ -1580,7 +1587,7 @@ We are interested in the following case:
     \end{cases}
 \]
 We can solve the case with $s_* = s_d$, since $\phi'(0) = 0$ (as done implicitly in \citet{slatkin1973geneflow}).
-We should be able to argue that if $R$ is large then the value of $s_*$ won't make much difference.
+It should be possible to argue that if $R$ is large then the value of $s_*$ won't make much difference.
 
 \subsection{Doing the integrals}
 \label{apx:some_integrals}
@@ -1612,13 +1619,12 @@ Now Jacobi's incomplete elliptic integral of the first kind is defined by
 and the Jacobian elliptic function $\sn(x;k)$ is the inverse: $F(\sn(x;k);k) = x$.
 As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)$.
 
-Presumably, this gets the same answer as Monty, who finds that in his solvable cases,
-for $x$ in the last interval (which ends in $\infty$), that
-\begin{align*}
-    \phi(x) &= \frac{3}{2}\left( 1 - \tanh^2 ( x \sqrt{2s} / 2 \sigma + C ) \right) \\
-        &\simeq C' \exp\left( - \frac{ x \sqrt{2s} }{ \sigma } \right) .
-\end{align*}
-% Indeed, as $\phi \to 0$, we have approximately $\phi' = \frac{ \sqrt{s} }{ \sigma } \phi$.  % huh????
+% Presumably, this gets the same answer as \citep{slatkin1973geneflow}, who finds that in the solvable cases,
+% for $x$ in the last interval (which ends in $\infty$), that
+% \begin{align*}
+%     \phi(x) &= \frac{3}{2}\left( 1 - \tanh^2 ( x \sqrt{2s} / 2 \sigma + C ) \right) \\
+%         &\simeq C' \exp\left( - \frac{ x \sqrt{2s} }{ \sigma } \right) .
+% \end{align*}
 
 
 
@@ -1921,4 +1927,16 @@ Note that the $d=2$ case
 \begin{align}
     \frac{ K_0(x\sqrt{2\alpha}) }{ K_0(w\sqrt{2\alpha}) } = \sqrt{\frac{w}{x}} e^{-(x-w)\sqrt{2\alpha}} ( 1 + O(1/w) ).
 \end{align}
+
+
+\section{Notes: for intro/discussion}
+
+- leimu2008metaanalysis: local adaptation not ubiquitous but common; mostly in large population sizes.
+- robertson1960theory: dependence of the degree of adaptation on Ne 
+- lots of local adaptation stuff on plants and conservation genetics; ties into plasticity and range limits.
+- but also: Neurospora (ellison2011) and salmonids (fraser2011)
+- swamping in Mayr 1963, Animal Species and Evolution?
+- hanson1966effects: original observation of minimum patch size, in simulation?
+- fourneir-level2011: map of arabidopsis local adaptation
+- reviews for local adapt in marine (sanford2011), trees (savolainen2007) 
 
