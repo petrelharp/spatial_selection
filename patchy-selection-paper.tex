@@ -715,7 +715,7 @@ The total rate of adaptation through migration, from equation \eqref{eqn:migrate
 \end{equation}
 and if the patch adapts through migration, the probability the adapted allele 
 comes from patch $i$ is 
-\begin{align}  \label{eqn:prob-parallel}
+\begin{align}  
   \frac{\left(r_i \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m}
   /\sigma\right)} {\sum_{j=1}^{k}  \left(r_i \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m}
     /\sigma\right) } .
@@ -1041,7 +1041,7 @@ r_\text{eff} &=
   \sqrt{A/\pi} \right)}{A+\pi \sigma/\sqrt{s} \left( \sigma/\sqrt{s} +
   \sqrt{A/\pi} \right) }    \qquad & d=2 ,  
 \end{cases}
-\label{eqn:rate-rec-in-patch}   %(\sigma/\sqrt{s})A^{-1/d}
+\label{eqn:rec_rate_within}   %(\sigma/\sqrt{s})A^{-1/d}
 \end{align}
 so that $T$ generations after the founding of a patch we expect a
 haplotype of genetic length $1/(r_\text{eff}T)$ Morgans to remain linked to
@@ -1053,7 +1053,7 @@ opportunity for recombination to move our lineage off the $B$ background.
 
  
 Finally we can consider the expected length of haplotype shared within a patch. 
-To do this, we compare the rate of recombination between $B$ and $b$ haplotypes (equation~\ref{eqn:rate-rec-in-patch})
+To do this, we compare the rate of recombination between $B$ and $b$ haplotypes (equation~\ref{eqn:rec_rate_within})
 to the rate of coalescence of $B$ haplotypes within a patch. 
 We will assume that mixing within the patch is fast compared to the rate of drift, 
 so that the rate of coalescence of $B$ alleles within a patch is 
@@ -1064,7 +1064,7 @@ The rate of recombination and coalescence will be on the same order if
 $\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$, 
 and hence the genetic length of haplotype shared between pairs of
 individuals within the patches at equilibrium is on the order of
-\begin{align}
+\begin{align} \label{eqn:within_haplotype_length}
   r = \frac{\sqrt{s} \xi^2}{\sigma \rho A^{(d-1)/d}} 
 \end{align}
 which does not depend on $A$ in one dimension,
@@ -1074,6 +1074,21 @@ for the length of shared haplotype between patches.
 
 %%%%%%%%%%
 \section{Applications} 
+
+% FOR REFERENCE:
+% On Wed, May 28, 2014 at 10:20 AM, Michael Nachman <mnachman@berkeley.edu> wrote:
+% > Graham:
+% >
+% > The density is probably in the range of 10-40 animals per hectare (10,000
+% > m^s).  We built enclosures of 0.25 hectare and found that they could support
+% > about 10 animals with food provided ad libitum, so I think this is an upper
+% > density (i.e. 40/hectare).  As for dispersal distance, I'm less sure.
+% > Studies on closely related species (genus Perognathus) in similar habitats
+% > suggest distances of 100's of feet.  Attached are some old papers that tried
+% > to estimate dispersal distances in Perognathus.
+% > best,
+% > Michael
+
 Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, 
 \emph{Chaetodipus intermedius}, building on classic work by \citet{benson1933concealing} and \citet{dice1940ecologic}.
 These mice live on rocky outcrops throughout the southwestern United States and northern Mexico, 
@@ -1110,12 +1125,25 @@ we can fit formula \eqref{eqn:eqfreq} to these frequencies
 Doing this for Tule we obtain $\sigma/\sqrt{s_m} \approx 3$km, 
 and for O'Neill, $\sigma/\sqrt{s_m} \approx 30$km, giving us a range of cline widths. 
 We also need estimate of $s_m$. 
-Using $\sigma \approx 1km$ \citep{french1968dispersal,allred1963range}, these cline widths imply $s_m=1/\sqrt{3}$ and
-$1/\sqrt{30}$ are reasonable values.
+Using $\sigma \approx 1$km \citep{french1968dispersal,allred1963range}, 
+these cline widths imply that $s_m=1/\sqrt{3}$ and $1/\sqrt{30}$ are reasonable values.
 
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics{Lava_flow_mice_prob_parallel}
+  \end{center}
+  \caption{
+The probability of parallel mutation as a function of the distance
+between environmental patches for two different cline widths
+and two different mutation rates (using equation \eqref{eqn:parallel_prob}). 
+The parameters were chosen to match the example of \textit{Chaetodipus intermedius};
+see text.
+  \label{fig:mice_prob_parallel}
+  }
+\end{figure}
 
 The mutational target size $\mu$ for the trait is unclear. 
-While the Pinacate dark haplotype differs from the light haplotype at three amino-acid residues,
+While the Pinacate dark haplotype differs from the light haplotype at three amino acid residues,
 it is likely that not all of these changes are needed for a population to begin to adapt. 
 Also there a number of genes besides MC1R at which adaptative changes affecting pigmentation 
 have been identified in closely related species and more broadly across vertebrates \citep{Hoekstra:06}.
@@ -1136,25 +1164,20 @@ We can use equation \eqref{eqn:haplotype_length} to calculate how long the found
 haplotype shared between populations is expected to be,
 as shown in Figure~\ref{fig:mice_prob_parallel}. 
 The initial length can be quite long between geographically close patches (tens of kilometers). 
-However,
-for the wider cline width ($\sigma/\sqrt{s_m} = 30$km), 
+However, for the wider cline width ($\sigma/\sqrt{s_m} = 30$km), 
 adaptation by migration can still be likely for patches 100km apart, 
 but the shared basis may be hard to detect, as the length of shared haplotype can be quite short. 
-Furthermore, given the relatively small radius of the patches of dark substrate (often $<10km$),
-we should expect the haplotype to be rapidly whittled down within patches after establishment (equation \ref{}).
 
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics{Lava_flow_mice_prob_parallel}
-  \end{center}
-  \caption{
-The probability of parallel mutation as a function of the distance
-between environmental patches for two different cline widths
-and two different mutation rates (using equation \eqref{eqn:prob-parallel}). 
-The parameters were chosen to match  XXX
-  \label{fig:mice_prob_parallel}
-  }
-\end{figure}
+Furthermore, given the relatively small radius of the patches of dark substrate (often $<10$km),
+we should expect the haplotype to be rapidly whittled down within patches after establishment (equation \ref{eqn:rec_rate_within}).
+Indeed, if we take the population density to be roughly $\rho \approx 10$ per hectare (M.~Nachman, personal communication),
+and the variance in offspring number to be $\xi^2 = 3$ (mostly to get round numbers),
+then the shared haplotype length within patches from equation \eqref{eqn:within_haplotype_length}
+is only expected to be on the order of hundreds or thousands of bases
+($10^{-3}$--$10^{-4}$cM).
+This suggests that unless the migration has happened fairly recently \plr{age of the lava flows?}
+then it will be difficult to identify shared haplotypes
+(how recently depends on the background level of LD in the population).
 
 
 %%%%%%% %%%%%%% %%%%%%%
