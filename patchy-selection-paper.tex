@@ -33,7 +33,7 @@
 \bibliographystyle{plainnat}
 
 \title{
-Convergent Adaptation while adapting 
+The Probability of Convergent Adaptation to Environmental Patches. 
 }
 
 \author{Peter L. Ralph$^1$ \\ email: pralph@usc.edu  \and Graham Coop$^2$ \\ email: gmcoop@ucdavis.edu }
@@ -66,7 +66,7 @@ The geographic distribution of populations can also affect the probability of pa
 a widespread species is more likely to adapt by multiple, parallel mutations if dispersal is geographically limited, 
 since subpopulations will adapt via new mutations before the adaptive allele arrives via migration \citep{ralph2010parallel}. 
 Standing variation for a trait can also increase the probability of convergence, 
-and standing variation for an allele increases the probability that the selective sweep will be \emph{soft}
+as standing variation for an allele increases the probability that the selective sweep will be \emph{soft}
 (beginning from a base of multiple copies),
 leading to genetic patterns similar to convergent adaptation \citep{orr2001sieve,softsweepsI}. 
 
@@ -83,10 +83,11 @@ that have repeatedly adapted to patches of soil with high concentrations of heav
 the alleles conferring heavy metal tolerance are thought to be locally restricted 
 because they incur a cost off of these patches \citep{wright2013indirect}.
 Similarly, across the American Southwest, a variety of species of animals have developed locally adaptive cryptic coloration
-to particular substrates, e.g.\ dark rock outcrops or white sand dunes \citep{benson1933concealing}.
-\plr{we are missing what Nachman said was the original ref for this... I think you took a picture?}
+to particular substrates, e.g.\ dark rock outcrops or white sand dunes
+\citep{benson1933concealing, DiceBlossom1937}.
 One of the best-known examples is the rock pocket mouse (\textit{Chaetodipus intermedius}),
-which is primarily dark on a number of black lava flows separated by much lighter soil \citep{dice1940ecologic}.
+which is primarily dark on a number of black lava flows separated by
+much lighter soil \citep{dice1940ecologic, DiceBlossom1937}.
 Strong predator-mediated selection appears to favour such crypsis \citep{kaufman1974adaptive},
 and, perhaps as a result of this strong selection against migrants, 
 at least two distinct genetic changes are responsible from the dark pigmentation adaptation on different outcrops \citep{hoekstra2003different}. 
@@ -99,9 +100,9 @@ separated by (inhabited) regions where the alleles are deleterious.
 The main questions are:
 Under what conditions is it likely that each patch adapts in parallel, through new mutation,
 and when is it likely that migration carries these alleles between patches?
-
-How could we tell, after the fact, which has occurred?
-
+How easy will it be to detect adaptive alleles that are shared by
+migration, i.e. over what genomic scale will a population genetic
+signal be visible?
 
 We work in a model of continuous geography,
 using a variety of known results and new methods.
@@ -119,21 +120,13 @@ it will take for an allele to transit between patches,
 eqn. \eqref{eqn:mean_tau}, and use this to approximate the length of
 haplotype that hitchhikes with it,
 eqn. \eqref{eqn:haplotype_length}. We then quantify how quickly this
-haplotype decays within patches eqn. \eqref{} in section \ref{ss:patch_haplotype}. 
+haplotype decays within patches eqn. \eqref{eqn:rec_rate_within } and
+use this to obtain properties about the equilibrium distribution of
+haplotype lengths
+\eqref{eqn:within_haplotype_length}  in section \ref{ss:patch_haplotype}. 
+Finally in section \ref{ss:applications} we apply this work to understand the geographic scale of
+convergent evolution in \textit{Chaetodipus intermedius}. 
 
-
-\dots QUICK OUTLINE
-
-\gc{Lets also give the numbers of key equations in this road map so
-  folks can understand the biologically important results and then work
-  their way back through math, once they know where we are going}
-
-  new mutation: \eqref{eqn:mutrate}; 
- via migration  \eqref{eqn:migrate}
-
-
-Expected transit time \eqref{eqn:mean_tau}
-Expected haplotype length \eqref{eqn:haplotype_length}
 
 % http://www.nature.com/hdy/journal/v94/n2/full/6800600a.html   -- this is \citep{hoekstra2004local}
 
@@ -422,7 +415,7 @@ Since each individual has on average $e^{-s_m}$ offspring,
 the expected family size after time $t$ is $e^{t s_m}$.
 Therefore, if we define $k_e(t)$ to be the chance that the family
 has gone extinct by time $t$, 
-\plr{switched from $p_e(t)$ to $k_e(t)$ to not conflict with prob of estab.  better suggestion?}
+%\plr{switched from $p_e(t)$ to $k_e(t)$ to not conflict with prob of estab.  better suggestion?}
 and let $K_t$ be the (random) family size conditioned on nonextinction,
 then by Bayes' rule, $e^{-s_m t} = (1-k_e(t))\E[K_t]$.
 It turns out that if the distribution of offspring numbers is not too heavy-tailed \citep[see][for details]{jagers1975branching},
@@ -684,9 +677,9 @@ and the probability of establishment of a rare allele ($p_e\approx 2 s_b/\xi^2$)
 so that the overall time to adaptation is robustly predicted to increase with offspring variance ($\xi^2$)
 and decrease with population density and benefical selection coefficient.
 Furthermore, the probability that the second adaptation is a new mutation,
-i.e.\ the probability of parallel adapatation, is in $d=1$ ($d=2$ only differs slightly)
+i.e.\ the probability of parallel adapatation, is 
 \begin{equation} \label{eqn:parallel_prob}
-  \frac{\mutrate}{\mutrate+\migrate(r)} = \frac{ A \mu s_m }{2 A \mu s_m + \exp\left(- \sqrt{2 s_m} r / \sigma \right) },  
+  \frac{\mutrate}{\mutrate+\migrate(r)} = \frac{ A \mu s_m }{2 A \mu s_m + \left(r \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2}\exp\left(- \sqrt{2 s_m} r / \sigma \right) },  
 \end{equation}
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches, at rate $\sqrt{s_m} /\sigma$. 
@@ -732,15 +725,14 @@ making the properties (other that the time scaling) of the discrete model indepe
 This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise \emph{within} a panmictic deme
 if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
 
-\paragraph{Island model}
 The resulting discrete process is quite general,
 but if we oversimplify back to the island model, it is tractable:
-suppose the probability of adaptaton by mutation is the same for each patch
-and by migration is the same for each pair of patches.
+suppose the probability of adaptation by mutation is the same for each patch
+and by distance is the same for each pair of patches.
 The resulting process is a continuous-time version of the ``Chinese restaurant process''
 described in \citet{aldous1985exchangeability} and \citet{pitman1995partitions},
-and so the final partition of types across demes has the Ewens sampling distribution with parameter $\mu/m$.
-
+and so the final partition of types across demes has the Ewens
+sampling distribution with parameter $A \mu s_m/ \exp (-sqrt{2 s_m}r/\sigma)$.
 Now we can compute most properties we might want about the process.
 For instance, the proportion of demes that shares the same origin as a randomly sampled deme
 is approximately Beta distributed -- see \cite{donnelly1989continuity} and \cite{perman1992sizebiased}.
@@ -748,9 +740,6 @@ The high connectedness of the discrete deme island model means that the expected
 grows with the $\log$ of the number of demes, 
 which strongly contrasts with the continuous spatial model 
 where the local nature of dispersal means that doubling the species range will double the number of mutations expected. 
-Furthermore, while in the continuous model the areas occupied by distinct mutations are similar in area, 
-in this strong-selection discrete island model, 
-only a few types tend to dominate even as the number of demes (and thus, distinct types) grows large.
 
 
 \begin{figure}[ht]
@@ -1064,7 +1053,7 @@ The rate of recombination and coalescence will be on the same order if
 $\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$, 
 and hence the genetic length of haplotype shared between pairs of
 individuals within the patches at equilibrium is on the order of
-\begin{align} \label{eqn:within_haplotype_length}
+\begin{align} \label{eqn:within_haplotype_length} 
   r = \frac{\sqrt{s} \xi^2}{\sigma \rho A^{(d-1)/d}} 
 \end{align}
 which does not depend on $A$ in one dimension,
@@ -1073,8 +1062,8 @@ In applications, this can be compared to equation~\eqref{eqn:haplotype_length}
 for the length of shared haplotype between patches.
 
 %%%%%%%%%%
-\section{Applications} 
-
+\subsection{Applications} 
+\label{ss:applications}
 % FOR REFERENCE:
 % On Wed, May 28, 2014 at 10:20 AM, Michael Nachman <mnachman@berkeley.edu> wrote:
 % > Graham:
@@ -1090,7 +1079,8 @@ for the length of shared haplotype between patches.
 % > Michael
 
 Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, 
-\emph{Chaetodipus intermedius}, building on classic work by \citet{benson1933concealing} and \citet{dice1940ecologic}.
+\emph{Chaetodipus intermedius}, building on classic work by
+\citet{benson1933concealing}, \citet{DiceBlossom1937} and \citet{dice1940ecologic}.
 These mice live on rocky outcrops throughout the southwestern United States and northern Mexico, 
 and generally have a light pelage similar to the predominant rock color.
 However, in some regions these mice live on darker substrates (e.g.\ old lava flows),
@@ -1169,13 +1159,16 @@ adaptation by migration can still be likely for patches 100km apart,
 but the shared basis may be hard to detect, as the length of shared haplotype can be quite short. 
 
 Furthermore, given the relatively small radius of the patches of dark substrate (often $<10$km),
-we should expect the haplotype to be rapidly whittled down within patches after establishment (equation \ref{eqn:rec_rate_within}).
+we should expect the haplotype to be rapidly whittled down within
+patches after establishment (equation \ref{eqn:rec_rate_within}). We
+estimate that the effective recombination rate is at most only 50 \% lower
+than the actual recombination rate.
 Indeed, if we take the population density to be roughly $\rho \approx 10$ per hectare (M.~Nachman, personal communication),
 and the variance in offspring number to be $\xi^2 = 3$ (mostly to get round numbers),
 then the shared haplotype length within patches from equation \eqref{eqn:within_haplotype_length}
 is only expected to be on the order of hundreds or thousands of bases
 ($10^{-3}$--$10^{-4}$cM).
-This suggests that unless the migration has happened fairly recently \plr{age of the lava flows?}
+This suggests that unless the migration has happened fairly recently
 then it will be difficult to identify shared haplotypes
 (how recently depends on the background level of LD in the population).
 
@@ -1232,7 +1225,7 @@ we study the continuous, spatial case in an upcoming paper.
 If parallelism in local adaptation of the sort we study here is due to standing variation
 rather than new mutation,
 then the dynamics of adaptation should not depend strongly on migration patterns
-(but note that the spatial distribution of standing variation may be).
+(but note that the initial spatial distribution of standing variation may be).
 
 \paragraph{Dominance}
 We have mostly swept the issue of dominance under the rug
