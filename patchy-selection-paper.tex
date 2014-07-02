@@ -44,7 +44,7 @@ with disparate taxa converging to the same phenotype through parallel
 genetic changes in the same pathway, genes, 
 or even by precisely the same genetic changes \citep{zhen2012parallel}. 
 Such precise convergence points to the conservation of function of the genes underlying adaptive traits, 
-sometimes over deep time scales \citep{deephomologypapers}. 
+sometimes over deep time scales \citep{zhen2012parallel,martin2013repeated,deephomologypapers}. 
 Convergence on a molecular level also suggests that the path 
 accessible to adaptation is sometimes relatively constrained \citep{stern2013genetic}, 
 as would be the case if only a few changes confer the advantagous phenotype 
@@ -56,7 +56,7 @@ Convergent adaptation can also occur within species, if individuals within a spe
 adapt to the same environment, in parallel, through different genotypic changes. 
 There are a growing number of examples of this in a range of well studied organisms and phenotypes REFs.
 Such evolution of convergent phenotypes is favored by higher mutational input, 
-i.e.\ larger mutational target and/or population size \citep{dmitri}.
+i.e.\ larger mutational target and/or population size \citep{softsweepsII}.
 The geographic distribution of populations can also affect the probability of parallel mutation within a species:
 a widespread species is more likely to adapt by multiple, parallel mutations if dispersal is geographically limited, 
 since subpopulations will adapt via new mutations before the adaptive allele arrives via migration \citep{ralph2010parallel}. 
@@ -74,23 +74,23 @@ since such adverse conditions can strongly spatially restrict the spread of loca
  
 One elegant set of such examples is provided by the assortment of plant species 
 that have repeatedly adapted to patches of soil with high concentrations of heavy metals
-(e.g.\ serpentine outcrops and mine tailings) \citep{macnair1991evolution,schat1996identical,turner2010serpentine,mimulus};
+(e.g.\ serpentine outcrops and mine tailings) \citep{macnair1991evolution,schat1996identical,turner2010serpentine};
 the alleles conferring heavy metal tolerance are thought to be locally restricted 
-because they incur a cost off of these patches. 
+because they incur a cost off of these patches \citep{wright2013indirect}.
 Similarly, across the American Southwest, a variety of species of animals have developed locally adaptive cryptic coloration
 to particular substrates, e.g.\ dark rock outcrops or white sand dunes \citep{benson1933concealing}.
+\plr{we are missing what Nachman said was the original ref for this... I think you took a picture?}
 One of the best-known examples is the rock pocket mouse (\textit{Chaetodipus intermedius}),
 which is primarily dark on a number of black lava flows separated by much lighter soil \citep{dice1940ecologic}.
 Strong predator-mediated selection appears to favour such crypsis \citep{kaufman1974adaptive},
 and, perhaps as a result of this strong selection against migrants, 
 at least two distinct genetic changes are responsible from the dark pigmentation adaptation on different outcrops \citep{nachman2003different}. 
 Similar situations have been demonstrated in other small rodent systems \citep{steiner2009genetic,kingsley2009melanism}
-and in lizards \citep{whitesands}.
+and in lizards \citep{rosenblum2010molecular}.
 
 In this paper, we study this situation, namely,
 when a set of alleles provide an adaptive benefit in geographically localized patches, 
 separated by (inhabited) regions where the alleles are deleterious.
-\plr{or neutral?}
 The main questions are:
 Under what conditions is it likely that each patch adapts in parallel, through new mutation,
 and when is it likely that migration carries these alleles between patches?
@@ -193,7 +193,10 @@ This latter panmictic probability of establishment we denote $p_e$,
 and often approximate by $2 s_p / \xi^2$ \citep{haldane1927mathematical,fisher1930genetical}.
 This result holds quite generally for a geographically spread population that experiences a uniform selection
 pressure \citep{maruyama1970fixation,cherry2003diffusion}. 
-
+More general work on the mathematically equivalent problem of density-dependent population growth 
+has obtained much more general criteria
+under which a habitat configuration will support a stable polymorphic equilibrium \citep{cantrell1991diffusive},
+and determined the habitat configuration that maximizes the probability of establishment \citep{lou2006minimization}.
 
 
 %%%%%
@@ -1047,7 +1050,7 @@ We will assume that mixing within the patch is fast compared to the rate of drif
 so that the rate of coalescence of B alleles within a patch is 
 $\xi^2/(A\rho)$,
 the ``variance effective population size'' of the patch
-(this bypasses the well-known difficulties to spatial coalescence \citep{felsenstein1978pain,bartonetheridgedepaulis}).
+(this bypasses the well-known difficulties to spatial coalescence \citep{felsenstein1975pain,barton2002neutral}).
 The rate of recombination and coalescence will be on the same order if
 $\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$, 
 and hence the genetic length of haplotype shared between pairs of
@@ -1149,43 +1152,55 @@ The parameters were chosen to match
 \section{Discussion} 
 \label{ss:discussion}
 
-\subsection{PETER'S VERSION}
-
-This paper is an investigation into the basic, ill-formed question: 
-What is the spatial resolution of adaptation?
-In other words, what scale of environmental patchiness can a species develop and sustain local adaptations,
-and over what spatial scale will evolution develop independent solutions to evolutionary problems?
+This paper is an investigation into the basic question: 
+What is the spatial resolution of convergent local adaptation?
+In other words, what spatial scale of environmental patchiness will evolution develop independent solutions to evolutionary problems?
 The answer to this depends most strongly on $\sigma/\sqrt{s_m}$, 
-the dispersal distance divided by the square root of the selection against the new allele between patches,
-and much more weakly on the selective benefit within the patches or (perhaps suprisingly) the population density.
-Weaker selection against alleles will make sharing of adaptations between patches easier,
-but will also make it harder to spot,
-since the lucky, transiting alleles move slower and carry a shorter haplotype.
+the dispersal distance divided by the square root of the selection
+against the new allele between patches. It depends much more weakly on the
+selective benefit within the patches or (perhaps suprisingly) the
+population density. Although these two factors will determine the
+time-scale over which adaptation will occur. This is contrast with models of panmictic populations
+\citep{softsweepsI} and geographically spread populations adapting to homogeneous
+selection pressures \citep{RalphCoop}, where the probability of
+multiple adaptive alleles increases with the population
+size/density. However, in all of these models the dependence on the beneficial selection
+coefficient is absent or weak, due to the fact that selection both
+aids establishment of new alleles and the spread of existing
+alleles. 
 
-Observations of similar adaptations occuring within the same species in widely separated patches
-is strongly suggestive of parallel, independent adaptations.
-Such observations are very interesting 
-as they tell us about the degree of constraint faced by evolution --
-how many different methods are there typically available to a species
-with which to solve an evolutionary problem?
+While weaker selection against alleles will make sharing of
+adaptations between patches easier, 
+it will also makes it harder to spot the sharing,
+since the lucky, transiting alleles move slower and so carry a shorter
+shared haplotype.
+This issue is amplified by the fact that the length of haplotype
+shared within patches decays over time, potentially making the
+identification of shared adaptations to old selection pressures difficult.
 
-It is already well-appreciated that larger populations can lead to more parallelism \citep{softsweepsI}
-\plr{fisher probably said this too?}
-and that spatial structure contributes to this \citep{ralph2010parallel}.
-Naturally, then, local adaptation to well-separated patches of some environment is even more likely to occur in parallel;
-we have studied the case where patches are separated by long distances.
-This is complementary to the work of \citet{XXX}, who studied local adaptation in rapidly varying environments.
-Intermediate cases where habitat types are distributed in some more complex geometry
--- archipelagos of patches of varying sizes, or connected by long, skinny corridors, for instance --
-remains to be studied.
+% Observations of similar adaptations occuring within the same species in widely separated patches
+% is strongly suggestive of parallel, independent adaptations.
+% Such observations are very interesting 
+% as they tell us about the degree of constraint faced by evolution --
+% how many different methods are there typically available to a species
+% with which to solve an evolutionary problem?
 
-To complement this theory, we need more empirical work,
-in which the parameters (migration rate, sensitivity to environmental factors, etc)
-are reasonably well-understood.
-However, learning about these aspects is difficult in the field,
-and it is still not understood how much of the intraspecific variation we observe
-is due to adaptation to local conditions, or even how to tell.
-Notable steps forward include \citet{turner2010serpentine}, Mimulus, Amity, others?
+% It is already well-appreciated that larger populations can lead to more parallelism \citep{softsweepsI}
+% \plr{fisher probably said this too?}
+% and that spatial structure contributes to this \citep{ralph2010parallel}.
+
+% This is complementary to the work of \citet{XXX}, who studied local adaptation in rapidly varying environments.
+% Intermediate cases where habitat types are distributed in some more complex geometry
+% -- archipelagos of patches of varying sizes, or connected by long, skinny corridors, for instance --
+% remains to be studied.
+
+% To complement this theory, we need more empirical work,
+% in which the parameters (migration rate, sensitivity to environmental factors, etc)
+% are reasonably well-understood.
+% However, learning about these aspects is difficult in the field,
+% and it is still not understood how much of the intraspecific variation we observe
+% is due to adaptation to local conditions, or even how to tell.
+% Notable steps forward include \citet{turner2010serpentine}, Mimulus, Amity, others?
 
 \paragraph{Standing variation} 
 We have tended to focus on relative rates of adaptation,
@@ -1204,50 +1219,20 @@ then the dynamics of adaptation should not depend strongly on migration patterns
 We have mostly swept the issue of dominance under the rug
 by dealing with essentially haploid models,
 and appealing to the fact that the dynamics we study occur where the mutation is rare,
-and hence mostly present only in heterozygotes.
+and hence mostly present only in heterozygotes. 
+Our results should hold as a good approximation to dominant and
+partially dominant alleles.
 If, however, the mutation is recessive, then it is essentially neutral where rare,
 and so could have a much easier time spreading between patches.
 This is counteracted, however, by the increased difficulty with which the mutation would establish
-once arriving in a new patch.
-On the other hand, a dominant mutation would not differ greatly from the theory presented here.
-In fact, MC1r is ?dominant? and agouti is ?recessive?
-Other schemes could be obtained.
+once arriving in a new patch. As
+ such it is not clear what our intuition should be about the
+ contribution of recessive alleles to adaptation via migration. 
+Further work is needed to understand how recessive alleles may
+contribute to convergent local adaptation.
 
-
-optimal $s_m$ for migration makes migration harder to spot
-
-\subsection{GRAHAM'S VERSION}
-
-We have developed a simple set of approximations to describe the rate
-at which organisms in a patchy environment adapt through novel
-mutations or migration from other nearby patches (eqn.
-\eqref{eqn:mutrate} and \eqref{eqn:migrate}), and the relative
-probability of each of these outcomes (eqn. \eqref{eqn:parallel_prob}). 
-We have also determined the characteristic genomic length scales over which
-the various signals of hitchhiking should be visable
-(eqn. \eqref{eqn:haplotype_length} and ). 
-
-These results show that the probability of parallel adaptation is
-independent of both the population density and the beneficial
-selection coefficient. This follows from the fact that these
-parameters both increase the rate of adaptation via both migration and
-mutation equally. Thus they are important for the time-scale over
-which adaptation occurs but not the mode of adaptation. This
-constrasts with models of convergent adaptation within panmictic
-populations \citep{} and geographically spread populations adapting to
-homogeneous populations \citep{RalphCoop}, where the number of
-adaptive alleles increases with the population size/density. In all of these models the dependence on the beneficial selection
-coefficient is absent or weak, due to the fact that selection both
-aids establiishment of new alleles and the spread of existing
-alleles. 
-
-The primary determinant of the probability of parallel adaptation is
-$\sigma/\sqrt{s_d}$, the characteristic geographic distance of the
-allele frequency decay off the patch. We find that patches that are close together on
-this scale will adapt via migration, but there will be a sharp
-transition to convergent adaptation as we move to patches that are further apart. 
- 
-In coming to this conclusion, we have ignored the possibility of very long distance migration,
+\paragraph{Long distance migration}
+We have also ignored the possibility of very long distance migration,
 instead focusing local dispersal (as parameterized by a Gaussian
 dispersal model). However, dispersal distributions can be very heavy
 tailed, with a small fraction of individuals moving very long distances indeed, in
@@ -1261,58 +1246,107 @@ predicted by eqn. \eqref{eqn:haplotype_length}. As such we view our
 results as a null model by which the contribution of long distribution
 migrants to adaptation could be empirically judged.   
 
+The falling cost of population genomic sequencing means that we will soon have the
+opportunity to study the effects of geography and ecology on
+adaptation across many populations within a species. 
+Our work suggests that even quite geographically close populations may
+be forced to adapt convergently when migration is geographically limited. 
+Thus, systems where populations have repeated to strong local
+selection pressures limited may offer the opportunity to study
+highly replicated convergent adaptation within a similar genetic
+background.  
+Such empricial work will also strongly inform our understanding of the role of gene flow in
+keeping ecological similar populations evolving in concert \citep{sexton}.
+Our results suggest that adaptation to shared environments is
+certainly no guarentee of a shared genetic basis to adaptation, suggesting that
+rapid adaptation to a share environment could potentially drive
+speciation under some scenerios. 
 
-We have also assumed that the alleles have a fitness effect in
-heterozygotes both on and off the patch. However, 
- recessive alleles could also contribute to adaptation to patchy
- environments. \gc{should we cite Nachman eg here}.  Our
- simple branching process framework does not easily accomodate recessive
- alleles as it ignores the selection interaction of alleles, and so a
- different approach will be needed. At first sight it
- seems like recessive alleles may be able to contribute to adaptation
- via migration over longer distances, as the migrant alleles will be at low
- frequency between patches and so usually invisible to
- selection. However, this fact also means that they are unlikely to
- establish on the beneficial patch upon reaching it via migration. As
- such it is not clear what our intuition should be about the
- contribution of recessive alleles to adaptation via migration. 
+
+
+% \subsection{GRAHAM'S VERSION}
+
+% We have developed a simple set of approximations to describe the rate
+% at which organisms in a patchy environment adapt through novel
+% mutations or migration from other nearby patches (eqn.
+% \eqref{eqn:mutrate} and \eqref{eqn:migrate}), and the relative
+% probability of each of these outcomes (eqn. \eqref{eqn:parallel_prob}). 
+% We have also determined the characteristic genomic length scales over which
+% the various signals of hitchhiking should be visable
+% (eqn. \eqref{eqn:haplotype_length} and ). 
+
+% These results show that the probability of parallel adaptation is
+% independent of both the population density and the beneficial
+% selection coefficient. This follows from the fact that these
+% parameters both increase the rate of adaptation via both migration and
+% mutation equally. Thus they are important for the time-scale over
+% which adaptation occurs but not the mode of adaptation. This
+% constrasts with models of convergent adaptation within panmictic
+% populations \citep{} and geographically spread populations adapting to
+% homogeneous populations \citep{RalphCoop}, where the number of
+% adaptive alleles increases with the population size/density. In all of these models the dependence on the beneficial selection
+% coefficient is absent or weak, due to the fact that selection both
+% aids establiishment of new alleles and the spread of existing
+% alleles. 
+
+% The primary determinant of the probability of parallel adaptation is
+% $\sigma/\sqrt{s_d}$, the characteristic geographic distance of the
+% allele frequency decay off the patch. We find that patches that are close together on
+% this scale will adapt via migration, but there will be a sharp
+% transition to convergent adaptation as we move to patches that are further apart. 
+ 
+
+% We have also assumed that the alleles have a fitness effect in
+% heterozygotes both on and off the patch. However, 
+%  recessive alleles could also contribute to adaptation to patchy
+%  environments. \gc{should we cite Nachman eg here}.  Our
+%  simple branching process framework does not easily accomodate recessive
+%  alleles as it ignores the selection interaction of alleles, and so a
+%  different approach will be needed. At first sight it
+%  seems like recessive alleles may be able to contribute to adaptation
+%  via migration over longer distances, as the migrant alleles will be at low
+%  frequency between patches and so usually invisible to
+%  selection. However, this fact also means that they are unlikely to
+%  establish on the beneficial patch upon reaching it via migration. As
+%  such it is not clear what our intuition should be about the
+%  contribution of recessive alleles to adaptation via migration. 
   
-\gc{will write a couple more broader paragraphs}
+% \gc{will write a couple more broader paragraphs}
 
 
-The falling cost of sequencing over the next decade offers the
-opportunity to investigate the genomics of parallel adaptation over a
-large s
-Over the coming decade population genomic data will be generated  
+% The falling cost of sequencing over the next decade offers the
+% opportunity to investigate the genomics of parallel adaptation over a
+% large s
+% Over the coming decade population genomic data will be generated  
 
-\plr{Note that optimal $s_m$ for migration makes migration harder to spot.}
+% \plr{Note that optimal $s_m$ for migration makes migration harder to spot.}
 
-if populations and mutation rates are large enough, parallel adaptation is likely, aided by geography. 
-recall others' work. 
+% if populations and mutation rates are large enough, parallel adaptation is likely, aided by geography. 
+% recall others' work. 
 
-patchy selection helps this happen; 
-effective migration rate looks like what; 
-strength of (positive?) selection suprisingly does not affect results (?) 
+% patchy selection helps this happen; 
+% effective migration rate looks like what; 
+% strength of (positive?) selection suprisingly does not affect results (?) 
 
-standing variation will be important under these circumstances; 
-migration rate (and so geographic structure) will not affect numbers of types if this is true; 
-however migration always affcts spatial patterns. 
+% standing variation will be important under these circumstances; 
+% migration rate (and so geographic structure) will not affect numbers of types if this is true; 
+% however migration always affcts spatial patterns. 
 
-recessive alleles will have different dynamics. Actually not really
-obvious what will happen here, cline width will be much wider but
-prob. of taking off will go as the square of the occupancy density.
+% recessive alleles will have different dynamics. Actually not really
+% obvious what will happen here, cline width will be much wider but
+% prob. of taking off will go as the square of the occupancy density.
 
 
 
-discussion of applications. 
+% discussion of applications. 
 
-discuss mixing of types; 
-Graph: from simulation showing local proportions in a single patch showing initial fixation of a single type and later mixing converging toward more than one type.  (and eventual loss of one?)
+% discuss mixing of types; 
+% Graph: from simulation showing local proportions in a single patch showing initial fixation of a single type and later mixing converging toward more than one type.  (and eventual loss of one?)
 
-unequal density: Lenormand, gene flow and limits of\dots
+% unequal density: Lenormand, gene flow and limits of\dots
 
-small-scale fluctuations
-when landscape is not made of discrete (circular) patches
+% small-scale fluctuations
+% when landscape is not made of discrete (circular) patches
 
 \bibliography{standing_patches_refs}
 
