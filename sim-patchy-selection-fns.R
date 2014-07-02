@@ -40,7 +40,7 @@ newpop <- function(params, ntypes=10, nseeds=1 ) {
 # run the simulation
 
 pophistory <- function (pop, nsteps, step=20, progress=0, burnin=0) {
-    # make a 2x1x1-dimensional array of population states,
+    # make a 2+1+1-dimensional array of population states,
     # where the fourth dimension is time,
     # and each slice is the population state at time points
     # separated by "step" generations.

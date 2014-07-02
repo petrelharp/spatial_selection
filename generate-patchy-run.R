@@ -34,7 +34,10 @@ opts <- commandArgs(TRUE)
 print(opts)
 
 # get command line modifications: put them in global here (need restart); in params$ below
-for (x in opts) { eval(parse(text=x)) }
+for (x in opts) { 
+    # cat("eval: "); print(x); 
+    eval(parse(text=x)) 
+}
 
 # load restarting parameters
 if (!is.null(restart)) {
@@ -47,9 +50,13 @@ if (!is.null(restart)) {
 }
 
 # get command line modifications: put them in params$ here; in global above
-for (x in gsub("^([^ <=]*[ <=])","params$\\1",opts)) { eval(parse(text=x)) }
+# EXCLUDE lines with multiple commands in: won't do the right thing.
+for (x in gsub("^([^ <=]*[ <=])","params$\\1",grep(";",opts,value=TRUE,invert=TRUE))) { 
+    # cat("eval: "); print(x); 
+    eval(parse(text=x)) 
+}
 
-if (!exists("run.id")) { run.id <- floor(runif(1)*10000) }
+if (!exists("run.id")) { run.id <- floor(runif(1)*100000) }
 
 filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-pophistory-run.Rdata",sep="")
 run.list <- list.files(".","*-pophistory-run.Rdata")
@@ -108,9 +115,14 @@ if (!is.null(restart)) {
     initpop$params <- params
 } else {
     # if haven't loaded this from previous run already
-    initpop <- newpop(params,ntypes=2,nseeds=0)
-    initpop$n[,,1][params$s>0] <- 0
-    initpop$n[,,2][params$s>0] <- params$N
+    initpop <- newpop(params,ntypes=params$ntypes,nseeds=0)
+    if (!exists("initdist")) {
+        initpop$n[,,1][params$s>0] <- 0
+        initpop$n[,,2][params$s>0] <- params$N
+    } else {
+        # pass in initial distribution of types
+        initpop$n <- initdist
+    }
 }
 
 # Generate and save runs
@@ -131,6 +143,6 @@ if (do.lineages) {
     lins <- NULL
 }
 
-save(pophist,lins,restart,run.id,file=filename)
+save(initpop,pophist,lins,restart,run.id,file=filename)
 
 cat("\n",filename,"\n")
