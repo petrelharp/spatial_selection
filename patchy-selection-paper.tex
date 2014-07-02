@@ -32,9 +32,23 @@
 
 \bibliographystyle{plainnat}
 
+\title{
+Convergent Adaptation while adapting 
+}
+
+\author{Peter L. Ralph$^1$ \\ email: pralph@usc.edu  \and Graham Coop$^2$ \\ email: gmcoop@ucdavis.edu }
+
+
 \begin{document}
 
 \section{Introduction}
+
+% Such precise convergence points to the conservation of function of the genes underlying adaptive traits, 
+% sometimes over deep time scales \citep{deephomologypapers}. 
+% Convergence on a molecular level also suggests that the path 
+% accessible to adaptation is sometimes relatively constrained \citep{stern2013genetic}, 
+% as would be the case if only a few changes confer the advantagous phenotype 
+% and are sufficiently free of deleterious pleiotropic consequences.
 
 The convergent evolution of similar phenotypes in response to shared
 selection pressures is a testiment to the power of selection to
@@ -43,17 +57,8 @@ In some cases this convergence extends to the molecular level,
 with disparate taxa converging to the same phenotype through parallel 
 genetic changes in the same pathway, genes, 
 or even by precisely the same genetic changes \citep{zhen2012parallel}. 
-Such precise convergence points to the conservation of function of the genes underlying adaptive traits, 
-sometimes over deep time scales \citep{deephomologypapers}. 
-Convergence on a molecular level also suggests that the path 
-accessible to adaptation is sometimes relatively constrained \citep{stern2013genetic}, 
-as would be the case if only a few changes confer the advantagous phenotype 
-and are sufficiently free of deleterious pleiotropic consequences.
-
-%For highly polygenic traits 
-
 Convergent adaptation can also occur within species, if individuals within a species 
-adapt to the same environment, in parallel, through different genotypic changes. 
+adapt to the same environment, in parallel, through different genetics changes. 
 There are a growing number of examples of this in a range of well studied organisms and phenotypes REFs.
 Such evolution of convergent phenotypes is favored by higher mutational input, 
 i.e.\ larger mutational target and/or population size \citep{dmitri}.
@@ -90,14 +95,37 @@ and in lizards \citep{whitesands}.
 In this paper, we study this situation, namely,
 when a set of alleles provide an adaptive benefit in geographically localized patches, 
 separated by (inhabited) regions where the alleles are deleterious.
-\plr{or neutral?}
 The main questions are:
 Under what conditions is it likely that each patch adapts in parallel, through new mutation,
 and when is it likely that migration carries these alleles between patches?
+
 How could we tell, after the fact, which has occurred?
+
+
 We work in a model of continuous geography,
 using a variety of known results and new methods.
-In section XX we \dots QUICK OUTLINE
+In section \ref{ss:patchymutation} we develop a simple approximation,
+eqn. \eqref{eqn:mutrate}, for the rate at which patches become
+established by new mutations. Then in section \ref{ss:patchymigration} we
+develop an approximation, eqn. \eqref{eqn:migrate}, to the rate which alleles move from an
+existing patch to colonize a novel patch (this represents a big chunk
+of the results of the paper). We combine these two results in section
+\ref{ss:probparallel} to develop an approximation to the probability of
+parallel adaptation, eqn. \eqref{}.
+To understand the genomic signal left by adaptations shared by
+migration in section \ref{ss:haplotype_length} we approximate the time
+it will take for an allele to transit between patches,
+eqn. \eqref{eqn:mean_tau}, and use this to approximate the length of
+haplotype that hitchhikes with it,
+eqn. \eqref{eqn:haplotype_length}. We then quantify how quickly this
+haplotype decays within patches eqn. \eqref{} in section \ref{ss:patch_haplotype}. 
+
+
+ {ss:patch_haplotype}
+
+{ss:haplotype_length}
+l{ss:probparallel}
+\dots QUICK OUTLINE
 
 \gc{Lets also give the numbers of key equations in this road map so
   folks can understand the biologically important results and then work
@@ -666,7 +694,7 @@ approximately logistically with the distance between the patches, at rate $\sqrt
 
 
 %%%%%%%%%%%%
-\subsection{Multiple patches}
+\subsubsection{Multiple patches}
 Above we worked with two patches separated by distance $R$;
 but these calculations apply as well to multiple patches
 in which the $B$ allele can facilitate local adaptation. 
@@ -1005,11 +1033,11 @@ i.e.
 % \begin{equation}
 % r (\sigma/\sqrt{s})A^{-1/d} \label{eqn:rate-rec-in-patch}
 % \end{equation}
-\plr{Note to ourselves: If a $d$-dimensional object with area A has radius $r$ (in any sense)
-and you shrink it to have radius $r_0$,
-then the resulting object has area $A \times (r_0/r)^d$;
-here we have $r_0 = r - \sigma/\sqrt{s}$,
-in $d=1$ the radius is $A/2$ and in $d=2$ it is $\sqrt{A/\pi}$.}
+%\plr{Note to ourselves: If a $d$-dimensional object with area A has radius $r$ (in any sense)
+%and you shrink it to have radius $r_0$,
+%then the resulting object has area $A \times (r_0/r)^d$;
+%here we have $r_0 = r - \sigma/\sqrt{s}$,
+%in $d=1$ the radius is $A/2$ and in $d=2$ it is $\sqrt{A/\pi}$.}
 \begin{align}
 r_{eff} &=
     \begin{cases}
@@ -1020,25 +1048,28 @@ r_{eff} &=
 \end{cases}
 \label{eqn:rate-rec-in-patch}   %(\sigma/\sqrt{s})A^{-1/d}
 \end{align}
-\gc{Altered the above.}
-which scales the recombination rate roughly with $(\sigma/\sqrt{s})A^{-1/d}$.
-We can use this to think about the length of the haplotype
-associated with the $B$ allele after a given length of time $T$,
-for instance, the time since the $B$ allele joined the patch.
-\plr{changed this to genetic lengths so as not to introduce another parameter, $r_{BP}$}
-% If the recombination rate per base is $r_{BP}$, 
-% then the length of the haplotype associated with the $B$ allele is
-% \begin{equation}
-% \frac{\sqrt{s}}{\sigma A^{-1/d}}\frac{1}{r_{BP}}
-% \end{equation} 
-In units of genetic length (Morgans),
-the length of the haplotype associated with the $B$ allele is, up to a constant,
-\begin{equation}
-  \frac{A^{1/d}\sqrt{s}}{\sigma T}
-\end{equation} 
-Note that the length of haplotype decays at a rate proportional to the
-cline width $\sqrt{s} / \sigma$, as the narrower the cline the less
+so that $T$ generations after the founding of a patch we expect a
+haplotype of genetic length $1/(r_{eff}T)$ Morgans to remain linked to
+the $B$ for a typical lineage. Note that the length of haplotype
+decays at a rate roughly proportional to $\sqrt{s}/ \sigma$, as the narrower the cline the less
 opportunity for recombination to move our lineage off the $B$ background. 
+ 
+% which scales the recombination rate roughly with $(\sigma/\sqrt{s})A^{-1/d}$.
+% We can use this to think about the length of the haplotype
+% associated with the $B$ allele after a given length of time $T$,
+% for instance, the time since the $B$ allele joined the patch.
+% \plr{changed this to genetic lengths so as not to introduce another parameter, $r_{BP}$}
+% % If the recombination rate per base is $r_{BP}$, 
+% % then the length of the haplotype associated with the $B$ allele is
+% % \begin{equation}
+% % \frac{\sqrt{s}}{\sigma A^{-1/d}}\frac{1}{r_{BP}}
+% % \end{equation} 
+% In units of genetic length (Morgans),
+% the length of the haplotype associated with the $B$ allele is, up to a constant,
+% \begin{equation}
+%   \frac{A^{1/d}\sqrt{s}}{\sigma T}
+% \end{equation} 
+
  
 Finally we can consider the expected length of haplotype shared within a patch. 
 To do this, we compare the rate of recombination between B and b haplotypes (equation~\ref{eqn:rate-rec-in-patch})
@@ -1051,7 +1082,7 @@ the ``variance effective population size'' of the patch
 The rate of recombination and coalescence will be on the same order if
 $\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$, 
 and hence the genetic length of haplotype shared between pairs of
-individuals within the patches is on the order of
+individuals within the patches at equilibrium is on the order of
 \begin{align}
   r = \frac{\sqrt{s} \xi^2}{\sigma \rho A^{(d-1)/d}} 
 \end{align}
@@ -1059,7 +1090,7 @@ which does not depend on $A$ in one dimension,
 but decreases with $\sqrt{A}$ in two dimensions.
 
 %%%%%%%%%%
-\section{Applications} 
+\section{Application} 
 Hoekstra, Nachman, and colleagues have made an extensive study of coat color in the rock pocket mouse, 
 \emph{Chaetodipus intermedius}, building on classic work by \citet{benson1933concealing} and \citet{dice1940ecologic}.
 These mice live on rocky outcrops throughout the southwestern United States and northern Mexico, 
@@ -1067,14 +1098,14 @@ and generally have a light pelage similar to the predominant rock color.
 However, in some regions these mice live on darker substrates (e.g.\ old lava flows),
 and in these patches have much darker pigmentation, 
 presumably to avoid visual predators.
-\citet{nachman2003different} demonstrated that on one of these flows (Pinacate), 
+\citet{nachman2003genetic} demonstrated that on one of these flows (Pinacate), 
 much of the change in coloration is due to an allele at the MC1R locus.
 This dark allele differs from the light allele by four amino acid changes, 
 and has a dominant or partially dominant effect depending on the measure of coat color assessed. 
 These areas of dark rock are separated from each other by a range of distances, 
 with some being separated from any other by hundreds of kilometers of light colored substrate. 
 The Pinacate allele is not present in a number of other populations of dark colored rock pocket mouse, 
-suggesting these populations have adapted in parallel \citep{xxx}.
+suggesting these populations have adapted in parallel \citep{nachman2003different}.
 However, there is some evidence \citep{Hoekstra:05} that, elsewhere in the range, 
 multiple dark outcrops may share a dark phenotype whose genetic basis has been spread by migration
 despite intervening light habitat. 
@@ -1094,21 +1125,21 @@ we can fit formula \eqref{eqn:eqfreq} to these frequencies.
 Doing this for Tule we obtain $\sigma/\sqrt{s_m} \approx 3$km, 
 and for O'Neill, $\sigma/\sqrt{s_m} \approx 30$km, giving us a range of cline widths. 
 We also need estimate of $s_m$. 
-Using $\sigma=1km$ \gc{REF}, these cline widths imply $s_m=1/\sqrt{3}$ and
+Using $\sigma \approx 1km$ \gc{REF}, these cline widths imply $s_m=1/\sqrt{3}$ and
 $1/\sqrt{30}$ are reasonable values.
-\plr{Going back to previous conversations, we came upon \citet{mullen2008natural}, 
-which has dispersal distance of 0.26km.  Shall we ask Nachman?}
+%\plr{Going back to previous conversations, we came upon \citet{mullen2008natural}, 
+%which has dispersal distance of 0.26km.  Shall we ask Nachman?}
 
 The mutational target size $\mu$ for the trait is unclear. 
 While the Pinacate dark haplotype differs from the light haplotype at three amino-acid residues,
 it is likely that not all of these changes are needed for a population to begin to adapt. 
 Also there a number of genes besides MC1R at which adaptative changes affecting pigmentation 
-have been identified in closely related species and more broadly across vertebrates \citep{REF}.
+have been identified in closely related species and more broadly across vertebrates \citep{Hoekstra:06}.
 To span a range of plausible values, we use a low mutation rate of $\mu= 10^{-8}$, 
 where the adaptive mutation has to occur at a single base pair; 
 and a high mutation rate $\mu= 10^{-5}$, equivalent to the mutation
 being able to arise at any of a thousand base pairs.  
-Finally, we set $A=100\text{km}^2$.
+Finally, we set $A=100\text{km}^2$ (roughly thr size of the Pinacate patch).
 Figure~\ref{fig:mice_prob_parallel} shows the dependance of the probability
 of parallel mutation on the distance between lava flow patches using these parameters. 
 As can be seen parallel mutation should become
@@ -1116,19 +1147,16 @@ likely over a scale of tens to a few hundred kilometers between patches.
 
 Givn the large selection coefficient associated with the dark allele
 on the dark substrate we expect the initial sweep associated with
-either a new mutation or migrant allele to be large ($s/\log(\rho A
-s)$). We can use eqn \eqref{eqn:haplotype_length} to calculate how long a
-founding haplotype we initially expect to find shared between populations
-this in Figure \ref{fig:mice_prob_parallel}. The initial length can be
+either a new mutation or migrant allele to be large. We can use eqn
+\eqref{eqn:haplotype_length} to calculate how long a founding
+haplotype we initially expect to find shared between populations this in Figure \ref{fig:mice_prob_parallel}. The initial length can be
 quite long between geographically close patches (tens of km). However,
 for our wider cline width ($\sigma/\sqrt{s_m} =30km$) adaptation by
 migration can still be likely for patches 100km apart but its shared
 basis may be hard to detect as the length of shared haplotype can be
-quite short. 
-
-Given the relatively small size of the dark substrate patches where
-$A$ is often $<10km$ we should expect the haplotype to be rapidly
-whittled down within patches (eqn. \ref{})
+quite short. Furthermore, given the relatively small radius of the dark substrate
+patches (often $<10km$) we should expect the haplotype to be rapidly
+whittled down within patches after establishment (eqn. \ref{})
 
 \begin{figure}[ht]
   \begin{center}
@@ -1252,7 +1280,7 @@ selection pressures limited may offer the opportunity to study
 highly replicated convergent adaptation within a similar genetic
 background.  
 Such empricial work will also strongly inform our understanding of the role of gene flow in
-keeping ecological similar populations evolving in concert \citep{sexton}.
+keeping ecological similar populations evolving in concert \citep{Sexton:14}.
 Our results suggest that adaptation to shared environments is
 certainly no guarentee of a shared genetic basis to adaptation, suggesting that
 rapid adaptation to a share environment could potentially drive
