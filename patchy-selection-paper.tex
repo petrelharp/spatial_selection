@@ -44,7 +44,7 @@ The Probability of Convergent Evolution During Local Adaptation.
 \maketitle
 \begin{center}
 $^1$ Computational Biology and Bioinformatics \\ University of
-Southern California, Los Angeles, CA
+Southern California, Los Angeles, CA\\
 $^2$Center for Population Biology \& Department of Evolution and Ecology \\ University of California -- Davis. Davis, CA, 95616
 \end{center}
 
@@ -1725,6 +1725,56 @@ Argue that $C=0.5$ is a reasonable number.
 \end{figure}
 
 %%%%%%%%%%%
+
+
+
+
+
+\end{document} 
+
+\section{Temporary work: hitting probs}
+
+Now consider the probability that a migrant family from $x$ will ever establish in the new patch,
+which we assume has relatively small area $A$ and is centered at position $y$.
+The probability that this family reaches $A$ by time $t$ is $(1-k_e(t))$
+multiplied by the probability that the family reaches the patch, given survival.
+If $t$ is large then the previous section argues that $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$,
+and the probability of reaching the patch by $t$ approximately the chance that a Brownian path
+will have hit the patch by then.
+If $w = A^{1/d}$ is the width of the patch, then 
+this is the chance that a $d$-dimensional Bessel process begun at $\|y-x\|$ hits $w$ by time $t$.
+Let $\tau_w$ be the hitting time of $w$,
+so, integrating by parts, and using Borodin \& Salminen (2.2.0.1 and 4.2.0.1)
+\begin{align}
+    \int_0^\infty (1-k_e(t)) \P^x\{ \tau_w \le t \} dt  
+    &\approx \int_0^\infty e^{-s_m t} \P^x\{ \tau_w \le t \} dt  / \E[K] \\
+    &= \frac{1}{s_m \E[K]} \int_0^\infty e^{-s_m t} \P^x\{ \tau_w \in dt \} \\
+    &= \frac{1}{s_m \E[K]} \E^x[e^{-s_m \tau_w}] \\
+    &= 
+    \frac{1}{s_m \E[K]} \times
+    \begin{cases}
+        e^{-(x-w) \sqrt{2s_m}} \qquad & d=1 \\
+        \frac{ K_0(x\sqrt{2s_m}) }{ K_0(w\sqrt{2s_m}) } \qquad & d=2 
+    \end{cases}
+\end{align}
+Note that the $d=2$ case
+\begin{align}
+    \frac{ K_0(x\sqrt{2s_m}) }{ K_0(w\sqrt{2s_m}) } = \sqrt{\frac{w}{x}} e^{-(x-w)\sqrt{2s_m}} ( 1 + O(1/w) ).
+\end{align}
+
+
+\section{Notes: for intro/discussion}
+
+- leimu2008metaanalysis: local adaptation not ubiquitous but common; mostly in large population sizes.
+- robertson1960theory: dependence of the degree of adaptation on Ne 
+- lots of local adaptation stuff on plants and conservation genetics; ties into plasticity and range limits.
+- but also: Neurospora (ellison2011) and salmonids (fraser2011)
+- swamping in Mayr 1963, Animal Species and Evolution?
+- hanson1966effects: original observation of minimum patch size, in simulation?
+- fourneir-level2011: map of arabidopsis local adaptation
+- reviews for local adapt in marine (sanford2011), trees (savolainen2007) 
+
+
 \section{Patchy selection} 
 \label{ss:discretedemes}
 
@@ -1848,50 +1898,3 @@ One is that the final distribution of types is no longer independent of $s_p$, w
 However, it is clear that increasing the selection coefficient $s$ will decrease the number of types (independent mutational origins),
 while on the other hand, increasing the deme size $N$ will increase the number of types,
 and that the case presented above is at the extreme (see also \cite{Navarro:03} for deterministic approximations). 
-
-
-
-\end{document} 
-
-\section{Temporary work: hitting probs}
-
-Now consider the probability that a migrant family from $x$ will ever establish in the new patch,
-which we assume has relatively small area $A$ and is centered at position $y$.
-The probability that this family reaches $A$ by time $t$ is $(1-k_e(t))$
-multiplied by the probability that the family reaches the patch, given survival.
-If $t$ is large then the previous section argues that $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$,
-and the probability of reaching the patch by $t$ approximately the chance that a Brownian path
-will have hit the patch by then.
-If $w = A^{1/d}$ is the width of the patch, then 
-this is the chance that a $d$-dimensional Bessel process begun at $\|y-x\|$ hits $w$ by time $t$.
-Let $\tau_w$ be the hitting time of $w$,
-so, integrating by parts, and using Borodin \& Salminen (2.2.0.1 and 4.2.0.1)
-\begin{align}
-    \int_0^\infty (1-k_e(t)) \P^x\{ \tau_w \le t \} dt  
-    &\approx \int_0^\infty e^{-s_m t} \P^x\{ \tau_w \le t \} dt  / \E[K] \\
-    &= \frac{1}{s_m \E[K]} \int_0^\infty e^{-s_m t} \P^x\{ \tau_w \in dt \} \\
-    &= \frac{1}{s_m \E[K]} \E^x[e^{-s_m \tau_w}] \\
-    &= 
-    \frac{1}{s_m \E[K]} \times
-    \begin{cases}
-        e^{-(x-w) \sqrt{2s_m}} \qquad & d=1 \\
-        \frac{ K_0(x\sqrt{2s_m}) }{ K_0(w\sqrt{2s_m}) } \qquad & d=2 
-    \end{cases}
-\end{align}
-Note that the $d=2$ case
-\begin{align}
-    \frac{ K_0(x\sqrt{2s_m}) }{ K_0(w\sqrt{2s_m}) } = \sqrt{\frac{w}{x}} e^{-(x-w)\sqrt{2s_m}} ( 1 + O(1/w) ).
-\end{align}
-
-
-\section{Notes: for intro/discussion}
-
-- leimu2008metaanalysis: local adaptation not ubiquitous but common; mostly in large population sizes.
-- robertson1960theory: dependence of the degree of adaptation on Ne 
-- lots of local adaptation stuff on plants and conservation genetics; ties into plasticity and range limits.
-- but also: Neurospora (ellison2011) and salmonids (fraser2011)
-- swamping in Mayr 1963, Animal Species and Evolution?
-- hanson1966effects: original observation of minimum patch size, in simulation?
-- fourneir-level2011: map of arabidopsis local adaptation
-- reviews for local adapt in marine (sanford2011), trees (savolainen2007) 
-
