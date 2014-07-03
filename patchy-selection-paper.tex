@@ -5,7 +5,7 @@
 \usepackage{marginnote}
 \usepackage{graphicx}
 \usepackage{color}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 %\usepackage{latexml} % for \iflatexml
 
 % \newcommand{\var}{\mathop{\mbox{Var}}}
@@ -32,8 +32,12 @@
 
 \bibliographystyle{plainnat}
 
+% The Spatial Resolution of Convergent Adaptation
+% Convergent Evolution in Patchy Landscapes
+% Parallel Evolution in Patchy Landscapes
+
 \title{
-The Probability of Convergent Evolution During Local Adaptation. 
+Convergent Evolution During Local Adaptation to Patchy Landscapes
 }
 
 \author{Peter L. Ralph$^1$ \\ email: pralph@usc.edu  \and Graham Coop$^2$ \\ email: gmcoop@ucdavis.edu }
@@ -43,11 +47,47 @@ The Probability of Convergent Evolution During Local Adaptation.
 
 \maketitle
 \begin{center}
-$^1$ Computational Biology and Bioinformatics \\ University of
-Southern California, Los Angeles, CA\\
-$^2$Center for Population Biology \& Department of Evolution and Ecology \\ University of California -- Davis. Davis, CA, 95616
+
+$^1$ Computational Biology and Bioinformatics \\ 
+University of Southern California, Los Angeles, CA \\
+$^2$Center for Population Biology \& Department of Evolution and Ecology \\ 
+University of California -- Davis, Davis, CA, 95616
 \end{center}
 
+%%%%%%%%%%%
+\abstract{
+Populations within a species often repeatedly locally adapt to similar environmental conditions
+across their range. Such adaptation can occur through convergent
+evolution as different alleles arise and spread in different parts of
+the range. Or it can occur through the spread of alleles by migration
+acting to synchronizing adaptation across the species.
+The tension between the two reflects the degree of 
+constraint imposed on evolution by the underlying genetic
+architecture versus how how effectively selection acts to inhibt the geographic spread of local
+adapted alleles.
+This paper studies a model of the the balance between these two routes to adaptation in continuous environments with patchy selection pressures.
+We address the following questions: 
+How long does it take for a new, locally adapted allele to appear in a
+patch of favorable habitat through new mutation?
+Or, through migration from another, already adapted patch?
+Which is more likely to occur, as a function of patch separation?
+How can we tell which has occurred, i.e. what population genetic
+signal is left by the spread of migrant alleles and how long does this
+signal persist for?
+To answer these questions we decompose the migration--selection equilibrium
+surrounding an already adapted patch
+into families of migrant alleles,
+in particular treating those rare families that reach new patches
+as spatial branching processes.
+This provides a set of tractable approximations to understand the role
+of geographic separation between favorable patches in promoting
+convergent adaptation and the genomic signals left.
+We illustrate these ideas using the convergent evolution of cryptic coloration in the rock pocket mouse, \textit{Chaetodipus intermedius}, as an empirical example.
+
+}
+
+
+%%%%%%%%%%% %%%%%%%%%%% 
 \section{Introduction}
 
 % Such precise convergence points to the conservation of function of the genes underlying adaptive traits, 
@@ -57,14 +97,14 @@ $^2$Center for Population Biology \& Department of Evolution and Ecology \\ Univ
 % as would be the case if only a few changes confer the advantagous phenotype 
 % and are sufficiently free of deleterious pleiotropic consequences.
 
-The convergent evolution of similar phenotypes in response to shared
-selection pressures is a testiment to the power of selection to
-repeatedly sculpt phenotypic variation. 
+The convergent evolution of similar phenotypes 
+in response to shared selection pressures is a testiment to the power of selection 
+to repeatedly sculpt phenotypic variation. 
 In some cases this convergence extends to the molecular level, 
 with disparate taxa converging to the same phenotype through parallel 
 genetic changes in the same pathway, genes, 
 or even by precisely the same genetic changes
-\citep{Stern:13}. 
+\citep{stern2013genetic,zhen2012parallel,martin2013repeated}. 
 Convergent adaptation can also occur within species, if individuals within a species 
 adapt to the same environment, in parallel, through different genetics changes. 
 There are a growing number of examples of this in a range of well studied organisms and phenotypes \cite{Arendt:08}.
@@ -93,13 +133,13 @@ the alleles conferring heavy metal tolerance are thought to be locally restricte
 because they incur a cost off of these patches.
 Similarly, across the American Southwest, a variety of species of animals have developed locally adaptive cryptic coloration
 to particular substrates, e.g.\ dark rock outcrops or white sand dunes
-\citep{benson1933concealing, DiceBlossom1937}.
+\citep{benson1933concealing}.
 One of the best-known examples is the rock pocket mouse (\textit{Chaetodipus intermedius}),
-which is primarily dark on a number of black lava flows separated by
-much lighter soil \citep{dice1940ecologic, DiceBlossom1937}.
+which is on a number of black lava flows has much darker pelage than on intervening,
+much lighter soil \citep{DiceBlossom1937,dice1940ecologic}.
 Strong predator-mediated selection appears to favour such crypsis \citep{kaufman1974adaptive},
 and, perhaps as a result of this strong selection against migrants, 
-at least two distinct genetic changes are responsible from the dark pigmentation adaptation on different outcrops \citep{hoekstra2003different}. 
+at least two distinct genetic changes are responsible for the dark pigmentation found on different outcrops \citep{hoekstra2003different}. 
 Similar situations have been demonstrated in other small rodent systems \citep{steiner2009genetic,kingsley2009melanism}
 and in lizards \citep{rosenblum2010molecular}.
 
@@ -199,9 +239,9 @@ and that the mean squared distance between parent and child is $\sigma^2$
 (i.e.\ $\sigma$ is the dispersal distance). Differences in population
 densities on and off the patches may arise if selection is hard, in
 that case these differences can be incorporated into the density \citep[see][]{lenormand2002limits}. 
-We also aim to describe the scenario where it is sensible to think of large, discrete patches;
-the case of a fine-scale heterogeneous environment is treated
-\citep{elsewhere}. \gc{IS THIS LAST SENTENCE NEEDED IF SO GIVE CITATIOn}
+%We also aim to describe the scenario where it is sensible to think of large, discrete patches;
+%the case of a fine-scale heterogeneous environment is treated
+%\citep{elsewhere}. \gc{IS THIS LAST SENTENCE NEEDED IF SO GIVE CITATIOn}
 
 \paragraph{Past work on spatial models}
 We will make use of several previous results from the literature on
@@ -638,7 +678,7 @@ in terms of selection coefficients, patch size, and mutation rate.
 % (7+log(1/ss))/sqrt(2*(ss))
 % (7+log(1/(.5*ss)))/sqrt(2*(.5*ss))
 
-\gc{NOT SURE IF ANYONE HAS LOOKED AT THI IN LONG TIME?}
+\gc{NOT SURE IF ANYONE HAS LOOKED AT THIS NEXT PARAGRAPH IN LONG TIME?}
 If we take the mutational influx in a patch to be one per 1,000 generations ($\rho A \mu = .001$)
 and the population density to be 1 ($\rho =1$, so $\log(A\mu)\approx 7$)
 then adaptation is mostly parallel for patches separated by gaps larger than $R/\sigma > (7+\log(s_m))/\sqrt{s_m}$.
@@ -1218,14 +1258,17 @@ This issue is amplified by the fact that the length of haplotype
 shared within patches decays over time, potentially making the
 identification of shared adaptations to old selection pressures difficult.
 
-In this work, we have tried to emphasize an intuitive, individual-centered understanding of the process,
-determining, for instance, 
-the speed at which successful migrants traverse regions where they are maladapted,
-and the effective rate at which new families of migrant alleles appear
-at long distances from a patch.
-These quantities may be as useful for applied work
-as more abstract ones such as the probability that adaptation occurs by migration versus new mutation.
+%commented out as wasn't quite sure what purpose this paragraph served.
+% In this work, we have tried to emphasize an intuitive, individual-centered understanding of the process,
+% determining, for instance, 
+% the speed at which successful migrants traverse regions where they are maladapted,
+% and the effective rate at which new families of migrant alleles appear
+% at long distances from a patch.
+% These quantities may be as useful for applied work
+% as more abstract ones such as the probability that adaptation occurs by migration versus new mutation.
 
+In developing the set of approximations in the paper we have ignored a
+number of complicating factors. We now briefly discuss these.
 
 \paragraph{Standing variation} 
 We have tended to focus on relative rates of adaptation,
@@ -1277,24 +1320,24 @@ The work of \citet{cantrell1991diffusive} comes closest to a general theory of b
 and it is possible that our techniques could be applied in their much more general setting,
 as both are based, fundamentally, on branching process approximations.
 
-
-
 \paragraph{Concluding thoughts}
 The falling cost of population genomic sequencing means that we will soon have the
 opportunity to study the interplay of adaptation with geography and ecology 
 across many populations within a species. 
 Our work suggests that even quite geographically close populations 
-may be forced to adapt convergently when migration is geographically limited. 
+may be forced to locally adapt convergently when migration is geographically limited. 
 Thus, systems where populations have been repeatedly subject to 
 strong local selection pressures may offer the opportunity 
 to study highly replicated convergent adaptation within a similar
-genetic background \citep{Stern:13}.  
-Such empricial work will also strongly inform our understanding of how gene flow 
-may work to keep ecologically similar populations evolving in concert \citep{sexton2013genetic}.
+genetic background \citep{stern2013genetic}.  
+Such empricial work will also strongly inform our understanding of the
+ability of gene flow to keep ecologically similar populations evolving
+in concert \citep{sexton2013genetic}.
 Our results suggest that adaptation to shared environments is
 certainly no guarantee of a shared genetic basis to adaptation, 
 suggesting that rapid adaptation to a shared environment could potentially drive
-speciation under some scenerios \citep[in a manner similar to ][]{Kondrashov:03}. 
+speciation if the alleles that spread in each population fail to work
+well together \citep{Kondrashov:03}. 
 
 % discussion of applications. 
 
