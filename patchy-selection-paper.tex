@@ -33,7 +33,7 @@
 \bibliographystyle{plainnat}
 
 \title{
-The Probability of Convergent Adaptation to Environmental Patches. 
+The Probability of Convergent Evolution During Local Adaptation. 
 }
 
 \author{Peter L. Ralph$^1$ \\ email: pralph@usc.edu  \and Graham Coop$^2$ \\ email: gmcoop@ucdavis.edu }
@@ -56,10 +56,11 @@ repeatedly sculpt phenotypic variation.
 In some cases this convergence extends to the molecular level, 
 with disparate taxa converging to the same phenotype through parallel 
 genetic changes in the same pathway, genes, 
-or even by precisely the same genetic changes \citep{zhen2012parallel,,martin2013repeated,deephomologypapers}. 
+or even by precisely the same genetic changes
+\citep{Stern:13}. 
 Convergent adaptation can also occur within species, if individuals within a species 
 adapt to the same environment, in parallel, through different genetics changes. 
-There are a growing number of examples of this in a range of well studied organisms and phenotypes REFs.
+There are a growing number of examples of this in a range of well studied organisms and phenotypes \cite{Arendt:08}.
 Such evolution of convergent phenotypes is favored by higher mutational input, 
 i.e.\ larger mutational target and/or population size \citep{softsweepsII}.
 The geographic distribution of populations can also affect the probability of parallel mutation within a species:
@@ -77,11 +78,12 @@ before adaptations spread between the populations by migration
 will be larger if these adaptive alleles are maladapted in intervening environments,
 since such adverse conditions can strongly spatially restrict the spread of locally adapted alleles \citep{slatkin1973geneflow}.
  
+%\citep{wright2013indirect}
 One elegant set of such examples is provided by the assortment of plant species 
 that have repeatedly adapted to patches of soil with high concentrations of heavy metals
 (e.g.\ serpentine outcrops and mine tailings) \citep{macnair1991evolution,schat1996identical,turner2010serpentine};
 the alleles conferring heavy metal tolerance are thought to be locally restricted 
-because they incur a cost off of these patches \citep{wright2013indirect}.
+because they incur a cost off of these patches.
 Similarly, across the American Southwest, a variety of species of animals have developed locally adaptive cryptic coloration
 to particular substrates, e.g.\ dark rock outcrops or white sand dunes
 \citep{benson1933concealing, DiceBlossom1937}.
@@ -113,14 +115,14 @@ develop an approximation, eqn. \eqref{eqn:migrate}, to the rate which alleles mo
 existing patch to colonize a novel patch (this represents a big chunk
 of the results of the paper). We combine these two results in section
 \ref{ss:probparallel} to develop an approximation to the probability of
-parallel adaptation, eqn. \eqref{}.
+parallel adaptation, eqn. \eqref{eqn:parallel_prob}.
 To understand the genomic signal left by adaptations shared by
 migration in section \ref{ss:haplotype_length} we approximate the time
 it will take for an allele to transit between patches,
 eqn. \eqref{eqn:mean_tau}, and use this to approximate the length of
 haplotype that hitchhikes with it,
 eqn. \eqref{eqn:haplotype_length}. We then quantify how quickly this
-haplotype decays within patches eqn. \eqref{eqn:rec_rate_within } and
+haplotype decays within patches eqn. \eqref{eqn:rec_rate_within} and
 use this to obtain properties about the equilibrium distribution of
 haplotype lengths
 \eqref{eqn:within_haplotype_length}  in section \ref{ss:patch_haplotype}. 
@@ -184,12 +186,15 @@ For the most part,
 we follow the literature in treating the diploid model as essentially haploid.
 
 For the sake of simplicity, we assume a constant haploid population density $\rho$, 
-across both types of habitat (but return to this point later),
+across both types of habitat,
 We further assume that the variance in offspring number is $\xi^2$, 
 and that the mean squared distance between parent and child is $\sigma^2$
-(i.e.\ $\sigma$ is the dispersal distance).
+(i.e.\ $\sigma$ is the dispersal distance). Differences in population
+densities on and off the patches may arise if selection is hard, in
+that case these differences can be incorporated into the density \citep[see][]{lenormand2002limits}. 
 We also aim to describe the scenario where it is sensible to think of large, discrete patches;
-the case of a fine-scale heterogeneous environment is treated \citep{elsewhere}.
+the case of a fine-scale heterogeneous environment is treated
+\citep{elsewhere}. \gc{IS THIS LAST SENTENCE NEEDED IF SO GIVE CITATIOn}
 
 \paragraph{Past work on spatial models}
 We will make use of several previous results from the literature on
@@ -625,6 +630,8 @@ in terms of selection coefficients, patch size, and mutation rate.
 % sm <- .001; (-log(c(1e-3,1))-log(sm))/sqrt(2*sm)
 % (7+log(1/ss))/sqrt(2*(ss))
 % (7+log(1/(.5*ss)))/sqrt(2*(.5*ss))
+
+\gc{NOT SURE IF ANYONE HAS LOOKED AT THI IN LONG TIME?}
 If we take the mutational influx in a patch to be one per 1,000 generations ($\rho A \mu = .001$)
 and the population density to be 1 ($\rho =1$, so $\log(A\mu)\approx 7$)
 then adaptation is mostly parallel for patches separated by gaps larger than $R/\sigma > (7+\log(s_m))/\sqrt{s_m}$.
@@ -938,11 +945,11 @@ We first develop a simple approximation to the rate
 at which recombination breaks down haplotypes within patches. 
 If we wait long enough after the initial adaptation of a patch,
 the haplotype that swept initially will have decayed due to this process of recombination. 
-However, we still expect to find individuals within the patch sharing long haplotypes around the selected locus
+However, we may still expect to find individuals within the patch sharing long haplotypes around the selected locus
 than with individuals elsewhere,
 since selection against migrants 
 decreases mean coalescence times within the patch near the selected locus.
-\citep{bartonpaper,charlesworths}. 
+%\citep{bartonpaper,charlesworths}. 
 
 Refer again to Figure~\ref{fig:lineagesmotion}. 
 When a lineage is in a region with high frequency of $B$ alleles (dark red), 
@@ -1094,7 +1101,7 @@ These areas of dark rock are separated from each other by a range of distances,
 with some being separated from any other by hundreds of kilometers of light colored substrate. 
 The Pinacate allele is not present in a number of other populations of dark colored rock pocket mouse, 
 suggesting these populations have adapted in parallel \citep{nachman2003genetic ,hoekstra2003different}.
-However, there is some evidence \citep{Hoekstra:05} that, elsewhere in the range, 
+However, there is some evidence \citep{hoekstra2004local} that, elsewhere in the range, 
 multiple dark outcrops may share a dark phenotype whose genetic basis has been spread by migration
 despite intervening light habitat. 
 We apply our theory to this example,
@@ -1241,7 +1248,6 @@ once arriving in a new patch.
 As such it is not clear what our intuition should be 
 about the contribution of recessive alleles to adaptation via migration. 
 Further work is needed to put empirical observations of local adaptation by recessive alleles 
-\plr{cite nachman? but is this published?}
 in a theoretical context.
 
 \paragraph{Long distance migration}
@@ -1274,13 +1280,14 @@ Our work suggests that even quite geographically close populations
 may be forced to adapt convergently when migration is geographically limited. 
 Thus, systems where populations have been repeatedly subject to 
 strong local selection pressures may offer the opportunity 
-to study highly replicated convergent adaptation within a similar genetic background.  
+to study highly replicated convergent adaptation within a similar
+genetic background \citep{Stern:13}.  
 Such empricial work will also strongly inform our understanding of how gene flow 
 may work to keep ecologically similar populations evolving in concert \citep{sexton2013genetic}.
 Our results suggest that adaptation to shared environments is
 certainly no guarantee of a shared genetic basis to adaptation, 
 suggesting that rapid adaptation to a shared environment could potentially drive
-speciation under some scenerios. 
+speciation under some scenerios \citep[in a manner similar to ][]{}. 
 
 % discussion of applications. 
 
