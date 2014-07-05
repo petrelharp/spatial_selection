@@ -1274,25 +1274,14 @@ This issue is amplified by the fact that the length of haplotype
 shared within patches decays over time, potentially making the
 identification of shared adaptations to old selection pressures difficult.
 
-% ADD SOMETHING ABOUT:
-% In other words, the migrational analogue of ``mutational influx'' ($\mu \rho A$) 
-% is $\rho (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
-% which depends fairly strongly on the selective disadvantage $s_m$ between patches.
-% Equivalently, the rates are roughly equal if
-% $R/\sigma = \log(1/(s_m A \mu))/\sqrt{2s_m}$,
-% which gives the critical gap size past which adaptation will be mostly parallel
-% in terms of selection coefficients, patch size, and mutation rate.
-
-%commented out as wasn't quite sure what purpose this paragraph served.
-%% the point was that most other work deals with bulk behavior, differential equations,
-%% not tracking individuals as you have to do here.
-% In this work, we have tried to emphasize an intuitive, individual-centered understanding of the process,
-% determining, for instance, 
-% the speed at which successful migrants traverse regions where they are maladapted,
-% and the effective rate at which new families of migrant alleles appear
-% at long distances from a patch.
-% These quantities may be as useful for applied work
-% as more abstract ones such as the probability that adaptation occurs by migration versus new mutation.
+Perhaps the most useful rule-of-thumb quantities we found were the following.
+The effective rate of migration into an as-yet-unadapted patch from an already-adapted patch distance $R$ away 
+-- the analogue of the mutational influx $\mu \rho A$ --
+is $\rho (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$.
+Equivalently, the critical gap size between patches past which adaptation is likely independent
+is $R = (\sigma/\sqrt{2s_m}) \log(1/(s_m A \mu))$.
+Finally, successfully transiting migrant lineages move at rate $\sigma \sqrt{2s_m}$,
+and so shared haplotype lengths between patches will be of order $R/\sigma \sqrt{2s_m}$.
 
 In developing the set of approximations in the paper we have ignored a
 number of complicating factors. We now briefly discuss these.
