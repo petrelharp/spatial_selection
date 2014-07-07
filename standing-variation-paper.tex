@@ -21,42 +21,7 @@
 
 \section{Introduction}
 
-The covergent evolution of similar phenotypes in response to shared selection pressures is a testiment to the power of selection to repeatedly sculpt phenotypic variation. In some cases this convergence extends to the molecular level with dispate taxa converging to the same phenotype through parallel genetic changes in the same pathway, genes, or even by precisely the same genetic changes. 
-Such precise convergence points to the conservation of function of the genes underlying adaptive traits, sometimes over deep time scales \citep{deephomologypapers}. Convergence on a molecular level also suggests that the path taken by adaptation can sometimes be relatively constained as few changes could have resulted in the adaptive phenotype, or that relatively few changes that can confer the advantagous phenotype of interest were sufficiently free of deleterious pleiotropic consequences to contribute to adaptation. 
 
-%For highly polygenic traits 
-
-Convergent adaptation can also occur within species, with individuals within a species 
-adapted to the same environment in parallel through different large effect changes. 
-There are a growing number of examples of this in a range of well studied organisms and phenotypes REFs.
-All else being equal the evolution of convergent phenotypes within a species convergence is more likely with a higher mutational input, i.e. when the mutation target and population sizes are larger \citep{}. 
-Convergence is also more likely when standing variation is present for the phenotype, 
-as multiple pre-existing alleles can spread from low frequency, 
-if our now adaptive alleles were previously not too deleterious \citep{Orr,Hermission}. 
-When multiple rare changes sweep up from low frequency in parallel within a population this has been termed a soft sweep.\\
-
-The geographic distribution of populations can also shape the probability of parallel mutation within a species.
-A geographically wide spread species is more likely to adapt by multiple mutations im parallel if dispersal 
-is geographically limited, as populations will adapt via new mutations rather than waiting for migration \citep{RalphCoop}. 
-Convergence is also more likely if geographically separated populations adapting to similar environments 
-via alleles which are maladapted in the environmentals separating them. 
-Such adverse conditions can strongly spatially restrict the spread of locally adapted alleles \citep{lenormand} 
-and so might encourage local adaptation by parallel mutation rather than migration.\\
- 
-For example a variety of plant species have repeatedly adapted to patchs of heavy metal soils
- (e.g. serpentine outcrops and mine tailings) within their ranges
-and  alleles that adapt the plants to heavy metals may be disfavored off of these patches. 
-Similarly across the American Southwest light colored rock pocket mice have adapted to outcrops of dark rock 
-through the evolution of darker cryptic pigmentation. These dark outcrops are geographically
- separated by areas of light colored sand and rock, 
-and strong selection appears to favour the matching of crypsis to substrate. 
-Perhaps as a result of this strong selection against migrants, 
-at least two distinct genetic changes are responsible from the dark pigmentation adaptation on different outcrops. 
-This situation is repeated in XXXX where darker colored mice
- have repeated evolved lighter pigmentation to match lighter color sands on
- beaches via different genetic routes. 
-
-%http://www.nature.com/hdy/journal/v94/n2/full/6800600a.html
 
 In \citep{RalphCoop} we formulated a simple model of parallel adaptation in a geographic setting
 where the selection pressure was constant across the entire environment, 
@@ -125,6 +90,7 @@ $\rho$ haploid individuals (or chromosomes) per unit area.
 % Find mean density of clusters of successful standing mutants. 
 % Is greater-than-one size of clusters likely to make a difference? 
 
+\paragraph{Rates of origination of standing and new mutations}
 We make use of the commonly used approximation that neglects competition between relatives,
 treating the offspring of a new mutant that appears in an area not already occupied by the mutated type
 as a branching process.
@@ -137,7 +103,9 @@ This the rate of this Poisson process,
 the rate per unit area at which new mutants appear and establish locally after $t=0$ in areas not already occupied by the mutant type
 is approximately $\lambda = 2 \mu \rho s_b$.
 
-Before $t=0$, on the other hand, the mutation is deleterious, so the genetic descendents of each new mutation are (with high probability) doomed to extinction,
+Before $t=0$, on the other hand, the mutation is deleterious, so the
+genetic descendents of each new mutation are (with high probability)
+doomed (doomed I say!) to extinction,
 but may persist for some time.
 Since the times and locations of mutants before $t=0$ also well-approximated by a Poisson process with rate $\mu \rho$,
 the locations of all mutant families extant at $t=0$ whose descendents are destined to fix locally is also,
@@ -164,12 +132,50 @@ resulting in the approximation
         &= \frac{ 2 \mu \rho s_b }{ -\log(1-s_d) } .
 \end{align}
 
+
 \plr{XXX More discussion on whether this is a good approximation?  
-Compute typical size and radius of a standing cluster?
-
-recall PPP computations; draw cones of opportunity for new mutations }
-
+Compute typical size and radius of a standing cluster?}
 \gc{Point out connection to standard mutation selection balance formula}
+
+
+\paragraph{Geographic spread of alleles} 
+Once an allele has become local established it can begin to spatially spread. 
+We assume that the allele, having become established, quickly settles
+down to spread as a traveling wave of constant speed. The behavior of
+this wave of advance of a beneficial allele was first described by 
+\citet{fisher1937wave} and \citet*{KPP1937}. 
+
+If the mean squared distance between parent and child is $\sigma^2$
+(i.e.\ $\sigma$ is the dispersal distance) then the speed of advance
+of this wave will be $v = \sigma \sqrt{2s}$. 
+
+\plr{recall PPP computations; draw cones of opportunity for new mutations }
+
+\paragraph{}
+So we can put these ingredients together for a simple model of the
+geographic spread of alleles. A cartoon example of this process is
+shown in Figure \ref{fig:cartoon} Initially, when the selection
+pressures change at $t=0$, a set of standing variants can start to
+spread having escaped loss through drift. These variants are shown as
+little lightning bolts, and occur at a density $\lambda_0$ across
+space. 
+They spread at velocity $v$ carving out cones in space-time. As these
+alleles proceed in their geographic spread other new alleles can arise
+and become established in parallel, these are shown as little
+stars. These new mutations arise and become established at rate $\lambda$.
+
+\begin{figure}[ht]
+  \begin{center}
+    \includegraphics{spreading_alleles_trimmed}
+  \end{center}
+  \caption{
+Cartoon of the geographic spread of standing and new mutations. 
+
+  \label{fig:cartoon}
+  }
+\end{figure}
+
+
 
 \subsection{Characteristic parameters}
 
@@ -181,12 +187,12 @@ This was proportional to the mean distance between neighboring established mutan
 but had the advantage of being easier to calculate.
 Furthermore, the time scale over which adaptation occurred could be found by dividing the characteristic length 
 by the speed at which the mutants spread.
-We will define the characteristic length for this model,
+We will define the characteristic length for this new model,
 as well as a similar compound parameter describing the relative importance of standing variation to the process of adaptation.
 %(Note that a similar approach, summarizing with a {\em characteristic length} was taken by \citep{slatkin1973geneflow} for a different problem.)
 
 Suppose we fix our attention on a particular new mutation that happens to be the first to occur in some region.
-As it spreads, it will cover a distance $L$ in time $L/v$, where $v = \sigma \sqrt{2s_b}$ is the speed of the wave of advance.
+As it spreads, it will cover a distance $L$ in time $L/v$.
 The number of other mutations appearing in the circle it has covered up until this time is Poisson with mean
 $\lambda_0 \pi L^2 + \lambda \pi L^3 /v$ in two dimensions
 (and $\lambda_0 2 L + \lambda \pi L^2 /v$ in one dimension).
@@ -384,6 +390,31 @@ but this seems less useful than an assessment of the degree of parallel adaptati
 % G6PD frequency across world http://www.google.com/imgres?imgurl=http%3A%2F%2Fwww.plosmedicine.org%2Farticle%2Finfo%3Adoi%2F10.1371%2Fjournal.pmed.1001339.g002%2Flargerimage&imgrefurl=http%3A%2F%2Fwww.plosmedicine.org%2Farticle%2Finfo%253Adoi%252F10.1371%252Fjournal.pmed.1001339&h=2938&w=2381&tbnid=oD_tX3ea8IbLfM%3A&zoom=1&docid=k37axqAZDS7ljM&ei=5rdOU5TVDMqj8QGntICYBg&tbm=isch&ved=0CF8QMygLMAs&iact=rc&uact=3&dur=1447&page=1&start=0&ndsp=15
 
 % Spatial distribution of G6PD alleles:  http://www.malariajournal.com/content/12/1/418
+
+\paragraph{G6PD}
+34 variants across 4; 000; 000 km2
+15 common variants 
+
+515 codons, so $\mu \approx 5.15 \times 10^{-6}$
+
+Selection coefficient (s) 	A- 0.044 (0.019–0.048)  Med	0.034
+(0.014–0.049)  ``The mean age of the A− allele in these runs was 6357 years, with a 95\% credibility interval extending from 3840 to 11,760 years. For the Med alleles, the mean age was 3330 years with a 95\% credibility interval of 1600 to 6640 years"
+\citet{tishkoff-g6pd}
+
+s 0.24 and t= 40 generations \citep{Slatkin-age-est}
+
+The estimated age is ~100 generations with an upper bound of <150
+generations A- 0.1 < s < 0.2 \citep{Saunders-g6pd}
+
+46 to 58\% reduction in risk of severe malaria for both female heterozygotes and male hemizygotes estimates of selection pressure \citep{Ruwende-g6pd}
+
+Mahidol487A mutation started to increase at ~1500 YBP, with a
+selection intensity of ~0.23 \citep{Louicharoen-g6pd}
+Show's effect in het and homozy females
+
+Thoughts
+species coherence.
+The Biological Reality of Species: Gene Flow, Selection, and Collective Evolution
 
 
 \bibliography{standing_patches_refs}
