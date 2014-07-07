@@ -14,6 +14,10 @@
 # initdist[1,range[2],3]=1;
 # initdist[1,1,1]=initdist[1,range[2],1]=N-1
 
+BASEDIR='/home/rcf-40/pralph/panfs/patchy-sim'
+cd $BASEDIR
+
+source /usr/usc/R/3.0.2/setup.sh
 
 Rscript generate-patchy-run.R 'N=200' 'range=c(1,501)' 'sb=0.05' 'sm=-0.023' 'nsteps=100000' 'stepsize=1' 'ntypes=3' 's=matrix(ifelse(seq.int(1,range[2])<70|((seq.int(1,range[2])>130)&(seq.int(1,range[2])<220))|((seq.int(1,range[2])>280)&(seq.int(1,range[2])<370))|seq.int(1,range[2])>430,sb,sm),nrow=1,ncol=range[2])' 'initdist=array(0,c(range,3));initdist[1,1:30,2]=40;initdist[1,range[2]-(0:29),3]=40;initdist[,,1]=N;initdist[1,1:30,1]=initdist[1,range[2]-(0:29),1]=N-40' &
 
@@ -26,6 +30,7 @@ Rscript generate-patchy-run.R 'N=100' 'range=c(1,501)' 'sb=0.05' 'sm=-0.023' 'ns
 
 wait
 
+exit
 
 # Rscript generate-patchy-run.R \
 #     'N=200' 'range=c(1,501)' 'sb=0.05' 'sm=-0.023' 'nsteps=100000' 'stepsize=1' 'ntypes=3' \
