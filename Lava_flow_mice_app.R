@@ -3,7 +3,7 @@ char.length= c(3,30)  ## sigma /sqrt(s)
 
 A=100
 
-pdf(file="Lava_flow_mice_prob_parallel.pdf",pointsize=10,width=5,height=5)
+pdf(file="Lava_flow_mice_prob_parallel.pdf",pointsize=10,width=5,height=4)
 layout((1:2))
 par(mar=c(4,3.5,1,1)+.1)
 R = seq(5,600,length=10000) ##distance in Km
@@ -29,7 +29,8 @@ prob.parallel <- mu*A/(mu*A + (1/char.length[2])* exp(-R/char.length[2]))  ##ass
 
 lines(R, prob.parallel,lwd=3,col="red",lty=2)
 
-legend("topleft", legend=expression(mu == 10^-8, mu == 10^-5, sigma/sqrt(s[m]) == 3,sigma/sqrt(s[m]) == 30),col=c("black","red","grey","grey"),lty=c(1,1,1,2),lwd=2)
+# legend("topleft", legend=expression(mu == 10^-8, mu == 10^-5, sigma/sqrt(s[m]) == 3,sigma/sqrt(s[m]) == 30),col=c("black","red","grey","grey"),lty=c(1,1,1,2),lwd=2)
+legend("topleft", legend=expression(mu == 10^-8, mu == 10^-5), col=c("black","red"),lty=c(1,1),lwd=2)
 
 mtext(side=1,line=2.5,"Distance between patches (km)")
 

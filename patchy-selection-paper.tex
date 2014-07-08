@@ -58,7 +58,7 @@ University of California -- Davis, Davis, CA, 95616
 \abstract{
 Species often encounter, and adapt to, many patches of locally similar environmental conditions
 across their range. 
-Such adaptation can occur through convergent evolution as different alleles arise and spread in different parts of the range, 
+Such adaptation can occur through convergent evolution as different alleles arise and spread in different patches, 
 or through the spread of alleles by migration
 acting to synchronize adaptation across the species.
 The tension between the two reflects the degree of 
@@ -169,7 +169,7 @@ haplotype that hitchhikes with it,
 equation \eqref{eqn:haplotype_length}. We then quantify how quickly this
 haplotype decays within patches equation \eqref{eqn:rec_rate_within} and
 use this to obtain properties about the equilibrium distribution of
-haplotype lengths
+haplotype lengths, equation 
 \eqref{eqn:within_haplotype_length}  in section \ref{ss:patch_haplotype}. 
 Finally, in section \ref{ss:applications} we apply this work to understand the geographic scale of
 convergent evolution in \textit{Chaetodipus intermedius}. 
@@ -190,12 +190,12 @@ surrounded by large areas to which the population is well adapted.
 Suppose it takes only a single mutational change to create an allele
 ($B$) that adapts an individual to the poor habitat type.
 The required change could be as specific as a single base change, 
-or as general as a knock out of a gene or one of a set of genes.
+or as general as a knockout of a gene or one of a set of genes.
 We assume that this mutational change occurs at a (low) rate of $\mu$ per chromosome per generation,
 and that this initially rare new allele has fitness $1+s_p$ relative to the unmutated type ($b$) in these ``poor'' habitat patches.
 Outside of these patches we assume that the new allele has a relative fitness
 $1-s_m$  when rare in the intervening areas, with $s_p$ and $s_m$ both positive.
-(Here ``fitness'' we take to be the intrinsic growth rate of the type when rare.)
+(Here we take ``fitness'' to be the intrinsic growth rate of the type when rare.)
 To simplify matters, we assume that the disadvantage $s_m$ 
 is sufficiently large that, on the relevant timescale,
 the allele is very unlikely to fix locally in the regions where it is at a disadvantage.
@@ -494,7 +494,7 @@ In other words, the chance of survival to time $t$ is a constant multiplied by $
 and conditional on survival, the family size is given by a fixed distribution.
 
 This suggests that families can be well-described by motion of a central ``trunk'',
-dies at a random time whose distribution is given by $k_e(t)$,
+which dies at a random time whose distribution is given by $k_e(t)$,
 and conditional on survival of this trunk, the family is composed of side ``branches'' off of this trunk,
 as depicted in Figure~\ref{fig:branching_decomp}.
 We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary} \citep[see also][]{chauvin1991growing}.
@@ -661,7 +661,7 @@ if the patch has already been colonized.
 Therefore, mutations selectively exclude each other from patches, over short time scales, 
 and will only slowly mix together over longer time scales by drift and migration,
 an assumption we also made in \citep{ralph2010parallel}. 
-In reality, different mutations will likely not be truly selective equivalent,
+In reality, different mutations will likely not be truly selectively equivalent,
 in which case this mixing occurs over a time-scale dictated by the difference in selection coefficients.
 
 We will assume that once a $B$ allele is introduced (by migration or mutation) and successfully begins to establish,
@@ -701,7 +701,8 @@ and the population density to be 1 ($\rho =1$, so $\log(A\mu)\approx 7$)
 then adaptation is mostly parallel for patches separated by gaps larger than $R/\sigma > (7+\log(s_m))/\sqrt{s_m}$.
 If the selective pressure is fairly strong (say, $s_m=.05$),
 then for migration to be slower than mutation,
-the distance between patches must be at least 30 times the dispersal distance (i.e.\ $R/\sigma > 30$).
+the distance between patches must be at least 30 times the dispersal
+distance (i.e.\ $R/\sigma > 30$) for convergence to occur.
 If $s_m$ is much smaller, say $s_m = .001$, 
 then the patches must be separated by several hundred times the dispersal distance (i.e.\ $R/\sigma > 300$).
 The situation does not change much if the influx is quite a bit higher -- even if $A \mu = 1$ (so $\log(A\mu) \approx 2.3$),
@@ -715,7 +716,7 @@ we give a contour plot for the time until adaptation by migration ($\Tmig = 1/\m
 as a function of various parameters. 
 This gives us an idea of not only the parameter space where parallel adaptation is likely ($\Tmig \ll \Tmut$),
 but also where adaptation by any means takes a very long time ($\Tmig$ and $\Tmut$ both very large),
-an important check in applications.
+an important check in applications of these results.
 
 \begin{figure}[ht]
   \begin{center}
@@ -764,7 +765,7 @@ in which the $B$ allele can facilitate local adaptation.
 Under our assumptions of mutational exclusion and rapid establishment, 
 each patch will adapt through establishment of a single copy of the $B$ allele, 
 either by migration or mutation.
-If we imagine that the times between successive establishments is the result of many nearly-independent attempts
+If we imagine that the times between successive establishments are the result of many nearly-independent attempts
 with small probability of success,
 the process of occupation is well approximated by a Markov chain,
 whose state records the labeling of patches according to the colonizing allele
@@ -849,7 +850,7 @@ This association gets slowly whittled down by recombination during interbreeding
 but there will always be longer LD nearby to the selected site. 
 
 When an already adapted patch colonizes another through migration,
-then the newly colonized patch will inherit a long piece of haplotype around the selected site from the originating patch.
+ the newly colonized patch will inherit a long piece of haplotype around the selected site from the originating patch.
 The genetic length of this haplotype is roughly inversely proportional to the
 number of generations the allele spends ``in transit'', 
 because each reproductive event in locations where the allele is at
@@ -1211,8 +1212,9 @@ To span a range of plausible values, we use a low mutation rate of $\mu= 10^{-8}
 where the adaptive mutation has to occur at a single base pair; 
 and a high mutation rate $\mu= 10^{-5}$, equivalent to the mutation
 being able to arise at any of a thousand base pairs.  
-Finally, we set $A=100\text{km}^2$ (roughly the size of the Pinacate patch).
-Figure~\ref{fig:mice_prob_parallel} shows the dependence of the probability
+Finally, we set $A=100\text{km}^2$ (roughly the size of the Pinacate
+patch). In
+Figure~\ref{fig:mice_prob_parallel} we show the dependence of the probability
 of parallel mutation on the distance between lava flow patches using these parameters, 
 showing that parallel mutation should become
 likely over a scale of tens to a few hundred kilometers between patches. 
@@ -1250,19 +1252,21 @@ then it will be difficult to identify shared haplotypes
 This paper is an investigation into the basic question: 
 What is the spatial resolution of convergent local adaptation?
 In other words, 
-over what spatial scale of environmental patchiness will evolution develop independent solutions to evolutionary problems?
+over what spatial scale of environmental patchiness will the process
+of adaptation develop independent solutions to evolutionary problems?
 The answer to this depends most strongly on $\sigma/\sqrt{s_m}$, 
 the dispersal distance divided by the square root of the strength of selection against the allele between patches. 
 It depends much more weakly on the
 selective benefit within the patches or (perhaps surprisingly) the population density, 
 although these two factors will determine the time-scale over which adaptation will occur. 
-This is in contrast with models of panmictic populations \citep{softsweepsI} 
+This is in contrast with models of panmictic populations
+\citep{softsweepsI, MesserPetrov, Wilson-softsweep} 
 and geographically spread populations adapting to homogeneous selection pressures \citep{ralph2010parallel}, 
 where the probability of multiple, independently arising adaptive alleles increases with the population size/density. 
 However, in all of these models the dependence on the beneficial selection
 coefficient is absent or weak, due to the fact that selection both
 aids establishment of new alleles and the spread of existing
-alleles. 
+alleles \citep[but see][for the complications of varying population sizes]{Wilson-softsweep}. 
 
 We have also shown that
 while weaker selection against alleles will make sharing 
@@ -1281,7 +1285,7 @@ is $\rho (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$.
 Equivalently, the critical gap size between patches past which adaptation is likely independent
 is $R = (\sigma/\sqrt{2s_m}) \log(1/(s_m A \mu))$.
 Finally, successfully transiting migrant lineages move at rate $\sigma \sqrt{2s_m}$,
-and so shared haplotype lengths between patches will be of order $R/\sigma \sqrt{2s_m}$.
+and so shared haplotype lengths between patches will be of order $R/(\sigma \sqrt{2s_m})$.
 
 In developing the set of approximations in the paper we have ignored a
 number of complicating factors. We now briefly discuss these.
