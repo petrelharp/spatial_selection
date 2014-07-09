@@ -1,12 +1,63 @@
 \documentclass{article}
 \usepackage{fullpage}
 \usepackage{amsmath,amssymb}
-\usepackage{natbib}
 \usepackage{marginnote}
 \usepackage{graphicx}
 \usepackage{color}
+\usepackage{natbib}
 \usepackage[hidelinks]{hyperref}
-%\usepackage{latexml} % for \iflatexml
+
+% \usepackage{cite}
+
+% Use doublespacing - comment out for single spacing
+%\usepackage{setspace} 
+%\doublespacing
+
+
+% Text layout
+\topmargin 0.0cm
+\oddsidemargin 0.5cm
+\evensidemargin 0.5cm
+\textwidth 16cm 
+\textheight 21cm
+
+% Bold the 'Figure #' in the caption and separate it with a period
+% Captions will be left justified
+\usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
+
+
+% turn this on to doublespace and put all figures at the very end.
+\newif\ifsubmissionversion
+\submissionversionfalse
+\newif\ifincludesupplement
+\includesupplementfalse
+
+\ifsubmissionversion
+\usepackage{endfloat}
+\fi
+
+
+\ifsubmissionversion
+% \linespread{1.6}
+\doublespacing
+\fi
+
+
+% Use the PLoS provided bibtex style
+% OR NOT \bibliographystyle{plos2009}
+\bibliographystyle{abbrvnat}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+
+% Leave date blank
+\date{}
+
+\pagestyle{myheadings}
+%% ** EDIT HERE **
 
 % \newcommand{\var}{\mathop{\mbox{Var}}}
 % \newcommand{\Exp}{\mathop{\mbox{Exp}}}
@@ -1802,6 +1853,11 @@ The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing t
 
 %%%%%%%%%%%
 
+
+
+\ifsubmissionversion
+\processdelayedfloats
+\fi
 
 
 
