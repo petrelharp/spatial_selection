@@ -81,14 +81,12 @@
 \newcommand{\gc}[1]{{\it\color{green}(#1)} }
 \newcommand{\plr}[1]{{\it\color{blue}(#1)}}
 
-\bibliographystyle{plainnat}
 
 % short title:  Convergent Evolution on Patchy Landscapes
 \title 
 {
 Convergent Evolution During Local Adaptation to Patchy Landscapes
 }
-% Simon: I think the title only partly reflects the scope of the paper (adaptation by migration being underrepresented). What about "Relative importance of migration and convergent evolution for local adaptation in patchy landscapes" or similar?
 
 \author{Peter L. Ralph$^1$ \\ email: pralph@usc.edu  \and Graham Coop$^2$ \\ email: gmcoop@ucdavis.edu }
 
@@ -188,7 +186,7 @@ when geographically separated populations adapt to ecologically similar conditio
 The probability that convergent adaptations arise independently
 before adaptations spread between the populations by migration
 will be larger if these adaptive alleles are maladapted in intervening environments,
-since such adverse conditions can strongly spatially restrict the spread of locally adapted alleles \citep{slatkin1973geneflow}.
+since such adverse conditions can strongly restrict the spread of locally adapted alleles \citep{slatkin1973geneflow}.
  
 %\citep{wright2013indirect}
 One elegant set of such examples is provided by the assortment of plant species 
@@ -247,9 +245,8 @@ convergent evolution in \textit{Chaetodipus intermedius}.
 \subsection{Model of a patchy landscape}
 \label{ss:patchyspace}
 
-Consider a population spread across a landscape, 
-within which are patches of habitat to which individuals are (initially) poorly adapted,
-surrounded by large areas to which the population is well adapted.
+Consider a population spread across a landscape to which it is generally well adapted,
+but within which are patches of habitat to which individuals are (initially) poorly adapted.
 (When we refer to ``patches'' it is to these pieces of poor habitat.)
 Suppose it takes only a single mutational change to create an allele
 ($B$) that adapts an individual to the poor habitat type.
@@ -259,16 +256,16 @@ We assume that this mutational change occurs at a (low) rate of $\mu$ per chromo
 and that this initially rare new allele has fitness $1+s_p$ relative to the unmutated type ($b$) in these ``poor'' habitat patches.
 Outside of these patches we assume that the new allele has a relative fitness
 $1-s_m$  when rare in the intervening areas, with $s_p$ and $s_m$ both positive.
-(Here we take ``fitness'' to be the intrinsic growth rate of the type when rare.)
+(Here we define ``fitness'' to be the intrinsic growth rate of the type when rare.)
 To simplify matters, we assume that the disadvantage $s_m$ 
 is sufficiently large that, on the relevant timescale,
-the allele is very unlikely to fix locally in the regions where it is at a disadvantage.
+the allele is very unlikely to fix locally in these intervening regions.
 (The case where $s_m=0$ requires a different approach, which we do not treat here.)
 
 We are interested in the establishment of mutations in the ``poor'' patches by either
-migration or mutation, and so are mainly interested in whether the allele
+migration or mutation, and so will focus on whether the allele
 can escape initial loss by drift when rare. 
-Therefore, we do not have to specify the fitness of the homozygote; 
+Therefore, we need not specify the fitness of the homozygote; 
 only that the dynamics of the allele when rare 
 are determined by the fitness of the heterozygote. 
 More general dominance will only make small corrections to the dynamics until initial fixation,
@@ -289,7 +286,7 @@ and that the mean squared distance between parent and child is $\sigma^2$
 
 \paragraph{Past work on spatial models}
 We will make use of several previous results from the literature on
-migration in spatially varying selection models. 
+migration in models of spatially varying selection.
 \citet{haldane1948theory}, \citet{fisher1950frequencies}, and later \citet{slatkin1973geneflow} first analyzed
 deterministic models of of this sort.
 \citet{nagylaki1975conditions} and \citet{conley1975application} showed that in one dimension, if the physical width of the patch is less than $(\sigma/\sqrt{2s_p}) \tan^{-1} (\sqrt{s_m/s_p})$, 
@@ -300,11 +297,12 @@ that patches must be at least this critical size so that a new mutation has posi
 (in the large population density limit).
 The same paper also showed that
 this probability of establishment of a new mutation decays exponentially with distance from the patch, 
-with the scale given by $\sigma/\sqrt{s_m}$. Mutations appearing within the patch have probability of establishment
+with the scale given by $\sigma/\sqrt{s_m}$. 
+Mutations appearing within the patch have probability of establishment
 strictly less than the probability for a panmictic population,
 but approaching this as the size of the patch increases.
 This latter panmictic probability of establishment we denote $p_e$,
-and often approximate by $2 s_p / \xi^2$ \citep{haldane1927mathematical,fisher1930genetical}.
+and often approximate $p_e$ by $2 s_p / \xi^2$ \citep{haldane1927mathematical,fisher1930genetical}.
 This result holds quite generally for a geographically spread population that experiences a uniform selection
 pressure \citep{maruyama1970fixation,cherry2003diffusion}. 
 More general work on the mathematically equivalent problem of density-dependent population growth 
@@ -324,8 +322,8 @@ As we are interested in patches where local adaptation can occur,
 we will assume that our patch is larger than the cutoff for local establishment 
 mentioned above.
 
-Let $p(x)$ be the probability that a new mutant $B$ allele arising at location $x$
-relative to the patch fixes within the poor habitat patch.
+Let $p(x)$ be the probability that a new mutant $B$ allele that arises at location $x$
+relative to the center of the patch fixes within the poor habitat patch.
 Under various assumptions, precise expressions can be found for $p(x)$ \citep{barton1987establishment},
 % the function $p(x)$ can be found (in one dimension) in terms of Jacobi elliptic functions,
 but results will be more interpretable if we proceed with a simple approximation.
@@ -400,8 +398,9 @@ Now suppose that there are two patches, each of area $A$ and separated by distan
 If the $B$ allele has arisen and become established in the first patch, but has not yet appeared in the second,
 we would like to know the time scale on which copies of $B$ move between patches by migration
 (supposing that no $B$ allele arises independently by mutation in the meantime).
-To determine this, we dissect the process by which an allele transits between the patches,
-along the way obtaining other useful information about the genealogy of $B$ alleles.
+To determine this, 
+study the fine-scale genealogy of alleles that transit between patches,
+obtaining along the way other useful information about the genealogy of $B$ alleles.
 
 Migration--selection balance ensures that 
 there will be some number of $B$ alleles present in the regions where they are disadvantageous,
@@ -418,7 +417,7 @@ where $d$ is the dimension ($d=1$ or $2$),
 and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients.
 These asymptotics fit simulations quite well, as shown in Figure~\ref{fig:sim_occupation_freqs}.
 To be clear about the assumptions (especially regarding scaling) implicit here,
-we provide a derivation in Appendix~\ref{apx:eqfreq}; 
+we provide a derivation in Appendix~\ref{apx:eqfreq}, 
 as well as justification for the asymptotics in Appendix \ref{apx:asymptotics}.
 In one dimension, the equation can be solved to give $q(x)$ 
 in terms of Jacobi elliptic functions; see Appendix \ref{apx:elliptic_integrals}.
@@ -493,7 +492,8 @@ and some living inside of $r_0$;
 we refer to these trees as ``families''.
 If $r_0$ is large enough that there are not too many families
 and interactions between family members are weak,
-then these families can be approximated by a collection of independent spatial branching processes
+then these families can be approximated 
+by a collection of independent spatial branching processes
 whose members are ignored if they enter the original patch.
 (This can be made formal in the limit of large population density, also taking $r_0$ large enough that the chance of reaching the original patch is small.)
 This decomposition is illustrated in figure~\ref{fig:branching_decomp}.
@@ -505,7 +505,7 @@ In terms of these families, the equilibrium frequency above is then
 \end{split}
 \end{align}
 and the quantity we wish to compute,
-the effective rate of at which \emph{families of} migrant $B$ alleles establish in a new patch at displacement $x$ from the original,
+the effective rate at which \emph{families of} migrant $B$ alleles establish in a new patch at displacement $x$ from the original,
 is
 \begin{align}
     \label{eqn:gestalt_migrate}
@@ -515,29 +515,32 @@ is
 \end{align}
 The quantities on the right-hand side depend implicitly on $r_0$.
 All terms except the ``outflux of families'' are calculations with spatial branching processes;
-and we can solve for this outflux using the established form for $q(r)$ in \eqref{eqn:gestalt_q}.
-Note that $\migrate$ reflects the mean number of establishing migrant families per unit time, rather than individuals
--- a naive calculation using $q(x)$ that assumes migrants are independent would overestimate the effective migration rate.
+and we can solve for this outflux using the established form for $q(x)$ in \eqref{eqn:gestalt_q}.
+% Note that $\migrate$ reflects the mean number of establishing migrant families per unit time, rather than individuals
+% -- a naive calculation using $q(x)$ that assumes migrants are independent would overestimate the effective migration rate.
 
 
 %%%% %%%%
 \subsubsection{The genealogy of migrant families}
 
 To understand the process of adaptation by migration,
-we therefore need to look more closely at the rare families of $B$ alleles far from the patch where it is established.
+we therefore need to look more closely at the rare families of $B$ alleles 
+far from the original patch where it is already established.
 Consider one such family,
 that lives far from the original patch.
-As noted above, we will model this by assuming that each individual
+As noted above, we will model this as a branching process,
+i.e.\ by assuming that each individual
 migrates, then reproduces, independently of all other family members.
-The mean squared migration distance is $\sigma^2$, takes the migrant in a random direction,
-and if migration takes the individual into a patch where the $B$ allele is favored, 
+Migration takes the individual in a random direction
+for a random distance whose mean square is $\sigma^2$,
+and if the individual arrives to a patch where the $B$ allele is favored, 
 we drop the individual from our family.
 Since the $B$ allele is uniformly deleterious elsewhere,
 we can decouple reproduction and migration
-by first forming a tree in which each individual has a random number of offspring
+by first forming a tree in which each individual has a random number of offspring,
 then recursively assigning spatial locations to each individual in the tree,
 and finally pruning any branches that happen to wander into a patch.
-By our definition of fitness, the mean number of offspring per individual is $\exp(-s_m)\approx 1-s_m$,
+By our definition of fitness, the mean number of offspring per individual is $e^{-s_m}\approx 1-s_m$,
 and the variance is $\xi^2$.
 This pruning removes both branches leading back into the already established patch (which are irrelevant)
 and branches leading into the new patch (we will need to count these).
@@ -546,13 +549,13 @@ back migrants to the already established patch will contribute little, since the
 so to simplify the analysis we ignore this detail.  % but could add this detail in an appendix
 
 Since each individual has on average $e^{-s_m}$ offspring,
-the expected family size after time $t$ is $e^{t s_m}$.
+the expected family size after time $t$ is $e^{- t s_m}$.
 Therefore, if we define $k_e(t)$ to be the chance that the family
 has gone extinct by time $t$, 
 and let $K_t$ be the (random) family size conditioned on nonextinction,
 then by Bayes' rule, $e^{-s_m t} = (1-k_e(t))\E[K_t]$.
 It turns out that if the distribution of offspring numbers is not too heavy-tailed \citep[see][for details]{jagers1975branching},
-then $K_t$ has a limiting distribution: $K_t \dconv K$ 
+then $K_t$ has a limiting distribution: $K_t \dconv K$,
 and $e^{-s_m t}/(1-k_e(t)) \to \E[K]$ as $t \to \infty$.
 In other words, the chance of survival to time $t$ is a constant multiplied by $e^{-s_m t}$,
 and conditional on survival, the family size is given by a fixed distribution.
@@ -563,15 +566,15 @@ and conditional on survival of this trunk, the family is composed of side ``bran
 as depicted in Figure~\ref{fig:branching_decomp}.
 We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary} \citep[see also][]{chauvin1991growing}.
 When we condition on survival until $t$, we condition on existence of
-at least one ``trunk'' lineage surviving from time $0$ to time $t$ (the long red
+at least one trunk lineage surviving from time $0$ to time $t$ (the long red
 lineage in Figure \ref{fig:branching_decomp}).
 Given this lineage, nothing distinguishes any of the other reproduction events --
 each individual along the trunk lineage must give birth to at least one offspring,
 and all other reproduction events are unconditioned.
 In other words, the genealogy of a family that survives until $t$
-can be decomposed into a ``trunk'' that lasts until $t$
-which sprouts independent ``branches'' that may or may not survive until $t$.
-Concretely, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$,
+can be decomposed into a trunk that lasts until $t$
+and that sprouts independent branches that may or may not survive until $t$.
+Specifically, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$,
 % (so $\P\{Z_t = 0\} = k_e(t)$),
 then this gives the following decomposition:
 \begin{align}
@@ -599,8 +602,8 @@ Note that the spatial motions of lineages are independent random walks
 \end{figure}
 
 This suggests that we add in the spatial motion by following only the motion of the ``trunk''
-(i.e.\ the red line in figure \ref{fig:branching_decomp}),
-whose motion is is approximately Brownian, with variance $\sigma^2$ per generation.
+(i.e.\ the red line in figure \ref{fig:branching_decomp}).
+Its motion is approximately Brownian, with variance $\sigma^2$ per generation.
 (Recall $\sigma$ is the dispersal distance.)
 We can use these two ingredients, Brownian motion and a branching process, 
 to compute the terms of equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate}.
@@ -618,7 +621,7 @@ such that the long-term proportion of individuals near a point $x$ in $\partial 
 is $\gamma(x)$.
 To make expressions \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate} more concrete,
 we need to replace ``outflux of families'' by a sum over points at distance $r_0$ from the patch
-of the outflux $\gamma$ at that point, multiplied by the relevant second quantity.
+of the outflux $\gamma$ at that point.
 By examining the constituent terms,
 it will turn out that equation \eqref{eqn:gestalt_migrate} 
 is well-approximated by a constant multiple of \eqref{eqn:gestalt_q}.
@@ -626,10 +629,11 @@ is well-approximated by a constant multiple of \eqref{eqn:gestalt_q}.
 First consider equation \eqref{eqn:gestalt_q} for the equilibrium frequency.
 Suppose that $Z$ is one such spatial branching process as above, started at time 0 with a single individual at $x$,
 and denote by $Z_t(A)$ is the number of descendant individuals alive at time $t$ living in the spatial region $A$.
-The \emph{mean occupation density} of $Z$ can be thought of 
+The \emph{mean occupation density} of $Z$ at location $y$
+can be thought of 
 as the expected total number of offspring of a family beginning at $x$ that ever live at $y$.
-Concretely, it is the density of $\E[\int_0^t Z_t(\cdot) dt]$,
-i.e.\ the smooth function $u(x,y)$ that, integrated over a set $S$, 
+It is defined to be the density of $\E[\int_0^t Z_t(\cdot) dt]$,
+i.e.\ the smooth function $u(x,y)$ that, integrated over a set of locations $S$, 
 gives the expected total number of individuals ever living in $S$:
 \begin{align} \label{eqn:occupation_density_defn}
     \E\left[ \int_0^\infty Z_t(S) dt \right] = \int_S u(x,y) dy .
@@ -652,16 +656,18 @@ from $\partial B(r_0)$:
 
 This form we can now compare to 
 the expression \eqref{eqn:gestalt_migrate} for the outflux of successful migrants.
-Consider the probability that a migrant family beginning with a single individual at $x$ will ever establish in the new patch,
-which we assume is circular, has relatively small area $A$ and is centered at position $y$.
+Consider the probability that a migrant family beginning with a single individual at $x$ will ever establish in the new patch.
+We assume this new patch is circular, 
+has relatively small area $A$ and is centered at position $y$.
 % The probability that this family reaches $A$ at time $t$ is the probability that it survives until $t$, $(1-k_e(t))$,
 % multiplied by the probability that the family reaches the patch, given survival.
 % If $t$ is large then as in the previous section, $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$.
-It would be possible to analyze directly the probability that a given migrant family establishes in the patch,
+It would be possible to analyze this probability directly,
 as in \citet{barton1987establishment};
-but we make a simpler approximation, approximating this probability by the chance that the ``trunk'' hits the new patch,
-multiplied by the chance that at least one member of the family escapes demographic stochasticity,
-successfully establishing in the new patch.
+but here we take a simpler route, 
+approximating this by the chance that the trunk hits the new patch,
+multiplied by the chance that at least one member of the family escapes demographic stochasticity
+and successfully establishes in the new patch.
 Write $h_A(x,y)$ for the probability that the Brownian trunk
 hits the new patch centered at $y$ before the family dies out,
 and $f(A)$ for the chance that the family manages to establish in the new patch,
@@ -682,8 +688,8 @@ it turns out (see Appendix~\ref{apx:hitting_occupation}) that
 \begin{align} 
   h_A(x,y) \approx \frac{ g(A) }{ \E[K] } u(x,y),
 \end{align}
-where $g(A)$ is the total expected occupation time of the patch given the family arrives,
-and recall that $\E[K]$ is the expected family size after a large number of generations, given survival.
+where $g(A)$ is the total expected occupation time of the patch given the family arrives.
+Recall that $\E[K]$ is the expected family size after a large number of generations, given survival.
 Since the integrands in expressions \ref{eqn:occupation_integral} and \ref{eqn:migrate_integral} only differ by a factor
 that (at least asymptotically) does not depend on the distance between $x$ and $y$,
 we can obtain the migration rate by multiplying the equilibrium frequency by this factor.
@@ -700,12 +706,12 @@ we obtain that
   \label{eqn:migrate} 
   \migrate(y) &\approx q(y) \times \frac{ \rho s_p  }{ \xi^2 s_m }  \\
   % \left( 1 - \left( \frac{\pi w \sqrt{2 s_m}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2s_m}/\sigma} \right).
-  &\approx C \frac{ \rho s_p  }{ \xi^2 s_m } \left( |x| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |x| \sqrt{2 s_m} / \sigma) .
+  &\approx C \frac{ \rho s_p  }{ \xi^2 s_m } \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma) .
 \end{align}
 This does not depend on $A$, because although
 $f(A)$ and $g(A)$ in principle depend on the patch size (and geometry),
-the dependence is very weak:
-for instance, the width of a circular patch only very weakly affects the chance 
+the dependence is very weak.
+For instance, the width of a circular patch only very weakly affects the chance 
 of establishment of a new migrant that appears on its edge,
 as long as the patch is large enough.
 For more discussion, including an expression for the outflux of migrants $\gamma(x)$, see Appendix~\ref{apx:hitting_occupation}.
@@ -716,8 +722,7 @@ For more discussion, including an expression for the outflux of migrants $\gamma
 \label{ss:probparallel}
 
 We now turn to the question of whether the separated patches adapt by parallel genetic changes 
-or by the spread of a migrant allele between the patches
-(or both, or neither).
+or by the spread of a migrant allele between the patches.
 As only a single mutation is required for individuals to adapt to the
 poor habitat patch, subsequent mutations that arise after an allele becomes established in the patch gain no selective benefit. 
 Similarly, an allele introduced into a patch by migration will not be favored by selection to spread, 
@@ -728,8 +733,9 @@ an assumption we also made in \citep{ralph2010parallel}.
 In reality, different mutations will likely not be truly selectively equivalent,
 in which case this mixing occurs over a time-scale dictated by the difference in selection coefficients.
 
-We will assume that once a $B$ allele is introduced (by migration or mutation) and successfully begins to establish,
-it becomes established in the poor habitat patch rapidly. 
+We will assume that once a $B$ allele is introduced (by migration or mutation) 
+it becomes established in the poor habitat patch rapidly
+if it escapes loss by demographic stochasticity.
 Under this approximation, and the ``selective exclusion'' just discussed,
 after one of the patches becomes colonized by a single $B$ allele, 
 the other patch will become colonized by migration or mutation, but not by both. 
@@ -740,9 +746,9 @@ we can compare expressions \eqref{eqn:mutrate} and \eqref{eqn:migrate} above
 for the effective rates of adaptation by new mutation and by migration.
 We work in one dimension, as the square root term appearing for two dimensions is relatively unimportant (see figure~\ref{fig:sim_occupation_freqs}).
 
-The first thing to notice is that effective migration and mutation rates will be on the same order if 
+An important point to notice is that effective migration and mutation rates will be on the same order if 
 $A \mu \approx (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
-where recall that $R$ is the distance between the patches,
+where $R$ is the distance between the patches,
 and $A$ is the area of the not-yet-adapted patch.
 In other words, the migrational analogue of ``mutational influx'' ($\mu \rho A$) 
 is $\rho (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
@@ -761,16 +767,16 @@ in terms of selection coefficients, patch size, and mutation rate.
 % (7+log(1/(.5*ss)))/sqrt(2*(.5*ss))
 
 If we take the mutational influx in a patch to be one per 1,000 generations ($\rho A \mu = .001$)
-and the population density to be 1 ($\rho =1$, so $\log(A\mu)\approx 7$)
-then adaptation is mostly parallel for patches separated by gaps larger than $R/\sigma > (7+\log(s_m))/\sqrt{s_m}$.
+and the population density to be 1 ($\rho =1$, so $-\log(A\mu)\approx 7$)
+then adaptation is mostly parallel for patches separated by gaps larger than $R/\sigma > (7-\log(s_m))/\sqrt{2s_m}$.
 If the selective pressure is fairly strong (say, $s_m=.05$),
 then for migration to be slower than mutation,
-the distance between patches must be at least 30 times the dispersal
-distance (i.e.\ $R/\sigma > 30$) for convergence to occur.
+the distance between patches must be at least 31.6 times the dispersal
+distance (i.e.\ $R/\sigma > 31.6$) for convergence to occur.
 If $s_m$ is much smaller, say $s_m = .001$, 
-then the patches must be separated by several hundred times the dispersal distance (i.e.\ $R/\sigma > 300$).
-The situation does not change much if the influx is quite a bit higher -- even if $A \mu = 1$ (so $\log(A\mu) \approx 2.3$),
-the required separation between patches is only reduced to $R/\sigma > 10$ with $s_m=.05$ and $R/\sigma>150$ for $s_m=.001$.
+then the patches must be separated by several hundred times the dispersal distance (i.e.\ $R/\sigma > 308$).
+The situation does not change much if the influx is quite a bit higher -- even if $A \mu = 1$,
+the required separation between patches is only reduced to $R/\sigma > 9.5$ with $s_m=.05$ and $R/\sigma>154$ for $s_m=.001$.
 On the other hand, if the separation is much smaller than this transitional value, 
 then adaptations are likely to be shared between patches.
 
@@ -826,7 +832,7 @@ approximately logistically with the distance between the patches, at rate $\sqrt
 Above we worked with two patches separated by distance $R$;
 but these calculations apply as well to multiple patches
 in which the $B$ allele can facilitate local adaptation. 
-Under our assumptions of mutational exclusion and rapid establishment, 
+Under our assumptions of selective exclusion and rapid establishment, 
 each patch will adapt through establishment of a single copy of the $B$ allele, 
 either by migration or mutation.
 If we imagine that the times between successive establishments are the result of many nearly-independent attempts
@@ -835,46 +841,45 @@ the process of occupation is well approximated by a Markov chain,
 whose state records the labeling of patches according to the colonizing allele
 (or none, for those that haven't yet adapted).
 
-If not yet adapted, a patch of area $A$ will acquire the adaptation by new mutation at rate $2 s_p \mu \rho A/\xi^2$ (equation \eqref{eqn:mutrate}).
+If not yet adapted, a focal patch of area $A$ will acquire the adaptation by new mutation at rate $2 s_p \mu \rho A/\xi^2$ (equation \eqref{eqn:mutrate}).
 Suppose that patches $1, \ldots, k$ are already adapted,
-and that these patches are at distances $r_1, \ldots, r_k$ away from this unadapted patch.
+and that these patches are at distances $R_1, \ldots, R_k$ away from this unadapted patch.
 The total rate of adaptation through migration, from equation \eqref{eqn:migrate}, is
-\begin{equation}
-  \migrate(r_i) = C \frac{ \rho s_p }{\xi^2 s_m} \sum_{i=1}^{k} \left(r_i \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m} /\sigma\right),
+\begin{equation} \label{eqn:total_migrate}
+  \sum_{i=1}^k \migrate(R_i) = C \frac{ \rho s_p }{\xi^2 s_m} \sum_{i=1}^{k} \left(R_i \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2} \exp\left(- R_i \sqrt{2 s_m} /\sigma\right).
 \end{equation}
-and if the patch adapts through migration, the probability the adapted allele 
+If the patch adapts through migration, the probability the adapted allele 
 comes from patch $i$ is 
-\begin{align}  
-  \frac{\left(r_i \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m}
-  /\sigma\right)} {\sum_{j=1}^{k}  \left(r_i \right)^{-(d-1)/2} \exp\left(- r_i \sqrt{2 s_m}
+\begin{align}   \label{eqn:migprob}
+  \frac{\left(R_i \right)^{-(d-1)/2} \exp\left(- R_i \sqrt{2 s_m}
+  /\sigma\right)} {\sum_{j=1}^{k}  \left(R_i \right)^{-(d-1)/2} \exp\left(- R_i \sqrt{2 s_m}
     /\sigma\right) } .
 \end{align}
-These specify the transition rates of the process.
-
-Since the compound parameter $s_p \rho / \xi^2$ is common to both rates,
+Equations \eqref{eqn:total_migrate} and \eqref{eqn:migprob} specify the transition rates of the process.
+Since the compound parameter $s_p \rho / \xi^2$ is common to both migration and mutation rates,
 it functions only as a time scaling of the process, 
 and therefore has no effect on the final configuration, namely, 
 the sets of patches sharing the genetic basis of their adaptive response.
 
 Also note that we can rescale time by the typical patch size, and introduce a parameter, say $a_k = A_k/\bar A$,
-making the properties (other that the time scaling) of the discrete model independent of the \emph{numerical sizes} of the demes themselves.
+making the properties (other than the time scaling) of the discrete model independent of the \emph{numerical sizes} of the demes themselves.
 This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise \emph{within} a panmictic deme
 if the population-scaled mutation rate $2 N \mu$ is greater than $1$.
 
-The resulting discrete process is quite general,
+The resulting spatially discrete process is quite general,
 but if we oversimplify back to the island model, it is tractable:
 suppose the probability of adaptation by mutation is the same for each patch
-and by distance is the same for each pair of patches.
+and the probability of migration is the same between each pair of patches.
 The resulting process is a continuous-time version of the ``Chinese restaurant process''
 described in \citet{aldous1985exchangeability} and \citet{pitman1995partitions},
 and so the final partition of types across demes has the Ewens
-sampling distribution with parameter $A \mu s_m/ \exp (-sqrt{2 s_m}r/\sigma)$.
+sampling distribution with parameter $A \mu s_m/ \exp (-\sqrt{2 s_m}R/\sigma)$.
 Now we can compute most properties we might want about the process.
 For instance, the proportion of demes that shares the same origin as a randomly sampled deme
 is approximately Beta distributed -- see \cite{donnelly1989continuity}.
 The high connectedness of the discrete deme island model means that the expected number of distinct alleles
-grows with the $\log$ of the number of demes, 
-which strongly contrasts with the continuous spatial model 
+grows with the $\log$ of the number of demes.
+This strongly contrasts with the continuous spatial model 
 where the local nature of dispersal means that doubling the species range will double the number of mutations expected. 
 
 
@@ -906,20 +911,21 @@ If a patch adapts through new mutation or a rare migrant lineage, the
 genomic region surrounding the selected site will hitchhike along with it \citep{maynardsmith1974hitchhiking},
 so that at least initially, all adapted individuals within a patch
 share a fairly long stretch of haplotype. 
-Pairs of individuals within a patch will share a haplotype of mean genetic length of
+Pairs of adapted individuals within a patch will share a haplotype of mean genetic length of
 about $\log(\rho A s_p)/s_p$ around the selected site, 
 as long as the patch is reasonably well mixed by dispersal
 \citep[otherwise see][]{barton2013genetic}.
-This association gets slowly whittled down by recombination during interbreeding at the edge of the patch;
+This association gets slowly whittled down by recombination during interbreeding at the edge of the patch,
 but there will always be longer LD nearby to the selected site. 
 
 When an already adapted patch colonizes another through migration,
  the newly colonized patch will inherit a long piece of haplotype around the selected site from the originating patch.
 The genetic length of this haplotype is roughly inversely proportional to the
 number of generations the allele spends ``in transit'', 
-because each reproductive event in locations where the allele is at
-low frequency will likely recombine haplotypes of the $b$ allele closer to the adaptive allele. 
-In this case, the haplotype is literally hitchhiking across geography!
+because while very rare, the allele will be mostly in heterozygotes,
+and so each generation provides another opportunity for a different haplotype to recombine closer to the transiting $B$ allele.
+A large, linked haplotype may still arrive and fix in the new patch,
+in which case the haplotype has literally hitchhiked across geography!
 Figure~\ref{fig:lineagesmotion} shows a simulation of such an event,
 including the lineage that founds an adaptive population on a second patch,
 and the length of the haplotype shared between this lineage and one in the original patch.
@@ -940,20 +946,20 @@ We assume that the length of the hitchhiking segment depends only on
 the time spent by the trunk lineage of the first successful migrant ``in transit'' between the patches,
 i.e.\ $\tau$ conditioned on $\tau < \infty$.
 In so doing, we neglect 
-recombination between $B$ alleles (since they are at low density in transit, we assume this is rare),
+recombination between $B$ alleles (since they are at low density in transit),
 and the possibility that more than one successful migrant family is in transit at once
-(so that faster migrants would be more likely to have arrived first);
-but these factors should be minor if the rest of our framework fits.
+(so that faster migrants would be more likely to have arrived first).
+These factors should have a minor impact if the rest of our framework fits.
 
 Our first obstacle is that we do not know $1-k_e(t)$, 
 the probability a family survives until $t$, exactly.
 However, we do know that $1-k_e(t) \simeq e^{-s_m t} / \E[K]$,
 i.e.\ that it has exponential tails.
 Since $\E[K] \approx 1/s_m$, it is sensible to make one further approximation,
-replacing this random time by an exponential with rate $s_m$.
+supposing that the random lifetime of a family is exponentially distributed with mean $1/s_m$.
 Once we do this, 
 we can use standard results on hitting times of $d$-dimensional Brownian motion
-that is killed at rate $s_m$ -- \citet[see][(2.2.0.1 and 4.2.0.1)]{borodin2002handbook}.
+that is killed at rate $s_m$ \citep[see][2.2.0.1 and 4.2.0.1]{borodin2002handbook}.
 In particular, if the patch is circular with radius $w$ and lies at distance
 $R$ from the already adapted patch, then 
 we know that the Laplace transform of the transit time $\tau$ is
@@ -1010,7 +1016,7 @@ Furthermore, the expected length of shared hitchhiking haplotype is
 \E[L] = \sigma \sqrt{2s_m}/R + \sigma^2/R^2
 \end{equation}
 and $\var[L] = 2s_m\sigma^2/R^2 + 4 \sigma^3 \sqrt{2s_m}/R^3 + 5 \sigma^4 / R^4$.
-For two dimensions, asymptotics of Bessel functions show that $L$ has the same tail behavior;
+For two dimensions, asymptotics of Bessel functions show that $L$ has the same tail behavior,
 but how other properties might change is unclear. 
 
 As a general rule of thumb, equation~\eqref{eqn:mean_tau} means that families who successfully establish
@@ -1018,9 +1024,9 @@ move at speed $\sqrt{s_m} \sigma$ towards the new patch
 -- if $s_m$, the strength of the selection against them, is smaller, the need to move quickly is less imperative.
 Then, equation~\eqref{eqn:haplotype_length} means that the haplotype length
 is roughly the length one would expect given the mean transit time.
-Note that we have become used to seeing $\sigma$ divided by $\sqrt{s_m}$, rather than multiplied;
-it appears here because $\sigma/\sqrt{s_m}$ is a length scale, 
-and to convert it to a speed this is divided by $1/s_m$.
+Note that we have become used to seeing $\sigma$ divided by $\sqrt{2s_m}$, rather than multiplied;
+it appears here because $\sigma/\sqrt{2s_m}$ is a length scale, 
+and to convert it to a speed this is divided by $1/2s_m$.
 This intuitive picture can be expanded by a central limit theorem:
 for large $R$, the deviation of $\tau$ about its mean is asymptotically Gaussian,
 and the haplotype halflength $L$ is exponential.
@@ -1066,8 +1072,8 @@ The other key issue in thinking about the population genetic signal of adaptatio
 is the process by which haplotypes are whittled down within patches, 
 which plays into a number of aspects of haplotype sharing. 
 The initial haplotype that sweeps within a patch 
-will be dispersed over time by recombination;
-likewise, the haplotype that is shared between patches coadapted by migration
+will be dispersed over time by recombination.
+Likewise, the haplotype that is shared between patches coadapted by migration
 (equation~\ref{eqn:haplotype_length}) will also break down. 
 However, a long time after the initial sweep,
 we may still expect to find individuals within the patch sharing longer haplotypes around the selected locus
@@ -1090,43 +1096,45 @@ but we can get a good idea of the genomic scale of these effects through heurist
 To understand the probability of a recombination moving our lineage
 off of the B background we need to understand what fraction of the
 time our lineage spends in geographic regions where $b$ is common. 
-Consider the lineage of a single $B$ allele, moving back through time,
+We will follow the lineage of a single $B$ allele
 in a patch at migration-selection balance, 
-i.e.\ with the local proportion of $B$ alleles near $x$ equal to $p(x)$,
+i.e.\ with the local proportion of $B$ alleles near $x$ equal to $q(x)$,
 and suppose that the lineage stays close enough to the patch 
-that fluctuations about $p(x)$ are small. 
+that fluctuations about $q(x)$ are small. 
 (Note that this assumption differs from
-previous sections, but here our focus is on a typical lineage in the
-patch rather than the rare lineages that make it far from the patch).
+previous sections, but here our focus is on a typical lineage 
+in the patch rather than the rare lineages that make it far from the patch).
 If we suppose that type $B$ individuals at location $y$ reproduce at rate $1+s(y)$,
 and the chance their offspring move to $x$ is $m(y,x)$ (with $\sum_x m(y,x)=1$),
-then the total rate of influx of $B$ alleles from $y$ into $x$ is $\rho p(y) (1+s(y)) m(y,x)$.
-As argued by \citet{hudson1988coalescent}, the rate at which a $B$ lineage moves from $x$ to $y$
-is this influx divided by the local abundance of $B$ alleles,
-or $p(y) (1+s(y)) m(y,x) / p(x) $.
+then the total rate of influx of $B$ alleles from $y$ into $x$ is $\rho q(y) (1+s(y)) m(y,x)$.
+As argued by \citet{hudson1988coalescent}, 
+this implies that the chance that a $B$ allele at $x$
+has been inherited from a parent at $y$ in a time interval $dt$
+is equal to this influx divided by the local abundance of $B$ alleles,
+i.e.\ $dt \times q(y) (1+s(y)) m(y,x) / q(x)$.
+This therefore describes the movement of a lineage backwards in time.
 After the same large-population, continuous-space limit that underlies the rest of this paper (Appendix~\ref{apx:eqfreq}),
-if the assumption that fluctuations in $p(x)$ are small,
+if the assumption that fluctuations in $q(x)$ are small,
 this motion should converge to a diffusion process \citep[as assumed by e.g.][]{hallatschek2008surfing},
 notwithstanding some technical difficulties (e.g.\ discontinuity of $s(x)$).
 This diffusion, when at $x$, 
 is pulled toward regions with more $B$ alleles
-by a drift term $(1+s(x))\frac{d}{d\,x} \log( p(x) (1+s(x)) )$,
+by a mean displacement term $(1+s(x))\frac{d}{d\,x} \log( q(x) (1+s(x)) )$,
 where $s(x)=s_p$ if $x$ is in the patch and $s(x)=s_m$ otherwise, 
 and moves at speed $\sqrt{1+s(x)}$ (which is nearly constant, since $s(x)$ is small).
-In It\^o differential notation, 
+In It\=o differential notation, 
 the location $X_t$ of a $B$ lineage $t$ generations ago satisfies
 \begin{align}
-    d X_t &= (1+s(X_t)) \frac{d}{dx} \log( p(X_t) (1+s(X_t)) ) dt + \sigma \sqrt{1+s(X_t)} dB_t,
+    d X_t &= (1+s(X_t)) \frac{d}{dx} \log( q(X_t) (1+s(X_t)) ) dt + \sigma \sqrt{1+s(X_t)} dB_t,
 \end{align}
 where $B_t$ is a standard Brownian motion.
 Furthermore, it is easy to verify that the stationary distribution of this process has density
 \begin{align}
-  \pi(x) = \frac{ p(x)^2 (1+s(x)) }{ \int_y p(y)^2 (1+s(y)) dy } . \label{eqn:lineagestatdist}
+  \pi(x) = \frac{ q(x)^2 (1+s(x)) }{ \int_y q(y)^2 (1+s(y)) dy } . \label{eqn:lineagestatdist}
 \end{align}
-A lineage at a locus at genetic distance $r$ that begins linked to a $B$ allele
-moves as a $B$ lineage up until the most recent time
-it recombined from a $b$ background to a $B$ background,
-which occurs when at $x$ with rate $r (1-p(x)) (1+s(x)/2)$.
+A lineage at a locus at genetic distance $R$ from a $B$ allele
+moves as a $B$ lineage until it recombines onto a $b$ background,
+which occurs when at $x$ with rate $r (1-q(x)) (1+s(x)/2)$.
 The Feynman-Kac formula could then be used to write down differential equations
 solved by various moments of the haplotype length as a function of the sampling location of the lineage;
 instead, we only use the above as a guide for rough approximation.
@@ -1135,17 +1143,17 @@ Based on this picture of
 the lineage bouncing around in the patch,
 we propose a simple heuristic to describe the probability of recombination. 
 If recombination is on a slower time scale than mixing within the patch,
-then the time until the last recombination is the integral of $r (1-p(x)) (1+s(x)/2)$ 
+then the time until the last recombination is the integral of $r (1-q(x)) (1+s(x)/2)$ 
 against the stationary distribution (equation~\ref{eqn:lineagestatdist}).
-Within the patch, $p(x) \approx 1$,
+Within the patch, $q(x) \approx 1$,
 so recombination off the $B$ background is unlikely to occur,
 and so the rate of recombination depends to a first approximation 
-on the proportion of the patch in which $p(x)$ is intermediate,
+on the proportion of the patch in which $q(x)$ is intermediate,
 i.e.\ where both $B$ and $b$ are present.
-This region where $p(x)$ is intermediate has width of order $\sigma/\sqrt{s}$, where $s = \min(s_p,s_m)$.
-As we increase the size of a patch, the area on which $p(x)$ is intermediate scales with the perimeter of the patch.
+This region where $q(x)$ is intermediate has width of order $\sigma/\sqrt{s}$, where $s = \min(s_p,s_m)$.
+As we increase the size of a patch, the area on which $q(x)$ is intermediate scales with the perimeter of the patch.
 % Therefore, the proportion of the time a lineage at stationarity is found in the intermediate regions
-% multiplied by $p(x)$ in these intermediate regions, where we assume $p(x) \approx 1/2$. 
+% multiplied by $q(x)$ in these intermediate regions, where we assume $q(x) \approx 1/2$. 
 The per generation rate of recombination of a locus linked to the $b$ background is thus
 reduced by a factor roughly equal to the proportion of the patch lying within distance $\sigma/\sqrt{s}$ of the boundary,
 so the effective recombination rate is
@@ -1160,16 +1168,16 @@ r_\text{eff} &=
     r \frac{ \sigma /\sqrt{s} }{ \sigma/\sqrt{s} + A }    \qquad & d=1 \\
    r \frac{\pi  \sigma /\sqrt{s}  \left( \sigma /\sqrt{s}+
   \sqrt{A/\pi} \right)}{A+\pi \sigma/\sqrt{s} \left( \sigma/\sqrt{s} +
-  \sqrt{A/\pi} \right) }    \qquad & d=2 ,  
+  \sqrt{A/\pi} \right) }    \qquad & d=2 .
 \end{cases}
 \label{eqn:rec_rate_within}   %(\sigma/\sqrt{s})A^{-1/d}
 \end{align}
-so that $T$ generations after the founding of a patch we expect a
+It follows that $T$ generations after the founding of a patch we expect a
 haplotype of genetic length $1/(r_\text{eff}T)$ Morgans to remain linked to
 the $B$ allele in a typical lineage. 
 Note that the length of haplotype
-decays at a rate roughly proportional to $\sqrt{s}/ \sigma$, as the narrower the cline the less
-opportunity for recombination to move our lineage off the $B$ background. 
+decays at a rate roughly proportional to $\sqrt{s}/ \sigma$, as the narrower the cline 
+the less opportunity for recombination to move our lineage off the $B$ background. 
  
 
  
@@ -1182,8 +1190,8 @@ $\xi^2/(A\rho)$,
 the ``variance effective population size'' of the patch
 (this bypasses the well-known difficulties to spatial coalescence \citep{felsenstein1975pain,barton2002neutral}).
 The rate of recombination and coalescence will be on the same order if
-$\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$, 
-and hence the genetic length of the haplotype shared between pairs of
+$\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$.
+Hence the genetic length of the haplotype shared between pairs of
 individuals within the same patches at equilibrium is on the order of
 \begin{align} \label{eqn:within_haplotype_length} 
   r = \frac{\sqrt{s} \xi^2}{\sigma \rho A^{(d-1)/d}}  .
@@ -1222,7 +1230,7 @@ presumably to avoid visual predators.
 \citet{nachman2003genetic} demonstrated that on one of these flows (Pinacate), 
 much of the change in coloration is due to an allele at the MC1R locus.
 This dark allele differs from the light allele by four amino acid changes, 
-and has a dominant or partially dominant effect depending on the measure of coat color assessed. 
+and has a dominant or partially dominant effect depending on the measure of coat color.
 These areas of dark rock are separated from each other by a range of distances, 
 with some being separated from any other by hundreds of kilometers of light colored substrate. 
 The Pinacate allele is not present in a number of other populations of dark colored rock pocket mouse, 
@@ -1249,7 +1257,7 @@ Doing this for Tule we obtain $\sigma/\sqrt{s_m} \approx 3$km,
 and for O'Neill, $\sigma/\sqrt{s_m} \approx 30$km, giving us a range of cline widths. 
 We also need estimate of $s_m$. 
 Using $\sigma \approx 1$km \citep{french1968dispersal,allred1963range}, 
-these cline widths imply that $s_m=1/\sqrt{3}$ and $1/\sqrt{30}$ are reasonable values.
+these cline widths imply that $s_m=1/9$ and $1/900$ are reasonable values.
 
 \begin{figure}[ht]
   \begin{center}
@@ -1355,21 +1363,21 @@ In developing the set of approximations in the paper we have ignored a
 number of complicating factors. We now briefly discuss these.
 
 \paragraph{Standing variation} 
-We have tended to focus on relative rates of adaptation,
+We have focused on relative rates of adaptation,
 since we are thinking of applications in which we know that adaptation has occurred,
 and the question is whether or not adaptations in distinct patches
 have appeared independently or not.
 However, especially absolute if rates of adaptation by new mutation are very low,
 any adaptation that does occur may have to make use of standing variation.
-The unstructured case was studied by \citet{softsweepsI};
-we study the continuous, spatial case in an upcoming paper.
+The case of a panmictic population was studied by \citet{softsweepsI},
+and we study the case of a continuous, spatial population in an upcoming paper.
 If parallelism in local adaptation of the sort we study here is due to standing variation
 rather than new mutation,
 then the dynamics of adaptation should not depend strongly on migration patterns
-(but note that the initial spatial distribution of standing variation may be).
+(but note that the initial spatial distribution of standing variation may).
 
 \paragraph{Dominance}
-We have mostly swept the issue of dominance under the rug
+We have mostly ignored the issue of dominance 
 by dealing with essentially haploid models,
 and appealing to the fact that the dynamics we study occur where the mutation is rare,
 and hence mostly present only in heterozygotes. 
@@ -1384,13 +1392,14 @@ As such it is not clear what our intuition should be
 about the contribution of recessive alleles to adaptation via migration. 
 Further work is needed to put empirical observations of local adaptation by recessive alleles 
 in a theoretical context.
+It is simliarly unclear how the model should extend to a polygenic trait.
 
 \paragraph{Long distance migration}
 We have also ignored the possibility of very long distance migration,
 instead focusing on local dispersal (and using a Gaussian model).
 However, dispersal distributions can be very heavy tailed, 
 with a small fraction of individuals moving very long distances indeed \citep{levin2003ecology,reynolds2009levy}.
-In addition, over long time-scales, very rare chance events (mice sucked up in hurricanes and the like) 
+In addition, over long time-scales, very rare chance events \citep[mice carried off by hurricanes and the like][]{censky1998overwater,nathan2008mechanisms}
 could play a role in spreading migrant alleles if adaptation by other means is sufficiently unlikely.
 Such tail events could greatly increase the probability of parallel adaptation above that predicted by our model. 
 Furthermore, if adaptive alleles do move between distant patches via rare, long distance migration 
@@ -1398,11 +1407,12 @@ then they will be associated with a much longer shared haplotype than predicted 
 As such, we view our results as a null model by which the contribution of long distribution migrants to adaptation could be empirically judged.   
 
 \paragraph{Other patch geometries}
-Here we have studied circular patches of habitat at long distances from each other,
-while real habitat is can be much more complex
--- archipelagos of patches of varying sizes, or connected by long, skinny corridors, for instance.
-The work of \citet{cantrell1991diffusive} comes closest to a general theory of balanced polymorphisms in such habitats,
-and it is possible that our techniques could be applied in their much more general setting,
+We have studied circular patches of habitat at long distances from each other.
+Real habitat geometry can be much more complex,
+e.g.\ with archipelagos of patches of varying sizes, 
+or patches connected by long, skinny corridors, for instance.
+The work of \citet{cantrell1991diffusive} comes closest to a general theory of balanced polymorphisms in such habitats.
+It is possible that our techniques could be applied in their much more general setting,
 as both are based, fundamentally, on branching process approximations.
 
 \paragraph{Concluding thoughts}
@@ -1410,7 +1420,8 @@ The falling cost of population genomic sequencing means that we will soon have t
 opportunity to study the interplay of adaptation with geography and ecology 
 across many populations within a species. 
 Our work suggests that even quite geographically close populations 
-may be forced to locally adapt convergently when migration is geographically limited
+may be forced to locally adapt by repeated, convergent, \textit{de novo} mutation 
+when migration is geographically limited
 and selective pressures are divergent.
 Thus, systems where populations have been repeatedly subject to 
 strong local selection pressures may offer the opportunity 
