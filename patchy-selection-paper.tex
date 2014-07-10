@@ -13,13 +13,12 @@
 %\usepackage{setspace} 
 %\doublespacing
 
-
-% Text layout
-\topmargin 0.0cm
-\oddsidemargin 0.5cm
-\evensidemargin 0.5cm
-\textwidth 16cm 
-\textheight 21cm
+% % Text layout
+% \topmargin 0.0cm
+% \oddsidemargin 0.5cm
+% \evensidemargin 0.5cm
+% \textwidth 16cm 
+% \textheight 21cm
 
 % Bold the 'Figure #' in the caption and separate it with a period
 % Captions will be left justified
@@ -151,7 +150,7 @@ and more generally in understanding how species adapt to patchy, heterogeneous l
 
 
 %%%%%%%%%%% %%%%%%%%%%% 
-\section{Introduction}
+\section*{Introduction}
 
 % Such precise convergence points to the conservation of function of the genes underlying adaptive traits, 
 % sometimes over deep time scales \citep{deephomologypapers}. 
@@ -218,31 +217,31 @@ signal be visible?
 
 We work in a model of continuous geography,
 using a variety of known results and new methods.
-In section \ref{ss:patchymutation} we develop a simple approximation,
+In the section \nameref{ss:patchymutation} we develop a simple approximation,
 equation \eqref{eqn:mutrate}, for the rate at which patches become established by new mutations. 
-The most important conceptual work of the paper occurs in section \ref{ss:patchymigration},
+The most important conceptual work of the paper occurs in the section \nameref{ss:patchymigration},
 where we develop an understanding of the process by which alleles move from an existing patch 
 to colonize a novel patch, culminating in equation \eqref{eqn:migrate} for the rate at which this happens.
-We combine these two results in section \ref{ss:probparallel} 
+We combine these two results in the section \nameref{ss:probparallel} 
 to discuss to the probability of parallel adaptation, equation \eqref{eqn:parallel_prob}.
 To understand the genomic signal left by adaptations shared by migration, 
-in section \ref{ss:haplotype_length}, 
+in the section \nameref{ss:haplotype_length}, 
 we approximate the time it will take for an allele to transit between patches,
 (equation \eqref{eqn:mean_tau}),
 and use this to approximate the length of haplotype that hitchhikes with it (equation \eqref{eqn:haplotype_length}). 
 We then quantify how quickly this haplotype decays within patches (equation \eqref{eqn:rec_rate_within}) 
 and use this to obtain properties about the equilibrium distribution of haplotype lengths 
-(equation \eqref{eqn:within_haplotype_length}), in section \ref{ss:patch_haplotype}. 
-Finally, in section \ref{ss:applications} we apply this work to understand the geographic scale of
+(equation \eqref{eqn:within_haplotype_length}), in the section \nameref{ss:patch_haplotype}. 
+Finally, in the section \nameref{ss:applications} we apply this work to understand the geographic scale of
 convergent evolution in \textit{Chaetodipus intermedius}. 
 
 
 
 %%%%%%%%%%%%%
-\section{Results}
+\section*{Results}
 
 %%%
-\subsection{Model of a patchy landscape}
+\subsection*{Model of a patchy landscape}
 \label{ss:patchyspace}
 
 Consider a population spread across a landscape to which it is generally well adapted,
@@ -312,7 +311,7 @@ and determined the habitat configuration that maximizes the probability of estab
 
 
 %%%%%
-\subsection{Establishment of a locally adaptive allele due to mutational influx}
+\subsection[Establishment by Mutation]{Establishment of a locally adaptive allele due to mutational influx}
 \label{ss:patchymutation}
 
 Consider first a single, isolated poor habitat patch in which no $B$ allele has yet become established. 
@@ -342,7 +341,7 @@ so that $p(x) = p_e \approx 2 s_p / \xi^2$ within the patch, and $p(x) = 0$ othe
 This approximates the integrand $p(x)$ in \eqref{eqn:exactmutrate} by a step function,
 which will be a good approximation if the patch is large relative the scale over which $p(x)$ goes from 0 to $p_e$,
 or if $p(x)$ is symmetric about the edge of the patch.
-We examine this more generally via exact calculation of $p(x)$ in Section \ref{apx:establishment_sims}.
+We examine this more generally via exact calculation of $p(x)$ in the section \nameref{apx:establishment_sims}.
 
 The rate at which mutations arise and colonize a patch of area $A$ is then
 \begin{align} \label{eqn:mutrate} 
@@ -356,7 +355,7 @@ Assuming that once a mutation becomes established it quickly reaches its equilib
 the time scale on which new patches become colonized by the $B$ allele from new mutation is therefore approximately $1/\mutrate$.
 
 %%%%%%%
-\subsection{Simulation methods}
+\subsection*{Simulation methods}
 \label{ss:simulations}
 
 First we briefly describe the simulations used below for illustration and validation.
@@ -391,7 +390,7 @@ and those picking the same label coalesced.
 Since reproduction is Poisson, this correctly samples from the distribution of lineages given the population dynamics.
 
 %%%%%%%
-\subsection{Establishment of a locally adaptive allele due to migrational influx}
+\subsection[Establishment by Migration]{Establishment of a locally adaptive allele due to migrational influx}
 \label{ss:patchymigration}
 
 Now suppose that there are two patches, each of area $A$ and separated by distance $R$. 
@@ -417,10 +416,10 @@ where $d$ is the dimension ($d=1$ or $2$),
 and $C$ is a constant depending on the geographic shape of the populations and the selection coefficients.
 These asymptotics fit simulations quite well, as shown in Figure~\ref{fig:sim_occupation_freqs}.
 To be clear about the assumptions (especially regarding scaling) implicit here,
-we provide a derivation in Appendix~\ref{apx:eqfreq}, 
-as well as justification for the asymptotics in Appendix \ref{apx:asymptotics}.
+we provide a derivation in section~\nameref{apx:eqfreq}, 
+as well as justification for the asymptotics in section~\nameref{apx:asymptotics}.
 In one dimension, the equation can be solved to give $q(x)$ 
-in terms of Jacobi elliptic functions; see Appendix \ref{apx:elliptic_integrals}.
+in terms of Jacobi elliptic functions; see appendix \ref{apx:elliptic_integrals}.
 In applications we fit $C$ to the data;
 to get concrete numbers from theory we take $C=1$ if necessary.
 From simulations, $C$ seems to be not too far from 1 in practice (see below).
@@ -521,7 +520,7 @@ and we can solve for this outflux using the established form for $q(x)$ in \eqre
 
 
 %%%% %%%%
-\subsubsection{The genealogy of migrant families}
+\subsubsection*{The genealogy of migrant families}
 
 To understand the process of adaptation by migration,
 we therefore need to look more closely at the rare families of $B$ alleles 
@@ -684,7 +683,7 @@ if we know that it survived to hit the patch,
 it is intuitively reasonable that $u(x,y)$ and $h_A(x,y)$ are simply related.
 Following this intuition,
 and that $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$,
-it turns out (see Appendix~\ref{apx:hitting_occupation}) that
+it turns out (see section~\nameref{apx:hitting_occupation}) that
 \begin{align} 
   h_A(x,y) \approx \frac{ g(A) }{ \E[K] } u(x,y),
 \end{align}
@@ -700,7 +699,7 @@ if each member arriving has chance $p_e$ of establishing, independently.
 % \begin{align}
 %   s(w) \simeq \frac{1}{2s_m} \left( 1 - \left( \frac{\pi w \sqrt{2 s_m}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2s_m}/\sigma} \right).
 % \end{align}
-Combining with expressions for $g(A)$ in Appendix~\ref{apx:hitting_occupation},
+Combining with expressions for $g(A)$ in section~\nameref{apx:hitting_occupation},
 we obtain that
 \begin{align}
   \label{eqn:migrate} 
@@ -714,11 +713,11 @@ the dependence is very weak.
 For instance, the width of a circular patch only very weakly affects the chance 
 of establishment of a new migrant that appears on its edge,
 as long as the patch is large enough.
-For more discussion, including an expression for the outflux of migrants $\gamma(x)$, see Appendix~\ref{apx:hitting_occupation}.
+For more discussion, including an expression for the outflux of migrants $\gamma(x)$, see section~\nameref{apx:hitting_occupation}.
 
 
 %%%%%%%%%
-\subsection{The probability of parallel adaptation between patches.} 
+\subsection[Probability of Parallel Adaptation]{The probability of parallel adaptation between patches.} 
 \label{ss:probparallel}
 
 We now turn to the question of whether the separated patches adapt by parallel genetic changes 
@@ -828,7 +827,7 @@ approximately logistically with the distance between the patches, at rate $\sqrt
 
 
 %%%%%%%%%%%%
-\subsubsection{Multiple patches}
+\subsubsection*{Multiple patches}
 Above we worked with two patches separated by distance $R$;
 but these calculations apply as well to multiple patches
 in which the $B$ allele can facilitate local adaptation. 
@@ -904,7 +903,7 @@ where the local nature of dispersal means that doubling the species range will d
 
 
 %%%%%%%%%
-\subsection{Length of the hitchhiking haplotype}
+\subsection[Haplotypes Shared Between Patches]{Length of the hitchhiking haplotype}
 \label{ss:haplotype_length}
 
 If a patch adapts through new mutation or a rare migrant lineage, the
@@ -1065,7 +1064,7 @@ and the haplotype halflength $L$ is exponential.
 
 
 %%%%%%% %%%%%%%%%%
-\subsection{Length of the shared haplotype within a patch}
+\subsection[Haplotypes Shared Within a Patch]{Length of the shared haplotype within a patch}
 \label{ss:patch_haplotype}
 
 The other key issue in thinking about the population genetic signal of adaptation in spatial patches 
@@ -1113,7 +1112,7 @@ has been inherited from a parent at $y$ in a time interval $dt$
 is equal to this influx divided by the local abundance of $B$ alleles,
 i.e.\ $dt \times q(y) (1+s(y)) m(y,x) / q(x)$.
 This therefore describes the movement of a lineage backwards in time.
-After the same large-population, continuous-space limit that underlies the rest of this paper (Appendix~\ref{apx:eqfreq}),
+After the same large-population, continuous-space limit that underlies the rest of this paper (section~\nameref{apx:eqfreq}),
 if the assumption that fluctuations in $q(x)$ are small,
 this motion should converge to a diffusion process \citep[as assumed by e.g.][]{hallatschek2008surfing},
 notwithstanding some technical difficulties (e.g.\ discontinuity of $s(x)$).
@@ -1202,7 +1201,7 @@ In applications, this can be compared to equation~\eqref{eqn:haplotype_length}
 for the length of shared haplotype between patches.
 
 %%%%%%%%%%
-\subsection{Applications} 
+\subsection*{Applications} 
 \label{ss:applications}
 % FOR REFERENCE:
 % On Wed, May 28, 2014 at 10:20 AM, Michael Nachman <mnachman@berkeley.edu> wrote:
@@ -1318,7 +1317,7 @@ then it will be difficult to identify shared haplotypes
 
 
 %%%%%%% %%%%%%% %%%%%%%
-\section{Discussion} 
+\section*{Discussion} 
 \label{ss:discussion}
 
 This paper is an investigation into the basic question: 
@@ -1446,13 +1445,13 @@ well together \citep{Kondrashov:03}.
 
 \subsection*{Acknowledgements}
 We would like to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandvain for useful discussions, 
-as well as Gideon, and Simon Aeschbacher and the rest of the Coop lab
+as well as Gideon Bradburd, and Simon Aeschbacher and the rest of the Coop lab
 for helpful comments and discussion of the manuscript.
 
 %%%%%
-\section{Materials \& Methods}
+\section*{Materials \& Methods}
 
-\subsection{Numerical calculation of the probability of establishment}
+\subsection*[Probability of Establishment]{Numerical calculation of the probability of establishment}
 \label{apx:establishment_sims}
 
 When rare, under at least some demographic models,
@@ -1501,14 +1500,8 @@ is close to $p_e$ multiplied by the area of the patch.
 
 
 
-
-\bibliography{standing_patches_refs}
-
-\appendix
-
-
 %%%%%%%%%%%%
-\section{The equilibrium frequency}
+\subsection*[Equilibrium Frequency]{The equilibrium frequency}
 \label{apx:eqfreq}
 
 For completeness, and clarity as to the scalings on the relevant parameters,
@@ -1587,7 +1580,7 @@ then the polar form of the Laplacian in $d$ dimensions gives us that \eqref{eqn:
 
 
 %%%%%%%%%%%
-\subsection{Asymptotic solution for the equilibrium frequency} 
+\subsection*[Asymptotics]{Asymptotic solution for the equilibrium frequency} 
 \label{apx:asymptotics}
 
 If $q(r)$ is a radially symmetric equilibrium frequency and $\xi(t,x)=q(|x|)$,
@@ -1623,8 +1616,140 @@ where $C$ is a different constant.
 
 
 
+%%%%%%%%% %%%%%%%%%%%%%%
+\subsection*[Hitting and Occupation]{Hitting and occupation}
+\label{apx:hitting_occupation}
+
+Consider a single migrant family $Z$ beginning at $x$,
+and write $S$ for the new patch, which has area $A$ and is centered at $y$.
+Let $B_t$ be a Brownian motion with variance $\sigma^2$, 
+and $\tau_\dagger$ an independent Exponential($s_m$) time.
+The mean occupation time of $Z$ spent in a region $S$ is,
+since the marginal distribution of a single lineage is Brownian,
+\begin{align}
+    u(x,S) &= \E\left[\int_0^\infty Z_t(S) dt \right] \\
+           &= \int_0^\infty \E[Z_t] p_t(x,S) dt \\
+        &= \int_0^\infty e^{-s_m t} p_t(x,S) dt \\
+        &= \int_0^\infty \P^x\{ \tau_\dagger > t \; \& \; B_t \in S \} dt \\
+        &= \E^x\left[ \int_0^{\tau_\dagger} \one_S(B_t) dt \right]  ,
+\end{align}
+where $\P^x$ gives probabilities for Brownian motion begun at $x$ (i.e.\ $B_0=x$),
+and likewise $\E^x$.
+If we define
+$\tau_S$ to be the hitting time of $S$ by the Brownian motion $B$,
+and $\mu_S(x)$ to be the hitting distribution of $\partial S$ by $B_{\min(t,\tau_\dagger)}$,
+by the strong Markov property this is equal to
+\begin{align}
+    u(x,S) % &= \E^x[ \int_0^{\tau_\dagger} \one_S(B_t) dt ] \\
+           &= \P^x\{ \tau_S < \tau_\dagger \}  \E^{\mu_S(x)}\left[ \int_0^{\tau_\dagger} \one_S(B_t) dt \right] ,
+\end{align}
+where now $\E^\mu$ denotes expectations for Brownian motion for which the distribution of $B_0$ is $\mu$, 
+provided $S$ is not pathological.
+If $S$ is circular with area $A$, the latter expectation will not depend on $x$;
+call this $g(A)$.
+
+Now consider the chance that $Z$ ever hits the new patch, which we call $h(x,S)$.
+(In the main body, this was $h_A(x,y)$, here modified to parallel $u(x,S)$.)
+If we make the approximation that $Z$ hits the new patch only if the trunk of $Z$ does,
+and recall that $1-k_e(t)$ is the chance that $Z$ survives for $t$ generations,
+then this is equal to
+\begin{align}
+    h(x,S) &\approx \int_0^\infty (1-k_e(t)) \P\{ \tau_S \in dt \} \\
+    &= \int_0^\infty e^{s_m t} (1-k_e(t)) e^{- s_m t } \P\{ \tau_S \in dt \} \\
+    &=\int_0^\infty e^{s_m t} (1-k_e(t)) \P\{ \tau_S \in dt \, \& \, t < \tau_\dagger \} \\
+    &\approx \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_S \in dt \, \& \, t < \tau_\dagger \} \\
+    &= \frac{1}{\E[K]} \P^x[ \tau_S < \tau_\dagger ] .
+\end{align}
+Therefore, we have that
+\begin{align}
+    h(x,S) \E[K] 
+    \approx \P^x[ \tau_S < \tau_\dagger ] 
+    = u(x,S) / g(A) .
+\end{align}
+
+If we let $q(S) = \int_S q(y) dy$ be the total equilibrium occupation of $S$,
+then by equations~\eqref{eqn:occupation_integral} and \eqref{eqn:migrate_integral},
+\begin{align}
+    q(S)  &= \int_{\partial B(r_0)} \gamma(x) u(x,S) dx  \\
+          &\approx g(A) \E[K] \int_{\partial B(r_0)} \gamma(x) h(x,S) dx \\
+          &= \frac{ g(A) \E[K] }{ \rho f(A) } \migrate(y) .
+\end{align}
+The function $g(A)$ is the expected amount of time that a Brownian motion begun on the edge of a disk of area $A$
+is expected to spend inside the disk before $\tau_\dagger$.
+This is integral of the Green function for the Bessel process of the appropriate order, 
+so using \citet{borodin2002handbook}, % (Appendix 1),
+and letting $w$ be the width of the patch,
+in $d=1$,
+\begin{align}
+    g(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
+    % &= \int_0^{2w} G_{s_m}(0,y) dy \\
+  &= \int_0^{2w} \frac{ e^{- y \sqrt{2s_m} }}{\sqrt{2s_m}} dy \\
+  &= (1-e^{-2w\sqrt{2s_m}})/(2s_m)
+\end{align}
+and in $d=2$, by \citet{gradshteyn2007table} 5.56.2,
+\begin{align}
+    g(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
+    % &= \int_0^{2w} G_{s_m}(0,y) dy \\
+  &= \int_0^{2w} 2 y K_0(y \sqrt{2s_m}) dy \\
+  &= \frac{1}{s_m}\int_0^{2w\sqrt{2s_m}} y K_0(y) dy \\
+  &= \frac{1}{2s_m}\left(1- 2w\sqrt{2s_m} K_1(2w\sqrt{2s_m}) \right)  .
+\end{align}
+In either case, $g(A) \approx 1/(2s_m)$, which is the approximation we use in the main text.
+
+
+
+
+%%%%%%% %%%%%%%%%%%%
+\subsection*[Outflux of Families]{The outflux of families}
+\label{apx:outflux}
+
+It is of interest to have an expression for the ``outflux of families'',
+$\gamma(r_0)$, 
+defined to be the mean proportion of $B$ alleles at distance $r_0$
+whose lineage traces back to the original patch without venturing further away than $r_0$.
+By expression \eqref{eqn:occupation_integral},
+\[
+    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
+\]
+for any $y$.  
+Take $y=(r,0)$.
+Note that after scaling by $\sqrt{2s_m}/\sigma$,
+\begin{align}
+    \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\|} }{ \|y\|^{-(d-1)/2} e^{-\|y\|} } \\
+        &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r (\|\hat x - x/r\| - 1)} .
+\end{align}
+Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
+so that the expression in the exponent is to, first order in $1/r$,
+\begin{align}
+    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
+            &= - 2 r_0 \cos \theta + O(1/r) .
+\end{align}
+This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
+\begin{align}
+    \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \cos \theta} .
+\end{align}
+In one dimension we are done.
+In two dimensions,
+by bounded convergence and \citet{gradshteyn2007table} (3.339),
+\begin{align}
+  \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
+            &= C' \int_0^{2 \pi} e^{-2 r_0 \cos \theta} d\theta \\
+                         &= 2 \pi C' I_0(-2r_0),
+\end{align}
+where $I_0$ is a modified Bessel function of order zero of the first kind.
+The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing the result to $2 \pi C' I_0( - 2 \sqrt{2s_m} r_0 / \sigma ) $.
+
+
+%%%%%%%%%%%
+
+
+\bibliography{standing_patches_refs}
+
+\appendix
+
+
 %%%%%%%
-\subsection{The exact solution to the equilibrium frequency}
+\section{The exact solution to the equilibrium frequency}
 \label{apx:elliptic_integrals}
 
 
@@ -1744,132 +1869,6 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 
 
 
-%%%%%%%%% %%%%%%%%%%%%%%
-\section{Hitting and occupation}
-\label{apx:hitting_occupation}
-
-Consider a single migrant family $Z$ beginning at $x$,
-and write $S$ for the new patch, which has area $A$ and is centered at $y$.
-Let $B_t$ be a Brownian motion with variance $\sigma^2$, 
-and $\tau_\dagger$ an independent Exponential($s_m$) time.
-The mean occupation time of $Z$ spent in a region $S$ is,
-since the marginal distribution of a single lineage is Brownian,
-\begin{align}
-    u(x,S) &= \E\left[\int_0^\infty Z_t(S) dt \right] \\
-           &= \int_0^\infty \E[Z_t] p_t(x,S) dt \\
-        &= \int_0^\infty e^{-s_m t} p_t(x,S) dt \\
-        &= \int_0^\infty \P^x\{ \tau_\dagger > t \; \& \; B_t \in S \} dt \\
-        &= \E^x\left[ \int_0^{\tau_\dagger} \one_S(B_t) dt \right]  ,
-\end{align}
-where $\P^x$ gives probabilities for Brownian motion begun at $x$ (i.e.\ $B_0=x$),
-and likewise $\E^x$.
-If we define
-$\tau_S$ to be the hitting time of $S$ by the Brownian motion $B$,
-and $\mu_S(x)$ to be the hitting distribution of $\partial S$ by $B_{\min(t,\tau_\dagger)}$,
-by the strong Markov property this is equal to
-\begin{align}
-    u(x,S) % &= \E^x[ \int_0^{\tau_\dagger} \one_S(B_t) dt ] \\
-           &= \P^x\{ \tau_S < \tau_\dagger \}  \E^{\mu_S(x)}\left[ \int_0^{\tau_\dagger} \one_S(B_t) dt \right] ,
-\end{align}
-where now $\E^\mu$ denotes expectations for Brownian motion for which the distribution of $B_0$ is $\mu$, 
-provided $S$ is not pathological.
-If $S$ is circular with area $A$, the latter expectation will not depend on $x$;
-call this $g(A)$.
-
-Now consider the chance that $Z$ ever hits the new patch, which we call $h(x,S)$.
-(In the main body, this was $h_A(x,y)$, here modified to parallel $u(x,S)$.)
-If we make the approximation that $Z$ hits the new patch only if the trunk of $Z$ does,
-and recall that $1-k_e(t)$ is the chance that $Z$ survives for $t$ generations,
-then this is equal to
-\begin{align}
-    h(x,S) &\approx \int_0^\infty (1-k_e(t)) \P\{ \tau_S \in dt \} \\
-    &= \int_0^\infty e^{s_m t} (1-k_e(t)) e^{- s_m t } \P\{ \tau_S \in dt \} \\
-    &=\int_0^\infty e^{s_m t} (1-k_e(t)) \P\{ \tau_S \in dt \, \& \, t < \tau_\dagger \} \\
-    &\approx \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_S \in dt \, \& \, t < \tau_\dagger \} \\
-    &= \frac{1}{\E[K]} \P^x[ \tau_S < \tau_\dagger ] .
-\end{align}
-Therefore, we have that
-\begin{align}
-    h(x,S) \E[K] 
-    \approx \P^x[ \tau_S < \tau_\dagger ] 
-    = u(x,S) / g(A) .
-\end{align}
-
-If we let $q(S) = \int_S q(y) dy$ be the total equilibrium occupation of $S$,
-then by equations~\eqref{eqn:occupation_integral} and \eqref{eqn:migrate_integral},
-\begin{align}
-    q(S)  &= \int_{\partial B(r_0)} \gamma(x) u(x,S) dx  \\
-          &\approx g(A) \E[K] \int_{\partial B(r_0)} \gamma(x) h(x,S) dx \\
-          &= \frac{ g(A) \E[K] }{ \rho f(A) } \migrate(y) .
-\end{align}
-The function $g(A)$ is the expected amount of time that a Brownian motion begun on the edge of a disk of area $A$
-is expected to spend inside the disk before $\tau_\dagger$.
-This is integral of the Green function for the Bessel process of the appropriate order, 
-so using \citet{borodin2002handbook}, % (Appendix 1),
-and letting $w$ be the width of the patch,
-in $d=1$,
-\begin{align}
-    g(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
-    % &= \int_0^{2w} G_{s_m}(0,y) dy \\
-  &= \int_0^{2w} \frac{ e^{- y \sqrt{2s_m} }}{\sqrt{2s_m}} dy \\
-  &= (1-e^{-2w\sqrt{2s_m}})/(2s_m)
-\end{align}
-and in $d=2$, by \citet{gradshteyn2007table} 5.56.2,
-\begin{align}
-    g(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
-    % &= \int_0^{2w} G_{s_m}(0,y) dy \\
-  &= \int_0^{2w} 2 y K_0(y \sqrt{2s_m}) dy \\
-  &= \frac{1}{s_m}\int_0^{2w\sqrt{2s_m}} y K_0(y) dy \\
-  &= \frac{1}{2s_m}\left(1- 2w\sqrt{2s_m} K_1(2w\sqrt{2s_m}) \right)  .
-\end{align}
-In either case, $g(A) \approx 1/(2s_m)$, which is the approximation we use in the main text.
-
-
-
-
-%%%%%%% %%%%%%%%%%%%
-\subsection{The outflux of families}
-\label{apx:outflux}
-
-It is of interest to have an expression for the ``outflux of families'',
-$\gamma(r_0)$, 
-defined to be the mean proportion of $B$ alleles at distance $r_0$
-whose lineage traces back to the original patch without venturing further away than $r_0$.
-By expression \eqref{eqn:occupation_integral},
-\[
-    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
-\]
-for any $y$.  
-Take $y=(r,0)$.
-Note that after scaling by $\sqrt{2s_m}/\sigma$,
-\begin{align}
-    \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\|} }{ \|y\|^{-(d-1)/2} e^{-\|y\|} } \\
-        &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r (\|\hat x - x/r\| - 1)} .
-\end{align}
-Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
-so that the expression in the exponent is to, first order in $1/r$,
-\begin{align}
-    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
-            &= - 2 r_0 \cos \theta + O(1/r) .
-\end{align}
-This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
-\begin{align}
-    \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \cos \theta} .
-\end{align}
-In one dimension we are done.
-In two dimensions,
-by bounded convergence and \citet{gradshteyn2007table} (3.339),
-\begin{align}
-  \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
-            &= C' \int_0^{2 \pi} e^{-2 r_0 \cos \theta} d\theta \\
-                         &= 2 \pi C' I_0(-2r_0),
-\end{align}
-where $I_0$ is a modified Bessel function of order zero of the first kind.
-The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing the result to $2 \pi C' I_0( - 2 \sqrt{2s_m} r_0 / \sigma ) $.
-
-
-%%%%%%%%%%%
-
 
 
 \ifsubmissionversion
@@ -1932,17 +1931,6 @@ Note that the $d=2$ case
     \frac{ K_0(x\sqrt{2s_m}) }{ K_0(w\sqrt{2s_m}) } = \sqrt{\frac{w}{x}} e^{-(x-w)\sqrt{2s_m}} ( 1 + O(1/w) ).
 \end{align}
 
-
-\section{Notes: for intro/discussion}
-
-- leimu2008metaanalysis: local adaptation not ubiquitous but common; mostly in large population sizes.
-- robertson1960theory: dependence of the degree of adaptation on Ne 
-- lots of local adaptation stuff on plants and conservation genetics; ties into plasticity and range limits.
-- but also: Neurospora (ellison2011) and salmonids (fraser2011)
-- swamping in Mayr 1963, Animal Species and Evolution?
-- hanson1966effects: original observation of minimum patch size, in simulation?
-- fourneir-level2011: map of arabidopsis local adaptation
-- reviews for local adapt in marine (sanford2011), trees (savolainen2007) 
 
 
 \section{Patchy selection} 
