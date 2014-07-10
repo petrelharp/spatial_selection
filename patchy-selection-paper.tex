@@ -1,12 +1,63 @@
 \documentclass{article}
 \usepackage{fullpage}
 \usepackage{amsmath,amssymb}
-\usepackage{natbib}
 \usepackage{marginnote}
 \usepackage{graphicx}
 \usepackage{color}
+\usepackage{natbib}
 \usepackage[hidelinks]{hyperref}
-%\usepackage{latexml} % for \iflatexml
+
+% \usepackage{cite}
+
+% Use doublespacing - comment out for single spacing
+%\usepackage{setspace} 
+%\doublespacing
+
+
+% Text layout
+\topmargin 0.0cm
+\oddsidemargin 0.5cm
+\evensidemargin 0.5cm
+\textwidth 16cm 
+\textheight 21cm
+
+% Bold the 'Figure #' in the caption and separate it with a period
+% Captions will be left justified
+\usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
+
+
+% turn this on to doublespace and put all figures at the very end.
+\newif\ifsubmissionversion
+\submissionversionfalse
+\newif\ifincludesupplement
+\includesupplementfalse
+
+\ifsubmissionversion
+\usepackage{endfloat}
+\fi
+
+
+\ifsubmissionversion
+% \linespread{1.6}
+\doublespacing
+\fi
+
+
+% Use the PLoS provided bibtex style
+% OR NOT \bibliographystyle{plos2009}
+\bibliographystyle{abbrvnat}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+
+% Leave date blank
+\date{}
+
+\pagestyle{myheadings}
+%% ** EDIT HERE **
 
 % \newcommand{\var}{\mathop{\mbox{Var}}}
 % \newcommand{\Exp}{\mathop{\mbox{Exp}}}
@@ -37,6 +88,7 @@
 {
 Convergent Evolution During Local Adaptation to Patchy Landscapes
 }
+% Simon: I think the title only partly reflects the scope of the paper (adaptation by migration being underrepresented). What about "Relative importance of migration and convergent evolution for local adaptation in patchy landscapes" or similar?
 
 \author{Peter L. Ralph$^1$ \\ email: pralph@usc.edu  \and Graham Coop$^2$ \\ email: gmcoop@ucdavis.edu }
 
@@ -64,12 +116,12 @@ or through the spread of alleles by migration
 acting to synchronize adaptation across the species.
 The tension between the two reflects the degree of 
 constraint imposed on evolution by the underlying genetic
-architecture versus how how effectively selection acts to inhibit the geographic spread of locally
+architecture versus how effectively selection acts to inhibit the geographic spread of locally
 adapted alleles.
 This paper studies a model of the balance between these two routes to adaptation in continuous environments with patchy selection pressures.
 We address the following questions: 
-How long does it take for a new, locally adapted allele to appear in a
-patch of habitat where it is favored through new mutation?
+How long does it take for a novel, locally adapted allele to appear in a
+patch of habitat where it is favored through mutation?
 Or, through migration from another, already adapted patch?
 Which is more likely to occur, as a function of distance between the patches?
 How can we tell which has occurred, i.e.\ what population genetic
@@ -122,7 +174,7 @@ Convergent adaptation can also occur within species, if individuals within a spe
 adapt to the same environment, in parallel, through different genetic changes. 
 There are a growing number of examples of this in a range of well studied organisms and phenotypes \citep{Arendt:08}.
 Such evolution of convergent phenotypes is favored by higher mutational input, 
-i.e.\ larger mutational target and/or population size \citep{softsweepsII}.
+i.e.\ higher total mutational rate and/or population size \citep{softsweepsII}.
 The geographic distribution of populations can also affect the probability of parallel mutation within a species:
 a widespread species is more likely to adapt by multiple, parallel mutations if dispersal is geographically limited, 
 since subpopulations will adapt via new mutations before the adaptive allele arrives via migration \citep{ralph2010parallel}. 
@@ -175,23 +227,21 @@ where we develop an understanding of the process by which alleles move from an e
 to colonize a novel patch, culminating in equation \eqref{eqn:migrate} for the rate at which this happens.
 We combine these two results in section \ref{ss:probparallel} 
 to discuss to the probability of parallel adaptation, equation \eqref{eqn:parallel_prob}.
-To understand the genomic signal left by adaptations shared by
-migration in section \ref{ss:haplotype_length} we approximate the time
-it will take for an allele to transit between patches,
-equation \eqref{eqn:mean_tau}, and use this to approximate the length of
-haplotype that hitchhikes with it,
-equation \eqref{eqn:haplotype_length}. We then quantify how quickly this
-haplotype decays within patches equation \eqref{eqn:rec_rate_within} and
-use this to obtain properties about the equilibrium distribution of
-haplotype lengths, equation 
-\eqref{eqn:within_haplotype_length}  in section \ref{ss:patch_haplotype}. 
+To understand the genomic signal left by adaptations shared by migration, 
+in section \ref{ss:haplotype_length}, 
+we approximate the time it will take for an allele to transit between patches,
+(equation \eqref{eqn:mean_tau}),
+and use this to approximate the length of haplotype that hitchhikes with it (equation \eqref{eqn:haplotype_length}). 
+We then quantify how quickly this haplotype decays within patches (equation \eqref{eqn:rec_rate_within}) 
+and use this to obtain properties about the equilibrium distribution of haplotype lengths 
+(equation \eqref{eqn:within_haplotype_length}), in section \ref{ss:patch_haplotype}. 
 Finally, in section \ref{ss:applications} we apply this work to understand the geographic scale of
 convergent evolution in \textit{Chaetodipus intermedius}. 
 
 
 
 %%%%%%%%%%%%%
-\section{Methods}
+\section{Results}
 
 %%%
 \subsection{Model of a patchy landscape}
@@ -294,7 +344,7 @@ so that $p(x) = p_e \approx 2 s_p / \xi^2$ within the patch, and $p(x) = 0$ othe
 This approximates the integrand $p(x)$ in \eqref{eqn:exactmutrate} by a step function,
 which will be a good approximation if the patch is large relative the scale over which $p(x)$ goes from 0 to $p_e$,
 or if $p(x)$ is symmetric about the edge of the patch.
-We examine this more generally via exact calculation of $p(x)$ in Appendix \ref{apx:establishment_sims}.
+We examine this more generally via exact calculation of $p(x)$ in Section \ref{apx:establishment_sims}.
 
 The rate at which mutations arise and colonize a patch of area $A$ is then
 \begin{align} \label{eqn:mutrate} 
@@ -1384,13 +1434,10 @@ well together \citep{Kondrashov:03}.
 We would like to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandvain for useful discussions, 
 as well as Gideon Bradburd and the rest of the Coop lab for helpful comments on the manuscript.
 
-
-\bibliography{standing_patches_refs}
-
-\appendix
-
 %%%%%
-\section{Numerical calculation of the probability of establishment}
+\section{Materials \& Methods}
+
+\subsection{Numerical calculation of the probability of establishment}
 \label{apx:establishment_sims}
 
 When rare, under at least some demographic models,
@@ -1436,6 +1483,13 @@ is close to $p_e$ multiplied by the area of the patch.
     \label{fig:prob_estab_calcs}
     }
 \end{figure}
+
+
+
+
+\bibliography{standing_patches_refs}
+
+\appendix
 
 
 %%%%%%%%%%%%
@@ -1801,6 +1855,11 @@ The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing t
 
 %%%%%%%%%%%
 
+
+
+\ifsubmissionversion
+\processdelayedfloats
+\fi
 
 
 
