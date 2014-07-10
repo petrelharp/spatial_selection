@@ -7,6 +7,8 @@
 \usepackage{natbib}
 \usepackage[hidelinks]{hyperref}
 
+\setcounter{secnumdepth}{0}
+
 % \usepackage{cite}
 
 % Use doublespacing - comment out for single spacing
@@ -241,7 +243,7 @@ convergent evolution in \textit{Chaetodipus intermedius}.
 \section*{Results}
 
 %%%
-\subsection*{Model of a patchy landscape}
+\subsection{Model of a patchy landscape}
 \label{ss:patchyspace}
 
 Consider a population spread across a landscape to which it is generally well adapted,
@@ -355,7 +357,7 @@ Assuming that once a mutation becomes established it quickly reaches its equilib
 the time scale on which new patches become colonized by the $B$ allele from new mutation is therefore approximately $1/\mutrate$.
 
 %%%%%%%
-\subsection*{Simulation methods}
+\subsection{Simulation methods}
 \label{ss:simulations}
 
 First we briefly describe the simulations used below for illustration and validation.
@@ -520,7 +522,7 @@ and we can solve for this outflux using the established form for $q(x)$ in \eqre
 
 
 %%%% %%%%
-\subsubsection*{The genealogy of migrant families}
+\subsubsection{The genealogy of migrant families}
 
 To understand the process of adaptation by migration,
 we therefore need to look more closely at the rare families of $B$ alleles 
@@ -609,7 +611,7 @@ to compute the terms of equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_m
 
 
 %%%%%%% %%%%%%%%%%%
-\subsubsection*{The outflux of migrant alleles}
+\subsubsection{The outflux of migrant alleles}
 
 We are approximating the dynamics of the focal allele in the region further away than $r_0$ from the patch
 as the sum of independent migrant families, each of whose dynamics are
@@ -827,7 +829,7 @@ approximately logistically with the distance between the patches, at rate $\sqrt
 
 
 %%%%%%%%%%%%
-\subsubsection*{Multiple patches}
+\subsubsection{Multiple patches}
 Above we worked with two patches separated by distance $R$;
 but these calculations apply as well to multiple patches
 in which the $B$ allele can facilitate local adaptation. 
@@ -1201,7 +1203,7 @@ In applications, this can be compared to equation~\eqref{eqn:haplotype_length}
 for the length of shared haplotype between patches.
 
 %%%%%%%%%%
-\subsection*{Applications} 
+\subsection{Applications} 
 \label{ss:applications}
 % FOR REFERENCE:
 % On Wed, May 28, 2014 at 10:20 AM, Michael Nachman <mnachman@berkeley.edu> wrote:
@@ -1451,7 +1453,7 @@ for helpful comments and discussion of the manuscript.
 %%%%%
 \section*{Materials \& Methods}
 
-\subsection*[Probability of Establishment]{Numerical calculation of the probability of establishment}
+\subsection[Probability of Establishment]{Numerical calculation of the probability of establishment}
 \label{apx:establishment_sims}
 
 When rare, under at least some demographic models,
@@ -1501,7 +1503,7 @@ is close to $p_e$ multiplied by the area of the patch.
 
 
 %%%%%%%%%%%%
-\subsection*[Equilibrium Frequency]{The equilibrium frequency}
+\subsection[Equilibrium Frequency]{The equilibrium frequency}
 \label{apx:eqfreq}
 
 For completeness, and clarity as to the scalings on the relevant parameters,
@@ -1580,7 +1582,7 @@ then the polar form of the Laplacian in $d$ dimensions gives us that \eqref{eqn:
 
 
 %%%%%%%%%%%
-\subsection*[Asymptotics]{Asymptotic solution for the equilibrium frequency} 
+\subsection[Asymptotics]{Asymptotic solution for the equilibrium frequency} 
 \label{apx:asymptotics}
 
 If $q(r)$ is a radially symmetric equilibrium frequency and $\xi(t,x)=q(|x|)$,
@@ -1617,7 +1619,7 @@ where $C$ is a different constant.
 
 
 %%%%%%%%% %%%%%%%%%%%%%%
-\subsection*[Hitting and Occupation]{Hitting and occupation}
+\subsection[Hitting and Occupation]{Hitting and occupation}
 \label{apx:hitting_occupation}
 
 Consider a single migrant family $Z$ beginning at $x$,
@@ -1700,7 +1702,7 @@ In either case, $g(A) \approx 1/(2s_m)$, which is the approximation we use in th
 
 
 %%%%%%% %%%%%%%%%%%%
-\subsection*[Outflux of Families]{The outflux of families}
+\subsection[Outflux of Families]{The outflux of families}
 \label{apx:outflux}
 
 It is of interest to have an expression for the ``outflux of families'',
@@ -1747,6 +1749,7 @@ The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing t
 
 \appendix
 
+\setcounter{secnumdepth}{2}
 
 %%%%%%%
 \section{The exact solution to the equilibrium frequency}
