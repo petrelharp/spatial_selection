@@ -4,16 +4,11 @@
 \usepackage{marginnote}
 \usepackage{graphicx}
 \usepackage{color}
-\usepackage{natbib}
 \usepackage[hidelinks]{hyperref}
 
 \setcounter{secnumdepth}{0}
 
-% \usepackage{cite}
 
-% Use doublespacing - comment out for single spacing
-%\usepackage{setspace} 
-%\doublespacing
 
 % % Text layout
 % \topmargin 0.0cm
@@ -29,24 +24,30 @@
 
 % turn this on to doublespace and put all figures at the very end.
 \newif\ifsubmissionversion
+% \submissionversiontrue
 \submissionversionfalse
-\newif\ifincludesupplement
-\includesupplementfalse
 
 \ifsubmissionversion
-\usepackage{endfloat}
+    \usepackage{endfloat}
+    \usepackage{cite}
+    % Use the PLoS provided bibtex style
+    \bibliographystyle{plos2009}
+    \newcommand{\citep}[1]{\cite{#1}}
+    \newcommand{\citet}[1]{\cite{#1}}
+\else
+    \usepackage{natbib}
+    \bibliographystyle{abbrvnat}
 \fi
+
 
 
 \ifsubmissionversion
 % \linespread{1.6}
-\doublespacing
+%\usepackage{setspace} 
+%\doublespacing
 \fi
 
 
-% Use the PLoS provided bibtex style
-% OR NOT \bibliographystyle{plos2009}
-\bibliographystyle{abbrvnat}
 
 % Remove brackets from numbering in List of References
 \makeatletter
@@ -292,7 +293,7 @@ migration in models of spatially varying selection.
 deterministic models of of this sort.
 \citet{nagylaki1975conditions} and \citet{conley1975application} showed that in one dimension, if the physical width of the patch is less than $(\sigma/\sqrt{2s_p}) \tan^{-1} (\sqrt{s_m/s_p})$, 
 then there is no stable equilibrium with both $b$ and $B$ present,  % see p.603 in Nagylaki
-so that migrational swamping prevents $B$ from establishing \citep[see also][ for a review]{lenormand2002limits}.
+so that migrational swamping prevents $B$ from establishing (see also \citet{lenormand2002limits} for a review).
 \citet{barton1987establishment}, using general theory of \citet{pollak1966survival}, showed  
 that patches must be at least this critical size so that a new mutation has positive probability of establishment
 (in the large population density limit).
@@ -555,7 +556,7 @@ Therefore, if we define $k_e(t)$ to be the chance that the family
 has gone extinct by time $t$, 
 and let $K_t$ be the (random) family size conditioned on nonextinction,
 then by Bayes' rule, $e^{-s_m t} = (1-k_e(t))\E[K_t]$.
-It turns out that if the distribution of offspring numbers is not too heavy-tailed \citep[see][for details]{jagers1975branching},
+It turns out that if the distribution of offspring numbers is not too heavy-tailed (see \citet{jagers1975branching} for details),
 then $K_t$ has a limiting distribution: $K_t \dconv K$,
 and $e^{-s_m t}/(1-k_e(t)) \to \E[K]$ as $t \to \infty$.
 In other words, the chance of survival to time $t$ is a constant multiplied by $e^{-s_m t}$,
@@ -565,7 +566,7 @@ This suggests that families can be well-described by motion of a central ``trunk
 which dies at a random time whose distribution is given by $k_e(t)$,
 and conditional on survival of this trunk, the family is composed of side ``branches'' off of this trunk,
 as depicted in Figure~\ref{fig:branching_decomp}.
-We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary} \citep[see also][]{chauvin1991growing}.
+We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary} (see also \citet{chauvin1991growing}).
 When we condition on survival until $t$, we condition on existence of
 at least one trunk lineage surviving from time $0$ to time $t$ (the long red
 lineage in Figure \ref{fig:branching_decomp}).
@@ -886,7 +887,7 @@ where the local nature of dispersal means that doubling the species range will d
 
 \begin{figure}[ht]
   \begin{center}
-    \includegraphics{sim-transit.pdf}
+      \includegraphics{sim-transit}
   \end{center}
   \caption{
   \textbf{Adaptation by migration:}
@@ -915,7 +916,7 @@ share a fairly long stretch of haplotype.
 Pairs of adapted individuals within a patch will share a haplotype of mean genetic length of
 about $\log(\rho A s_p)/s_p$ around the selected site, 
 as long as the patch is reasonably well mixed by dispersal
-\citep[otherwise see][]{barton2013genetic}.
+(otherwise see \citet{barton2013genetic}).
 This association gets slowly whittled down by recombination during interbreeding at the edge of the patch,
 but there will always be longer LD nearby to the selected site. 
 
@@ -960,7 +961,7 @@ Since $\E[K] \approx 1/s_m$, it is sensible to make one further approximation,
 supposing that the random lifetime of a family is exponentially distributed with mean $1/s_m$.
 Once we do this, 
 we can use standard results on hitting times of $d$-dimensional Brownian motion
-that is killed at rate $s_m$ \citep[see][2.2.0.1 and 4.2.0.1]{borodin2002handbook}.
+that is killed at rate $s_m$ (see \citet{borodin2002handbook} 2.2.0.1 and 4.2.0.1).
 In particular, if the patch is circular with radius $w$ and lies at distance
 $R$ from the already adapted patch, then 
 we know that the Laplace transform of the transit time $\tau$ is
@@ -1116,7 +1117,7 @@ i.e.\ $dt \times q(y) (1+s(y)) m(y,x) / q(x)$.
 This therefore describes the movement of a lineage backwards in time.
 After the same large-population, continuous-space limit that underlies the rest of this paper (section~\nameref{apx:eqfreq}),
 if the assumption that fluctuations in $q(x)$ are small,
-this motion should converge to a diffusion process \citep[as assumed by e.g.][]{hallatschek2008surfing},
+this motion should converge to a diffusion process (as assumed by e.g.\ \citet{hallatschek2008surfing}),
 notwithstanding some technical difficulties (e.g.\ discontinuity of $s(x)$).
 This diffusion, when at $x$, 
 is pulled toward regions with more $B$ alleles
@@ -1253,7 +1254,7 @@ In the other direction, the dark MC1R allele was at 34\% at a site with light su
 These numbers give us a sense of a plausible range of characteristic lengths.
 Assuming the dark allele is at 50\% frequency at the edge of the lava flow, 
 we can fit formula \eqref{eqn:eqfreq} to these frequencies
-\citep[similar to][]{hoekstra2004ecological}.
+(similar to \citet{hoekstra2004ecological}).
 Doing this for Tule we obtain $\sigma/\sqrt{s_m} \approx 3$km, 
 and for O'Neill, $\sigma/\sqrt{s_m} \approx 30$km, giving us a range of cline widths. 
 We also need estimate of $s_m$. 
@@ -1339,7 +1340,7 @@ where the probability of multiple, independently arising adaptive alleles increa
 However, in all of these models the dependence on the beneficial selection
 coefficient is absent or weak, due to the fact that selection both
 aids establishment of new alleles and the spread of existing
-alleles \citep[but see][for the complications of varying population sizes]{Wilson-softsweep}. 
+alleles (but see \citet{Wilson-softsweep} for the complications of varying population sizes). 
 
 We have also shown that
 while weaker selection against alleles will make sharing 
@@ -1400,7 +1401,7 @@ We have also ignored the possibility of very long distance migration,
 instead focusing on local dispersal (and using a Gaussian model).
 However, dispersal distributions can be very heavy tailed, 
 with a small fraction of individuals moving very long distances indeed \citep{levin2003ecology,reynolds2009levy}.
-In addition, over long time-scales, very rare chance events \citep[mice carried off by hurricanes and the like][]{censky1998overwater,nathan2008mechanisms}
+In addition, over long time-scales, very rare chance events (mice carried off by hurricanes and the like \citet{censky1998overwater,nathan2008mechanisms})
 could play a role in spreading migrant alleles if adaptation by other means is sufficiently unlikely.
 Such tail events could greatly increase the probability of parallel adaptation above that predicted by our model. 
 Furthermore, if adaptive alleles do move between distant patches via rare, long distance migration 
@@ -1554,7 +1555,7 @@ First, since this is a first-order differential operator, the limiting stochasti
 is in fact deterministic (check by applying to $f(\Phi) = \Phi(x)^2$ to find the variance).
 Second, if we want to rescale space as well to get the usual differential equation, 
 we need to choose $\var[R]=\sigma^2$ and $s(x)$ to be of the same, small, order; 
-this is another way of seeing that $\sigma/\sqrt{s}$ is the relevant length scale \citep[as noted by][]{slatkin1973geneflow}.
+this is another way of seeing that $\sigma/\sqrt{s}$ is the relevant length scale (as noted by \citet{slatkin1973geneflow}).
 More concretely, suppose that the grid size is $\epsilon \to 0$, 
 that $\var[R] = (\sigma \epsilon)^2$, and that the strength of selection is $s(x) \epsilon$,
 and suppose that $\Phi_t(x)$ is deterministic (and sufficiently differentiable) and let $\xi(t,x) = \Phi_{t/\epsilon}(x)$;
@@ -1610,7 +1611,7 @@ the general solution is
     u(r) = C' (r-r_0)^{(2-d)/2} K_{(2-d)/2} \left( (r-r_0) \sqrt{2s}/\sigma \right) ,
 \end{align}
 where $C'$ and $r_0$ are chosen to match boundary conditions.
-Asymptotics of Bessel functions \citep[][8.451.6]{gradshteyn2007table} then imply that
+Asymptotics of Bessel functions (\citet{gradshteyn2007table}, 8.451.6) then imply that
 \begin{align}
     q(r) \approx C r^{(1-d)/2} \exp \left( -r \sqrt{2s}/\sigma \right) + O(1/r),
 \end{align}
