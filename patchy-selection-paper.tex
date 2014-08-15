@@ -780,11 +780,14 @@ the required distance increases to $R/\sigma > 67$.
 On the other hand, if the separation is much smaller than this transitional value, 
 then adaptations are likely to be shared between patches.
 
-If the influx is higher -- say, $\rho A \mu = .01$,
+If the mutational influx is higher -- say, $\rho A \mu = .01$ --
 the required separation between patches is only reduced to $R/\sigma > 7.3$ with $s_m=.05$.
-If $\rho A \mu = .01$ and $s_m=.001$, then the prediction is that mutation will \emph{always} be faster than migration
--- however, with $s_m=.001$, for the assumption of well-separated patches to hold we would need $R/\sigma > 1/\sqrt{2s_m} = 22.4$;
-therefore, at spatial scales smaller than about 20 dispersal distances the model breaks down.
+If $s_m=.001$, then with this higher mutational influx this calculation predicts that mutation will \emph{always} be faster than migration
+-- however, this is misleading, 
+since with $s_m=.001$, for the assumption of well-separated patches to hold we would need $R/\sigma > 1/\sqrt{2s_m} = 22.4$.
+The correct conclusion is that convergent adaptation is much more likely than shared adaptation
+between patches separated by at least 22.4$\sigma$;
+for shorter separations the model breaks down.
 
 One way to visualize this is by a phase diagram.
 In figure \ref{fig:phase_diagram},
@@ -805,7 +808,7 @@ an important check in applications of these results.
   distance to an already adapted patch in units of dispersal distance ($R/\sigma$),
   strength of deleterious selection ($s_m$),
   and mutation rate scaled by patch area ($\mu A$).
-  The right-hand plot shows that $\migrate$ is relatively insensitive to $s_m$.
+  The right-hand plot shows that $\migrate$ is relatively insensitive to $s_m$ (thanks to the square root).
   The black, dotted line shows values where $\Tmig=\Tmut$.
   Default parameter values were $A=100$, $\rho=10$, $\mu=10^{-8}$, $s_p=0.1$, $s_m=0.01$, $R/\sigma=20$, and $\xi^2=1$.
   Note that population density $\rho$ and mutation influx $A\mu$ are shown on a log scale.
