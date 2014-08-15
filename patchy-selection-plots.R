@@ -10,18 +10,18 @@ require(xtable)
 #  first against characteristic dist and pop density
 #  then agains mutation rate and pop density
 muttime <- function (env) {with(env,1/(A*mu*2*sb*rho))}
-migtime <- function (env) {with(env,1/(const*(sb/sd)*rho*(1/sqrt(cl*sqrt(sd)))*exp(-cl*sqrt(sd))))}
+migtime <- function (env) {with(env,1/(const*(sb*4*sd)*rho*(1/sqrt(cl*sqrt(sd)))*exp(-cl*sqrt(sd))))}
 rhovals <- logseq(1,1e5,length.out=100) # per km^2
-clvals <- seq(1,200,length.out=100)
+clvals <- seq(1,120,length.out=100)
 muvals <- logseq(1e-9,1e-4,length.out=100) 
-sdvals <- logseq(1e-4,1e-1,length.out=100)
+sdvals <- logseq(1e-6,1e-2,length.out=100)
 A <- 100 # km^2
 rho <- 10  # per km^2
 mu <- 1e-8 
 sb <- .1
 sd <- .01
 const <- .5
-cl <- 50  # R/sigma
+cl <- 20  # R/sigma
 clplot <- expand.grid(cl=clvals,rho=rhovals)
 clplot$mut <- muttime(clplot)
 clplot$mig <- migtime(clplot)
@@ -37,7 +37,7 @@ pminmax <- function (x,lower,upper) { pmin(upper,pmax(lower,x)) }
 pdf(file="phase-diagram-log.pdf",width=6,height=3,pointsize=10)
 layout(t(1:2))
 par(mar=c(4,3.5,1,1)+.1)
-levelsets <- 10^c(0,2,4,6)  # which lines to draw
+levelsets <- 10^rev(c(0,1,2,3,4,5,6))  # which lines to draw
 labelsets <- levelsets
 # plot(0,type='n',xlab='',ylab='',xlim=range(clvals),ylim=range(rhovals),log='y')
 # contour( clvals, rhovals, f(clplot$mut), col='red', levels=levelsets, labels=labelsets, method="edge", lwd=2, add=TRUE )
@@ -52,7 +52,7 @@ for (lev in levelsets) { # note rho is log10-scale.
     if (rholev>min(rhovals) & rholev<max(rhovals)) {
         polygon( range(clvals)[c(1,1,2,2)], log10(c(max(rhovals),rholev))[c(1,2,2,1)], border=NA, col=adjustcolor("red",.1) )
     }
-    miglevs <- 1/(const*(sb/sd)*(1/sqrt(clvals*sqrt(sd)))*exp(-clvals*sqrt(sd))*lev)  # migration:
+    miglevs <- 1/(const*(sb*4*sd)*(1/sqrt(clvals*sqrt(sd)))*exp(-clvals*sqrt(sd))*lev)  # migration:
     polygon( c(clvals,rev(clvals)), log10(c( pminmax(miglevs,min(rhovals),max(rhovals)), rep(max(rhovals),length(clvals)) )), border=NA, col=adjustcolor("blue",.1), )
 }
 legend("topleft",bg="white",legend=c(expression(T[scriptstyle(mut)]),expression(T[scriptstyle(mig)])),fill=c("red","blue"))
@@ -71,9 +71,11 @@ for (lev in levelsets) { # note rho and mu are log10-scale.
         polygon( log10(A*c(mulev,max(muvals)))[c(1,1,2,2)], log10(range(sdvals))[c(1,2,2,1)], border=NA, col=adjustcolor("red",.1), )
     }
     # migration:
-    sdlev <- uniroot(f=function(sd) migtime(list(sd=sd))-lev, lower=min(sdvals), upper=max(sdvals))$root
-    if (sdlev>min(sdvals) & sdlev<max(sdvals)) {
-        polygon( log10(A*range(muvals))[c(1,1,2,2)], log10(c(min(sdvals),sdlev))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
+    if (lev > min(sdplot$mig) & lev < max(sdplot$mig)) {
+        sdlev <- uniroot(f=function(sd) migtime(list(sd=sd))-lev, lower=min(sdvals), upper=max(sdvals), tol=1e-8)$root
+        if (sdlev>min(sdvals) & sdlev<max(sdvals)) {
+            polygon( log10(A*range(muvals))[c(1,1,2,2)], log10(c(min(sdvals),sdlev))[c(1,2,2,1)], border=NA, col=adjustcolor("blue",.1), )
+        }
     }
 }
 dev.off()

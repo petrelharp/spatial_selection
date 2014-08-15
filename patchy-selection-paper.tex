@@ -688,7 +688,7 @@ Following this intuition,
 and that $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$,
 it turns out (see section~\nameref{apx:hitting_occupation}) that
 \begin{align} 
-  h_A(x,y) \approx \frac{ g(A) }{ \E[K] } u(x,y),
+    h_A(x,y) \approx \frac{ u(x,y) }{ \E[K] g(A) } ,
 \end{align}
 where $g(A)$ is the total expected occupation time of the patch given the family arrives.
 Recall that $\E[K]$ is the expected family size after a large number of generations, given survival.
@@ -702,13 +702,12 @@ if each member arriving has chance $p_e$ of establishing, independently.
 % \begin{align}
 %   s(w) \simeq \frac{1}{2s_m} \left( 1 - \left( \frac{\pi w \sqrt{2 s_m}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2s_m}/\sigma} \right).
 % \end{align}
-Combining with expressions for $g(A)$ in section~\nameref{apx:hitting_occupation},
+Combining with the fact that $g(A)\approx 1/(2s_m)$ (see section~\nameref{apx:hitting_occupation}, in particular equation \eqref{eqn:q_migrate_relation}),
 we obtain that
 \begin{align}
   \label{eqn:migrate} 
-  \migrate(y) &\approx q(y) \times \frac{ \rho s_p  }{ \xi^2 s_m }  \\
-  % \left( 1 - \left( \frac{\pi w \sqrt{2 s_m}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2s_m}/\sigma} \right).
-  &\approx C \frac{ \rho s_p  }{ \xi^2 s_m } \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma) .
+  \migrate(y) &\approx q(y) \times \frac{ 4 \rho s_p  s_m }{ \xi^2 }  \\
+  &\approx C \frac{ 4 \rho s_p s_m }{ \xi^2 } \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma) .
 \end{align}
 This does not depend on $A$, because although
 $f(A)$ and $g(A)$ in principle depend on the patch size (and geometry),
@@ -749,38 +748,43 @@ for the effective rates of adaptation by new mutation and by migration.
 We work in one dimension, as the square root term appearing for two dimensions is relatively unimportant (see figure~\ref{fig:sim_occupation_freqs}).
 
 An important point to notice is that effective migration and mutation rates will be on the same order if 
-$A \mu \approx (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
+$A \mu \approx 2 s_m \exp(- R \sqrt{2 s_m} / \sigma)$,
 where $R$ is the distance between the patches,
 and $A$ is the area of the not-yet-adapted patch.
 In other words, the migrational analogue of ``mutational influx'' ($\mu \rho A$) 
-is $\rho (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$,
+is $2 \rho s_m \exp(- R \sqrt{2 s_m} / \sigma)$,
 which depends fairly strongly on the selective disadvantage $s_m$ between patches.
+% Note in particular that if $2 s_m < \mu A$ then migration is always slower than new mutation.
 Equivalently, the rates are roughly equal if
-$R/\sigma = \log(1/(s_m A \mu))/\sqrt{2s_m}$,
+$R/\sigma = \log(2 s_m/(A \mu))/\sqrt{2s_m}$,
 which gives the critical gap size past which adaptation will be mostly parallel
 in terms of selection coefficients, patch size, and mutation rate.
 
-% ss <- 10^(-(1:6))
-% log(1/ss)
-% 1/sqrt(2*ss)
-% sm <- .05; (-log(c(1e-3,1))-log(sm))/sqrt(2*sm)
-% sm <- .001; (-log(c(1e-3,1))-log(sm))/sqrt(2*sm)
-% (7+log(1/ss))/sqrt(2*(ss))
-% (7+log(1/(.5*ss)))/sqrt(2*(.5*ss))
+% cdist <- function (sm,z) { (-log(z)+log(2*sm))/sqrt(2*sm) }
+% cdist(c(.05,.001),z=1e-4)
+% cdist(c(.05,.001),z=1e-2)
+% cdist(c(.05,.001),z=1)
+% ss <- exp(seq(log(1e-6),log(1e-2),length.out=100))
+% plot( ss, cdist(sm=.001,z=ss), type='l', log='x', xlab='mutation influx', ylab='R/sigma' )
+% lines( ss, cdist(sm=.05,z=ss), col='red')
+% abline(h=0,lty=2)
 
-If we take the mutational influx in a patch to be one per 1,000 generations ($\rho A \mu = .001$)
-and the population density to be 1 ($\rho =1$, so $-\log(A\mu)\approx 7$)
-then adaptation is mostly parallel for patches separated by gaps larger than $R/\sigma > (7-\log(s_m))/\sqrt{2s_m}$.
+If we take the mutational influx in a patch to be one per 10,000 generations ($\rho A \mu = .0001$)
+and the population density to be 1 ($\rho =1$, so $-\log(A\mu)\approx 9.2$)
+then adaptation is mostly parallel for patches separated by gaps larger than $R/\sigma > (9.2+\log(2s_m))/\sqrt{2s_m}$.
 If the selective pressure is fairly strong (say, $s_m=.05$),
-then for migration to be slower than mutation,
-the distance between patches must be at least 31.6 times the dispersal
-distance (i.e.\ $R/\sigma > 31.6$) for convergence to occur.
+then for convergence to be likely,
+the distance between patches must be at least 21.8 times the dispersal distance (i.e.\ $R/\sigma > 21.8$).
 If $s_m$ is much smaller, say $s_m = .001$, 
-then the patches must be separated by several hundred times the dispersal distance (i.e.\ $R/\sigma > 308$).
-The situation does not change much if the influx is quite a bit higher -- even if $A \mu = 1$,
-the required separation between patches is only reduced to $R/\sigma > 9.5$ with $s_m=.05$ and $R/\sigma>154$ for $s_m=.001$.
+the required distance increases to $R/\sigma > 67$.
 On the other hand, if the separation is much smaller than this transitional value, 
 then adaptations are likely to be shared between patches.
+
+If the influx is higher -- say, $\rho A \mu = .01$,
+the required separation between patches is only reduced to $R/\sigma > 7.3$ with $s_m=.05$.
+If $\rho A \mu = .01$ and $s_m=.001$, then the prediction is that mutation will \emph{always} be faster than migration
+-- however, with $s_m=.001$, for the assumption of well-separated patches to hold we would need $R/\sigma > 1/\sqrt{2s_m} = 22.4$;
+therefore, at spatial scales smaller than about 20 dispersal distances the model breaks down.
 
 One way to visualize this is by a phase diagram.
 In figure \ref{fig:phase_diagram},
@@ -801,8 +805,9 @@ an important check in applications of these results.
   distance to an already adapted patch in units of dispersal distance ($R/\sigma$),
   strength of deleterious selection ($s_m$),
   and mutation rate scaled by patch area ($\mu A$).
+  The right-hand plot shows that $\migrate$ is relatively insensitive to $s_m$.
   The black, dotted line shows values where $\Tmig=\Tmut$.
-  Default parameter values were $A=100$, $\rho=10$, $\mu=10^{-8}$, $s_p=0.1$, $s_m=0.01$, $R/\sigma=50$, and $\xi^2=1$.
+  Default parameter values were $A=100$, $\rho=10$, $\mu=10^{-8}$, $s_p=0.1$, $s_m=0.01$, $R/\sigma=20$, and $\xi^2=1$.
   Note that population density $\rho$ and mutation influx $A\mu$ are shown on a log scale.
   \label{fig:phase_diagram}
   }
@@ -823,7 +828,7 @@ and decrease with population density and beneficial selection coefficient.
 Furthermore, the probability that the second adaptation is a new mutation,
 i.e.\ the probability of parallel adaptation, is 
 \begin{equation} \label{eqn:parallel_prob}
-  \frac{\mutrate}{\mutrate+\migrate(R)} = \frac{ A \mu s_m }{2 A \mu s_m + \left(R \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2}\exp\left(- \sqrt{2 s_m} R / \sigma \right) },  
+    \frac{\mutrate}{\mutrate+\migrate(R)} = \frac{ A \mu / (2s_m) }{ A \mu / (2s_m) + \left(R \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2}\exp\left(- \sqrt{2 s_m} R / \sigma \right) },  
 \end{equation}
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches, at rate $\sqrt{s_m} /\sigma$. 
@@ -848,7 +853,7 @@ Suppose that patches $1, \ldots, k$ are already adapted,
 and that these patches are at distances $R_1, \ldots, R_k$ away from this unadapted patch.
 The total rate of adaptation through migration, from equation \eqref{eqn:migrate}, is
 \begin{equation} \label{eqn:total_migrate}
-  \sum_{i=1}^k \migrate(R_i) = C \frac{ \rho s_p }{\xi^2 s_m} \sum_{i=1}^{k} \left(R_i \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2} \exp\left(- R_i \sqrt{2 s_m} /\sigma\right).
+  \sum_{i=1}^k \migrate(R_i) = C \frac{ 4 \rho s_p s_m }{\xi^2} \sum_{i=1}^{k} \left(R_i \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2} \exp\left(- R_i \sqrt{2 s_m} /\sigma\right).
 \end{equation}
 If the patch adapts through migration, the probability the adapted allele 
 comes from patch $i$ is 
@@ -875,7 +880,7 @@ and the probability of migration is the same between each pair of patches.
 The resulting process is a continuous-time version of the ``Chinese restaurant process''
 described in \citet{aldous1985exchangeability} and \citet{pitman1995partitions},
 and so the final partition of types across demes has the Ewens
-sampling distribution with parameter $A \mu s_m/ \exp (-\sqrt{2 s_m}R/\sigma)$.
+sampling distribution with parameter $A \mu / (4 s_m \exp (-\sqrt{2 s_m}R/\sigma))$.
 Now we can compute most properties we might want about the process.
 For instance, the proportion of demes that shares the same origin as a randomly sampled deme
 is approximately Beta distributed -- see \cite{donnelly1989continuity}.
@@ -1355,9 +1360,9 @@ identification of shared adaptations to old selection pressures difficult.
 Perhaps the most useful rule-of-thumb quantities we found were the following.
 The effective rate of migration into an as-yet-unadapted patch from an already-adapted patch distance $R$ away 
 -- the analogue of the mutational influx $\mu \rho A$ --
-is $\rho (1/s_m) \exp(- R \sqrt{2 s_m} / \sigma)$.
+is $2 \rho s_m \exp(- R \sqrt{2 s_m} / \sigma)$.
 Equivalently, the critical gap size between patches past which adaptation is likely independent
-is $R = (\sigma/\sqrt{2s_m}) \log(1/(s_m A \mu))$.
+is $R = (\sigma/\sqrt{2s_m}) \log(2s_m/(A \mu))$.
 Finally, successfully transiting migrant lineages move at rate $\sigma \sqrt{2s_m}$,
 and so shared haplotype lengths between patches will be of order $R/(\sigma \sqrt{2s_m})$.
 
@@ -1675,7 +1680,7 @@ then by equations~\eqref{eqn:occupation_integral} and \eqref{eqn:migrate_integra
 \begin{align}
     q(S)  &= \int_{\partial B(r_0)} \gamma(x) u(x,S) dx  \\
           &\approx g(A) \E[K] \int_{\partial B(r_0)} \gamma(x) h(x,S) dx \\
-          &= \frac{ g(A) \E[K] }{ \rho f(A) } \migrate(y) .
+          &= \frac{ g(A) \E[K] }{ \rho f(A) } \migrate(y) . \label{eqn:q_migrate_relation}
 \end{align}
 The function $g(A)$ is the expected amount of time that a Brownian motion begun on the edge of a disk of area $A$
 is expected to spend inside the disk before $\tau_\dagger$.
