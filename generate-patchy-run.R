@@ -58,11 +58,13 @@ for (x in gsub("^([^ <=]*[ <=])","params$\\1",grep(";",opts,value=TRUE,invert=TR
 
 if (!exists("run.id")) { run.id <- floor(runif(1)*100000) }
 
-filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-pophistory-run.Rdata",sep="")
-run.list <- list.files(".","*-pophistory-run.Rdata")
-while (filename %in% run.list) {  # make sure don't overwrite something
-    run.id <- floor(runif(1)*10000)
-    filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-pophistory-run.Rdata",sep="")
+if (!exists("filename")) { 
+    filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-N",params$N,"-pophistory-run.Rdata",sep="")
+    run.list <- list.files(".","*-pophistory-run.Rdata")
+    while (filename %in% run.list) {  # make sure don't overwrite something
+        run.id <- floor(runif(1)*10000)
+        filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-pophistory-run.Rdata",sep="")
+    }
 }
 if (!interactive()) {
     logfile <- gsub(".Rdata",".Rout",filename,fixed=TRUE)

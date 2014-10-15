@@ -107,7 +107,7 @@ generation <- function (pop) {
             }
             for (k in 1:dim(pop$n)[3]) {
                 nmuts <- rbinom(1, sum(pop$n[,,k]), pop$params$mu)  # how many mutants are produced from type k
-                if (nmuts>maxmuts) { stop("Too many mutations!") }  # can't deal with too many
+                if (nmuts>100) { stop("Too many mutations!") }  # can't deal with too many
                 if (nmuts>0) for (ell in 1:nmuts) {
                     newtype <- sample((1:dim(pop$n)[3])[smallAreas],1)  # what type is it
                     newloc <- which(rmultinom(1,1,pop$n[,,k]) > 0)      # where is it
