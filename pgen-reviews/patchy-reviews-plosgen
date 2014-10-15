@@ -1,0 +1,221 @@
+Dear Dr Ralph,
+
+Thank you very much for submitting your Research Article entitled 'Convergent
+Evolution During Local Adaptation to Patchy Landscapes' to PLOS Genetics. Your
+manuscript was fully evaluated at the editorial level and by independent peer
+reviewers. The reviewers appreciated the attention to an important problem, but
+raised some substantial concerns about the current manuscript. Based on the
+reviews, we will not be able to accept this version of the manuscript, but we
+would be willing to review again a much-revised version. We cannot, of course,
+promise publication at that time.
+
+Should you decide to revise the manuscript for further consideration here, your
+revisions should address the specific points made by each reviewer. We will
+also require a detailed list of your responses to the review comments and a
+description of the changes you have made in the manuscript.
+
+If you decide to revise the manuscript for further consideration at PLOS
+Genetics, please aim to resubmit within the next 60 days, unless it will take
+extra time to address the concerns of the reviewers, in which case we would
+appreciate an expected resubmission date by email to plosgenetics@plos.org.
+
+If present, accompanying reviewer attachments are included with this email;
+please notify the journal office if any appear to be missing. They will also be
+available for download from the link below. You can use this link to log into
+the system when you are ready to submit a revised version having first
+consulted our Submission Checklist
+http://www.plosgenetics.org/static/checklist.action.  Please note, PLOS has
+incorporated CrossCheck (http://www.crossref.org/crosscheck.html), powered by
+iThenticate, into its journal-wide submission system in order to screen
+submitted content for originality before publication. Each PLOS journal
+undertakes screening on a proportion of submitted articles. You will be
+contacted if needed following the screening process.
+
+You should also be aware that as part of our data availability policy we do not
+permit the inclusion of phrases such as "data not shown" or "unpublished
+results" in manuscripts. All points should be backed up by data provided with
+the submission.
+
+To resubmit, please use the link below and 'Revise Submission' in the
+'Submissions Needing Revision' folder.
+
+%REVIEWER_ATTACH_DEEP_LINK%
+
+We are sorry that we cannot be more positive about your manuscript at this
+stage. Please do not hesitate to contact us if you have any concerns or
+questions.
+
+Yours sincerely,
+
+Philipp W Messer
+Guest Editor
+PLOS Genetics
+
+Carlos Bustamante
+Section Editor: Evolution
+PLOS Genetics
+
+
+Dear Peter and Graham:
+
+I am serving as a guest editor for your manuscript at PLoS Genetics. The
+reviewers find that the manuscript addresses an interesting problem and I fully
+agree with them on this evaluation. All three reviewers have also requested
+major revisions to the manuscript.
+
+As can you see from the reviews, two general points were raised by all
+reviewers and I feel that thoroughly addressing both of these points poses a
+prerequisite for further consideration of the manuscript:
+
+(i) There needs to be some sort of numerical verification (e.g. with
+individual-based simulations) to test the main conclusions, check their
+robustness, and identify the parameter ranges for which they hold.
+
+(ii) The presentation of the main result needs to be improved. In particular,
+all reviewers feel that the main result can be derived in a simpler and more
+intuitive way. I agree with them that at present the manuscript is overly
+technical and would benefit strongly from a more intuitive derivation of the
+results and discussion of the assumptions under which they hold. The reviewers
+provide detailed suggestions on how this can be achieved.
+
+In addition to the above points, the reviewers also made a number of other
+comments and suggestions, which by and large appear very reasonable and should
+also be addressed in a revised submission.
+
+Sincerely,
+
+Philipp Messer
+
+
+-----------------------------
+
+Reviewer #1: 
+
+The authors study the relative importance of migration and convergent evolution
+for the spread of alleles that are beneficial in isolated patches embedded in a
+large background population in which these alleles are deleterious. The basic
+model includes diffusive spread in one or two dimensions with logistic
+selection on the alleles at constant carrying capacity.
+
+The authors build on previous results for the steady state frequency
+distribution of alleles in habitats with spatially varying selection. This
+frequency decreases exponentially with length scale \sigma/\sqrt{2 s}.
+
+While the authors attempt to provide some intuitive insight into the results,
+the reader still needs to work through a lot of math. I would advocate to give
+an extended discussion of the intuition and heuristics the authors developed to
+complement the analytical treatment. Am I right that the basic argument is the
+following:
+
+A migrant family in unfavorable territory will be typically of size n ~ 1/s
+(s=s_m), stick around for a time tau ~ 1/s and be spread out over l ~
+\sigma/sqrt(s). Given an equilibrium density \rho*q(x), we need an arrival rate
+of migrant families of
+
+k ~ \rho q(x) l/n/tau ~ \rho q(x) l s^2
+
+(smaller rates with larger families and longer sojourn time). The probability
+of establishment of at least one member of family is then
+
+P_est = 1 - exp(-p n) ~ 1 - exp(-p_e/s)
+
+where p_e is the establishment probability of a single individual. The result
+for lambda_mig will then depend on whether p_e/s is large or small.
+
+for p_e/s large,
+
+lambda_mig = \rho q(x) s^2 l
+
+otherwise,
+
+lambda_mig = \rho q(x) s l p_e
+
+The latter is the case discussed in the manuscript. The other is important too
+and should be discussed. I don't seem to be able to identify the equivalent of
+l in the author's formulae, but I believe it should be there. After all, rho
+q(x) is a density and needs to be multiplied by a length (or area in d=2) to
+give a meaningful rate.
+
+To assess the accuracy of the various approximations made, the process should
+be simulated and the measured rates explicitly compared to analytical
+predictions.
+
+
+Other issues:
+
+- long range migration. All results depend exponentially on the distance, which
+  is a consequence of the model only allowing for short range dispersal. Rare
+long range dispersal will alter all these rates dramatically, see for example
+recent work by Hallatschek and Fisher.
+
+- Fig 4: Why not use natural units for the axis of these plots:
+  R\sqrt(s)/\sigma, rho mu A/s
+
+- in the discussion on page 10 "probability of parallel adaptation.." it should
+  be noted that many of the scenarios at high mutation influx are quite
+hypothetical. While the colonization of migrants might dominate over local
+adaptation, this argument assumes that the migrants are at equilibrium
+frequency. The transient to reach this equilibrium might be much longer than
+the time required for de novo local adaptation.
+
+- I would like to thank the authors for providing a sensibly arranged pdf (with
+  figures and legends in the right place etc.).
+
+
+-----------------------------
+
+
+Reviewer #2: See attachment.
+
+-----------------------------
+
+
+Reviewer #3:
+
+The manuscript provides us with some high-quality and innovative theory on
+a very relevant topic [convergent evolution vs. parallel adaptation]. The
+presentation of the results is admirably clear in some parts (but less so
+in others). I also like the way how you link abstract theory to concrete
+biological examples. Although many empirical estimates are very rough, we
+do get biological meaning attached to the model parameters and also some
+biologically interpretable predictions. The main result that there should
+be a lot of convergent evolution in patchy landscapes with short-range
+migration is both relevant and robust.
+
+This said, I have several issues that I'd like to see resolved. I also
+have some suggestions concerning the presentation. I have added a lot of
+detailed (and mostly minor) comments to the ms pdf file, which I include
+as attachment with this review. Below, there is just a list of the key
+points:
+
+1a. What I miss is a clearer discussion of the scope and limits of the
+main results. Take Eq. 13: in its revised form, this is a non-monotonic
+function of the selection coefficient s_m. I am almost sure that this is
+an artefact and that the parameter range of the theory needs to be
+restricted to the part where the transition probability declines with s_m.
+But it is not easy to see how this needs to be done in a prober way. We
+certainly need a minimal distance among patches. On top of that, we may
+need a lower bound for s_m. Both these restrictions (or any other) should
+not be just ad-hoc, but motivated from within the theory (see my remarks
+at eq. 13).
+
+1b. Linked to this: Figure 4, right panel, shows results in a parameter
+range where (I think) the theory does not apply.
+
+1c. Also linked to this: I believe your theory is sound, but it is really
+tricky to clearly define its range of application and also to see how good
+it is quantitatively. Bottom line: we need individual-based simulations to
+test at least some of the main conclusions. E.g.: do simulations for 2
+patches in 1d to test the predicted demarcation line between the
+"mutation" and the "migration" regime. Do this for several parameter
+choices to test the limits of the theory.
+
+2. Section "outflux of migrant alleles": I found this section much less
+clear than others and have made suggestions for a clearer presentation
+(see ms).
+
+3. Section "length of shared haplotype": This is very handwavy and
+(without simulation backup) I find it hard to believe that these results
+are accurate. Since it is also not central to the paper, the section
+should maybe just be dropped.
+
