@@ -16,7 +16,7 @@ cd $BASEDIR
 JOBNUM=$(echo $PBS_JOBID | sed -e 's/\..*//')
 if [ $JOBNUM == "" ]; then JOBNUM=$RANDOM; fi
 
-source /usr/usc/R/3.0.2/setup.sh
+source /home/rcf-40/pralph/cmb/bin/R-setup-usc.sh
 
 Rscript generate-patchy-run.R "run.id=$JOBNUM" $ARGS
 

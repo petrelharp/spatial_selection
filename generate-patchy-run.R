@@ -66,6 +66,7 @@ if (!exists("filename")) {
         filename <- paste(run.id,"-r",paste(params$range,collapse="-"),"-sb",params$sb,"-sm",params$sm,"-pophistory-run.Rdata",sep="")
     }
 }
+if (exists("outdir")) { filename <- paste(outdir,"/",filename,sep='') }
 if (!interactive()) {
     logfile <- gsub(".Rdata",".Rout",filename,fixed=TRUE)
     logcon <- file(logfile,open="wt")
