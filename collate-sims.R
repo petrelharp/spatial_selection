@@ -15,17 +15,22 @@ if (FALSE) { # for cleanup
 
 # df.simfiles <- tapply( list.simfiles, sapply( list.simfiles, length ), function (x) do.call( rbind, x ) )
 # simfiles <- data.frame( rbind( df.simfiles[[2]], cbind( df.simfiles[[1]][,1], NA, df.simfiles[[1]][,-1] ) ) )
-simfiles <- do.call( rbind, list.simfiles )
-
-names(simfiles) <- c("sm","R","N","dims","filename")
+simfiles <- as.data.frame( do.call( rbind, list.simfiles ) )
+if (ncol(simfiles)==5) {
+    names(simfiles) <- c("sm","R","N","dims","filename")
+} else {
+    names(simfiles) <- c("sm","N","dims","filename")
+}
 
 sim.params <- lapply( file.path(basedir,raw.simfiles), function (x) {
             load(x)
-            atimes <- adapttime.1D(pophist)
             atime.vals <- rep(NA, 6)
             names(atime.vals) <- c( paste("final",0:2,sep=''), paste("time",0:2,sep='') )
-            atime.vals[1:nrow(atimes)] <- atimes$final
-            atime.vals[3+(1:nrow(atimes))] <- atimes$time
+            if (min(pophist$pop$params$range)==1) {
+                atimes <- adapttime.1D(pophist)
+                atime.vals[1:nrow(atimes)] <- atimes$final
+                atime.vals[3+(1:nrow(atimes))] <- atimes$time
+            }
             c( pophist$pop$params[c("mu","r","m","N","range","ntypes","sb","sm","nsteps","stepsize","sigma")], atime.vals )
         } )
 
