@@ -235,6 +235,26 @@ getequilibrium <- function (params,nreps=1000,keep.convergence=FALSE, init=0.5 )
 
 
 ####
+# Finding adaptation times in sims
+
+adapttime.1D <- function (pophist) {
+    # Find the patches
+    s <- as.vector(pophist$pop$params$s)
+    patchnum <- (s>0)*c(0,cumsum(diff(s>0)>0))  # works in 1D
+    # mean frequency in each patch in leat 80% of runs
+    finalfreqs <- tapply( rowMeans( pophist$pophist[,,2,seq(.8*dim(pophist$pophist)[4],dim(pophist$pophist)[4])] ), patchnum, mean )/pophist$pop$params$N
+    # trajectory of mean frequencies in each patch
+    meanfreqs <- apply( pophist$pophist[,,2,] , 2, tapply, patchnum, mean )/pophist$pop$params$N
+    # these patches seem to have adapted
+    adapted <- ( finalfreqs > 2*finalfreqs[1] )
+    # when is "adaptation"? last time passes max for unadapted patch
+    thresh <- max(meanfreqs[1,])
+    adapttimes <- apply( meanfreqs, 1, function (x) { length(x)-which.min(rev(x>thresh)) } )
+    return( data.frame( patch=seq_along(finalfreqs)-1, final=finalfreqs, adapted=adapted, time=adapttimes ) )
+}
+
+
+####
 # Plotting
 
 colorRampTrans <- function (basecol, n=12) {
