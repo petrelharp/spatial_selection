@@ -17,12 +17,10 @@ mutsims$adapted <- ( mutsims$final1 > 0.5 ) & ( mutsims$dims == "1D" )
 mutsims$adapttime <- mutsims$time1
 
 with( subset(mutsims,adapted), {
-        x <- log(N)/gb
-        layout(t(1:2))
-        plot( muttime, adapttime, log='xy' ) 
-        plot( x, muttime-adapttime, log='x' ) 
-        points( sort(unique(x)), tapply(muttime-adapttime,factor(x,levels=sort(unique(x))),mean,na.rm=TRUE), col='red', cex=2 )
-        resid.lm <- lm( muttime-adapttime ~ x )
+        x <- log(N)/gb + size1/2 / ( sigma * sqrt(gb) ) 
+        plot( x, adapttime-muttime, log='x' ) 
+        points( sort(unique(x)), tapply(adapttime-muttime,factor(x,levels=sort(unique(x))),mean,na.rm=TRUE), col='red', cex=2 )
+        resid.lm <- lm( adapttime-muttime ~ x )
         abline(coef(resid.lm),untf=TRUE)
         coef(resid.lm)
     } )
@@ -44,7 +42,9 @@ for ( smval in 1:nlevels(mutsims$sm.name) ) {
 legend("bottomright", legend=levels(mutsims$sm.name), pch=20, col=1:nlevels(mutsims$sm.name) )
 
 
-pairs( mutsims[c("time1", "muttime", "final1", "sm", "N") ], col=1+!mutsims$adapted, pch=20 )
+pairs( mutsims[c("time1", "hit100.1", "muttime", "final1")  ], 
+    upper.panel=function (x,y,...) { plot(x,y,...,col=mutsims$sm.name) }, 
+    lower.panel=function (x,y,...) { plot(x,y,...,col=mutsims$N.name) }, 
 
 layout(t(1:2))
 with( mutsims, plot( final1, time1, col=sm.name, pch=1+!adapted ) )
