@@ -6,7 +6,7 @@ if (!interactive()) { basedir <- commandArgs(TRUE)[1] }
 
 source("sim-patchy-selection-fns.R")
 
-oname <- paste( gsub("/$","",basedir), "-examples.pdf" )
+oname <- paste( gsub("/$","",basedir), "-examples.pdf", sep='' )
 
 # number of each to choose
 nsims <- 2
@@ -17,6 +17,7 @@ layout(matrix(1:8,ncol=2,byrow=TRUE))
 recurse.dir <- function (dirname,pos=list()) {
     newpos <- c(pos,dirname)
     newpath <- do.call(file.path,newpos)
+    cat(newpath,"\n")
     subdirs <- list.dirs(path=newpath,recursive=FALSE,full.names=FALSE)
     for (subdir in subdirs) { recurse.dir(subdir,newpos) }
     raw.simfiles <- list.files( newpath, pattern=".*Rdata" )
