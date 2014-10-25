@@ -20,11 +20,13 @@ recurse.dir <- function (dirname,pos=list()) {
     raw.simfiles <- list.files( newpath, pattern=".*Rdata" )
     for ( fname in raw.simfiles[sample.int(length(raw.simfiles),min(length(raw.simfiles),nsims))] ) {
         load(file.path(newpath,fname))
-        plotpophist(pophist, main=fname)
-        freqs <- pophist$pophist[,,2,]/pophist$pop$params$N
-        matplot(freqs[,floor(seq(1,ncol(freqs),length.out=25))],type='l', col=heat.colors(25), ylim=c(0,1), main=paste(pos,sep=' '))
-        ss <- as.vector(pophist$pop$params$s)
-        lines( (ss-min(ss))/diff(range(ss)), col='black', lty=2, lwd=2 )
+        if (min(pophist$pop$params$range)==1) {
+            plotpophist(pophist, main=fname)
+            freqs <- pophist$pophist[,,2,]/pophist$pop$params$N
+            matplot(freqs[,floor(seq(1,ncol(freqs),length.out=25))],type='l', col=heat.colors(25), ylim=c(0,1), main=paste(pos,sep=' '))
+            ss <- as.vector(pophist$pop$params$s)
+            lines( (ss-min(ss))/diff(range(ss)), col='black', lty=2, lwd=2 )
+        }
     }
 }
 
