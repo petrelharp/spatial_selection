@@ -11,9 +11,6 @@ oname <- paste( gsub("/$","",basedir), "-examples.pdf", sep='' )
 # number of each to choose
 nsims <- 2
 
-pdf(file=oname, width=8, height=10.5, pointsize=10 )
-layout(matrix(1:8,ncol=2,byrow=TRUE))
-
 recurse.dir <- function (dirname,pos=list()) {
     newpos <- c(pos,dirname)
     newpath <- do.call(file.path,newpos)
@@ -30,5 +27,10 @@ recurse.dir <- function (dirname,pos=list()) {
         lines( (ss-min(ss))/diff(range(ss)), col='black', lty=2, lwd=2 )
     }
 }
+
+pdf(file=oname, width=8, height=10.5, pointsize=10 )
+layout(matrix(1:8,ncol=2,byrow=TRUE))
+
+recurse.dir(basedir)
 
 dev.off()
