@@ -1,0 +1,3 @@
+- do more values of N: 50, 200, 600, 800, 1000, 1200
+- not with sm=1e-4
+- and with mu=1e-6
