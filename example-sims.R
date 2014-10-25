@@ -21,6 +21,7 @@ recurse.dir <- function (dirname,pos=list()) {
     for ( fname in raw.simfiles[sample.int(length(raw.simfiles),min(length(raw.simfiles),nsims))] ) {
         load(file.path(newpath,fname))
         if (min(pophist$pop$params$range)==1) {
+            cat("  ", fname,"\n")
             plotpophist(pophist, main=fname)
             freqs <- pophist$pophist[,,2,]/pophist$pop$params$N
             matplot(freqs[,floor(seq(1,ncol(freqs),length.out=25))],type='l', col=heat.colors(25), ylim=c(0,1), main=paste(pos,sep=' '))
