@@ -250,7 +250,7 @@ adapttime.1D <- function (pophist) {
     adapted <- ( finalfreqs > 2*finalfreqs[1] )
     # when is "adaptation"? last time passes max for unadapted patch
     thresh <- max(meanfreqs[1,])
-    adapttimes <- apply( meanfreqs, 1, function (x) { length(x)-which.min(rev(x>thresh)) } )
+    adapttimes <- pophist$pop$params$stepsize * apply( meanfreqs, 1, function (x) { length(x)-which.min(rev(x>thresh)) } )
     return( data.frame( patch=seq_along(finalfreqs)-1, final=finalfreqs, adapted=adapted, time=adapttimes, size=as.vector(patchsize) ) )
 }
 
