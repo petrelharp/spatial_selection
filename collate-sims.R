@@ -24,12 +24,13 @@ if (ncol(simfiles)==5) {
 
 sim.params <- lapply( file.path(basedir,raw.simfiles), function (x) {
             load(x)
-            atime.vals <- rep(NA, 6)
-            names(atime.vals) <- c( paste("final",0:2,sep=''), paste("time",0:2,sep='') )
+            atime.vals <- rep(NA, 3*3)
+            names(atime.vals) <- c( paste("final",0:2,sep=''), paste("time",0:2,sep=''), paste("size",0:2,sep='')  )
             if (min(pophist$pop$params$range)==1) {
                 atimes <- adapttime.1D(pophist)
                 atime.vals[1:nrow(atimes)] <- atimes$final
                 atime.vals[3+(1:nrow(atimes))] <- atimes$time
+                atime.vals[2*3+(1:nrow(atimes))] <- atimes$size
             }
             c( pophist$pop$params[c("mu","r","m","N","range","ntypes","sb","sm","nsteps","stepsize","sigma")], atime.vals )
         } )
