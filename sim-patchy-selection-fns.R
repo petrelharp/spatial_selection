@@ -244,6 +244,8 @@ adapttime.1D <- function (pophist) {
     patchsize <- table(patchnum)
     # mean frequency in each patch in leat 80% of runs
     finalfreqs <- tapply( rowMeans( pophist$pophist[,,2,seq(.8*dim(pophist$pophist)[4],dim(pophist$pophist)[4])] ), patchnum, mean )/pophist$pop$params$N
+    # total numbers in each patch
+    patchcounts <- apply( pophist$pophist[,,2,] , 2, tapply, patchnum, sum )
     # trajectory of mean frequencies in each patch
     meanfreqs <- apply( pophist$pophist[,,2,] , 2, tapply, patchnum, mean )/pophist$pop$params$N
     # these patches seem to have adapted
@@ -251,7 +253,8 @@ adapttime.1D <- function (pophist) {
     # when is "adaptation"? last time passes max for unadapted patch
     thresh <- max(meanfreqs[1,])
     adapttimes <- pophist$pop$params$stepsize * apply( meanfreqs, 1, function (x) { length(x)-which.min(rev(x>thresh)) } )
-    return( data.frame( patch=seq_along(finalfreqs)-1, final=finalfreqs, adapted=adapted, time=adapttimes, size=as.vector(patchsize) ) )
+    hit100 <- pophist$pop$params$stepsize * apply( patchcounts, 1, function (x) { length(x)-which.min(rev(x>100)) } )
+    return( data.frame( patch=seq_along(finalfreqs)-1, final=finalfreqs, adapted=adapted, time=adapttimes, hit100=hit100, size=as.vector(patchsize) ) )
 }
 
 
