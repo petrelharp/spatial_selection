@@ -16,6 +16,7 @@ recurse.dir <- function (dirname,pos=list()) {
     newpath <- do.call(file.path,newpos)
     cat(newpath,"\n")
     subdirs <- list.dirs(path=newpath,recursive=FALSE,full.names=FALSE)
+    subdirs <- subdirs[order( as.numeric(gsub("[^0-9]","",subdirs)) )]
     for (subdir in subdirs) { recurse.dir(subdir,newpos) }
     raw.simfiles <- list.files( newpath, pattern=".*Rdata" )
     for ( fname in raw.simfiles[sample.int(length(raw.simfiles),min(length(raw.simfiles),nsims))] ) {
