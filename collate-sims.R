@@ -24,7 +24,7 @@ if (ncol(simfiles)==5) {
 
 sim.params <- lapply( file.path(basedir,raw.simfiles), function (x) {
             load(x)
-            atime.vals <- rep(NA, 3*3)
+            atime.vals <- rep(NA, 4*3)
             names(atime.vals) <- c( paste("final",0:2,sep=''), paste("time",0:2,sep=''), paste("size",0:2,sep=''), paste("hit100.",0:2,sep='') )
             if (min(pophist$pop$params$range)==1) {
                 atimes <- adapttime.1D(pophist)
