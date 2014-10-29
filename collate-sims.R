@@ -1,4 +1,6 @@
 #!/usr/bin/Rscript
+require(parallel)
+numcores<-as.numeric(scan(pipe("cat /proc/cpuinfo | grep processor | tail -n 1 | awk '{print $3}'")))+1
 
 if (!interactive()) { basedir <- commandArgs(TRUE)[1] }
 
@@ -16,13 +18,15 @@ if (FALSE) { # for cleanup
 # df.simfiles <- tapply( list.simfiles, sapply( list.simfiles, length ), function (x) do.call( rbind, x ) )
 # simfiles <- data.frame( rbind( df.simfiles[[2]], cbind( df.simfiles[[1]][,1], NA, df.simfiles[[1]][,-1] ) ) )
 simfiles <- as.data.frame( do.call( rbind, list.simfiles ) )
-if (ncol(simfiles)==5) {
+if (basedir=="migration") {
     names(simfiles) <- c("sm","R","N","dims","filename")
+} else if (basedir=="mutation") {
+    names(simfiles) <- c("mu", "sm","N","dims","filename")
 } else {
     names(simfiles) <- c("sm","N","dims","filename")
 }
 
-sim.params <- lapply( file.path(basedir,raw.simfiles), function (x) {
+sim.params <- mclapply( file.path(basedir,raw.simfiles), function (x) {
             load(x)
             atime.vals <- rep(NA, 4*3)
             names(atime.vals) <- c( paste("final",0:2,sep=''), paste("time",0:2,sep=''), paste("size",0:2,sep=''), paste("hit100.",0:2,sep='') )
@@ -34,7 +38,7 @@ sim.params <- lapply( file.path(basedir,raw.simfiles), function (x) {
                 atime.vals[3*3+(1:nrow(atimes))] <- atimes$hit100
             }
             c( pophist$pop$params[c("mu","r","m","N","range","ntypes","sb","sm","nsteps","stepsize","sigma")], atime.vals )
-        } )
+        }, mc.cores=numcores )
 
 df.params <- do.call(rbind, lapply(sim.params,unlist))
 
