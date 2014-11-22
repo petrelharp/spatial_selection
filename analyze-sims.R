@@ -2,6 +2,8 @@
 
 source("sim-patchy-selection-fns.R")
 
+maxtime <- 25000  # number of gens these were run for
+
 mutsims <- read.table("mutation-sims-info.tsv",sep='\t',header=TRUE)
 
 names(mutsims)[names(mutsims)=="N"] <- "N.name"
@@ -14,6 +16,9 @@ names(mutsims)[names(mutsims)=="mu"] <- "mu.name"
 mutsims$mu.name <- factor( mutsims$mu.name, levels=levels(mutsims$mu.name)[order(as.numeric(gsub("mu","",levels(mutsims$mu.name))))])
 names(mutsims)[names(mutsims)=="mu.1"] <- "mu"
 mutsims$gb <- getgrowth(mutsims)$gb
+
+# create factor for parameter combination
+mutsims$paramstring <- with(mutsims, factor( paste(mu.name,sm.name,N.name,dims,sep='_') ) )
 
 mutsims$adjust <- 0  # with( mutsims, log(N)/gb + size1/2 / ( sigma * sqrt(gb) ) )
 mutsims$muttime <- with( mutsims, 1/(2 * mu * gb * size1 * N) + adjust )
@@ -132,3 +137,61 @@ pairs( migsims[c("N", "gb", "gm", "R", "sigma", "migtime")],
 pairs( migsims[c("final1", "time1", "hit100.1", "final2", "time2", "hit100.2","migtime")],
     upper.panel=function (x,y,...) { points(x,y,...,col=migsims$sm.name) }, 
     lower.panel=function (x,y,...) { points(x,y,...,col=migsims$N.name) } )
+
+####
+# for paper
+
+require(colorspace)
+
+pdf( file="times-predicted-observed.pdf", width=6.5, height=3.5, pointsize=10 )
+layout(t(1:2))
+par(mar=c(4,3,1,1)+.1)
+# MUTATION
+    # remove simulation configurations where a substantial portion haven't yet adapted
+    usethese <- with( mutsims, adapted & ( muttime < maxtime/10 ) ) 
+    sm.vals <- (levels(droplevels(mutsims[usethese,]$sm.name)))
+    sm.cols <- sequential_hcl(length(sm.vals))[ match( levels(mutsims$sm.name)[tapply(mutsims$sm.name,mutsims$paramstring,"[",1)], sm.vals ) ]
+    N.vals <- (levels(droplevels(mutsims[usethese,]$N.name)))
+    N.cols <- terrain_hcl(length(N.vals))[ match( levels(mutsims$N.name)[tapply(mutsims$N.name,mutsims$paramstring,"[",1)], N.vals ) ]
+    mu.vals <- (levels(droplevels(mutsims[usethese,]$mu.name)))
+    mu.pch <- match( levels(mutsims$mu.name)[tapply(mutsims$mu.name,mutsims$paramstring,"[",1)], mu.vals )
+    
+
+    with( subset(mutsims,usethese), {
+            xx <- exp(jitter(log(tapply(muttime,paramstring,mean,na.rm=TRUE))))
+            plot( 0, type='n', 
+                    log='xy', xlim=c(100,10000),ylim=c(100,10000),
+                    xlab="mean time to adaptation by mutation", 
+                    ylab="time to hit 100 in patch",
+            ) 
+            segments( x0=xx,
+                    y0=tapply(adapttime,paramstring,quantile,.25),
+                    y1=tapply(adapttime,paramstring,quantile,.75),
+                    col=sm.cols
+                    )
+            points( xx,
+                    tapply(adapttime,paramstring,mean,na.rm=TRUE), 
+                    pch=20+mu.pch, cex=2, bg=sm.cols, lwd=2, col=N.cols
+            ) 
+        } )
+    abline(0,1,untf=TRUE)
+    with(mutsims, legend("bottomright", 
+            legend=c(levels(sm.name),levels(N.name),levels(mu.name)), 
+            pch=c(rep(1,nlevels(sm.name)),rep(1,nlevels(N.name)),20+1:nlevels(mu.name)), 
+            col=c("black",N.cols)[c(rep(1,nlevels(sm.name)),1+1:nlevels(N.name),rep(1,nlevels(mu.name)))],
+            pt.bg=c(NA,sm.cols)[c(1+1:nlevels(sm.name), rep(1,nlevels(N.name)), rep(1,nlevels(mu.name)))] 
+        ) )
+
+# MIGRATION
+    with( subset(migsims,adapted), {
+            plot( migtime, hit100.2, col=sm.name, pch=as.numeric(N.name), log='xy', xlim=c(10,1e8), 
+                    ylab="time to hit 100 in second patch", xlab="mean migration time") 
+            points( sort(unique(migtime)), 
+                    tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), 
+                    pch=20, cex=2 )
+            abline(0,1,untf=TRUE)
+            legend("bottomright",legend=c(levels(sm.name),levels(N.name)), 
+                    col=c(1:nlevels(sm.name),rep("black",nlevels(N.name))), 
+                    pch=c(rep(1,nlevels(sm.name)),1:nlevels(N.name)) )
+        } )
+dev.off()
