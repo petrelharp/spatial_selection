@@ -726,9 +726,9 @@ We used the simulations describe above to test the theory,
 etcetera.
 
 
-
 \begin{figure}[ht!]
   \begin{center}
+      % made in analyze-sims.R
       \includegraphics{times-predicted-observed}
   \end{center}
   \caption{
@@ -744,6 +744,21 @@ etcetera.
       in 4,158 simulations.
       TODO: put equations on axis labels, describe more, make supp figs.
   }   \label{fig:sim_times}
+\end{figure}
+
+\begin{figure}[ht!]
+  \begin{center}
+      % made in analyze-sims.R
+      \includegraphics{prob-mutation-compared}
+  \end{center}
+  \caption{
+      Probability that two patches separated by distance $R$
+      evolve by independent mutations (i.e.\ in parallel),
+      as predicted by theory (colors, contours)
+      and in simulations (points).
+      \textbf{With $C=5$.}
+      XXX: more info
+  }   \label{fig:sim_probs}
 \end{figure}
 
 

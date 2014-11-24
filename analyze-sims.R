@@ -91,6 +91,8 @@ migsims$R <- as.numeric(gsub("R-","",migsims$R.name))
 migsims$gb <- getgrowth(migsims)$gb
 migsims$gm <- getgrowth(migsims)$gm
 
+migsims$paramstring <- with(migsims, factor( paste(sm.name,R.name,N.name,dims,sep='_') ) )
+
 migsims$adjust <- 0  # with( migsims, log(N)/gb + size1/2 / ( sigma * sqrt(gb) ) )
 migsims$migtime <- with( migsims, 0.5/( 4 * N * gb * abs(sm) * exp(- R * sqrt(2*abs(sm))/sigma ) ) + adjust )
 migsims$adapted <- ( 
@@ -102,7 +104,8 @@ pdf(file="migration-time-predicted.pdf",width=9, height=5, pointsize=10)
 layout(t(1:2))
 with( subset(migsims,adapted), {
         plot( migtime, hit100.2, col=sm.name, pch=as.numeric(N.name), log='xy', xlim=c(10,1e8), ylab="time to hit 100 in second patch", xlab="mean migration time") 
-        points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
+        # points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, col=adjustcolor("red",.8), cex=2 )
+        points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), median, na.rm=TRUE ), pch=20, cex=2 )
         abline(0,1,untf=TRUE)
         legend("bottomright",legend=c(levels(sm.name),levels(N.name)), col=c(1:nlevels(sm.name),rep("black",nlevels(N.name))), pch=c(rep(1,nlevels(sm.name)),1:nlevels(N.name)) )
     } )
@@ -143,21 +146,21 @@ pairs( migsims[c("final1", "time1", "hit100.1", "final2", "time2", "hit100.2","m
 
 require(colorspace)
 
-pdf( file="times-predicted-observed.pdf", width=6.5, height=3.5, pointsize=10 )
+pdf( file="times-predicted-observed.pdf", width=6.5, height=3.3, pointsize=10 )
 layout(t(1:2))
-par(mar=c(4,3,1,1)+.1)
+par(mar=c(4,4,1,1)+.1)
 # MUTATION
     # remove simulation configurations where a substantial portion haven't yet adapted
     usethese <- with( mutsims, adapted & ( muttime < maxtime/10 ) ) 
-    sm.vals <- (levels(droplevels(mutsims[usethese,]$sm.name)))
-    sm.cols <- sequential_hcl(length(sm.vals))[ match( levels(mutsims$sm.name)[tapply(mutsims$sm.name,mutsims$paramstring,"[",1)], sm.vals ) ]
-    N.vals <- (levels(droplevels(mutsims[usethese,]$N.name)))
-    N.cols <- terrain_hcl(length(N.vals))[ match( levels(mutsims$N.name)[tapply(mutsims$N.name,mutsims$paramstring,"[",1)], N.vals ) ]
-    mu.vals <- (levels(droplevels(mutsims[usethese,]$mu.name)))
-    mu.pch <- match( levels(mutsims$mu.name)[tapply(mutsims$mu.name,mutsims$paramstring,"[",1)], mu.vals )
-    
-
-    with( subset(mutsims,usethese), {
+    with( droplevels(subset(mutsims,usethese)), {
+            sm.vals <- (levels(droplevels(sm.name)))
+            sm.col.pal <- sequential_hcl(length(sm.vals))
+            sm.cols <- sm.col.pal[ match( levels(sm.name)[tapply(sm.name,paramstring,"[",1)], sm.vals ) ]
+            N.vals <- (levels(droplevels(N.name)))
+            N.col.pal <- terrain_hcl(length(N.vals))
+            N.cols <- N.col.pal[ match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals ) ]
+            mu.vals <- (levels(droplevels(mu.name)))
+            mu.pch <- match( levels(mu.name)[tapply(mu.name,paramstring,"[",1)], mu.vals )
             xx <- exp(jitter(log(tapply(muttime,paramstring,mean,na.rm=TRUE))))
             plot( 0, type='n', 
                     log='xy', xlim=c(100,10000),ylim=c(100,10000),
@@ -165,33 +168,91 @@ par(mar=c(4,3,1,1)+.1)
                     ylab="time to hit 100 in patch",
             ) 
             segments( x0=xx,
-                    y0=tapply(adapttime,paramstring,quantile,.25),
-                    y1=tapply(adapttime,paramstring,quantile,.75),
+                    y0=tapply(adapttime,paramstring,quantile,.25,na.rm=TRUE),
+                    y1=tapply(adapttime,paramstring,quantile,.75,na.rm=TRUE),
                     col=sm.cols
                     )
             points( xx,
-                    tapply(adapttime,paramstring,mean,na.rm=TRUE), 
-                    pch=20+mu.pch, cex=2, bg=sm.cols, lwd=2, col=N.cols
+                    tapply(adapttime,paramstring,median,na.rm=TRUE), 
+                    pch=20+mu.pch, bg=sm.cols, lwd=2, col=N.cols
             ) 
-        } )
-    abline(0,1,untf=TRUE)
-    with(mutsims, legend("bottomright", 
-            legend=c(levels(sm.name),levels(N.name),levels(mu.name)), 
-            pch=c(rep(1,nlevels(sm.name)),rep(1,nlevels(N.name)),20+1:nlevels(mu.name)), 
-            col=c("black",N.cols)[c(rep(1,nlevels(sm.name)),1+1:nlevels(N.name),rep(1,nlevels(mu.name)))],
-            pt.bg=c(NA,sm.cols)[c(1+1:nlevels(sm.name), rep(1,nlevels(N.name)), rep(1,nlevels(mu.name)))] 
-        ) )
-
-# MIGRATION
-    with( subset(migsims,adapted), {
-            plot( migtime, hit100.2, col=sm.name, pch=as.numeric(N.name), log='xy', xlim=c(10,1e8), 
-                    ylab="time to hit 100 in second patch", xlab="mean migration time") 
-            points( sort(unique(migtime)), 
-                    tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), 
-                    pch=20, cex=2 )
             abline(0,1,untf=TRUE)
-            legend("bottomright",legend=c(levels(sm.name),levels(N.name)), 
-                    col=c(1:nlevels(sm.name),rep("black",nlevels(N.name))), 
-                    pch=c(rep(1,nlevels(sm.name)),1:nlevels(N.name)) )
+            legend("bottomright", cex=0.5, pt.cex=1,
+                legend=c(levels(sm.name),levels(N.name),levels(mu.name)), 
+                pch=c(rep(21,nlevels(sm.name)),rep(1,nlevels(N.name)),20+1:nlevels(mu.name)), 
+                col=c("black",N.col.pal)[c(rep(1,nlevels(sm.name)),1+1:nlevels(N.name),rep(1,nlevels(mu.name)))],
+                pt.bg=c(NA,sm.col.pal)[c(1+1:nlevels(sm.name), rep(1,nlevels(N.name)), rep(1,nlevels(mu.name)))] 
+            )
         } )
+# MIGRATION
+    usethese <- with( migsims, adapted  & ( migtime < maxtime ) ) 
+    with( droplevels(subset(migsims,usethese)), {
+            sm.vals <- (levels(droplevels(sm.name)))
+            sm.col.pal <- sequential_hcl(length(sm.vals))
+            sm.cols <- sm.col.pal[ match( levels(sm.name)[tapply(sm.name,paramstring,"[",1)], sm.vals ) ]
+            R.vals <- (levels(droplevels(R.name)))
+            R.col.pal <- terrain_hcl(length(R.vals))
+            R.cols <- R.col.pal[ match( levels(R.name)[tapply(R.name,paramstring,"[",1)], R.vals ) ]
+            N.vals <- (levels(droplevels(N.name)))
+            N.pch <- match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals )
+            plot( 0, type='n', log='xy',
+                    xlim=c(10,3.5e4), ylim=c(10,3.5e4), 
+                    ylab="time to hit 100 in second patch", xlab="mean migration time") 
+            segments( x0=tapply(migtime,paramstring,mean,na.rm=TRUE),
+                    y0=tapply(hit100.2,paramstring,quantile,.25,na.rm=TRUE),
+                    y1=tapply(hit100.2,paramstring,quantile,.75,na.rm=TRUE),
+                    col=sm.cols
+                    )
+            points( tapply(migtime,paramstring,mean,na.rm=TRUE),
+                    tapply(hit100.2,paramstring,median,na.rm=TRUE),
+                    pch=20+N.pch, col=R.cols, bg=sm.cols, lwd=2 )
+            abline(0,1,untf=TRUE)
+            legend("topleft", cex=0.5, pt.cex=1,
+                legend=c(levels(sm.name),levels(N.name),levels(R.name)), 
+                pch=c(rep(21,nlevels(sm.name)),20+(1:nlevels(N.name)),rep(21,nlevels(R.name))), 
+                col=c("black",R.col.pal)[c(rep(1,nlevels(sm.name)),rep(1,nlevels(N.name)), 1+1:nlevels(R.name))],
+                pt.bg=c(NA,sm.col.pal)[c(1+1:nlevels(sm.name), rep(1,nlevels(N.name)), rep(1,nlevels(R.name)))] 
+            )
+    } )
 dev.off()
+
+##
+# phase space picture of probability of migration versus mutation
+
+pmut <- function(sm,mu,R,A,sigma,C=1/2) { ( A * mu ) / ( A*mu + 2*C*sm*exp(-R*sqrt(2*sm)/sigma^2) ) }
+paramgrid <- expand.grid( N=seq(25,1600,length.out=100), sm=10^(seq(-4,-1,length.out=100)), mu=1e-6, R=seq(20,160,length.out=100), A=99, sigma=0.953770108230929 )
+
+paramgrid$pmut <- with( paramgrid, pmut(sm,mu,R,A,sigma) )
+
+# helper functions
+con <- function (xvar, yvar, zvar, ... ) {
+    xvals <- sort(unique(xvar))
+    yvals <- sort(unique(yvar))
+    zvals <- matrix( NA, nrow=length(xvals), ncol=length(yvals) )
+    zvals[ cbind( match(xvar,xvals), match(yvar,yvals) ) ] <- zvar
+    contour( x=xvals, y=yvals, z=zvals, ... )
+}
+fcon <- function (xvar, yvar, zvar, levels=pretty(range(zvar), nlevels), nlevels=20, col=grey(seq(0,1,length.out=nlevels)) ) {
+    xvals <- sort(unique(xvar))
+    yvals <- sort(unique(yvar))
+    zvals <- matrix( NA, nrow=length(xvals), ncol=length(yvals) )
+    zvals[ cbind( match(xvar,xvals), match(yvar,yvals) ) ] <- zvar
+    .filled.contour( x=xvals, y=yvals, z=zvals, levels=levels, col=col )
+}
+
+layout(t(1:2))
+# sm against N
+usethese <- with(paramgrid, abs(R-40) < mean(diff(sort(unique(R))))/2 )
+with( subset(paramgrid,usethese), {
+            plot( N, sm, col=grey(pmut), pch=20, log='y' )
+            con( N, sm, pmut, add=TRUE, col='red', lwd=2 )
+            # fcon( N, sm, pmut, levels=seq(0,1,length.out=20), col=grey(seq(0,1,length.out=20)) )
+            # points( sm~N, col=grey(pmut), pch=20, log='y' )
+        } )
+# sm against R
+usethese <- with(paramgrid, abs(N-100) < mean(diff(sort(unique(N))))/2 )
+with( subset(paramgrid,usethese), {
+            plot( R, sm, col=grey(pmut), pch=20, log='y' )
+            con( R, sm, pmut, add=TRUE, col='red', lwd=2 )
+        } )
+
