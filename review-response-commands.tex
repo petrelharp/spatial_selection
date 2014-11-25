@@ -1,0 +1,53 @@
+\usepackage{lineno}
+% \usepackage[hypertexnames=false]{hyperref}   % not working correctly
+\usepackage{latexml}
+
+
+%%%%%  PUT THIS IN HEADER OF FILE
+% % Responses to reviews:
+% \input{review-response-commands}
+% % set this to show line numbers and include responses to reviews or not
+% \newif\ifreviewresponses
+% \reviewresponsestrue  % include them
+% % \reviewresponsesfalse  % don't include them
+% \newcommand{\responsefile}{pbio-reviews-19sept12-responses.tex}  % name of the review reponses file
+
+% counters for reviewer points
+\newcounter{reviewer}
+\setcounter{reviewer}{0}
+\newcounter{point}
+\setcounter{point}{0}
+
+\newcommand{\reviewersection}{\refstepcounter{reviewer}\setcounter{point}{0}
+                  \section*{Reviewer \#\thereviewer:}}
+% drawing from from http://tex.stackexchange.com/questions/2317/latex-style-or-macro-for-detailed-response-to-referee-report
+\newcommand{\point}[2]{\refstepcounter{point} \bigskip \hrule \medskip \noindent 
+        \slshape {\fontseries{b}\selectfont (\thereviewer.\thepoint) #1} #2} 
+\newcommand{\reply}{\normalfont \medskip \noindent \textbf{Reply}:\ }   
+
+% use this command in the text where a change addressing a reviewer point has occurred
+\newcommand{\revpoint}[2]{\linelabel{rr:rev#1:#2}}
+% and this one to refer to such a location
+\newcommand{\revref}{{\iflatexml{}\else{(p.\ \pageref{rr:rev\thereviewer:\thepoint}, l.\ \lineref{rr:rev\thereviewer:\thepoint})}\fi}}
+
+% or, this one to refer to a named linelabel
+\newcommand{\nameref}[1]{{\iflatexml{}\else{(p.\ \pageref{#1}, l.\ \lineref{#1})}\fi}}
+
+% put this where the reviews are to appear (at the end?)
+\newcommand{\includereviews}{
+    \ifreviewresponses
+    \clearpage
+    \setcounter{page}{1}
+    \setcounter{section}{0}
+    \setcounter{subsection}{0}
+    \nolinenumbers
+    \begin{center}
+      {\LARGE \bf Response to Reviews}
+    \end{center}
+    \input{\responsefile}
+    \fi
+}
+
+% Useful shortcuts
+\newcommand{\rollover}{ \reply{The reviewer makes an excellent point that we have missed out entirely.  We have made all the changes suggested, down to the minutiae \revref.} }
+\newcommand{\playdead}{ \reply{The reviewer makes an excellent point.  We have made an utterly trivial change {\revref} that we think deals entirely with the concern raised.} }
