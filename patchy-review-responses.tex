@@ -135,7 +135,7 @@ the correct way forward becomes non-intuitive, to us, at least.
 
 
 
-%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%  Reviewer 2
 \reviewersection
 
 
@@ -182,7 +182,7 @@ between arrivals of families.
 
 
 
-%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%  Reviewer 3
 \reviewersection
 
 
@@ -233,21 +233,21 @@ between arrivals of families.
 
 \reply
 We've tried to make it more clear here 
-\nameref{rr:longtailed}
+\llname{rr:longtailed}
 exactly what we sweep under the rug later.
 
 %%%%%%
 \point{}{``This is not sufficient: the patch also needs to be large enough that p_e is (almost) reached at its center. Generally, the approximation should over-estimate the true value.''}
 
 \reply
-Good point; we have adjusted this slightly. \nameref{rr:p_estab}
+Good point; we have adjusted this slightly. \llname{rr:p_estab}
 
 %%%%%%
 \point{[more complete information about simulation model]}{}
 
 \reply
 We've added more description of how we did the simulations
-\nameref{rr:sim_details},
+\llname{rr:sim_details},
 and don't think the choice of a bounded kernel is particularly salient
 (given that it's not long-tailed, of course).
 
@@ -257,20 +257,81 @@ and don't think the choice of a bounded kernel is particularly salient
 \reply
 Both comments are excellent. 
 We have added discussion of the intuition and the restrictions on $|x|$, as suggested
-\nameref{rr:q_form}.
+\llname{rr:q_form}.
 
 %%%%%%
 \point{The outflux of migrant alleles}{
-    ``This section is less clear than the previous one. You try to be intuitive, but also give most of the formulas. It seems to me that there should be either more or (rather:) fewer equations. On the formal level, I was only able to follow after reading the "Methods" section. And on the intuitive level, I was hampered by trying to understand the equations from the information in the main text (and failing to do so).
+    \begin{quote}
+        This section is less clear than the previous one. [...]
+    I think you could devote the formal derivation to the "Methods" and argue on an intuitive level in the main text:
 
-I think you could devote the formal derivation to the "Methods" and argue on an intuitive level in the main text:
+    First, you should clearly spell out what the approximation is. You use the trunk + outgrowth picture of the branching process. Then you assume that the mutant family will only be able to cross to the other patch if the trunk hits this new patch. And when the trunk hits, you assume that all the outgrowth branches also enter it. I.e.: Eventually, either the whole family is "in" and then stays in (as in Fig 3) or no part ever enters. This approximation should be fine if the size of the new patch is sufficiently large.
 
-First, you should clearly spell out what the approximation is. You use the trunc + outgrowth picture of the branching process. Then you assume that the mutant family will only be able to cross to the other patch if the trunc hits this new patch. And when the trunc hits, you assume that all the outgrowth branches also enter it. I.e.: Eventually, either the whole family is "in" and then stays in (as in Fig 3) or no part ever enters. This approximation should be fine if the size of the new patch is sufficiently large.
+    As a consequence of this, we can just follow the trunk, which moves by simple Brownian motion with an exponential life span. This defines h(x,y) as probability that the trunk arrives at the new patch.
 
-As a consequence of this, we can just follow the trunc, which moves by simple Brownian motion with an exponential life span. This defines h(x,y) as probability that the trunc arrives at the new patch.
-
-Now, how can we relate h(x,y) to u(x,y)? - As follows: Once the trunc reaches the new patch (and assuming s_m selection everywhere) it will live there for an exponential time with mean 1/2s_m. Since it "lives or dies" with its entire outgrowth family (of expected size E[K]) it thus contributes to the density like u(x,y) = h(x,y) E[K] / (2s_m). This motivates Eq. 11. [no need to introduce g(A) in the main text]
+    Now, how can we relate $h(x,y)$ to $u(x,y)$? - As follows: Once the trunk reaches the new patch (and assuming $s_m$ selection everywhere) it will live there for an exponential time with mean $1/2s_m$. Since it "lives or dies" with its entire outgrowth family (of expected size $\E[K]$) it thus contributes to the density like $u(x,y) = h(x,y) \E[K] / (2s_m)$. This motivates Eq. 11. (no need to introduce $g(A)$ in the main text)
+    \end{quote}
 }
+
+\reply
+   Good suggestion; as discussed above,
+   we've taken what we think is a similar approach, 
+   providing a more intuitive arguemnt (in \nameref{ss:heuristics})
+   and merged the section referred to here with the Methods \llname{rr:moved_argument}.
+   
+%%%%%%%%
+\point{[awkward sentence]}{}
+
+\reply
+Fixed? \llname{rr:awkward}
+
+%%%%%%%%
+\point{[expected total number]}{if y is a point, this number would be 0 (its a density)}
+
+\reply
+We have added the word ``informally''. \llname{rr:density}
+
+
+%%%%%%%%
+\point{}{ 
+    \begin{quote}
+    This function is non-monotonic in $s_m$ and I think this needs to be discussed: can it really be that $\migrate$ increases with $s_m$ or is this an artifact?
+
+    In general, we need a clearer idea about the limits of this theory. There are several things to consider:
+    \begin{itemize}
+        \item equation (3) for the expected mutant density is only an asymptotic. Therefore, we probably need to require $|y| \gg \sigma / \sqrt(2s_m)$.
+
+        \item the approximation $g(A) \sim 1/2s_m$ in the appendix requires that the patch size is much larger than $1/s_m$
+
+        \item in your arguments, you use the outflow of families from a ball with (large) radius $r_0$ [although I do not see how this figures in]
+
+        \item over short ranges, results must depend on details of the dispersal kernel anyway. [Depending on the shape of the distribution - heavy tail - this even holds for large distances]. As mentioned above: spell out assumptions on the kernel.
+    \end{itemize}
+
+    So: what is the minimal distance $|y|$ for the result to be valid? And: does this minimal distance eliminate the anomaly of an increasing $\migrate$ with $s_m$ for small $s_m?$ Alternatively: is there also a lower limit for $s_m$? I have noted that you do assume above that $s_m$ is large enough to avoid local fixation - but I'm not sure that this comes down to the same thing. 
+\end{quote}
+}
+
+\reply
+
+
+
+%%%%%%%%
+\point{[expressio nfor the outflux of migrants]}{do we need this for anything?}
+
+\reply
+We don't need it for anything else, 
+but we think it adds sufficiently to the intuition about the process
+that we'd like to keep it in.
+In practice it could provide a good reality check.
+\plr{alternatively, compute this for the mice example?}
+
+%%%%%% p.12
+\point{[justify $\E[K]\approx 1/s_m$]}{}
+
+\reply
+See \eqref{eqn:mean_K}, and modified discussion around \llname{rr:EK}.
+
 
 
 

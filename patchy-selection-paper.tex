@@ -557,23 +557,11 @@ and we can solve for this outflux using the established form for $q(x)$.
 % Note that $\migrate$ reflects the mean number of establishing migrant families per unit time, rather than individuals
 % -- a naive calculation using $q(x)$ that assumes migrants are independent would overestimate the effective migration rate.
 
-%%%% %%%%
-\subsubsection{Heuristics}
-
-At first it is tempting to argue
-that since the probability of establishment of a beneficial allele is $p_e$,
-and in a patch of area $A$ there are $\rho A q(x)$ beneficial alleles present at equilibrium,
-the mean rate of establishment is $p_e \rho A q(x)$.
-This is wrong, since it ignores the family structure of migrants.
-
-However, this wrong start suggests a correct one:
-notice that the mean density $q(x)$ counts up each family's total size,
-while $\migrate(x)$ counts the probability the family establishes.
-We argue below that 
 
 
 %%%% %%%%
 \subsubsection{The genealogy of migrant families}
+\label{ss:migrant_math}
 
 To understand the process of adaptation by migration,
 we therefore need to look more closely at the rare families of $B$ alleles 
@@ -606,7 +594,8 @@ Therefore, if we define $k_e(t)$ to be the chance that the family
 has gone extinct by time $t$, 
 and let $K_t$ be the (random) family size conditioned on nonextinction,
 then by Bayes' rule, $e^{-s_m t} = (1-k_e(t))\E[K_t]$.
-It turns out that if the distribution of offspring numbers is not too heavy-tailed (see \citet{jagers1975branching} for details),
+It turns out that if the distribution of offspring numbers is not too heavy-tailed 
+(see \citet{jagers1975branching} for details),
 then $K_t$ has a limiting distribution: $K_t \dconv K$,
 and 
 \begin{align} \label{eqn:EK_limit}
@@ -632,12 +621,20 @@ and that sprouts independent branches that may or may not survive until $t$.
 Specifically, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$,
 % (so $\P\{Z_t = 0\} = k_e(t)$),
 then this gives the following decomposition:
-\begin{align}
+\begin{align} \label{eqn:Zt_decomposition}
   \left( Z_t \; \vert \; Z_t>0 \right) \deq 1 + \sum_{s=0}^t \sum_{k=1}^{W_s-1} Z^{(s,k)}_{t-s},
 \end{align}
 where each $Z^{(s,k)}$ is an independent copy of $Z$ 
 that arose from the main branch in generation $s$,
-and each $W_s$ is an independent copy of the offspring distribution, conditioned on $W_s \ge 1$.
+and each $W_s$ is an independent copy of the offspring distribution $W$, conditioned on $W_s \ge 1$.
+Since each subfamily $Z^{(s,k)}$ is a branching process with mean offspring number less than one,
+most of these die out quickly,
+and so $Z_t$ is composed of a cluster of recently split subfamilies.
+If we take the expectation of \eqref{eqn:Zt_decomposition},
+we get the limiting mean family size conditioned on nonextinction:
+\begin{align} \label{eqn:mean_K}
+    \E[K] = 1 + \E[W \given W \ge 1] /(e^{s_m}-1) \approx \E[W \given W \ge 1] / s_m .
+\end{align}
 
 
 \begin{figure}[ht!!]
@@ -656,120 +653,74 @@ Note that the spatial motions of lineages are independent random walks
 } \label{fig:branching_decomp}
 \end{figure}
 
-This suggests that we add in the spatial motion by following only the motion of the ``trunk''
-(i.e.\ the red line in figure \ref{fig:branching_decomp}).
-Its motion is approximately Brownian, with variance $\sigma^2$ per generation.
-(Recall $\sigma$ is the dispersal distance.)
-We can use these two ingredients, Brownian motion and a branching process, 
-to compute the terms of equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate}.
 
+%%%% %%%%
+\subsubsection{Heuristics}
+\label{ss:heuristics}
 
-%%%%%%% %%%%%%%%%%%
-\subsubsection{The outflux of migrant alleles}
+The parallel form suggested by \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate}
+suggests that we can find $\migrate(x)$ by multiplying the mean density $q(x)$
+by the ratio of the second terms in the two equations,
+i.e.
+\begin{align} \label{eqn:ratio_gestalt}
+  \migrate(x) 
+    &= \rho q(x) \times 
+    \frac{
+        \text{ ( probability a family establishes in patch at $x$ ) }
+    }{
+        \text{ ( mean occupation density of a family at $x$ ) }
+    } .
+\end{align}
+To make this precise we need to understand what we mean by ``outflux of families'';
+we do this below in \nameref{ss:hitting_occupation},
+and provide a heuristic argument here.
 
-We are approximating the dynamics of the focal allele in the region further away than $r_0$ from the patch
-as the sum of independent migrant families, each of whose dynamics are
-given by a spatial branching process (as depicted in Figure \ref{fig:branching_decomp}).
-Call $B(r_0)$ the region closer than $r_0$ to the patch, and $\partial B(r_0)$ its boundary.
-Suppose that there is a constant outflux of migrant families from each point $x \in \partial B(r_0)$,
-such that the long-term proportion of individuals near a point $x$ in $\partial B(r_0)$ that initiate new migrant families
-is $\gamma(x)$.
-To make expressions \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate} more concrete,
-we need to replace ``outflux of families'' by a sum over points at distance $r_0$ from the patch
-of the outflux $\gamma$ at that point.
-By examining the constituent terms,
-it will turn out that equation \eqref{eqn:gestalt_migrate} 
-is well-approximated by a constant multiple of \eqref{eqn:gestalt_q}.
+Both numerator and denominator in \eqref{eqn:ratio_gestalt} 
+count only families that have arrived at the new patch,
+so we can consider a family conditioned on having successfully transited between the patches.
+To obtain simply interpretable expressions,
+we assume that once any member of the family arrives at the patch,
+all other members are close by, and so have roughly equal opportunity
+to establish in the new patch.
 
-First consider equation \eqref{eqn:gestalt_q} for the equilibrium frequency.
-Suppose that $Z$ is one such spatial branching process as above, started at time 0 with a single individual at $x$,
-and denote by $Z_t(A)$ is the number of descendant individuals alive at time $t$ living in the spatial region $A$.
-The \emph{mean occupation density} of $Z$ at location $y$
-can be thought of 
-as the expected total number of offspring of a family beginning at $x$ that ever live at $y$.
-It is defined to be the density of $\E[\int_0^t Z_t(\cdot) dt]$,
-i.e.\ the smooth function $u(x,y)$ that, integrated over a set of locations $S$, 
-gives the expected total number of individuals ever living in $S$:
-\begin{align} \label{eqn:occupation_density_defn}
-    \E\left[ \int_0^\infty Z_t(S) dt \right] = \int_S u(x,y) dy .
-\end{align}
-% Said another way, $u(x,y)$ is the expected number of offspring of a progenitor at $x$ that will ever be observed near $y$.
-Since reproduction and spatial motion are independent,
-$u(x,y)$ is the sum across all generations of the expected number of individuals alive in that generation,
-multiplied by the probability density that spatial motion takes a lineage from $x$ to $y$,
-i.e.\
-\begin{align}
-    u(x,y) = \int_0^t e^{-s_m t} p_t(x,y) dt .
-\end{align}
-The equilibrium frequency as decomposed in expression \eqref{eqn:gestalt_q} 
-is the sum of mean occupation densities of a constant outflux of branching processes
-from $\partial B(r_0)$:
-\begin{align} \label{eqn:occupation_integral}
-    q(y) &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  . % \\
-         % &= \int_{\partial B(r_0)} \gamma(x) \int_0^t e^{-s_m t} p_t(x,y) dt dx .
-\end{align}
+Suppose the family arrives with $K$ individuals,
+i.e.\ there are $K$ individuals that manage to establish
+The probability that at least one individual leaves a lineage that establishes in the patch
+is $1-(1-p_e)^K$.
+On the other hand, in the absence of the patch of new habitat,
+each of the $K$ newly arrived individuals would leave behind a lineage with 
+mean total size $\int_0^\infty e^{-t s_m} dt = 1/s_m$,
+roughly half of which would stay in the new patch.
+Therefore, the expected contribution of the family to the occupation density is $K/2s_m$.
+(Readers who feel uncomfortable about the geometry of the patch,
+or the distinction between occupation density and number of individuals
+are encouraged to take a detour through \nameref{ss:hitting_occupation}, below.)
 
-This form we can now compare to 
-the expression \eqref{eqn:gestalt_migrate} for the outflux of successful migrants.
-Consider the probability that a migrant family beginning with a single individual at $x$ will ever establish in the new patch.
-We assume this new patch is circular, 
-has relatively small area $A$ and is centered at position $y$.
-% The probability that this family reaches $A$ at time $t$ is the probability that it survives until $t$, $(1-k_e(t))$,
-% multiplied by the probability that the family reaches the patch, given survival.
-% If $t$ is large then as in the previous section, $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$.
-It would be possible to analyze this probability directly,
-as in \citet{barton1987establishment};
-but here we take a simpler route, 
-approximating this by the chance that the trunk hits the new patch,
-multiplied by the chance that at least one member of the family escapes demographic stochasticity
-and successfully establishes in the new patch.
-Write $h_A(x,y)$ for the probability that the Brownian trunk
-hits the new patch centered at $y$ before the family dies out,
-and $f(A)$ for the chance that the family manages to establish in the new patch,
-given that it successfully arrives.
-As for $q(y)$ above, expression \eqref{eqn:gestalt_migrate} is properly an integral against the outflux $\gamma(x)$:
-\begin{align}\label{eqn:migrate_integral}
-  \migrate(y) &= \rho \int_{\partial B(r_0)} \gamma(x) h_A(x,y) f(A) dx .
+This suggests that 
+\begin{align} \label{eqn:ratio_K}
+  \migrate(x) 
+    &= \rho q(x) \times 
+    \frac{
+        \E[1-(1-p_e)^K]
+    }{
+        \E[K]/2s_m
+    } .
 \end{align}
+There are now two extremes to consider.
+If $\P\{K>1/p_e}$ is small, then each family has a small chance of establishment,
+and the numerator is approximately $p_e \E[K]$.
+On the other hand, if $p_e$ is not too small,
+then the numerator would be close to 1, as any family that arrives will likely establish.
+Combining these, and using that $\E[K] \approx 1/s_m$, 
+\begin{align} \label{eqn:twocase_migrate}
+    \migrate(x) &\approx 2 \rho s_m \min(s_m,p_e) \times q(x) .
+%     \begin{cases}
+%         q(x) \times 4 \rho s_m s_p / \xi^2  \qquad & \text{ if } s_p < s_m \\
+%         q(x) \times 2 \rho s_m^2 \qquad & \text{ if } s_p > s_m 
+%     \end{cases} .
+\end{align}
+When we use this, we set $p_e = 2 s_p / \xi^2$.
 
-Intuitively, $h_A(x,y)$ counts each family once if it hits the patch,
-while the occupation density $u(x,y)$ counts the total amount of time that the family spends in the patch.
-Since the expected total time spent in the patch does not depend on the distance at which the family started
-if we know that it survived to hit the patch,
-it is intuitively reasonable that $u(x,y)$ and $h_A(x,y)$ are simply related.
-Following this intuition,
-and that $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$,
-it turns out (see section~\nameref{apx:hitting_occupation}) that
-\begin{align} 
-    h_A(x,y) \approx \frac{ u(x,y) }{ \E[K] g(A) } ,
-\end{align}
-where $g(A)$ is the total expected occupation time of the patch given the family arrives.
-Recall that $\E[K]$ is the expected family size after a large number of generations, given survival.
-Since the integrands in expressions \ref{eqn:occupation_integral} and \ref{eqn:migrate_integral} only differ by a factor
-that (at least asymptotically) does not depend on the distance between $x$ and $y$,
-we can obtain the migration rate by multiplying the equilibrium frequency by this factor.
-The probability $f(A)$ that the family does not die out once it arrives at the new patch is
-approximately $\E[1-(1-p_e)^K] \approx 2 s_p \E[K] / \xi^2$,
-if each member arriving has chance $p_e$ of establishing, independently.
-\plr{And if $p_e$ is small?}
-% If we let $w$ be the width of the patch, then the remaining term is
-% \begin{align}
-%   s(w) \simeq \frac{1}{2s_m} \left( 1 - \left( \frac{\pi w \sqrt{2 s_m}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2s_m}/\sigma} \right).
-% \end{align}
-Combining with the fact that $g(A)\approx 1/(2s_m)$ (see section~\nameref{apx:hitting_occupation}, in particular equation \eqref{eqn:q_migrate_relation}),
-we obtain that
-\begin{align}
-  \label{eqn:migrate} 
-  \migrate(y) &\approx q(y) \times \frac{ 4 \rho s_p  s_m }{ \xi^2 }  \\
-  &\approx C \frac{ 4 \rho s_p s_m }{ \xi^2 } \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma) .
-\end{align}
-This does not depend on $A$, because although
-$f(A)$ and $g(A)$ in principle depend on the patch size (and geometry),
-the dependence is very weak.
-For instance, the width of a circular patch only very weakly affects the chance 
-of establishment of a new migrant that appears on its edge,
-as long as the patch is large enough.
-For more discussion, including an expression for the outflux of migrants $\gamma(x)$, see section~\nameref{apx:hitting_occupation}.
 
 
 %%%%%%%%%
@@ -1065,8 +1016,9 @@ Our first obstacle is that we do not know $1-k_e(t)$,
 the probability a family survives until $t$, exactly.
 However, we do know that $1-k_e(t) \simeq e^{-s_m t} / \E[K]$,
 i.e.\ that it has exponential tails.
-Since $\E[K] \approx 1/s_m$, it is sensible to make one further approximation,
-supposing that the random lifetime of a family is exponentially distributed with mean $1/s_m$.
+This suggests one further approximation, 
+that the random lifetime of a family is exponentially distributed with mean $1/s_m$;
+equation \eqref{eqn:mean_K} shows this introduces a constant into the equations below. \linelabel{rr:EK}
 Once we do this, 
 we can use standard results on hitting times of $d$-dimensional Brownian motion
 that is killed at rate $s_m$ (see \citet{borodin2002handbook} 2.2.0.1 and 4.2.0.1).
@@ -1731,7 +1683,128 @@ where $C$ is a different constant.
 
 %%%%%%%%% %%%%%%%%%%%%%%
 \subsection[Hitting and Occupation]{Hitting and occupation}
-\label{apx:hitting_occupation}
+\label{ss:hitting_occupation}
+
+Here we make a more precise argument to back up expression \eqref{eqn:twocase_migrate} for the migration rate.
+The argument made above in \nameref{ss:heuristics} applies to general migration mechanisms,
+since it relies only on a decomposition of the migrant families upon hitting the new patch;
+but it is also imprecise in a number of subtle ways
+that are difficult to formalize.
+The argument we make here therefore takes a somewhat different tack,
+supposing that it suffices to model the spatial movement of a migrant family
+by following only the motion of the ``trunk''
+(i.e.\ the red line in figure \ref{fig:branching_decomp}),
+and supposing this motion is Brownian, with variance $\sigma^2$ per generation.
+(Recall $\sigma$ is the dispersal distance.)
+We then use facts about Brownian motion and branching processes, 
+to compute more precise versions of equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate}.
+\linelabel{rr:moved_argument}
+
+We are approximating the dynamics of the focal allele in the region further away than $r_0$ from the patch
+as the sum of independent migrant families, each of whose dynamics are
+given by a spatial branching process (as depicted in Figure \ref{fig:branching_decomp}).
+Call $B(r_0)$ the region closer than $r_0$ to the patch, and $\partial B(r_0)$ its boundary.
+Suppose that there is a constant outflux of migrant families from each point $x \in \partial B(r_0)$,
+such that the long-term proportion of individuals near a point $x$ in $\partial B(r_0)$ 
+that initiate new migrant families is $\gamma(x)$.
+Now note that expressions \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate} are a simple product of the ``ouflux of families'',
+when in fact they should be an integral of $\gamma(x)$ over possible locations. \linelabel{rr:awkward}
+By examining the constituent terms,
+it will turn out that equation \eqref{eqn:gestalt_migrate} 
+is well-approximated by a constant multiple of \eqref{eqn:gestalt_q}.
+
+First consider equation \eqref{eqn:gestalt_q} for the equilibrium frequency.
+Suppose that $Z$ is one such spatial branching process as above, started at time 0 with a single individual at $x$,
+and denote by $Z_t(A)$ is the number of descendant individuals alive at time $t$ living in the spatial region $A$.
+The \emph{mean occupation density} of $Z$ at location $y$
+can be thought of  informally \linelabel{rr:density}
+as the expected total number of offspring of a family beginning at $x$ that ever live at $y$.
+It is defined to be the density of $\E[\int_0^t Z_t(\cdot) dt]$,
+i.e.\ the smooth function $u(x,y)$ that, integrated over a set of locations $S$, 
+gives the expected total number of individuals ever living in $S$:
+\begin{align} \label{eqn:occupation_density_defn}
+    \E\left[ \int_0^\infty Z_t(S) dt \right] = \int_S u(x,y) dy .
+\end{align}
+% Said another way, $u(x,y)$ is the expected number of offspring of a progenitor at $x$ that will ever be observed near $y$.
+Since reproduction and spatial motion are independent,
+$u(x,y)$ is the sum across all generations of the expected number of individuals alive in that generation,
+multiplied by the probability density that spatial motion takes a lineage from $x$ to $y$,
+i.e.\
+\begin{align}
+    u(x,y) = \int_0^t e^{-s_m t} p_t(x,y) dt .
+\end{align}
+The equilibrium frequency as decomposed in expression \eqref{eqn:gestalt_q} 
+is the sum of mean occupation densities of a constant outflux of branching processes
+from $\partial B(r_0)$:
+\begin{align} \label{eqn:occupation_integral}
+    q(y) &= \int_{\partial B(r_0)} \gamma(x) u(x,y) dx  . % \\
+         % &= \int_{\partial B(r_0)} \gamma(x) \int_0^t e^{-s_m t} p_t(x,y) dt dx .
+\end{align}
+
+This form we can now compare to 
+the expression \eqref{eqn:gestalt_migrate} for the outflux of successful migrants.
+Consider the probability that a migrant family beginning with a single individual at $x$ will ever establish in the new patch.
+We assume this new patch is circular, 
+has relatively small area $A$ and is centered at position $y$.
+% The probability that this family reaches $A$ at time $t$ is the probability that it survives until $t$, $(1-k_e(t))$,
+% multiplied by the probability that the family reaches the patch, given survival.
+% If $t$ is large then as in the previous section, $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$.
+It would be possible to analyze this probability directly,
+as in \citet{barton1987establishment};
+but here we take a simpler route, 
+approximating this by the chance that the trunk hits the new patch,
+multiplied by the chance that at least one member of the family escapes demographic stochasticity
+and successfully establishes in the new patch.
+Write $h_A(x,y)$ for the probability that the Brownian trunk
+hits the new patch centered at $y$ before the family dies out,
+and $f(A)$ for the chance that the family manages to establish in the new patch,
+given that it successfully arrives.
+As for $q(y)$ above, expression \eqref{eqn:gestalt_migrate} is properly an integral against the outflux $\gamma(x)$:
+\begin{align}\label{eqn:migrate_integral}
+  \migrate(y) &= \rho \int_{\partial B(r_0)} \gamma(x) h_A(x,y) f(A) dx .
+\end{align}
+Recall that $\rho$ appears here but not in \eqref{eqn:occupation_integral}
+because $q(x)$ is the local \emph{proportion} of $B$ alleles.
+
+Intuitively, $h_A(x,y)$ counts each family once if it hits the patch,
+while the occupation density $u(x,y)$ counts the total amount of time that the family spends in the patch.
+Since the expected total time spent in the patch does not depend on the distance at which the family started
+if we know that it survived to hit the patch,
+it is intuitively reasonable that $u(x,y)$ and $h_A(x,y)$ are simply related.
+Following this intuition,
+and that $(1-k_e(t)) \approx e^{-s_m t}/\E[K]$,
+it turns out (see section~\nameref{ss:hitting_occupation}) that
+\begin{align} 
+    h_A(x,y) \approx \frac{ u(x,y) }{ \E[K] g(A) } ,
+\end{align}
+where $g(A)$ is the total expected occupation time of the patch given the family arrives.
+Recall that $\E[K]$ is the expected family size after a large number of generations, given survival.
+Since the integrands in expressions \ref{eqn:occupation_integral} and \ref{eqn:migrate_integral} only differ by a factor
+that (at least asymptotically) does not depend on the distance between $x$ and $y$,
+we can obtain the migration rate by multiplying the equilibrium frequency by this factor.
+The probability $f(A)$ that the family does not die out once it arrives at the new patch is
+approximately $\E[1-(1-p_e)^K] \approx 2 s_p \E[K] / \xi^2$,
+if each member arriving has chance $p_e$ of establishing, independently.
+\plr{And if $p_e$ is small?}
+% If we let $w$ be the width of the patch, then the remaining term is
+% \begin{align}
+%   s(w) \simeq \frac{1}{2s_m} \left( 1 - \left( \frac{\pi w \sqrt{2 s_m}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2s_m}/\sigma} \right).
+% \end{align}
+Combining with the fact that $g(A)\approx 1/(2s_m)$ (see section~\nameref{ss:hitting_occupation}, in particular equation \eqref{eqn:q_migrate_relation}),
+we obtain that
+\begin{align}
+  \label{eqn:migrate} 
+  \migrate(y) &\approx q(y) \times \frac{ 4 \rho s_p  s_m }{ \xi^2 }  \\
+  &\approx C \frac{ 4 \rho s_p s_m }{ \xi^2 } \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma) .
+\end{align}
+This does not depend on $A$, because although
+$f(A)$ and $g(A)$ in principle depend on the patch size (and geometry),
+the dependence is very weak.
+For instance, the width of a circular patch only very weakly affects the chance 
+of establishment of a new migrant that appears on its edge,
+as long as the patch is large enough.
+For more discussion, including an expression for the outflux of migrants $\gamma(x)$, see section~\nameref{ss:hitting_occupation}.
+
 
 Consider a single migrant family $Z$ beginning at $x$,
 and write $S$ for the new patch, which has area $A$ and is centered at $y$.
