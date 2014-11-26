@@ -297,7 +297,7 @@ and that the mean squared distance between parent and child is $\sigma^2$
 We will deal with migration by immediately appealing to the central limit theorem,
 treating the total distance traveled across $t$  dispersal events as Gaussian with variance $t \sigma^2$,
 and do not discuss the (interesting) cases where rare, long-distance dispersal events
-are more important \citep[see][for discussion]{longtailed,ralphcoop2010,hallatschek??}.  \linelabel{rr:longtailed}
+are more important \citep[see e.g.][for discussion]{levin2003ecology,ralph2010parallel,hallatschek2014acceleration}.  \linelabel{rr:longtailed}
 %We also aim to describe the scenario where it is sensible to think of large, discrete patches;
 %the case of a fine-scale heterogeneous environment is treated
 %\citep{elsewhere}. \gc{IS THIS LAST SENTENCE NEEDED IF SO GIVE CITATION} \plr{haven't found it yet}
@@ -715,14 +715,16 @@ then the numerator would be close to 1, as any family that arrives will likely e
 Combining these, and absorbing the term $\E[W|W>1]$ from equation \eqref{eqn:mean_K} 
 into the constant $C$,
 \begin{align} \label{eqn:twocase_migrate}
-    \migrate(x) &\approx C \rho s_m \min(s_m,p_e) \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma) .
+  \migrate(x) &\approx C \rho s_m \min(s_m,p_e) \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma)  \qquad \text{for } |y| > \sigma/\sqrt{2 s_m} 
 %     \begin{cases}
 %         q(x) \times 4 \rho s_m s_p / \xi^2  \qquad & \text{ if } s_p < s_m \\
 %         q(x) \times 2 \rho s_m^2 \qquad & \text{ if } s_p > s_m 
 %     \end{cases} .
 \end{align}
-When we use this, we set $p_e = 2 s_p / \xi^2$.
-
+When we use this below, we set $p_e = 2 s_p / \xi^2$.
+Note that the function increases for small $s_m$, 
+but decreases if $s_m > |y|^2 / 2 \sigma^2$, 
+i.e.\ where the condition holds.
 
 
 %%%%%%%%%
@@ -866,14 +868,14 @@ since as discussed above, this model does not hold if $R$ is of the same order a
 or if $s_m$ is small enough that local drift is more important.
 \linelabel{rr:separated_patches}
 
-One way to visualize this is by a phase diagram.
-In figure \ref{fig:phase_diagram},
-we give a contour plot for the time until adaptation by migration ($\Tmig = 1/\migrate$) and by new mutation ($\Tmut=1/\mutrate$)
-as a function of various parameters. 
-This gives us an idea of not only the parameter space where parallel adaptation is likely ($\Tmig \ll \Tmut$),
-but also where adaptation by any means takes a very long time ($\Tmig$ and $\Tmut$ both very large),
-an important check in applications of these results.
-
+% One way to visualize this is by a phase diagram.
+% In figure \ref{fig:phase_diagram},
+% we give a contour plot for the time until adaptation by migration ($\Tmig = 1/\migrate$) and by new mutation ($\Tmut=1/\mutrate$)
+% as a function of various parameters. 
+% This gives us an idea of not only the parameter space where parallel adaptation is likely ($\Tmig \ll \Tmut$),
+% but also where adaptation by any means takes a very long time ($\Tmig$ and $\Tmut$ both very large),
+% an important check in applications of these results.
+% 
 % \begin{figure}[ht]
 %   \begin{center}
 %     \includegraphics{phase-diagram-log}
@@ -1491,7 +1493,7 @@ We have also ignored the possibility of very long distance migration,
 instead focusing on local dispersal (and using Gaussians via the central limit theorem).
 However, dispersal distributions can be very heavy tailed, 
 with a small fraction of individuals moving very long distances indeed \citep{levin2003ecology,reynolds2009levy}.
-In addition, over long time-scales, very rare chance events (mice carried off by hurricanes and the like \citet{censky1998overwater,nathan2008mechanisms})
+In addition, over long time-scales, very rare chance events (mice carried off by hurricanes and the like; \citet{censky1998overwater,nathan2008mechanisms})
 could play a role in spreading migrant alleles if adaptation by other means is sufficiently unlikely.
 Such tail events could greatly increase the probability of parallel adaptation above that predicted by our model. 
 Furthermore, if adaptive alleles do move between distant patches via rare, long distance migration 

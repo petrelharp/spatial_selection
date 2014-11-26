@@ -5,11 +5,6 @@
 % \begin{document}
 
 \section*{From the editor}
-% From: "Catriona J. MacCallum" <cmaccallum@plos.org>
-% To: Peter Ralph <pralph@usc.edu>
-% Date: Fri, 15 Feb 2013 04:01:05 -0500
-% Subject: PLOS Biology Decision [PBIOLOGY-D-12-02842R1]
-% Dear Dr. Ralph,
 
 \begin{minipage}[b]{2.5in}
   Resubmission Cover Letter \\
@@ -49,6 +44,23 @@ provide detailed suggestions on how this can be achieved.
 \end{quote}
 
 
+Changes of note are:
+
+\begin{itemize}
+
+  \item We have done a large number of simulations, and compared the results to the theory;
+    see figures~\ref{fig:sim_probs} and \ref{fig:sim_times}.
+
+
+  \item Several reviewers pointed out that in approximating $\E[1-(1-p_e)^K] \approx \E[K] p_e$
+    we were neglecting the case that $s_m \ll s_p$.
+    This was pur laziness on our part,
+    which we have rectified; see the new equation~\eqref{eqn:twocase_migrate}.
+
+
+\end{itemize}
+
+
 
 %%%%%%%%%%%%%%
 \reviewersection
@@ -80,7 +92,7 @@ the correct way forward becomes non-intuitive, to us, at least.
 %%%%%%%%
 \point{}{ 
     The probability of establishment of at least one member of family is then
-    \[ P_{est} = 1 - \exp(-p n) ~ 1 - \exp(-p_e/s) \]
+    \[ P_{est} = 1 - \exp(-p n) \sim 1 - \exp(-p_e/s) \]
     where $p_e$ is the establishment probability of a single individual. The result
     for $\migrate$ will then depend on whether $p_e/s$ is large or small.
     For $p_e/s$ large, $\migrate = \rho q(x) s^2 \ell$,
@@ -91,6 +103,9 @@ the correct way forward becomes non-intuitive, to us, at least.
     and should be discussed. 
 }
 
+\reply
+As discussed above, we have incorporated this good point; see around equation~\eqref{eqn:twocase_migrate}.
+
 %%%%%%%%
 \point{}{ 
     I don't seem to be able to identify the equivalent of
@@ -100,7 +115,7 @@ the correct way forward becomes non-intuitive, to us, at least.
 }
 
 \reply
-    See above.
+    See the response to point 1.1 above.
 
 %%%%%%%%
 \point{}{ 
@@ -110,6 +125,7 @@ the correct way forward becomes non-intuitive, to us, at least.
 }
 
 \reply
+  We've done this; see above.
 
 
 %%%%%%%%
@@ -119,10 +135,18 @@ the correct way forward becomes non-intuitive, to us, at least.
     recent work by Hallatschek and Fisher.
 }
 
+\reply
+This was already discussed in the discussion, but we've added a note about it earlier on, citing Hallatschek \& Fisher.
+\llname{rr:longtailed}
+
 %%%%%%%%
 \point{Fig 4:}{ Why not use natural units for the axis of these plots,
   $R\sqrt(s)/\sigma$, $\rho \mu A/s$.
   }
+  
+\reply
+Good idea, but we've decided to cut this figure.
+
 
 %%%%%%%%
 \point{in the discussion on page 10 "probability of parallel adaptation.."}{
@@ -361,6 +385,13 @@ and unscaled distances.
     need a lower bound for $s_m$. Both these restrictions (or any other) should
     not be just ad-hoc, but motivated from within the theory (see my remarks at eq. 13).
 }
+
+\reply
+Very good points.  
+We apologize for not catching the nonmonotonicity earlier.
+We've added a section, \nameref{ss:assumptions}, discussing this point,
+as well as a note regarding the nonmonotonicity wrt $s_m$
+\llname{rr:sm_condition}.
 
 \point{1b.}{
     Linked to this: Figure 4, right panel, shows results in a parameter

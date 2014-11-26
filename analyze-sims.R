@@ -155,15 +155,12 @@ par(mar=c(4,4,1,1)+.1)
     # remove simulation configurations where a substantial portion haven't yet adapted
     usethese <- with( mutsims, adapted & ( muttime < maxtime/10 ) ) 
     with( droplevels(subset(mutsims,usethese)), {
-            sm.vals <- (levels(droplevels(sm.name)))
-            sm.col.pal <- sequential_hcl(length(sm.vals))
+            sm.vals <- (levels(droplevels(sm.name))); sm.col.pal <- sequential_hcl(length(sm.vals))
             sm.pch <- match( levels(sm.name)[tapply(sm.name,paramstring,"[",1)], sm.vals )
             sm.cols <- sm.col.pal[ sm.pch ]
-            N.vals <- (levels(droplevels(N.name)))
-            N.col.pal <- terrain_hcl(length(N.vals))
+            N.vals <- (levels(droplevels(N.name))); N.col.pal <- terrain_hcl(length(N.vals))
             N.cols <- N.col.pal[ match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals ) ]
-            mu.vals <- (levels(droplevels(mu.name)))
-            mu.col.pal <- sequential_hcl(length(mu.vals))
+            mu.vals <- (levels(droplevels(mu.name))); mu.col.pal <- sequential_hcl(length(mu.vals))
             mu.pch <- match( levels(mu.name)[tapply(mu.name,paramstring,"[",1)], mu.vals )
             mu.cols <- mu.col.pal[ mu.pch ]
             xx <- exp(jitter(log(tapply(muttime,paramstring,mean,na.rm=TRUE))))
@@ -189,23 +186,20 @@ par(mar=c(4,4,1,1)+.1)
                 pt.bg=c(NA,sm.col.pal)[c( rep(1,nlevels(sm.name)), rep(1,nlevels(N.name)), 1+(1:nlevels(mu.name)) ) ] 
             )
         } )
+
 # MIGRATION
     usethese <- with( migsims, adapted  & ( migtime < maxtime ) ) 
     with( droplevels(subset(migsims,usethese)), {
-            sm.vals <- (levels(droplevels(sm.name)))
-            sm.col.pal <- sequential_hcl(length(sm.vals))
+            sm.vals <- (levels(droplevels(sm.name))); sm.col.pal <- sequential_hcl(length(sm.vals))
             sm.pch <- match( levels(sm.name)[tapply(sm.name,paramstring,"[",1)], sm.vals ) 
             sm.cols <- sm.col.pal[ sm.pch ]
-            R.vals <- (levels(droplevels(R.name)))
-            R.col.pal <- terrain_hcl(length(R.vals))
+            R.vals <- (levels(droplevels(R.name))); R.col.pal <- terrain_hcl(length(R.vals))
             R.pch <- match( levels(R.name)[tapply(R.name,paramstring,"[",1)], R.vals )
             R.cols <- R.col.pal[ R.pch ]
-            N.vals <- (levels(droplevels(N.name)))
-            N.col.pal <- terrain_hcl(length(N.vals))
+            N.vals <- (levels(droplevels(N.name))); N.col.pal <- terrain_hcl(length(N.vals))
             N.pch <- match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals )
             N.cols <- N.col.pal[ N.pch ]
-            plot( 0, type='n', log='xy',
-                    xlim=c(10,3.5e4), ylim=c(10,3.5e4), 
+            plot( 0, type='n', log='xy', xlim=c(10,3.5e4), ylim=c(10,3.5e4), 
                     ylab="time to hit 100 in second patch", xlab="mean migration time") 
             segments( x0=tapply(migtime,paramstring,mean,na.rm=TRUE),
                     y0=tapply(hit100.2,paramstring,quantile,.25,na.rm=TRUE),
@@ -216,8 +210,7 @@ par(mar=c(4,4,1,1)+.1)
                     tapply(hit100.2,paramstring,median,na.rm=TRUE),
                     pch=20+sm.pch, col=R.cols, bg=N.cols, lwd=2 )
             abline(0,1,untf=TRUE)
-            legend("topleft", cex=0.5, pt.cex=1,
-                legend=c(levels(sm.name),levels(N.name),levels(R.name)), 
+            legend("topleft", cex=0.5, pt.cex=1, legend=c(levels(sm.name),levels(N.name),levels(R.name)), 
                 pch=c( 20+(1:nlevels(sm.name)), rep(21,nlevels(N.name)), rep(21,nlevels(R.name))), 
                 col=c("black",R.col.pal)[c(rep(1,nlevels(sm.name)),rep(1,nlevels(N.name)), 1+1:nlevels(R.name))],
                 pt.bg=c(NA,sm.col.pal)[c( rep(1,nlevels(sm.name)), 1+(1:nlevels(N.name)), rep(1,nlevels(R.name)))] 
