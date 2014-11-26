@@ -205,7 +205,7 @@ par(mar=c(4,4,1,1)+.1)
             R.pch <- match( levels(R.name)[tapply(R.name,paramstring,"[",1)], R.vals )
             R.cols <- R.col.pal[ R.pch ]
             R.labs <- parse( text=gsub("R-","R==",levels(R.name)) )
-            N.vals <- (levels(droplevels(N.name))); N.col.pal <- terrain_hcl(length(N.vals))
+            N.vals <- (levels(droplevels(N.name))); N.col.pal <- sequential_hcl(length(N.vals))
             N.pch <- match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals )
             N.cols <- N.col.pal[ N.pch ]
             N.labs <- parse( text=gsub("N-","rho ==",levels(N.name)) )
@@ -396,17 +396,16 @@ sink(NULL)
 ####
 #  make example trace plots
 
+# mutation
 plotsims <- with( subset(mutsims,dims=="1D"), tapply( seq_along(paramstring), droplevels(paramstring), sample, 1 ) )
-
 for (k in plotsims) {
-
     with( subset(mutsims,dims=="1D")[k,],  {
         fcon <- pipe(paste("find ../patchy-sim -name", filename))
         fname <- scan(fcon,what='char')
         close(fcon)
         cat("reading from ", fname, "\n")
         load(fname)
-        pdf(file=gsub(".Rdata",".pdf",filename),width=7,height=3,pointsize=10)
+        pdf(file=file.path("example-mutation-sims",gsub("_Rdata",".pdf",gsub(".","_",filename,fixed=TRUE))), width=7,height=3,pointsize=10)
         # png(file=gsub(".Rdata",".png",filename),width=7*144,height=3*144,pointsize=10,res=144)
         layout(t(1:2))
         plotpophist(pophist,plotlegend=FALSE,maxtimes=100,
@@ -421,5 +420,30 @@ for (k in plotsims) {
         lines( xlocs, ((ss-min(ss))/diff(range(ss)))[xlocs], col='black', lty=2, lwd=2 )
         dev.off()
     } )
+}
 
+# migration
+plotsims <- with( subset(migsims,dims=="1D"), tapply( seq_along(paramstring), droplevels(paramstring), sample, 1 ) )
+for (k in plotsims) {
+    with( subset(mutsims,dims=="1D")[k,],  {
+        fcon <- pipe(paste("find ../patchy-sim -name", filename))
+        fname <- scan(fcon,what='char')
+        close(fcon)
+        cat("reading from ", fname, "\n")
+        load(fname)
+        pdf(file=file.path("example-migration-sims",gsub("_Rdata",".pdf",gsub(".","_",filename,fixed=TRUE))), width=7,height=3,pointsize=10)
+        # png(file=gsub(".Rdata",".png",filename),width=7*144,height=3*144,pointsize=10,res=144)
+        layout(t(1:2))
+        plotpophist(pophist,plotlegend=FALSE,maxtimes=100,
+            main=with(pophist$pop$params,parse(text=sprintf("list(rho == %d, mu == %0.2e)",N,mu))) )
+        freqs <- pophist$pophist[,,2,]/pophist$pop$params$N
+        xlocs <- floor(seq(1,nrow(freqs),length.out=200))
+        matplot(xlocs, freqs[xlocs,floor(seq(1,ncol(freqs),length.out=25))],type='l', 
+            col=heat.colors(25), ylim=c(0,1),
+            ylab="frequency of B", xlab="space (demes)",
+            main=with(pophist$pop,parse(text=sprintf("list(s[m] == %0.2e, s[p] == %0.2e)",abs(params$sm),getgrowth(params)$gb))) )
+        ss <- as.vector(pophist$pop$params$s)
+        lines( xlocs, ((ss-min(ss))/diff(range(ss)))[xlocs], col='black', lty=2, lwd=2 )
+        dev.off()
+    } )
 }
