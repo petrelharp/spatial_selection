@@ -13,9 +13,9 @@
 \input{review-response-commands}
 % set this to show line numbers and include responses to reviews or not
 \newif\ifreviewresponses
-% \reviewresponsestrue  % include them
+\reviewresponsestrue  % include them
+% \reviewresponsesfalse  % don't include them
 \ifreviewresponses\else\renewcommand{\linelabel}[1]{}\fi
-\reviewresponsesfalse  % don't include them
 \iflatexml\reviewresponsesfalse\fi  % they don't work so well in html
 % \newcommand{\responsefile}{pbio-reviews-19sept12-responses.tex}  % name of the review reponses file
 \newcommand{\responsefile}{patchy-review-responses.tex}  % name of the review reponses file
@@ -85,6 +85,7 @@
 \newcommand{\calC}{\mathcal{C}}
 \newcommand{\dconv}{\xrightarrow{d}}
 \newcommand{\deq}{\stackrel{\scriptscriptstyle{d}}{=}}
+\newcommand{\given}{\,\vert\,}
 
 \newcommand{\migrate}{\lambda_\text{mig}}
 \newcommand{\mutrate}{\lambda_\text{mut}}
@@ -358,7 +359,7 @@ so that $p(x) = p_e \approx 2 s_p / \xi^2$ within the patch, and $p(x) = 0$ othe
 %for a patch of area $A$ approximating $\int p(x) dx \approx 2 s_p A / \xi^2$. 
 This approximates the integrand $p(x)$ in \eqref{eqn:exactmutrate} by a step function,
 which will be a good approximation if the patch is large relative the scale over which $p(x)$ goes from 0 to $p_e$,
-or if $p(x)$ is close to $p_e$ at some point and is symmetric about the edge of the patch. \lineref{rr:p_estab}
+or if $p(x)$ is close to $p_e$ at some point and is symmetric about the edge of the patch. \linelabel{rr:p_estab}
 We examine this more generally via exact calculation of $p(x)$ in the section \nameref{apx:establishment_sims}.
 
 The rate at which mutations arise and colonize a patch of area $A$ is then
@@ -599,7 +600,7 @@ It turns out that if the distribution of offspring numbers is not too heavy-tail
 then $K_t$ has a limiting distribution: $K_t \dconv K$,
 and 
 \begin{align} \label{eqn:EK_limit}
-    e^{-s_m t}/(1-k_e(t)) \to \E[K]$ as $t \to \infty .
+    e^{-s_m t}/(1-k_e(t)) \to \E[K] \quad \text{as} \quad t \to \infty .
 \end{align}
 In other words, the chance of survival to time $t$ is a constant multiplied by $e^{-s_m t}$,
 and conditional on survival, the family size is given by a fixed distribution.
@@ -707,13 +708,14 @@ This suggests that
     } .
 \end{align}
 There are now two extremes to consider.
-If $\P\{K>1/p_e}$ is small, then each family has a small chance of establishment,
+If $\P\{K>1/p_e\}$ is small, then each family has a small chance of establishment,
 and the numerator is approximately $p_e \E[K]$.
 On the other hand, if $p_e$ is not too small,
 then the numerator would be close to 1, as any family that arrives will likely establish.
-Combining these, and using that $\E[K] \approx 1/s_m$, 
+Combining these, and absorbing the term $\E[W|W>1]$ from equation \eqref{eqn:mean_K} 
+into the constant $C$,
 \begin{align} \label{eqn:twocase_migrate}
-    \migrate(x) &\approx 2 \rho s_m \min(s_m,p_e) \times q(x) .
+    \migrate(x) &\approx C \rho s_m \min(s_m,p_e) \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma) .
 %     \begin{cases}
 %         q(x) \times 4 \rho s_m s_p / \xi^2  \qquad & \text{ if } s_p < s_m \\
 %         q(x) \times 2 \rho s_m^2 \qquad & \text{ if } s_p > s_m 
@@ -721,6 +723,29 @@ Combining these, and using that $\E[K] \approx 1/s_m$,
 \end{align}
 When we use this, we set $p_e = 2 s_p / \xi^2$.
 
+
+
+%%%%%%%%%
+\subsection{What are we assuming?}
+\label{ss:assumptions}
+
+A quick review of the parameter regime we are studying here:
+First, we assume that 
+\textbf{(a)} each patch is large enough to support a stable population of $B$ alleles
+($A^{1/d} > (\sigma/\sqrt{2s_p}) \tan^{-1}(\sqrt{s_m/s_p})$).
+Next, in using equation \eqref{eqn:eqfreq}, we assume that 
+\textbf{(b)} the inter-patch distance is at least several multiples of the dispersal distance
+($R \gg \sigma$),
+and that 
+\textbf{(c)} local drift is not so strong that the equilibirum frequency is at least approximately attained
+($s_m \gg 1/(\rho \sigma^d)$).
+We also neglect the time for migration-selection equilibrium to be reached,
+which has the effect of over-estimating $\migrate$.
+
+We also assume that migration to a new patch takes place over a number of generations;
+if there are sufficient rare, long-distance migration events
+that would move between patches in a single hop,
+this would require a different analysis.
 
 
 %%%%%%%%%
@@ -796,7 +821,9 @@ simply comes down to whether a new mutation or a migrant allele is the first to 
 To work out how adaptation is likely to proceed, 
 we can compare expressions \eqref{eqn:mutrate} and \eqref{eqn:migrate} above
 for the effective rates of adaptation by new mutation and by migration.
-We work in one dimension, as the square root term appearing for two dimensions is relatively unimportant (see figure~\ref{fig:sim_occupation_freqs}).
+We work in one dimension, as the square root term appearing for two dimensions is relatively unimportant 
+(as seen in figure~\ref{fig:sim_occupation_freqs} by the fact that the $d=2$ curve is nearly straight).
+\linelabel{rr:sqrt_term}
 
 An important point to notice is that effective migration and mutation rates will be on the same order if 
 $A \mu \approx 2 s_m \exp(- R \sqrt{2 s_m} / \sigma)$,
@@ -834,11 +861,10 @@ then adaptations are likely to be shared between patches.
 If the mutational influx is higher -- say, $\rho A \mu = .01$ --
 the required separation between patches is only reduced to $R/\sigma > 7.3$ with $s_m=.05$.
 If $s_m=.001$, then with this higher mutational influx this calculation predicts that mutation will \emph{always} be faster than migration
--- however, this is misleading, 
-since with $s_m=.001$, for the assumption of well-separated patches to hold we would need $R/\sigma > 1/\sqrt{2s_m} = 22.4$.
-The correct conclusion is that convergent adaptation is much more likely than shared adaptation
-between patches separated by at least 22.4$\sigma$;
-for shorter separations the model breaks down.
+-- however, this should be taken very cautiously,
+since as discussed above, this model does not hold if $R$ is of the same order as $\sigma$
+or if $s_m$ is small enough that local drift is more important.
+\linelabel{rr:separated_patches}
 
 One way to visualize this is by a phase diagram.
 In figure \ref{fig:phase_diagram},
@@ -848,24 +874,24 @@ This gives us an idea of not only the parameter space where parallel adaptation 
 but also where adaptation by any means takes a very long time ($\Tmig$ and $\Tmut$ both very large),
 an important check in applications of these results.
 
-\begin{figure}[ht]
-  \begin{center}
-    \includegraphics{phase-diagram-log}
-  \end{center}
-  \caption{
-  Shaded contour plots of
-  mean time until adaptation in a new patch occurs by migration ($\Tmig$, blue) or by mutation ($\Tmut$, red),
-  as a function of population density ($\rho$), 
-  distance to an already adapted patch in units of dispersal distance ($R/\sigma$),
-  strength of deleterious selection ($s_m$),
-  and mutation rate scaled by patch area ($\mu A$).
-  The right-hand plot shows that $\migrate$ is relatively insensitive to $s_m$ (thanks to the square root).
-  The black, dotted line shows values where $\Tmig=\Tmut$.
-  Default parameter values were $A=100$, $\rho=10$, $\mu=10^{-8}$, $s_p=0.1$, $s_m=0.01$, $R/\sigma=20$, and $\xi^2=1$.
-  Note that population density $\rho$ and mutation influx $A\mu$ are shown on a log scale.
-  \label{fig:phase_diagram}
-  }
-\end{figure}
+% \begin{figure}[ht]
+%   \begin{center}
+%     \includegraphics{phase-diagram-log}
+%   \end{center}
+%   \caption{
+%   Shaded contour plots of
+%   mean time until adaptation in a new patch occurs by migration ($\Tmig$, blue) or by mutation ($\Tmut$, red),
+%   as a function of population density ($\rho$), 
+%   distance to an already adapted patch in units of dispersal distance ($R/\sigma$),
+%   strength of deleterious selection ($s_m$),
+%   and mutation rate scaled by patch area ($\mu A$).
+%   The right-hand plot shows that $\migrate$ is relatively insensitive to $s_m$ (thanks to the square root).
+%   The black, dotted line shows values where $\Tmig=\Tmut$.
+%   Default parameter values were $A=100$, $\rho=10$, $\mu=10^{-8}$, $s_p=0.1$, $s_m=0.01$, $R/\sigma=20$, and $\xi^2=1$.
+%   Note that population density $\rho$ and mutation influx $A\mu$ are shown on a log scale.
+%   \label{fig:phase_diagram}
+%   }
+% \end{figure}
 
 Taking these approximations at face value, 
 and assuming both rates are small, 
@@ -905,7 +931,9 @@ whose state records the labeling of patches according to the colonizing allele
 If not yet adapted, a focal patch of area $A$ will acquire the adaptation by new mutation at rate $2 s_p \mu \rho A/\xi^2$ (equation \eqref{eqn:mutrate}).
 Suppose that patches $1, \ldots, k$ are already adapted,
 and that these patches are at distances $R_1, \ldots, R_k$ away from this unadapted patch.
-The total rate of adaptation through migration, from equation \eqref{eqn:migrate}, is
+The total rate of adaptation through migration, from equation \eqref{eqn:migrate}
+if patches do not interfere with each other, \linelabel{rr:interference}
+is
 \begin{equation} \label{eqn:total_migrate}
   \sum_{i=1}^k \migrate(R_i) = C \frac{ 4 \rho s_p s_m }{\xi^2} \sum_{i=1}^{k} \left(R_i \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2} \exp\left(- R_i \sqrt{2 s_m} /\sigma\right).
 \end{equation}
@@ -1392,7 +1420,8 @@ The answer to this depends most strongly on $\sigma/\sqrt{s_m}$,
 the dispersal distance divided by the square root of the strength of selection against the allele between patches. 
 It depends much more weakly on the
 selective benefit within the patches or (perhaps surprisingly) the population density, 
-although these two factors will determine the time-scale over which adaptation will occur. 
+although these two factors will determine the time-scale over which adaptation will occur
+(and note that population density could affect the selection coefficients). \linelabel{rr:popdensity}
 This is in contrast with models of panmictic populations
 \citep{softsweepsI, MesserPetrov, Wilson-softsweep} 
 and geographically spread populations adapting to homogeneous selection pressures \citep{ralph2010parallel}, 
@@ -1449,7 +1478,8 @@ If, however, the mutation is recessive, then it is essentially neutral where rar
 and so would encounter much less resistance to spreading between patches.
 The shape of the cline obtained is given by \citet{haldane1948theory}.
 This is counteracted, however, by the increased difficulty with which the mutation would establish
-once arriving in a new patch. 
+once arriving in a new patch,
+if the beneficial effect is also recessive. \linelabel{rr:dominance}
 As such it is not clear what our intuition should be 
 about the contribution of recessive alleles to adaptation via migration. 
 Further work is needed to put empirical observations of local adaptation by recessive alleles 
@@ -1458,7 +1488,7 @@ It is simliarly unclear how the model should extend to a polygenic trait.
 
 \paragraph{Long distance migration}
 We have also ignored the possibility of very long distance migration,
-instead focusing on local dispersal (and using a Gaussian model).
+instead focusing on local dispersal (and using Gaussians via the central limit theorem).
 However, dispersal distributions can be very heavy tailed, 
 with a small fraction of individuals moving very long distances indeed \citep{levin2003ecology,reynolds2009levy}.
 In addition, over long time-scales, very rare chance events (mice carried off by hurricanes and the like \citet{censky1998overwater,nathan2008mechanisms})
@@ -1840,10 +1870,10 @@ If we make the approximation that $Z$ hits the new patch only if the trunk of $Z
 and recall that $1-k_e(t)$ is the chance that $Z$ survives for $t$ generations,
 then this is equal to
 \begin{align}
-    h(x,S) &\approx \int_0^\infty (1-k_e(t)) \P\{ \tau_S \in dt \} \\
-    &= \int_0^\infty e^{s_m t} (1-k_e(t)) e^{- s_m t } \P\{ \tau_S \in dt \} \\
-    &=\int_0^\infty e^{s_m t} (1-k_e(t)) \P\{ \tau_S \in dt \, \& \, t < \tau_\dagger \} \\
-    &\approx \frac{1}{\E[K]} \int_0^\infty \P\{ \tau_S \in dt \, \& \, t < \tau_\dagger \} \\
+    h(x,S) &\approx \int_0^\infty (1-k_e(t)) \P^x\{ \tau_S \in dt \} \\
+           &= \int_0^\infty e^{s_m t} (1-k_e(t)) e^{- s_m t } \P^x\{ \tau_S \in dt \} \\
+           &=\int_0^\infty e^{s_m t} (1-k_e(t)) \P^x\{ \tau_S \in dt \, \& \, t < \tau_\dagger \} \\
+           &\approx \frac{1}{\E[K]} \int_0^\infty \P^x\{ \tau_S \in dt \, \& \, t < \tau_\dagger \} \\
     &= \frac{1}{\E[K]} \P^x[ \tau_S < \tau_\dagger ] .
 \end{align}
 Therefore, we have that
@@ -2063,6 +2093,7 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 \fi
 
 
+\includereviews
 
 
 \end{document} 

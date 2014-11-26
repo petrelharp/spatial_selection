@@ -94,7 +94,8 @@ migsims$gm <- getgrowth(migsims)$gm
 migsims$paramstring <- with(migsims, factor( paste(sm.name,R.name,N.name,dims,sep='_') ) )
 
 migsims$adjust <- 0  # with( migsims, log(N)/gb + size1/2 / ( sigma * sqrt(gb) ) )
-migsims$migtime <- with( migsims, 0.5/( 4 * N * gb * abs(sm) * exp(- R * sqrt(2*abs(sm))/sigma ) ) + adjust )
+# migsims$migtime <- with( migsims, 0.5/( 4 * N * gb * abs(sm) * exp(- R * sqrt(2*abs(sm))/sigma ) ) + adjust )
+migsims$migtime <- with( migsims, 1/( 5 * ((1+gb)/(1-exp(-(1+gb)))) * N * pmin(2*gb/(1+gb),abs(sm)) * abs(sm) * exp(- R * sqrt(2*abs(sm))/sigma ) ) + adjust )
 migsims$adapted <- ( 
     ( migsims$dims == "1D" ) &
     ( migsims$hit100.2 < 24000 ) &
@@ -145,6 +146,7 @@ pairs( migsims[c("final1", "time1", "hit100.1", "final2", "time2", "hit100.2","m
 # for paper
 
 require(colorspace)
+require(calibrate)
 
 pdf( file="times-predicted-observed.pdf", width=6.5, height=3.3, pointsize=10 )
 layout(t(1:2))
@@ -219,12 +221,50 @@ dev.off()
 ##
 # phase space picture of probability of migration versus mutation
 
-pmut <- function(sm,mu,R,A,sigma,C=1/2) { ( A * mu ) / ( A*mu + 2*C*sm*exp(-R*sqrt(2*sm)/sigma^2) ) }
-paramgrid <- expand.grid( N=seq(25,1600,length.out=100), sm=10^(seq(-4,-1,length.out=100)), mu=1e-6, R=seq(20,160,length.out=100), A=99, sigma=0.953770108230929 )
-
+pmut <- function(sm,mu,R,A,sigma,C=10/2) { ( A * mu ) / ( A*mu + 2*C*abs(sm)*exp(-R*sqrt(2*abs(sm))/sigma^2) ) }
+muval <- 1e-5
+Aval <- 99
+sigmaval <- median(migsims$sigma)  # i.e. most common one, here.
+paramgrid <- expand.grid( N=seq(25,1600,length.out=100), sm=10^(seq(-4,-1,length.out=100)), mu=muval, R=seq(10,160,length.out=100), A=Aval, sigma=sigmaval )
 paramgrid$pmut <- with( paramgrid, pmut(sm,mu,R,A,sigma) )
 
-# helper functions
+simgrid <- expand.grid( 
+            N=sort(intersect(unique(mutsims$N),unique(migsims$N))), 
+            sm=sort(intersect(unique(mutsims$sm),unique(migsims$sm))),
+            mu=muval, 
+            R=sort(unique(migsims$R)),
+            A=Aval,
+            sigma=sigmaval,
+            dims="1D",
+            stringsAsFactors=FALSE
+        )
+simgrid$theory.pmut <- with(simgrid, pmut( sm, mu, R, A, sigma ) )
+simgrid <- cbind( simgrid, t( sapply( 1:nrow(simgrid), function (k) { params <- simgrid[k,]
+            migtimes <- subset( migsims, (N==params$N) & (sm==params$sm) & (R==params$R) & (dims==params$dims) & adapted )$hit100.2
+            muttimes <- subset( mutsims, (N==params$N) & (sm==params$sm) & (mu==params$mu) & (dims==params$dims) & adapted )$hit100.1
+            if ( (length(migtimes)>20) & (length(muttimes)>20) ) {
+                pmut <- mean(outer(migtimes,muttimes,">"))
+            } else {
+                pmut <- NA
+            }
+            c( migtime=median(migtimes), muttime=median(muttimes), pmut=pmut )
+        } ) ) )
+
+
+# look at results
+layout(t(1:2))
+with( simgrid, { 
+            plot(pmut, theory.pmut, col=match(sm,sort(unique(sm))) )
+            legend("bottomright", legend=sort(unique(sm)), col=1:length(sort(unique(sm))), pch=1 )
+            abline(0,1)
+        } )
+with( simgrid, { 
+            plot(pmut, with(simgrid,pmut(sm,mu,R,A,sigma,C=5)), col=match(sm,sort(unique(sm))), main="C=5" )
+            legend("bottomright", legend=sort(unique(sm)), col=1:length(sort(unique(sm))), pch=1 )
+            abline(0,1)
+        } )
+
+# helper functions: do contour plots from expand.grid-type setup
 con <- function (xvar, yvar, zvar, ... ) {
     xvals <- sort(unique(xvar))
     yvals <- sort(unique(yvar))
@@ -240,19 +280,22 @@ fcon <- function (xvar, yvar, zvar, levels=pretty(range(zvar), nlevels), nlevels
     .filled.contour( x=xvals, y=yvals, z=zvals, levels=levels, col=col )
 }
 
-layout(t(1:2))
-# sm against N
-usethese <- with(paramgrid, abs(R-40) < mean(diff(sort(unique(R))))/2 )
-with( subset(paramgrid,usethese), {
-            plot( N, sm, col=grey(pmut), pch=20, log='y' )
-            con( N, sm, pmut, add=TRUE, col='red', lwd=2 )
-            # fcon( N, sm, pmut, levels=seq(0,1,length.out=20), col=grey(seq(0,1,length.out=20)) )
-            # points( sm~N, col=grey(pmut), pch=20, log='y' )
-        } )
 # sm against R
+pdf(file="prob-mutation-compared.pdf", width=4, height=3, pointsize=10 )
+par(mar=c(4,4,3,1)+.1)
 usethese <- with(paramgrid, abs(N-100) < mean(diff(sort(unique(N))))/2 )
 with( subset(paramgrid,usethese), {
-            plot( R, sm, col=grey(pmut), pch=20, log='y' )
-            con( R, sm, pmut, add=TRUE, col='red', lwd=2 )
+            plot( R, sm, col=grey(pmut), pch=20, log='y', 
+                    xlab=expression(R), ylab=expression(s[m]), main="probability of parallel adaptation" )
+            con( R, sm, pmut, add=TRUE, col='black', levels=c(.01,.05,.25,.5,.75,.95,.99) )
         } )
-
+with( subset(simgrid, !is.na(pmut) ), {
+            Rlocs <- R
+            smlocs <- abs(sm)*ifelse(N==1000 & sm>-2e-2, 1+.3, 1)
+            points( Rlocs, abs(smlocs), bg=grey(pmut), pch=ifelse(N==1000,21,24), cex=2 ) 
+            text( Rlocs, abs(smlocs), formatC(pmut,digits=2,format="f"), 
+                    cex=0.5, col='red', pos=ifelse(R>100,2,4) )
+        } )
+legend("topright", pch=c(21,24), legend=c(expression(rho==1000),expression(rho==100)), 
+        pt.bg=grey(.75), pt.cex=1.5, bg='white' )
+dev.off()
