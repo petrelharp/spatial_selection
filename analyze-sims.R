@@ -28,20 +28,6 @@ mutsims$adapted <- (
     ( mutsims$time1 >= mutsims$hit100.1 ) )
 
 mutsims$adapttime <- mutsims$hit100.1
-
-# look at residuals
-with( subset(mutsims,adapted), {
-        x <- log(N)
-        plot( x, adapttime-muttime, log='x' ) 
-        points( sort(unique(x)), tapply(adapttime-muttime,factor(x,levels=sort(unique(x))),mean,na.rm=TRUE), col='red', cex=2 )
-        resid.lm <- lm( adapttime-muttime ~ x )
-        abline(coef(resid.lm),untf=TRUE)
-        coef(resid.lm)
-    } )
-
-muttime.lm <- with( subset(mutsims,adapted), lm( adapttime ~ muttime ) )
-muttime.lm
-
 pdf(file="mutation-times-predicted.pdf", width=5, height=5, pointsize=10)
 with( subset(mutsims,adapted), 
         plot( muttime, adapttime, log='xy', xlab="mean time to adaptation by mutation", ylab="time to hit 100 in patch",
@@ -61,17 +47,33 @@ legend("bottomright", legend=c(levels(mutsims$sm.name),levels(mutsims$N.name)), 
 dev.off()
 
 
-pairs( mutsims[c("time1", "hit100.1", "final1", "muttime" )  ], 
-    upper.panel=function (x,y,...) { points(x,y,...,col=mutsims$sm.name) }, 
-    lower.panel=function (x,y,...) { points(x,y,...,col=mutsims$N.name) } )
 
-layout(t(1:2))
-with( mutsims, plot( final1, adapttime, col=sm.name, pch=1+!adapted ) )
-with( subset(mutsims,adapted&N>100), abline(coef(lm( adapttime ~ final1 ) ) ) )
-legend("bottomleft",legend=levels(mutsims$sm.name),col=1:nlevels(mutsims$sm.name),pch=1)
-with( mutsims, plot( final1, adapttime, col=N.name, pch=1+!adapted ) )
-with( subset(mutsims,adapted&N>100), abline(coef(lm( adapttime ~ final1 ) ) ) )
-legend("bottomleft",legend=levels(mutsims$N.name),col=1:nlevels(mutsims$N.name),pch=1)
+# look at residuals
+if (interactive()) {
+    with( subset(mutsims,adapted), {
+        x <- log(N)
+        plot( x, adapttime-muttime, log='x' ) 
+        points( sort(unique(x)), tapply(adapttime-muttime,factor(x,levels=sort(unique(x))),mean,na.rm=TRUE), col='red', cex=2 )
+        resid.lm <- lm( adapttime-muttime ~ x )
+        abline(coef(resid.lm),untf=TRUE)
+        coef(resid.lm)
+    } )
+
+    muttime.lm <- with( subset(mutsims,adapted), lm( adapttime ~ muttime ) )
+    muttime.lm
+
+    pairs( mutsims[c("time1", "hit100.1", "final1", "muttime" )  ], 
+        upper.panel=function (x,y,...) { points(x,y,...,col=mutsims$sm.name) }, 
+        lower.panel=function (x,y,...) { points(x,y,...,col=mutsims$N.name) } )
+
+    layout(t(1:2))
+    with( mutsims, plot( final1, adapttime, col=sm.name, pch=1+!adapted ) )
+    with( subset(mutsims,adapted&N>100), abline(coef(lm( adapttime ~ final1 ) ) ) )
+    legend("bottomleft",legend=levels(mutsims$sm.name),col=1:nlevels(mutsims$sm.name),pch=1)
+    with( mutsims, plot( final1, adapttime, col=N.name, pch=1+!adapted ) )
+    with( subset(mutsims,adapted&N>100), abline(coef(lm( adapttime ~ final1 ) ) ) )
+    legend("bottomleft",legend=levels(mutsims$N.name),col=1:nlevels(mutsims$N.name),pch=1)
+}
 
 
 ################
@@ -118,29 +120,31 @@ with( subset(migsims,adapted), {
 dev.off()
 
 
-layout(matrix(1:4,nrow=2))
-with( subset(migsims,adapted), {
-        plot( migtime, hit100.2, col=R.name, log='xy', xlim=c(10,1e8)) 
-        points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
-        abline(0,1,untf=TRUE)
-        legend("bottomright",pch=1,legend=levels(R.name), col=1:nlevels(R.name) )
-        plot( migtime, hit100.2, col=N.name, log='xy', xlim=c(10,1e8))
-        points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
-        abline(0,1,untf=TRUE)
-        legend("bottomright",pch=1,legend=levels(N.name), col=1:nlevels(N.name) )
-        plot( migtime, hit100.2, col=sm.name, log='xy', xlim=c(10,1e8)) 
-        points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
-        abline(0,1,untf=TRUE)
-        legend("bottomright",pch=1,legend=levels(sm.name), col=1:nlevels(sm.name) )
-    } )
+if (interactive()) {
+    layout(matrix(1:4,nrow=2))
+    with( subset(migsims,adapted), {
+            plot( migtime, hit100.2, col=R.name, log='xy', xlim=c(10,1e8)) 
+            points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
+            abline(0,1,untf=TRUE)
+            legend("bottomright",pch=1,legend=levels(R.name), col=1:nlevels(R.name) )
+            plot( migtime, hit100.2, col=N.name, log='xy', xlim=c(10,1e8))
+            points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
+            abline(0,1,untf=TRUE)
+            legend("bottomright",pch=1,legend=levels(N.name), col=1:nlevels(N.name) )
+            plot( migtime, hit100.2, col=sm.name, log='xy', xlim=c(10,1e8)) 
+            points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
+            abline(0,1,untf=TRUE)
+            legend("bottomright",pch=1,legend=levels(sm.name), col=1:nlevels(sm.name) )
+        } )
 
-pairs( migsims[c("N", "gb", "gm", "R", "sigma", "migtime")],
-    upper.panel=function (x,y,...) { points(x,y,...,col=migsims$sm.name) }, 
-    lower.panel=function (x,y,...) { points(x,y,...,col=migsims$N.name) } )
+    pairs( migsims[c("N", "gb", "gm", "R", "sigma", "migtime")],
+        upper.panel=function (x,y,...) { points(x,y,...,col=migsims$sm.name) }, 
+        lower.panel=function (x,y,...) { points(x,y,...,col=migsims$N.name) } )
 
-pairs( migsims[c("final1", "time1", "hit100.1", "final2", "time2", "hit100.2","migtime")],
-    upper.panel=function (x,y,...) { points(x,y,...,col=migsims$sm.name) }, 
-    lower.panel=function (x,y,...) { points(x,y,...,col=migsims$N.name) } )
+    pairs( migsims[c("final1", "time1", "hit100.1", "final2", "time2", "hit100.2","migtime")],
+        upper.panel=function (x,y,...) { points(x,y,...,col=migsims$sm.name) }, 
+        lower.panel=function (x,y,...) { points(x,y,...,col=migsims$N.name) } )
+}
 
 ####
 # for paper
@@ -158,15 +162,18 @@ par(mar=c(4,4,1,1)+.1)
             sm.vals <- (levels(droplevels(sm.name))); sm.col.pal <- sequential_hcl(length(sm.vals))
             sm.pch <- match( levels(sm.name)[tapply(sm.name,paramstring,"[",1)], sm.vals )
             sm.cols <- sm.col.pal[ sm.pch ]
+            sm.labs <- parse( text=gsub("sm-","s[m]==",levels(sm.name)) )
             N.vals <- (levels(droplevels(N.name))); N.col.pal <- terrain_hcl(length(N.vals))
             N.cols <- N.col.pal[ match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals ) ]
+            N.labs <- parse( text=gsub("N-","N==",levels(N.name)) )
             mu.vals <- (levels(droplevels(mu.name))); mu.col.pal <- sequential_hcl(length(mu.vals))
             mu.pch <- match( levels(mu.name)[tapply(mu.name,paramstring,"[",1)], mu.vals )
             mu.cols <- mu.col.pal[ mu.pch ]
+            mu.labs <- parse( text=gsub("mu-","mu==",levels(mu.name)) )
             xx <- exp(jitter(log(tapply(muttime,paramstring,mean,na.rm=TRUE))))
             plot( 0, type='n', 
                     log='xy', xlim=c(100,10000),ylim=c(100,10000),
-                    xlab="mean time to adaptation by mutation", 
+                    xlab=expression(1/lambda['mut']),
                     ylab="time to hit 100 in patch",
             ) 
             segments( x0=xx,
@@ -180,7 +187,7 @@ par(mar=c(4,4,1,1)+.1)
             ) 
             abline(0,1,untf=TRUE)
             legend("bottomright", cex=0.5, pt.cex=1,
-                legend=c(levels(sm.name),levels(N.name),levels(mu.name)), 
+                legend=c(sm.labs,N.labs,mu.labs),
                 pch=c( 20+(1:nlevels(sm.name)), rep(1,nlevels(N.name)), rep(21,nlevels(mu.name)) ), 
                 col=c("black",N.col.pal)[c(rep(1,nlevels(sm.name)),1+1:nlevels(N.name),rep(1,nlevels(mu.name)))],
                 pt.bg=c(NA,sm.col.pal)[c( rep(1,nlevels(sm.name)), rep(1,nlevels(N.name)), 1+(1:nlevels(mu.name)) ) ] 
@@ -193,14 +200,18 @@ par(mar=c(4,4,1,1)+.1)
             sm.vals <- (levels(droplevels(sm.name))); sm.col.pal <- sequential_hcl(length(sm.vals))
             sm.pch <- match( levels(sm.name)[tapply(sm.name,paramstring,"[",1)], sm.vals ) 
             sm.cols <- sm.col.pal[ sm.pch ]
+            sm.labs <- parse( text=gsub("sm-","s[m]==",levels(sm.name)) )
             R.vals <- (levels(droplevels(R.name))); R.col.pal <- terrain_hcl(length(R.vals))
             R.pch <- match( levels(R.name)[tapply(R.name,paramstring,"[",1)], R.vals )
             R.cols <- R.col.pal[ R.pch ]
+            R.labs <- parse( text=gsub("R-","R==",levels(R.name)) )
             N.vals <- (levels(droplevels(N.name))); N.col.pal <- terrain_hcl(length(N.vals))
             N.pch <- match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals )
             N.cols <- N.col.pal[ N.pch ]
+            N.labs <- parse( text=gsub("N-","N==",levels(N.name)) )
             plot( 0, type='n', log='xy', xlim=c(10,3.5e4), ylim=c(10,3.5e4), 
-                    ylab="time to hit 100 in second patch", xlab="mean migration time") 
+                    ylab="time to hit 100 in second patch", 
+                    xlab=expression(1/lambda['mig']) )
             segments( x0=tapply(migtime,paramstring,mean,na.rm=TRUE),
                     y0=tapply(hit100.2,paramstring,quantile,.25,na.rm=TRUE),
                     y1=tapply(hit100.2,paramstring,quantile,.75,na.rm=TRUE),
@@ -210,7 +221,8 @@ par(mar=c(4,4,1,1)+.1)
                     tapply(hit100.2,paramstring,median,na.rm=TRUE),
                     pch=20+sm.pch, col=R.cols, bg=N.cols, lwd=2 )
             abline(0,1,untf=TRUE)
-            legend("topleft", cex=0.5, pt.cex=1, legend=c(levels(sm.name),levels(N.name),levels(R.name)), 
+            legend("topleft", cex=0.5, pt.cex=1, 
+                legend=c(sm.labs,N.labs,R.labs),
                 pch=c( 20+(1:nlevels(sm.name)), rep(21,nlevels(N.name)), rep(21,nlevels(R.name))), 
                 col=c("black",R.col.pal)[c(rep(1,nlevels(sm.name)),rep(1,nlevels(N.name)), 1+1:nlevels(R.name))],
                 pt.bg=c(NA,sm.col.pal)[c( rep(1,nlevels(sm.name)), 1+(1:nlevels(N.name)), rep(1,nlevels(R.name)))] 
@@ -306,3 +318,78 @@ with( subset(simgrid, !is.na(pmut) ), {
 legend("topright", pch=c(21,24), legend=c(expression(rho==1000),expression(rho==100)), 
         pt.bg=grey(.75), pt.cex=1.5, bg='white' )
 dev.off()
+
+####
+# table of sims done
+
+require(xtable)
+
+# mutation
+usethese <- with( mutsims, dims=="1D" )
+params <- c( "mu", "N", "sb", "sm", "hit100.1", "adapted" )
+paramtab <- aggregate( subset(mutsims,usethese)[params], subset(mutsims,usethese)['paramstring'], mean )
+nsims <- table(mutsims$paramstring)
+paramtab$n <- nsims[match(paramtab$paramstring,names(nsims))]
+paramtab <- paramtab[ order(paramtab$N,paramtab$sm), -1 ]
+names(paramtab)[match(c("N","sm","hit100.1","adapted","mu","sb"),names(paramtab))] <- c("$\\rho$","$s_m$","$T_\\text{adapt}$","$p_\\text{adapted}$","$\\mu$","$s_p$")
+
+sink(file="mutation-parameters-table.tex")
+print.xtable(
+    xtable( cbind(paramtab[1:floor(nrow(paramtab)/2),],paramtab[(floor(nrow(paramtab)/2)+1):nrow(paramtab),]),
+        align=c("r","|",rep("r",ncol(paramtab)),"|","|",rep("r",ncol(paramtab)),"|"),
+        format=c("s",rep( c("e","f","e","e","f","e","f"), 2 )),
+        digits=c(0, rep( c(2,0,2,2,0,2,0), 2 )),
+        label="stab:mutation_params",
+        caption="
+            Parameter values used in estimates of mean time to adaptation by mutation of figure~\\ref{fig:sim_times}.
+            All simulations also used a linear grid of 501 demes with a patch of 99 demes in the center, 
+            the migration model described in \\nameref{ss:simulations},
+            $\\mu=10^{-5}$, and $s_p=.0023$ (calculated as the growth rate as described in the text).
+            $T_\\text{adapt}$ is the mean time until 100 $B$ alleles were present in the patch,
+            and $p_\\text{adapted}$ is the proportion of the simulations that adapted by the 25,000 generations.
+            The simulation began with no $B$ alleles.
+            "
+        ), 
+    size="\\tiny",
+    include.rownames=FALSE, 
+    sanitize.colnames.function=identity,
+    sanitize.text.function=identity,
+    )
+sink(NULL)
+
+# migration
+usethese <- with( migsims, dims=="1D" )
+params <- c( "R", "N", "sb", "sm", "hit100.2", "adapted" )
+paramtab <- aggregate( subset(migsims,usethese)[params], subset(migsims,usethese)['paramstring'], mean )
+nsims <- table(migsims$paramstring)
+paramtab$n <- nsims[match(paramtab$paramstring,names(nsims))]
+paramtab <- paramtab[ order(paramtab$N,paramtab$sm), -1 ]
+names(paramtab)[match(c("N","sm","sb","hit100.2","adapted"),names(paramtab))] <- c("$\\rho$","$s_m$","$s_p$","$T_\\text{adapt}$","$p_\\text{adapted}$")
+
+
+sink(file="migration-parameters-table.tex")
+print.xtable(
+    xtable( cbind(paramtab[1:floor(nrow(paramtab)/2),],paramtab[(floor(nrow(paramtab)/2)+1):nrow(paramtab),]),
+        align=c("r","|",rep("r",ncol(paramtab)),"|","|",rep("r",ncol(paramtab)),"|"),
+        format=c("s",rep( c("e","f","e","e","f","e","f"), 2 )),
+        digits=c(0, rep( c(2,0,2,2,0,2,0), 2 )),
+        label="stab:migration_params",
+        caption="
+            Parameter values used in estimates of mean time to adaptation by migration of figure~\\ref{fig:sim_times}.
+            All simulations also used a linear grid of 501 demes with two patches of 99 demes each,
+            separated by $R$ demes in the center;
+            the migration model described in \\nameref{ss:simulations},
+            $\\mu=10^{-5}$, and $s_p=.0023$ (calculated as the growth rate as described in the text).
+            $T_\\text{adapt}$ is the mean time until 100 $B$ alleles were present in the patch,
+            and $p_\\text{adapted}$ is the proportion of the simulations that adapted by the 25,000 generations.
+            At the start of the simulation, one patch was initialized with a frequency of 0.8 $B$ alleles, which were absent elsewhere.
+            "
+        ), 
+    size="\\tiny",
+    include.rownames=FALSE, 
+    sanitize.colnames.function=identity,
+    sanitize.text.function=identity,
+    )
+sink(NULL)
+
+

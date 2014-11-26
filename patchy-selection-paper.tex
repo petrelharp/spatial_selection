@@ -373,46 +373,6 @@ will become locally established within the patch is exponentially distributed wi
 Assuming that once a mutation becomes established it quickly reaches its equilibrium frequency across the patch, 
 the time scale on which new patches become colonized by the $B$ allele from new mutation is therefore approximately $1/\mutrate$.
 
-%%%%%%%
-\subsection{Simulation methods}
-\label{ss:simulations}
-
-First we briefly describe the simulations used below for illustration and validation
-(and provide the \texttt{R} code used as a supplement).
-We simulated forward-time dynamics of the number of alleles of each type in a square grid (either one- or two-dimensional) of demes with fixed size $N$.
-Each generation, each individual independently chose to reproduce or not with a probability depending on her type and location in the grid;
-locally beneficial alleles were more likely to reproduce.
-Each then produced a random, Poisson distributed number of offspring that each, independently, 
-either remained in the same location or
-migrated a random number of steps in a uniformly chosen cardinal direction;
-the probability of migrating $k$ steps was proportional to $2^{-k}$ for $1\le k \le 5$.
-\linelabel{rr:sim_details}
-Once migrants were distributed, each deme was uniformly resampled back down to $N$ individuals.
-(Although we described the simulation in terms of individuals,
-we kept track only of total numbers in an equivalent way.)
-
-The reproduction rate in simulations for type $b$ alleles was 30\%; 
-this was then multiplied by $1+s$ to get the probability of reproduction for type $B$,
-where the value of $s$ is either $s_m$ or $s_p$ depending on the individual's location.
-This determines the values of $s_m$ and $s_p$ reported in the figures, 
-and do not depend on the basic rate of reproduction.
-However, to obtain values for $s_p$ and $s_m$ when comparing theory to simulation,
-we computed the rate of intrinsic growth, 
-i.e.\ the $s$ so that the numbers of $B$ alleles when rare would change by $e^{st}$ after $t$ generations
-in the absence of migration.
-(The resulting values are close to the first notion of $s$,
-but give better agreement with theory,
-which uses the second definition.)
-
-To sample lineages, we first simulated forwards in time the population dynamics,
-then sampled lineages moving back through time
-by, in each generation,
-moving each lineage to a new deme with probability proportional to the reverse migration probability
-weighted by the number of $B$ alleles in that deme in the previous time step.
-If more than one lineage was found in a deme with $n$ $B$ alleles,
-then each lineage picked a label uniformly from $1 \ldots n$,
-and those picking the same label coalesced.
-Since reproduction is Poisson, this correctly samples from the distribution of lineages given the population dynamics.
 
 %%%%%%%
 \subsection[Establishment by Migration]{Establishment of a locally adaptive allele due to migrational influx}
@@ -581,8 +541,8 @@ we can decouple reproduction and migration
 by first forming a tree in which each individual has a random number of offspring,
 then recursively assigning spatial locations to each individual in the tree,
 and finally pruning any branches that happen to wander into a patch.
-By our definition of fitness, the mean number of offspring per individual is $e^{-s_m}\approx 1-s_m$,
-and the variance is $\xi^2$.
+By our definition of fitness, 
+in this tree the mean number of offspring per individual is $e^{-s_m} < 1$.
 This pruning removes both branches leading back into the already established patch (which are irrelevant)
 and branches leading into the new patch (we will need to count these).
 Since we are concerned with the rare migrant families that transit quickly between patches, 
@@ -714,7 +674,7 @@ On the other hand, if $p_e$ is not too small,
 then the numerator would be close to 1, as any family that arrives will likely establish.
 Combining these, and absorbing the term $\E[W|W>1]$ from equation \eqref{eqn:mean_K} 
 into the constant $C$,
-\begin{align} \label{eqn:twocase_migrate}
+\begin{align} \label{eqn:migrate}
   \migrate(x) &\approx C \rho s_m \min(s_m,p_e) \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma)  \qquad \text{for } |y| > \sigma/\sqrt{2 s_m} 
 %     \begin{cases}
 %         q(x) \times 4 \rho s_m s_p / \xi^2  \qquad & \text{ if } s_p < s_m \\
@@ -725,6 +685,7 @@ When we use this below, we set $p_e = 2 s_p / \xi^2$.
 Note that the function increases for small $s_m$, 
 but decreases if $s_m > |y|^2 / 2 \sigma^2$, 
 i.e.\ where the condition holds.
+\linelabel{rr:sm_condition}
 
 
 %%%%%%%%%
@@ -749,13 +710,24 @@ if there are sufficient rare, long-distance migration events
 that would move between patches in a single hop,
 this would require a different analysis.
 
-
-%%%%%%%%%
-\subsection{Comparison to simulation}
-\label{ss:comparison_to_sims}
-
-We used the simulations describe above to test the theory,
-etcetera.
+To test the robustness of our results to the various approximations we used,
+we used individual-based simulations on a one-dimensional lattice of 501 demes,
+run for 25,000 generations.
+More details are given below in \nameref{ss:simulations},
+and the number of simulations used and parameter values are given in supplementary tables \ref{stab:mutation_params} and \ref{stab:migration_params}.
+To estimate the mean time until adaptation by mutation,
+we used one centrally located patch of 99 demes
+and a mutation rate of $\mu=10^{-5}$,
+and to estimate the mean time until adaptation by migration,
+we used two centrally located patches of 99 demes
+separated by a varying number of demes,
+with one patch initialized to have the $B$ allele at frequency 0.8.
+In each case, we measured the ``time to adaptation'' as the amount of time until at least 100 $B$ alleles
+were present in the previously unadapted patch.
+Figure~\ref{fig:sim_times}
+summarizes how the results compare to theory,
+excluding parameter combinations where a majority of simulations did not adapt by 25,000 generations
+or the patch was not large enough to support a stable population of $B$ alleles.
 
 
 \begin{figure}[ht!]
@@ -764,19 +736,28 @@ etcetera.
       \includegraphics{times-predicted-observed}
   \end{center}
   \caption{
-      \textbf{(A)} Time to adaptation by new mutation 
-      in 3,128 simulations,
-      compared to the value predicted by equation X.
-      For each of 52 different parameter combinations (Supp Table XX),
-      we performed between 40 and 100 independent simulations;
+      \textbf{(A)} 
+      Time until adaptation by mutation in an isolated patch for different parameter combinations,
+      as observed in simulations (vertical axis),
+      and as predicted from equation~\eqref{eqn:mutrate} (as $1/\mutrate$, horizontal axis).
+      \textbf{(B)} 
+      Time until adaptation by migration from an already occupied patch to a new patch,
+      as observed in simulations (vertical axis),
+      and as predicted from equation~\eqref{eqn:migrate} (as $1/\migrate$, horizontal axis).
+      For each,
+      parameter combinations and numbers of simulations are in supplemental tables \ref{stab:migration_params} and \ref{stab:mutation_params};
       shown are the median (points) and interquartile range (lines)
       of the time until the patch had at least 100 adapted individuals,
-      for each unique parameter combination (example runs in Supp Figure XX).
-      \textbf{(A)} Similar, for time to adaptation by migration
-      in 4,158 simulations.
-      TODO: put equations on axis labels, describe more, make supp figs.
+      for each unique parameter combination.
   }   \label{fig:sim_times}
 \end{figure}
+
+%%%%%%%%%
+\subsection{Comparison to simulation}
+\label{ss:comparison_to_sims}
+
+We used the simulations describe above to test the theory,
+etcetera.
 
 \begin{figure}[ht!]
   \begin{center}
@@ -913,7 +894,7 @@ i.e.\ the probability of parallel adaptation, is
     \frac{\mutrate}{\mutrate+\migrate(R)} = \frac{ A \mu / (2s_m) }{ A \mu / (2s_m) + \left(R \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2}\exp\left(- \sqrt{2 s_m} R / \sigma \right) },  
 \end{equation}
 so that the probability of parallel mutation should increase
-approximately logistically with the distance between the patches, at rate $\sqrt{s_m} /\sigma$. 
+approximately logistically with the distance between the patches, on the spatial scale $\sigma/\sqrt{s_m}$. \revpoint{2}{13}
 
 
 %%%%%%%%%%%%
@@ -947,11 +928,11 @@ comes from patch $i$ is
     /\sigma\right) } .
 \end{align}
 Equations \eqref{eqn:total_migrate} and \eqref{eqn:migprob} specify the transition rates of the process.
+
 Since the compound parameter $s_p \rho / \xi^2$ is common to both migration and mutation rates,
 it functions only as a time scaling of the process, 
 and therefore has no effect on the final configuration, namely, 
 the sets of patches sharing the genetic basis of their adaptive response.
-
 Also note that we can rescale time by the typical patch size, and introduce a parameter, say $a_k = A_k/\bar A$,
 making the properties (other than the time scaling) of the discrete model independent of the \emph{numerical sizes} of the demes themselves.
 This is complementary to the results of \cite{softsweepsII}, who showed that multiple mutations are likely to arise \emph{within} a panmictic deme
@@ -1548,6 +1529,47 @@ for helpful comments and discussion of the manuscript.
 %%%%%
 \section*{Materials \& Methods}
 
+%%%%%%%
+\subsection{Simulation methods}
+\label{ss:simulations}
+
+First we briefly describe the simulations we used for illustration and validation
+(the \texttt{R} code used is provided as a supplement).
+We simulated forward-time dynamics of the number of alleles of each type in a square grid (either one- or two-dimensional) of demes with fixed size $N$.
+Each generation, each individual independently chose to reproduce or not with a probability depending on her type and location in the grid;
+locally beneficial alleles were more likely to reproduce.
+Each then produced a random, Poisson distributed number of offspring that each, independently, 
+either remained in the same location with probabilty $0.8$ or
+migrated a random number of steps in a uniformly chosen cardinal direction;
+the probability of migrating $k$ steps was proportional to $2^{-k}$ for $1\le k \le 5$.
+\linelabel{rr:sim_details}
+Once migrants were distributed, each deme was uniformly resampled back down to $N$ individuals.
+(Although we described the simulation in terms of individuals,
+we kept track only of total numbers in an equivalent way.)
+
+The reproduction rate in simulations for type $b$ alleles was 30\%; 
+this was then multiplied by $1+s$ to get the probability of reproduction for type $B$,
+where the value of $s$ is either $s_m$ or $s_p$ depending on the individual's location.
+This determines the values of $s_m$ and $s_p$ reported in the figures, 
+and do not depend on the basic rate of reproduction.
+However, to obtain values for $s_p$ and $s_m$ when comparing theory to simulation,
+we computed the rate of intrinsic growth, 
+i.e.\ the $s$ so that the numbers of $B$ alleles when rare would change by $e^{st}$ after $t$ generations
+in the absence of migration.
+(The resulting values are close to the first notion of $s$,
+but give better agreement with theory,
+which uses the second definition.)
+
+To sample lineages, we first simulated forwards in time the population dynamics,
+then sampled lineages moving back through time
+by, in each generation,
+moving each lineage to a new deme with probability proportional to the reverse migration probability
+weighted by the number of $B$ alleles in that deme in the previous time step.
+If more than one lineage was found in a deme with $n$ $B$ alleles,
+then each lineage picked a label uniformly from $1 \ldots n$,
+and those picking the same label coalesced.
+Since reproduction is Poisson, this correctly samples from the distribution of lineages given the population dynamics.
+
 \subsection[Probability of Establishment]{Numerical calculation of the probability of establishment}
 \label{apx:establishment_sims}
 
@@ -1823,9 +1845,9 @@ if each member arriving has chance $p_e$ of establishing, independently.
 %   s(w) \simeq \frac{1}{2s_m} \left( 1 - \left( \frac{\pi w \sqrt{2 s_m}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2s_m}/\sigma} \right).
 % \end{align}
 Combining with the fact that $g(A)\approx 1/(2s_m)$ (see section~\nameref{ss:hitting_occupation}, in particular equation \eqref{eqn:q_migrate_relation}),
-we obtain that
+we obtain that XXX FIX
 \begin{align}
-  \label{eqn:migrate} 
+  \label{eqn:orig_migrate} 
   \migrate(y) &\approx q(y) \times \frac{ 4 \rho s_p  s_m }{ \xi^2 }  \\
   &\approx C \frac{ 4 \rho s_p s_m }{ \xi^2 } \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma) .
 \end{align}
@@ -2087,6 +2109,14 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 % \end{align*}
 
 
+
+%%%%%%%
+\section{Parameter values for simulations}
+\label{apx:parameter_tables}
+
+\input{mutation-parameters-table.tex}
+
+\input{migration-parameters-table.tex}
 
 
 

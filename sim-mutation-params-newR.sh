@@ -10,7 +10,7 @@ do
     do
         for MU in "1e-5" "1e-6"
         do
-            THISDIR="mutation/sm${SM}/N-${N}/1D"
+            THISDIR="mutation/mu${MU}/sm${SM}/N-${N}/1D"
             mkdir -p $THISDIR
             Rscript generate-patchy-run.R \
                 "outdir=\"${THISDIR}\"" \
