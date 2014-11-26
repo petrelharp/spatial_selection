@@ -400,7 +400,7 @@ plotsims <- with( subset(mutsims,dims=="1D"), tapply( seq_along(paramstring), dr
 
 for (k in plotsims) {
 
-    with( mutsims[k,],  {
+    with( subset(mutsims,dims=="1D")[k,],  {
         fcon <- pipe(paste("find ../patchy-sim -name", filename))
         fname <- scan(fcon,what='char')
         close(fcon)
