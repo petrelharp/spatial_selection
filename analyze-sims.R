@@ -440,7 +440,7 @@ if (!file.exists("example-migration-sims")) {
             # png(file=gsub(".Rdata",".png",filename),width=7*144,height=3*144,pointsize=10,res=144)
             layout(t(1:2))
             plotpophist(pophist,plotlegend=FALSE,maxtimes=100,
-                main=with(pophist$pop$params,parse(text=sprintf("list(rho == %d, mu == %0.2e)",N,mu))) )
+                main=with(pophist$pop$params,parse(text=sprintf("list(rho == %d, R == %0.2d)",N,R))) )
             freqs <- pophist$pophist[,,2,]/pophist$pop$params$N
             xlocs <- floor(seq(1,nrow(freqs),length.out=200))
             matplot(xlocs, freqs[xlocs,floor(seq(1,ncol(freqs),length.out=25))],type='l', 
