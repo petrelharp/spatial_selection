@@ -165,11 +165,11 @@ par(mar=c(4,4,1,1)+.1)
             sm.labs <- parse( text=gsub("sm-","s[m]==",levels(sm.name)) )
             N.vals <- (levels(droplevels(N.name))); N.col.pal <- terrain_hcl(length(N.vals))
             N.cols <- N.col.pal[ match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals ) ]
-            N.labs <- parse( text=gsub("N-","N==",levels(N.name)) )
+            N.labs <- parse( text=gsub("N-","rho ==",levels(N.name)) )
             mu.vals <- (levels(droplevels(mu.name))); mu.col.pal <- sequential_hcl(length(mu.vals))
             mu.pch <- match( levels(mu.name)[tapply(mu.name,paramstring,"[",1)], mu.vals )
             mu.cols <- mu.col.pal[ mu.pch ]
-            mu.labs <- parse( text=gsub("mu-","mu==",levels(mu.name)) )
+            mu.labs <- parse( text=gsub("mu","mu == ",levels(mu.name)) )
             xx <- exp(jitter(log(tapply(muttime,paramstring,mean,na.rm=TRUE))))
             plot( 0, type='n', 
                     log='xy', xlim=c(100,10000),ylim=c(100,10000),
@@ -208,7 +208,7 @@ par(mar=c(4,4,1,1)+.1)
             N.vals <- (levels(droplevels(N.name))); N.col.pal <- terrain_hcl(length(N.vals))
             N.pch <- match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals )
             N.cols <- N.col.pal[ N.pch ]
-            N.labs <- parse( text=gsub("N-","N==",levels(N.name)) )
+            N.labs <- parse( text=gsub("N-","rho ==",levels(N.name)) )
             plot( 0, type='n', log='xy', xlim=c(10,3.5e4), ylim=c(10,3.5e4), 
                     ylab="time to hit 100 in second patch", 
                     xlab=expression(1/lambda['mig']) )
@@ -393,3 +393,29 @@ print.xtable(
 sink(NULL)
 
 
+####
+#  make example trace plots
+
+plotsims <- tapply( 1:nrow(mutsims), mutsims$paramstring, sample, 1 )
+
+for (k in plotsims) {
+    with( mutsims[k,],  {
+        fcon <- pipe(paste("find ../patchy-sim -name", filename))
+        fname <- scan(fcon,what='char')
+        close(fcon)
+        oname <- gsub(".Rdata",".pdf",filename)
+        cat("reading from ", fname, "\n")
+        load(fname)
+        cat("writing to ", oname, "\n")
+        pdf(file=oname,width=7,height=3,pointsize=10)
+        layout(t(1:2))
+        plotpophist(pophist,plotlegend=FALSE)
+        freqs <- pophist$pophist[,,2,]/pophist$pop$params$N
+        matplot(freqs[,floor(seq(1,ncol(freqs),length.out=25))],type='l', 
+            col=heat.colors(25), ylim=c(0,1),
+            ylab="frequency of B", xlab="space (demes)" )
+        ss <- as.vector(pophist$pop$params$s)
+        lines( (ss-min(ss))/diff(range(ss)), col='black', lty=2, lwd=2 )
+        dev.off()
+    } )
+}

@@ -728,7 +728,12 @@ Figure~\ref{fig:sim_times}
 summarizes how the results compare to theory,
 excluding parameter combinations where a majority of simulations did not adapt by 25,000 generations
 or the patch was not large enough to support a stable population of $B$ alleles.
+Supplementary figures \ref{sfig:sim_mutation_times} and \ref{sfig:sim_migration_times}
+show all times, 
+and depictions of typical simulation runs are shown in supplementary figures
+\ref{sfig:} .
 
+The agreement is reasonable for both
 
 \begin{figure}[ht!]
   \begin{center}
@@ -736,14 +741,14 @@ or the patch was not large enough to support a stable population of $B$ alleles.
       \includegraphics{times-predicted-observed}
   \end{center}
   \caption{
-      \textbf{(A)} 
+      \textbf{(left)} 
       Time until adaptation by mutation in an isolated patch for different parameter combinations,
       as observed in simulations (vertical axis),
-      and as predicted from equation~\eqref{eqn:mutrate} (as $1/\mutrate$, horizontal axis).
-      \textbf{(B)} 
+      and as predicted from equation~\eqref{eqn:mutrate} (horizontal axis).
+      \textbf{(right)} 
       Time until adaptation by migration from an already occupied patch to a new patch,
       as observed in simulations (vertical axis),
-      and as predicted from equation~\eqref{eqn:migrate} (as $1/\migrate$, horizontal axis).
+      and as predicted from equation~\eqref{eqn:migrate} (horizontal axis).
       For each,
       parameter combinations and numbers of simulations are in supplemental tables \ref{stab:migration_params} and \ref{stab:mutation_params};
       shown are the median (points) and interquartile range (lines)
@@ -2114,10 +2119,16 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 \section{Parameter values for simulations}
 \label{apx:parameter_tables}
 
+Here we provide additional details regarding the simulations we used
+to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
+
+% table of parameters, produced by analyze-sims.R
 \input{mutation-parameters-table.tex}
 
+% table of parameters, produced by analyze-sims.R
 \input{migration-parameters-table.tex}
 
+% example trace plots
 
 
 \ifsubmissionversion
