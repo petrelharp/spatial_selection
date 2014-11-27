@@ -897,10 +897,19 @@ i.e.\ the probability of parallel adaptation,
 with $\gamma = \min(1,s_m/p_e)$,
 is 
 \begin{equation} \label{eqn:parallel_prob}
-    \frac{\mutrate}{\mutrate+\migrate(R)} = \frac{ A \mu / (2s_m) }{ A \mu / (2s_m) + \gamma \left(R \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2}\exp\left(- \sqrt{2 s_m} R / \sigma \right) },  
+    \frac{\mutrate}{\mutrate+\migrate(R)} = \frac{ A \mu / (2s_m) }{ A \mu / (2s_m) + C \gamma \left(R \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2}\exp\left(- \sqrt{2 s_m} R / \sigma \right) },  
 \end{equation}
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches, on the spatial scale $\sigma/\sqrt{s_m}$. \revpoint{2}{13}
+
+We tested this using the same simulations as figure \ref{fig:sim_times},
+by using the empirical distributions of the respective times to adaptation
+to estimate the probability,
+for each parameter combination,
+that a new, successful mutation appears 
+before a successful migrant arrives from another, already adapted patch.
+The results are compared to \eqref{eqn:parallel_prob}
+in figure~\ref{fig:sim_probs}.
 
 
 \begin{figure}[ht!]
@@ -909,12 +918,16 @@ approximately logistically with the distance between the patches, on the spatial
       \includegraphics{prob-mutation-compared}
   \end{center}
   \caption{
-      Probability that two patches separated by distance $R$
+      Probability that two patches 
       evolve by independent mutations (i.e.\ in parallel),
-      as predicted by theory (colors, contours)
-      and in simulations (points).
-      \textbf{With $C=5$.}
-      XXX: more info
+      as a function of their geographic separation ($R$)
+      and the strength of selection between patches ($s_m$).
+      The background shades of grey and contours
+      give the probability predicted by theory (equation~\eqref{eqn:parallel_prob}, with $C=5$).
+      Points correspond to parameter combinations of the simulations in figure \ref{fig:sim_times},
+      with the shade of grey and the red numeric label indicating the same probability
+      estimated from these simulations (see text for details).
+      The two densities, $\rho=100$ and $\rho=1000$ would lie directly on top of each other, so the $\rho=1000$ points have been shifted vertically.
   }   \label{fig:sim_probs}
 \end{figure}
 
