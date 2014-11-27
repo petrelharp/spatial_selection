@@ -16,7 +16,7 @@ source /home/rcf-40/pralph/cmb/bin/R-setup-usc.sh
 
 for k in $(seq $NREPS)
 do
-    source sim-mutation-params-newR.sh
+    source sim-migration-params-newsm.sh
     wait
 done
 

@@ -689,7 +689,7 @@ i.e.\ where the condition holds.
 
 
 %%%%%%%%%
-\subsection{What are we assuming?}
+\subsection{A review, and a test, of the assumptions}
 \label{ss:assumptions}
 
 A quick review of the parameter regime we are studying here:
@@ -697,15 +697,17 @@ First, we assume that
 \textbf{(a)} each patch is large enough to support a stable population of $B$ alleles
 ($A^{1/d} > (\sigma/\sqrt{2s_p}) \tan^{-1}(\sqrt{s_m/s_p})$).
 Next, in using equation \eqref{eqn:eqfreq}, we assume that 
-\textbf{(b)} the inter-patch distance is at least several multiples of the dispersal distance
-($R \gg \sigma$),
-and that 
+\textbf{(b)} the inter-patch distance is at least the characteristic length
+($R > \sigma/\sqrt{s_m}$),
+and that
 \textbf{(c)} local drift is not so strong that the equilibirum frequency is at least approximately attained
-($s_m \gg 1/(\rho \sigma^d)$).
+(using Wright's effective neighborhood size, $s_m \gg 1/(\rho \sigma^d)$).
+The last requirement is necessary because if the $B$ allele fixes in large neighborhoods where it is deleterious,
+we cannot approximate its dynamics via a branching process.
 We also neglect the time for migration-selection equilibrium to be reached,
-which has the effect of over-estimating $\migrate$.
-
-We also assume that migration to a new patch takes place over a number of generations;
+which has the effect of over-estimating $\migrate$,
+but don't know a good way to estimate this contribution.
+As discussed above, we also assume that migration to a new patch takes place over a number of generations;
 if there are sufficient rare, long-distance migration events
 that would move between patches in a single hop,
 this would require a different analysis.
@@ -728,10 +730,10 @@ Figure~\ref{fig:sim_times}
 summarizes how the results compare to theory,
 excluding parameter combinations where a majority of simulations did not adapt by 25,000 generations
 or the patch was not large enough to support a stable population of $B$ alleles.
-Supplementary figures \ref{sfig:sim_mutation_times} and \ref{sfig:sim_migration_times}
+Supplementary figures \ref{sfig:sim_migration_times} and \ref{sfig:sim_mutation_times} 
 show all times, 
 and depictions of typical simulation runs are shown in supplementary figures
-\ref{sfig:} .
+\ref{sfig:sims_1}, \ref{sfig:sims_2}, \ref{sfig:sims_3}, \ref{sfig:sims_4}, \ref{sfig:sims_5}, \ref{sfig:sims_6}, \ref{sfig:sims_7}, and \ref{sfig:sims_8}.
 
 The agreement is reasonable for both.
 The theoretical value $1/\mutrate$ underestimates the mean time to mutation
@@ -747,10 +749,9 @@ with the exception of the weakest disadvantage off the patch, $s_m=10^{-4}$,
 which adapt much more quickly than predicted by theory.
 However, these simulations fall outside the region where we expect the model to do well,
 since $R < \sigma/\sqrt{s_m} \approx 100$.
-A glance at SUPP FIGURE XXX reveals more:
-since selection is weaker than Wright's effective neighborhood size ($s_m < 1/2 \rho \sigma \le 1/8000$), 
-local drift is stronger than selection,
-and local migration-selection balance looks very little like the deterministic equilibirium.
+A glance at supplementary figure \ref{sfig:sims_8} shows more:
+since $s_m$ is so small, the second patch is reached by migrants before the migration-selection eqilibrium is reached,
+and at migration-selection equilibrium, the two patches act as a single meta-patch.
 
 
 \begin{figure}[ht!]
@@ -809,16 +810,17 @@ We work in one dimension, as the square root term appearing for two dimensions i
 (as seen in figure~\ref{fig:sim_occupation_freqs} by the fact that the $d=2$ curve is nearly straight).
 \linelabel{rr:sqrt_term}
 
+Let $\gamma = \min(1,s_m/p_e)$.
 An important point to notice is that effective migration and mutation rates will be on the same order if 
-$A \mu \approx 2 s_m \exp(- R \sqrt{2 s_m} / \sigma)$,
+$A \mu \approx 2 \gamma s_m \exp(- R \sqrt{2 s_m} / \sigma)$,
 where $R$ is the distance between the patches,
 and $A$ is the area of the not-yet-adapted patch.
 In other words, the migrational analogue of ``mutational influx'' ($\mu \rho A$) 
-is $2 \rho s_m \exp(- R \sqrt{2 s_m} / \sigma)$,
+is $2 \rho \gamma s_m \exp(- R \sqrt{2 s_m} / \sigma)$,
 which depends fairly strongly on the selective disadvantage $s_m$ between patches.
 % Note in particular that if $2 s_m < \mu A$ then migration is always slower than new mutation.
 Equivalently, the rates are roughly equal if
-$R/\sigma = \log(2 s_m/(A \mu))/\sqrt{2s_m}$,
+$R/\sigma = \log(2 \gamma s_m/(A \mu))/\sqrt{2s_m}$,
 which gives the critical gap size past which adaptation will be mostly parallel
 in terms of selection coefficients, patch size, and mutation rate.
 
@@ -831,7 +833,8 @@ in terms of selection coefficients, patch size, and mutation rate.
 % lines( ss, cdist(sm=.05,z=ss), col='red')
 % abline(h=0,lty=2)
 
-If we take the mutational influx in a patch to be one per 10,000 generations ($\rho A \mu = .0001$)
+If we take the mutational influx in a patch to be one per 10,000 generations ($\rho A \mu = .0001$),
+$s_m>p_e$ so that $\gamma=1$,
 and the population density to be 1 ($\rho =1$, so $-\log(A\mu)\approx 9.2$)
 then adaptation is mostly parallel for patches separated by gaps larger than $R/\sigma > (9.2+\log(2s_m))/\sqrt{2s_m}$.
 If the selective pressure is fairly strong (say, $s_m=.05$),
@@ -886,13 +889,15 @@ Following this, the time until the second patch is subsequently colonized
 (via either migration or new mutation) 
 will be exponentially distributed with mean $1/(\mutrate+\migrate)$.
 Both these rates scale linearly with population density ($\rho$) 
-and the probability of establishment of a rare allele ($p_e\approx 2 s_b/\xi^2$),
+and the probability of establishment of a rare allele ($p_e\approx 2 s_b/\xi^2$, for $p_e>s_m$),
 so that the overall time to adaptation is robustly predicted to increase with offspring variance ($\xi^2$)
 and decrease with population density and beneficial selection coefficient.
 Furthermore, the probability that the second adaptation is a new mutation,
-i.e.\ the probability of parallel adaptation, is 
+i.e.\ the probability of parallel adaptation, 
+with $\gamma = \min(1,s_m/p_e)$,
+is 
 \begin{equation} \label{eqn:parallel_prob}
-    \frac{\mutrate}{\mutrate+\migrate(R)} = \frac{ A \mu / (2s_m) }{ A \mu / (2s_m) + \left(R \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2}\exp\left(- \sqrt{2 s_m} R / \sigma \right) },  
+    \frac{\mutrate}{\mutrate+\migrate(R)} = \frac{ A \mu / (2s_m) }{ A \mu / (2s_m) + \gamma \left(R \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2}\exp\left(- \sqrt{2 s_m} R / \sigma \right) },  
 \end{equation}
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches, on the spatial scale $\sigma/\sqrt{s_m}$. \revpoint{2}{13}
@@ -1536,9 +1541,10 @@ well together \citep{Kondrashov:03}.
 % Graph: from simulation showing local proportions in a single patch showing initial fixation of a single type and later mixing converging toward more than one type.  (and eventual loss of one?)
 
 \subsection*{Acknowledgements}
-We would like to heartily thank Joachim Hermisson for a careful reading of the paper,
+We would like to heartily thank Joachim Hermisson for a number of insightful suggestions,
 and catching the algebra error present in the first version of this paper on the bioRxiv,
-and also to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandvain for useful discussions, 
+as well as the two anonymous reviewers.
+We would also like to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandvain for useful discussions, 
 as well as Gideon Bradburd, and Simon Aeschbacher and the rest of the Coop lab
 for helpful comments and discussion of the manuscript.
 
@@ -2127,7 +2133,7 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 
 
 %%%%%%%
-\section{Parameter values for simulations}
+\section{More information about the simulations}
 \label{apx:parameter_tables}
 
 Here we provide additional details regarding the simulations we used
@@ -2139,73 +2145,172 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
 % table of parameters, produced by analyze-sims.R
 \input{migration-parameters-table.tex}
 
+\begin{figure}
+  \begin{center}
+    \includegraphics{mutation-times-predicted}
+  \end{center}
+  \caption{
+    The same data shown in the left panel of figure~\ref{fig:sim_times},
+    but all times shown (not just the interquartile ranges),
+    and including those parameter values at which most of the simulations did not adapt by 25,000 generations.
+  } \label{sfig:sim_migration_times}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics{migration-time-predicted}
+  \end{center}
+  \caption{
+    The same data shown in the right panel of figure~\ref{fig:sim_times},
+    but all times shown (not just the interquartile ranges),
+    and including those parameter values at which most of the simulations did not adapt by 25,000 generations.
+    The left panel has the predicted time to adaptation on the horizontal axis as in figure~\ref{fig:sim_times},
+    and the right panel has, for comparison, the raw distance between patches 
+    (which predicts time to adaptation, but not as well).
+  } \label{sfig:sim_mutation_times}
+\end{figure}
+
 % example trace plots
 
 % sm=0.1
 \begin{figure}
   \begin{center}
-    \includegraphics{{example-mutation-sims/18885-r1-501-sb0.01-sm-0.1-N1200-pophistory-run}.pdf}
-    \includegraphics{{example-mutation-sims/56325-r1-501-sb0.01-sm-0.1-N600-pophistory-run}.pdf}
-    \includegraphics{{example-mutation-sims/28432-r1-501-sb0.01-sm-0.1-N50-pophistory-run}.pdf}
+    \includegraphics{example-mutation-sims/18885-r1-501-sb0_01-sm-0_1-N1200-pophistory-run}
+    \includegraphics{example-mutation-sims/56325-r1-501-sb0_01-sm-0_1-N600-pophistory-run}
+    \includegraphics{example-mutation-sims/28432-r1-501-sb0_01-sm-0_1-N50-pophistory-run}
   \end{center}
   \caption{
     Randomly chosen simulations with $s_m=0.1$, $\sigma\approx 1$, and $\rho$ varying.
     On the left of each is a space-time heatmap of the local frequency of $B$ alleles;
     and on the right are twenty-five curves showing the frequencies of $B$ at evenly spaced time points
-    (i.e.\ each line represents a vertical slice through the plot on the left).
+    (i.e.\ each line represents a vertical slice through the plot on the left);
+    dotted black lines indicate the patches where $B$ is advantageous.
   } \label{sfig:sims_1}
 \end{figure}
 
 % sm=0.01
 \begin{figure}
   \begin{center}
-    \includegraphics{{example-mutation-sims/43099-r1-501-sb0_01-sm-0_01-N1200-pophistory-run}.pdf}
-    \includegraphics{{example-mutation-sims/69787-r1-501-sb0_01-sm-0_01-N600-pophistory-run}.pdf}
-    \includegraphics{{example-mutation-sims/11821-r1-501-sb0_01-sm-0_01-N50-pophistory-run}.pdf}
+    \includegraphics{example-mutation-sims/43099-r1-501-sb0_01-sm-0_01-N1200-pophistory-run}
+    \includegraphics{example-mutation-sims/69787-r1-501-sb0_01-sm-0_01-N600-pophistory-run}
+    \includegraphics{example-mutation-sims/11821-r1-501-sb0_01-sm-0_01-N50-pophistory-run}
   \end{center}
   \caption{
     Randomly chosen simulations with $s_m=0.01$, $\sigma\approx 1$, and $\rho$ varying.
     On the left of each is a space-time heatmap of the local frequency of $B$ alleles;
     and on the right are twenty-five curves showing the frequencies of $B$ at evenly spaced time points
-    (i.e.\ each line represents a vertical slice through the plot on the left).
-  } \label{sfig:sims_1}
+    (i.e.\ each line represents a vertical slice through the plot on the left);
+    dotted black lines indicate the patches where $B$ is advantageous.
+  } \label{sfig:sims_2}
 \end{figure}
 
 % sm=0.001
 \begin{figure}
   \begin{center}
-    \includegraphics{{example-mutation-sims/59611-r1-501-sb0_01-sm-0_001-N1200-pophistory-run}.pdf}
-    \includegraphics{{example-mutation-sims/93713-r1-501-sb0_01-sm-0_001-N600-pophistory-run}.pdf}
-    \includegraphics{{example-mutation-sims/29850-r1-501-sb0_01-sm-0_001-N50-pophistory-run}.pdf}
+    \includegraphics{example-mutation-sims/59611-r1-501-sb0_01-sm-0_001-N1200-pophistory-run}
+    \includegraphics{example-mutation-sims/93713-r1-501-sb0_01-sm-0_001-N600-pophistory-run}
+    \includegraphics{example-mutation-sims/29850-r1-501-sb0_01-sm-0_001-N50-pophistory-run}
   \end{center}
   \caption{
     Randomly chosen simulations with $s_m=0.001$, $\sigma\approx 1$, and $\rho$ varying.
     On the left of each is a space-time heatmap of the local frequency of $B$ alleles;
     and on the right are twenty-five curves showing the frequencies of $B$ at evenly spaced time points
-    (i.e.\ each line represents a vertical slice through the plot on the left).
-  } \label{sfig:sims_1}
+    (i.e.\ each line represents a vertical slice through the plot on the left);
+    dotted black lines indicate the patches where $B$ is advantageous.
+  } \label{sfig:sims_3}
 \end{figure}
 
 % sm=0.0001
 \begin{figure}
   \begin{center}
-    \includegraphics{{example-mutation-sims/15449-r1-501-sb0_01-sm-1e-04-N1600-pophistory-run}.pdf}
-    \includegraphics{{example-mutation-sims/5582-r1-501-sb0_01-sm-1e-04-N400-pophistory-run}.pdf}
-    \includegraphics{{example-mutation-sims/24639-r1-501-sb0_01-sm-1e-04-N25-pophistory-run}.pdf}
+    \includegraphics{example-mutation-sims/15449-r1-501-sb0_01-sm-1e-04-N1600-pophistory-run}
+    \includegraphics{example-mutation-sims/5582-r1-501-sb0_01-sm-1e-04-N400-pophistory-run}
+    \includegraphics{example-mutation-sims/24639-r1-501-sb0_01-sm-1e-04-N25-pophistory-run}
   \end{center}
   \caption{
     Randomly chosen simulations with $s_m=0.001$, $\sigma\approx 1$, and $\rho$ varying.
     On the left of each is a space-time heatmap of the local frequency of $B$ alleles;
     and on the right are twenty-five curves showing the frequencies of $B$ at evenly spaced time points
-    (i.e.\ each line represents a vertical slice through the plot on the left).
-  } \label{sfig:sims_1}
+    (i.e.\ each line represents a vertical slice through the plot on the left);
+    dotted black lines indicate the patches where $B$ is advantageous.
+  } \label{sfig:sims_4}
 \end{figure}
+
+
+% sm=0.1, R=80
+\begin{figure}
+  \begin{center}
+    \includegraphics{example-migration-sims/89826-r1-501-sb0_01-sm-0_1-N4000-pophistory-run}
+    \includegraphics{example-migration-sims/76178-r1-501-sb0_01-sm-0_1-N1000-pophistory-run}
+    \includegraphics{example-migration-sims/97545-r1-501-sb0_01-sm-0_01-N100-pophistory-run}
+  \end{center}
+  \caption{
+    Randomly chosen simulations with $s_m=0.1$, $R=80$, $\sigma\approx 1$, and $\rho$ varying.
+    On the left of each is a space-time heatmap of the local frequency of $B$ alleles;
+    and on the right are twenty-five curves showing the frequencies of $B$ at evenly spaced time points
+    (i.e.\ each line represents a vertical slice through the plot on the left);
+    dotted black lines indicate the patches where $B$ is advantageous.
+  } \label{sfig:sims_5}
+\end{figure}
+
+% sm=0.01, R=80
+\begin{figure}
+  \begin{center}
+    \includegraphics{example-migration-sims/42080-r1-501-sb0_01-sm-0_01-N4000-pophistory-run}
+    \includegraphics{example-migration-sims/82698-r1-501-sb0_01-sm-0_01-N1000-pophistory-run}
+    \includegraphics{example-migration-sims/97545-r1-501-sb0_01-sm-0_01-N100-pophistory-run}
+  \end{center}
+  \caption{
+    Randomly chosen simulations with $s_m=0.01$, $R=80$, $\sigma\approx 1$, and $\rho$ varying.
+    On the left of each is a space-time heatmap of the local frequency of $B$ alleles;
+    and on the right are twenty-five curves showing the frequencies of $B$ at evenly spaced time points
+    (i.e.\ each line represents a vertical slice through the plot on the left);
+    dotted black lines indicate the patches where $B$ is advantageous.
+  } \label{sfig:sims_6}
+\end{figure}
+
+% sm=0.001, R=80
+\begin{figure}
+  \begin{center}
+    \includegraphics{example-migration-sims/88079-r1-501-sb0_01-sm-0_001-N4000-pophistory-run}
+    \includegraphics{example-migration-sims/3464-r1-501-sb0_01-sm-0_001-N1000-pophistory-run}
+    \includegraphics{example-migration-sims/37774-r1-501-sb0_01-sm-0_001-N100-pophistory-run}
+  \end{center}
+  \caption{
+    Randomly chosen simulations with $s_m=0.001$, $R=80$, $\sigma\approx 1$, and $\rho$ varying.
+    On the left of each is a space-time heatmap of the local frequency of $B$ alleles;
+    and on the right are twenty-five curves showing the frequencies of $B$ at evenly spaced time points
+    (i.e.\ each line represents a vertical slice through the plot on the left);
+    dotted black lines indicate the patches where $B$ is advantageous.
+  } \label{sfig:sims_7}
+\end{figure}
+
+% sm=0.0001, R=80
+\begin{figure}
+  \begin{center}
+    \includegraphics{example-migration-sims/26044-r1-501-sb0_01-sm-1e-04-N4000-pophistory-run}
+    \includegraphics{example-migration-sims/85750-r1-501-sb0_01-sm-1e-04-N1000-pophistory-run}
+    \includegraphics{example-migration-sims/4111-r1-501-sb0_01-sm-1e-04-N100-pophistory-run}
+  \end{center}
+  \caption{
+    Randomly chosen simulations with $s_m=0.0001$, $R=80$, $\sigma\approx 1$, and $\rho$ varying.
+    On the left of each is a space-time heatmap of the local frequency of $B$ alleles;
+    and on the right are twenty-five curves showing the frequencies of $B$ at evenly spaced time points
+    (i.e.\ each line represents a vertical slice through the plot on the left);
+    dotted black lines indicate the patches where $B$ is advantageous.
+  } \label{sfig:sims_8}
+\end{figure}
+
+
+
+
 
 \ifsubmissionversion
 \processdelayedfloats
 \fi
 
 
+%%%% Reviews
 \includereviews
 
 

@@ -12,9 +12,9 @@
 \end{minipage}
 \hfill
 \begin{minipage}[b]{2.5in}
-    Department of Molecular and Computational Biology\\
+    Molecular and Computational Biology\\
     University of Southern California, \\
-    \emph{and} Department of Evolution and Ecology\\
+    \emph{and} Evolution and Ecology\\
     University of California at Davis\\
   \today
 \end{minipage}
@@ -27,36 +27,52 @@
 \vskip 1em
 
 \begin{quote}
-As can you see from the reviews, two general points were raised by all
-reviewers and I feel that thoroughly addressing both of these points poses a
-prerequisite for further consideration of the manuscript:
+  As can you see from the reviews, two general points were raised by all
+  reviewers and I feel that thoroughly addressing both of these points poses a
+  prerequisite for further consideration of the manuscript:
 
-(i) There needs to be some sort of numerical verification (e.g. with
-individual-based simulations) to test the main conclusions, check their
-robustness, and identify the parameter ranges for which they hold.
-
-(ii) The presentation of the main result needs to be improved. In particular,
-all reviewers feel that the main result can be derived in a simpler and more
-intuitive way. I agree with them that at present the manuscript is overly
-technical and would benefit strongly from a more intuitive derivation of the
-results and discussion of the assumptions under which they hold. The reviewers
-provide detailed suggestions on how this can be achieved.
+  (i) There needs to be some sort of numerical verification (e.g. with
+  individual-based simulations) to test the main conclusions, check their
+  robustness, and identify the parameter ranges for which they hold.
 \end{quote}
 
+We have done a large number of simulations, and compared the results to the theory;
+the main comparison occurs in \ref{fig:sim_times} and figures~\ref{fig:sim_probs};
+we have also added in supplementary section \ref{apx:parameter_tables} 
+visualizations of the simulations at various parameter values
+that we think will help some readers in verifying the assumptions.
 
-Changes of note are:
 
+\begin{quote}
+  (ii) The presentation of the main result needs to be improved. In particular,
+  all reviewers feel that the main result can be derived in a simpler and more
+  intuitive way. I agree with them that at present the manuscript is overly
+  technical and would benefit strongly from a more intuitive derivation of the
+  results and discussion of the assumptions under which they hold. The reviewers
+  provide detailed suggestions on how this can be achieved.
+\end{quote}
+
+We sympathize entirely: we felt the same way ourselves,
+and went around in similar circles for quite some time
+before settling on the argument given in the first draft.
+As suggested by the third reviewer, 
+we have opted to move the most difficult part of the argument to the Materials \& Methods,
+replacing it in the Results with a more \textit{ad hoc} argument
+along the lines of that suggested by the reviewers.
+(We do think the more formal argument is more solid, however,
+and therefore necessary; as discussed below, various seemingly reasonable arguments
+give different answers for subtle reasons.)
+
+Other changes of note are:
 \begin{itemize}
-
-  \item We have done a large number of simulations, and compared the results to the theory;
-    see figures~\ref{fig:sim_probs} and \ref{fig:sim_times}.
 
 
   \item Several reviewers pointed out that in approximating $\E[1-(1-p_e)^K] \approx \E[K] p_e$
     we were neglecting the case that $s_m \ll s_p$.
-    This was pur laziness on our part,
+    This omission was pure laziness on our part,
     which we have rectified; see the new equation~\eqref{eqn:twocase_migrate}.
 
+  \item We have also improved our discussion of the limits to the theory.
 
 \end{itemize}
 

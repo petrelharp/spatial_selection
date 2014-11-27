@@ -268,6 +268,11 @@ simgrid <- cbind( simgrid, t( sapply( 1:nrow(simgrid), function (k) { params <- 
             }
             c( migtime=median(migtimes), muttime=median(muttimes), pmut=pmut )
         } ) ) )
+simgrid$valid <- with(simgrid, 
+        ( R*sqrt(abs(sm))/sigma > 1 ) & 
+        ( A > (sigma/sqrt(abs(sm)))*atan(sqrt(abs(sm/gb))) ) &
+        ( abs(sm) * 2 * sigma * N > 1 )
+    )
 
 
 # look at results
