@@ -433,8 +433,7 @@ in terms of Jacobi elliptic functions; see appendix \ref{apx:elliptic_integrals}
   a one-dimensional grid of 201 demes, and
   a two-dimensional grid of $101\times 101$ demes.
   Superimposed in color is the decay predicted by \eqref{eqn:eqfreq},
-  with $C$ chosen arbitrarily to give a reasonable fit.
-  \plr{what is $C$?}
+  with $C$ chosen arbitrarily to give a reasonable fit: 0.85 and 0.11 respectively.
   (The disagreement at long distances is due to boundary effects near the edge of the range.)
   \textbf{(B)} 
   Fluctuations: colored lines are snapshots of allele frequencies at evenly spaced times
@@ -444,7 +443,8 @@ in terms of Jacobi elliptic functions; see appendix \ref{apx:elliptic_integrals}
   the focal allele is beneficial in the central 10 demes, with $s_p=0.1$,
   and deleterious elsewhere, with $s_m=-0.02$; 
   demes had 1000 individuals in each;
-  dispersal was to nearby demes with a mean dispersal distance of $\sigma \approx 1.66$  times the deme spacing.
+  dispersal was to nearby demes with mean dispersal distances of 
+  $\sigma = 0.95$ and 0.74 times the deme spacing, respectively.
    }   \label{fig:sim_occupation_freqs}
 \end{figure}
 
@@ -499,7 +499,7 @@ In terms of these families, the equilibrium frequency above is then
 \begin{align}
     \label{eqn:gestalt_q}
     \begin{split}
-        q(x) &= \text{ ( outflux of families ) } \times \text{ ( mean occupation density of a family at $x$ ) } ,
+        \rho q(x) &= \text{ ( outflux of families ) } \times \text{ ( mean occupation density of a family at $x$ ) } ,
 \end{split}
 \end{align}
 and the quantity we wish to compute,
@@ -692,8 +692,18 @@ i.e.\ where the condition holds.
 \subsection{A review, and a test, of the assumptions}
 \label{ss:assumptions}
 
-A quick review of the parameter regime we are studying here:
-First, we assume that 
+Now that we have expressions for the mean rates of adaptation by new mutation, \eqref{eqn:mutrate},
+and by migration from an already colonized patch, \eqref{eqn:migrate},
+it seems helpful to step back and review the assumptions we have made and the parameter regime
+we expect the results to apply to.
+For the mutation rate,
+our results will hold best if $s_m \approx s_p$,
+if the patch diameter is large relative to $\sigma/\sqrt{\min(s_m,s_p)}$,
+the patch is not too far from circular.
+If $s_m \ll s_p$ then \eqref{eqn:mutrate} will underestimate the rate,
+and conversely if $s_m \gg s_p$.
+As for the migration rate,
+we assume that 
 \textbf{(a)} each patch is large enough to support a stable population of $B$ alleles
 ($A^{1/d} > (\sigma/\sqrt{2s_p}) \tan^{-1}(\sqrt{s_m/s_p})$).
 Next, in using equation \eqref{eqn:eqfreq}, we assume that 
@@ -705,8 +715,7 @@ and that
 The last requirement is necessary because if the $B$ allele fixes in large neighborhoods where it is deleterious,
 we cannot approximate its dynamics via a branching process.
 We also neglect the time for migration-selection equilibrium to be reached,
-which has the effect of over-estimating $\migrate$,
-but don't know a good way to estimate this contribution.
+which has the effect of over-estimating $\migrate$.
 As discussed above, we also assume that migration to a new patch takes place over a number of generations;
 if there are sufficient rare, long-distance migration events
 that would move between patches in a single hop,
@@ -769,7 +778,7 @@ and at migration-selection equilibrium, the two patches act as a single meta-pat
       as observed in simulations (vertical axis),
       and as predicted from equation~\eqref{eqn:migrate}, with $C=5$ (horizontal axis).
       For each,
-      parameter combinations and numbers of simulations are in supplemental tables \ref{stab:migration_params} and \ref{stab:mutation_params};
+      parameter combinations and numbers of simulations are in supplemental tables \ref{stab:mutation_params} and \ref{stab:migration_params};
       shown are the median (points) and interquartile range (lines)
       of the time until the patch had at least 100 adapted individuals,
       for each unique parameter combination.
@@ -1187,105 +1196,6 @@ we may still expect to find individuals within the patch sharing longer haplotyp
 than with individuals elsewhere,
 since selection against migrants 
 decreases mean coalescence times within the patch near the selected locus.  %\citep{bartonpaper,charlesworths}. 
-We first develop a simple approximation to the rate 
-at which recombination breaks down haplotypes within patches. 
-
-Refer again to Figure~\ref{fig:lineagesmotion}. 
-When a lineage is in a region with high frequency of $B$ alleles (dark red), 
-it is very unlikely to recombine off the $B$ background. 
-However, when it wanders out of the patch,
-into regions with lower frequency of $B$ alleles,
-when it recombines it will
-usually be on to the background of the $b$ allele.
-
-A detailed treatment of this is well beyond the scope of this paper,
-but we can get a good idea of the genomic scale of these effects through heuristic arguments.
-To understand the probability of a recombination moving our lineage
-off of the B background we need to understand what fraction of the
-time our lineage spends in geographic regions where $b$ is common. 
-We will follow the lineage of a single $B$ allele
-in a patch at migration-selection balance, 
-i.e.\ with the local proportion of $B$ alleles near $x$ equal to $q(x)$,
-and suppose that the lineage stays close enough to the patch 
-that fluctuations about $q(x)$ are small. 
-(Note that this assumption differs from
-previous sections, but here our focus is on a typical lineage 
-in the patch rather than the rare lineages that make it far from the patch).
-If we suppose that type $B$ individuals at location $y$ reproduce at rate $1+s(y)$,
-and the chance their offspring move to $x$ is $m(y,x)$ (with $\sum_x m(y,x)=1$),
-then the total rate of influx of $B$ alleles from $y$ into $x$ is $\rho q(y) (1+s(y)) m(y,x)$.
-As argued by \citet{hudson1988coalescent}, 
-this implies that the chance that a $B$ allele at $x$
-has been inherited from a parent at $y$ in a time interval $dt$
-is equal to this influx divided by the local abundance of $B$ alleles,
-i.e.\ $dt \times q(y) (1+s(y)) m(y,x) / q(x)$.
-This therefore describes the movement of a lineage backwards in time.
-After the same large-population, continuous-space limit that underlies the rest of this paper (section~\nameref{apx:eqfreq}),
-if the assumption that fluctuations in $q(x)$ are small,
-this motion should converge to a diffusion process (as assumed by e.g.\ \citet{hallatschek2008surfing}),
-notwithstanding some technical difficulties (e.g.\ discontinuity of $s(x)$).
-This diffusion, when at $x$, 
-is pulled toward regions with more $B$ alleles
-by a mean displacement term $(1+s(x))\frac{d}{d\,x} \log( q(x) (1+s(x)) )$,
-where $s(x)=s_p$ if $x$ is in the patch and $s(x)=s_m$ otherwise, 
-and moves at speed $\sqrt{1+s(x)}$ (which is nearly constant, since $s(x)$ is small).
-In It\=o differential notation, 
-the location $X_t$ of a $B$ lineage $t$ generations ago satisfies
-\begin{align}
-    d X_t &= (1+s(X_t)) \frac{d}{dx} \log( q(X_t) (1+s(X_t)) ) dt + \sigma \sqrt{1+s(X_t)} dB_t,
-\end{align}
-where $B_t$ is a standard Brownian motion.
-Furthermore, it is easy to verify that the stationary distribution of this process has density
-\begin{align}
-  \pi(x) = \frac{ q(x)^2 (1+s(x)) }{ \int_y q(y)^2 (1+s(y)) dy } . \label{eqn:lineagestatdist}
-\end{align}
-A lineage at a locus at genetic distance $R$ from a $B$ allele
-moves as a $B$ lineage until it recombines onto a $b$ background,
-which occurs when at $x$ with rate $r (1-q(x)) (1+s(x)/2)$.
-The Feynman-Kac formula could then be used to write down differential equations
-solved by various moments of the haplotype length as a function of the sampling location of the lineage;
-instead, we only use the above as a guide for rough approximation.
-
-Based on this picture of
-the lineage bouncing around in the patch,
-we propose a simple heuristic to describe the probability of recombination. 
-If recombination is on a slower time scale than mixing within the patch,
-then the time until the last recombination is the integral of $r (1-q(x)) (1+s(x)/2)$ 
-against the stationary distribution (equation~\ref{eqn:lineagestatdist}).
-Within the patch, $q(x) \approx 1$,
-so recombination off the $B$ background is unlikely to occur,
-and so the rate of recombination depends to a first approximation 
-on the proportion of the patch in which $q(x)$ is intermediate,
-i.e.\ where both $B$ and $b$ are present.
-This region where $q(x)$ is intermediate has width of order $\sigma/\sqrt{s}$, where $s = \min(s_p,s_m)$.
-As we increase the size of a patch, the area on which $q(x)$ is intermediate scales with the perimeter of the patch.
-% Therefore, the proportion of the time a lineage at stationarity is found in the intermediate regions
-% multiplied by $q(x)$ in these intermediate regions, where we assume $q(x) \approx 1/2$. 
-The per generation rate of recombination of a locus linked to the $b$ background is thus
-reduced by a factor roughly equal to the proportion of the patch lying within distance $\sigma/\sqrt{s}$ of the boundary,
-so the effective recombination rate is
-% \plr{Note to ourselves: If a $d$-dimensional object with area A has radius $r$ (in any sense)
-% and you shrink it to have radius $r_0$,
-% then the resulting object has area $A \times (r_0/r)^d$;
-% here we have $r_0 = r - \sigma/\sqrt{s}$,
-% in $d=1$ the radius is $A/2$ and in $d=2$ it is $\sqrt{A/\pi}$.}
-\begin{align}
-r_\text{eff} &=
-    \begin{cases}
-    r \frac{ \sigma /\sqrt{s} }{ \sigma/\sqrt{s} + A }    \qquad & d=1 \\
-   r \frac{\pi  \sigma /\sqrt{s}  \left( \sigma /\sqrt{s}+
-  \sqrt{A/\pi} \right)}{A+\pi \sigma/\sqrt{s} \left( \sigma/\sqrt{s} +
-  \sqrt{A/\pi} \right) }    \qquad & d=2 .
-\end{cases}
-\label{eqn:rec_rate_within}   %(\sigma/\sqrt{s})A^{-1/d}
-\end{align}
-It follows that $T$ generations after the founding of a patch we expect a
-haplotype of genetic length $1/(r_\text{eff}T)$ Morgans to remain linked to
-the $B$ allele in a typical lineage. 
-Note that the length of haplotype
-decays at a rate roughly proportional to $\sqrt{s}/ \sigma$, as the narrower the cline 
-the less opportunity for recombination to move our lineage off the $B$ background. 
- 
 
  
 Finally we can consider the expected length of haplotype shared within a patch. 
@@ -1574,8 +1484,10 @@ We simulated forward-time dynamics of the number of alleles of each type in a sq
 Each generation, each individual independently chose to reproduce or not with a probability depending on her type and location in the grid;
 locally beneficial alleles were more likely to reproduce.
 Each then produced a random, Poisson distributed number of offspring that each, independently, 
-either remained in the same location with probabilty $0.8$ or
-migrated a random number of steps in a uniformly chosen cardinal direction;
+either remained in the same location with probabilty $1-m$ or
+migrated a random number of steps with probability $m$
+in a uniformly chosen cardinal direction;
+for most simulations $m=0.2$ and
 the probability of migrating $k$ steps was proportional to $2^{-k}$ for $1\le k \le 5$.
 \linelabel{rr:sim_details}
 Once migrants were distributed, each deme was uniformly resampled back down to $N$ individuals.
@@ -1936,7 +1848,7 @@ then this is equal to
     &= \frac{1}{\E[K]} \P^x[ \tau_S < \tau_\dagger ] .
 \end{align}
 Therefore, we have that
-\begin{align}
+\begin{align} \label{eqn:boils_downto}
     h(x,S) \E[K] 
     \approx \P^x[ \tau_S < \tau_\dagger ] 
     = u(x,S) / g(A) .
@@ -2505,3 +2417,142 @@ One is that the final distribution of types is no longer independent of $s_p$, w
 However, it is clear that increasing the selection coefficient $s$ will decrease the number of types (independent mutational origins),
 while on the other hand, increasing the deme size $N$ will increase the number of types,
 and that the case presented above is at the extreme (see also \cite{Navarro:03} for deterministic approximations). 
+
+
+%%%%%%% %%%%%%%%%%
+\subsection[Haplotypes Shared Within a Patch]{Length of the shared haplotype within a patch}
+\label{ss:patch_haplotype}
+
+The other key issue in thinking about the population genetic signal of adaptation in spatial patches 
+is the process by which haplotypes are whittled down within patches, 
+which plays into a number of aspects of haplotype sharing. 
+The initial haplotype that sweeps within a patch 
+will be dispersed over time by recombination.
+Likewise, the haplotype that is shared between patches coadapted by migration
+(equation~\ref{eqn:haplotype_length}) will also break down. 
+However, a long time after the initial sweep,
+we may still expect to find individuals within the patch sharing longer haplotypes around the selected locus
+than with individuals elsewhere,
+since selection against migrants 
+decreases mean coalescence times within the patch near the selected locus.  %\citep{bartonpaper,charlesworths}. 
+We first develop a simple approximation to the rate 
+at which recombination breaks down haplotypes within patches. 
+
+Refer again to Figure~\ref{fig:lineagesmotion}. 
+When a lineage is in a region with high frequency of $B$ alleles (dark red), 
+it is very unlikely to recombine off the $B$ background. 
+However, when it wanders out of the patch,
+into regions with lower frequency of $B$ alleles,
+when it recombines it will
+usually be on to the background of the $b$ allele.
+
+A detailed treatment of this is well beyond the scope of this paper,
+but we can get a good idea of the genomic scale of these effects through heuristic arguments.
+To understand the probability of a recombination moving our lineage
+off of the B background we need to understand what fraction of the
+time our lineage spends in geographic regions where $b$ is common. 
+We will follow the lineage of a single $B$ allele
+in a patch at migration-selection balance, 
+i.e.\ with the local proportion of $B$ alleles near $x$ equal to $q(x)$,
+and suppose that the lineage stays close enough to the patch 
+that fluctuations about $q(x)$ are small. 
+(Note that this assumption differs from
+previous sections, but here our focus is on a typical lineage 
+in the patch rather than the rare lineages that make it far from the patch).
+If we suppose that type $B$ individuals at location $y$ reproduce at rate $1+s(y)$,
+and the chance their offspring move to $x$ is $m(y,x)$ (with $\sum_x m(y,x)=1$),
+then the total rate of influx of $B$ alleles from $y$ into $x$ is $\rho q(y) (1+s(y)) m(y,x)$.
+As argued by \citet{hudson1988coalescent}, 
+this implies that the chance that a $B$ allele at $x$
+has been inherited from a parent at $y$ in a time interval $dt$
+is equal to this influx divided by the local abundance of $B$ alleles,
+i.e.\ $dt \times q(y) (1+s(y)) m(y,x) / q(x)$.
+This therefore describes the movement of a lineage backwards in time.
+After the same large-population, continuous-space limit that underlies the rest of this paper (section~\nameref{apx:eqfreq}),
+if the assumption that fluctuations in $q(x)$ are small,
+this motion should converge to a diffusion process (as assumed by e.g.\ \citet{hallatschek2008surfing}),
+notwithstanding some technical difficulties (e.g.\ discontinuity of $s(x)$).
+This diffusion, when at $x$, 
+is pulled toward regions with more $B$ alleles
+by a mean displacement term $(1+s(x))\frac{d}{d\,x} \log( q(x) (1+s(x)) )$,
+where $s(x)=s_p$ if $x$ is in the patch and $s(x)=s_m$ otherwise, 
+and moves at speed $\sqrt{1+s(x)}$ (which is nearly constant, since $s(x)$ is small).
+In It\=o differential notation, 
+the location $X_t$ of a $B$ lineage $t$ generations ago satisfies
+\begin{align}
+    d X_t &= (1+s(X_t)) \frac{d}{dx} \log( q(X_t) (1+s(X_t)) ) dt + \sigma \sqrt{1+s(X_t)} dB_t,
+\end{align}
+where $B_t$ is a standard Brownian motion.
+Furthermore, it is easy to verify that the stationary distribution of this process has density
+\begin{align}
+  \pi(x) = \frac{ q(x)^2 (1+s(x)) }{ \int_y q(y)^2 (1+s(y)) dy } . \label{eqn:lineagestatdist}
+\end{align}
+A lineage at a locus at genetic distance $R$ from a $B$ allele
+moves as a $B$ lineage until it recombines onto a $b$ background,
+which occurs when at $x$ with rate $r (1-q(x)) (1+s(x)/2)$.
+The Feynman-Kac formula could then be used to write down differential equations
+solved by various moments of the haplotype length as a function of the sampling location of the lineage;
+instead, we only use the above as a guide for rough approximation.
+
+Based on this picture of
+the lineage bouncing around in the patch,
+we propose a simple heuristic to describe the probability of recombination. 
+If recombination is on a slower time scale than mixing within the patch,
+then the time until the last recombination is the integral of $r (1-q(x)) (1+s(x)/2)$ 
+against the stationary distribution (equation~\ref{eqn:lineagestatdist}).
+Within the patch, $q(x) \approx 1$,
+so recombination off the $B$ background is unlikely to occur,
+and so the rate of recombination depends to a first approximation 
+on the proportion of the patch in which $q(x)$ is intermediate,
+i.e.\ where both $B$ and $b$ are present.
+This region where $q(x)$ is intermediate has width of order $\sigma/\sqrt{s}$, where $s = \min(s_p,s_m)$.
+As we increase the size of a patch, the area on which $q(x)$ is intermediate scales with the perimeter of the patch.
+% Therefore, the proportion of the time a lineage at stationarity is found in the intermediate regions
+% multiplied by $q(x)$ in these intermediate regions, where we assume $q(x) \approx 1/2$. 
+The per generation rate of recombination of a locus linked to the $b$ background is thus
+reduced by a factor roughly equal to the proportion of the patch lying within distance $\sigma/\sqrt{s}$ of the boundary,
+so the effective recombination rate is
+% \plr{Note to ourselves: If a $d$-dimensional object with area A has radius $r$ (in any sense)
+% and you shrink it to have radius $r_0$,
+% then the resulting object has area $A \times (r_0/r)^d$;
+% here we have $r_0 = r - \sigma/\sqrt{s}$,
+% in $d=1$ the radius is $A/2$ and in $d=2$ it is $\sqrt{A/\pi}$.}
+\begin{align}
+r_\text{eff} &=
+    \begin{cases}
+    r \frac{ \sigma /\sqrt{s} }{ \sigma/\sqrt{s} + A }    \qquad & d=1 \\
+   r \frac{\pi  \sigma /\sqrt{s}  \left( \sigma /\sqrt{s}+
+  \sqrt{A/\pi} \right)}{A+\pi \sigma/\sqrt{s} \left( \sigma/\sqrt{s} +
+  \sqrt{A/\pi} \right) }    \qquad & d=2 .
+\end{cases}
+\label{eqn:rec_rate_within}   %(\sigma/\sqrt{s})A^{-1/d}
+\end{align}
+It follows that $T$ generations after the founding of a patch we expect a
+haplotype of genetic length $1/(r_\text{eff}T)$ Morgans to remain linked to
+the $B$ allele in a typical lineage. 
+Note that the length of haplotype
+decays at a rate roughly proportional to $\sqrt{s}/ \sigma$, as the narrower the cline 
+the less opportunity for recombination to move our lineage off the $B$ background. 
+ 
+
+ 
+Finally we can consider the expected length of haplotype shared within a patch. 
+To do this, we compare the rate of recombination between $B$ and $b$ haplotypes (equation~\ref{eqn:rec_rate_within})
+to the rate of coalescence of $B$ haplotypes within a patch. 
+We will assume that mixing within the patch is fast compared to the rate of drift, 
+so that the rate of coalescence of $B$ alleles within a patch is 
+$\xi^2/(A\rho)$,
+the ``variance effective population size'' of the patch
+(this bypasses the well-known difficulties to spatial coalescence \citep{felsenstein1975pain,barton2002neutral}).
+The rate of recombination and coalescence will be on the same order if
+$\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$.
+Hence the genetic length of the haplotype shared between pairs of
+individuals within the same patches at equilibrium is on the order of
+\begin{align} \label{eqn:within_haplotype_length} 
+  r = \frac{\sqrt{s} \xi^2}{\sigma \rho A^{(d-1)/d}}  .
+\end{align}
+This does not depend on $A$ in one dimension,
+but decreases with $\sqrt{A}$ in two dimensions.
+In applications, this can be compared to equation~\eqref{eqn:haplotype_length}
+for the length of shared haplotype between patches.
+

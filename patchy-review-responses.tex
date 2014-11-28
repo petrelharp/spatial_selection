@@ -56,11 +56,12 @@ We sympathize entirely: we felt the same way ourselves,
 and went around in similar circles for quite some time
 before settling on the argument given in the first draft.
 As suggested by the third reviewer, 
-we have opted to move the most difficult part of the argument to the Materials \& Methods,
+we have moved the most difficult part of the argument to the Materials \& Methods,
 replacing it in the Results with a more \textit{ad hoc} argument
 along the lines of that suggested by the reviewers.
 (We do think the more formal argument is more solid, however,
-and therefore necessary; as discussed below, various seemingly reasonable arguments
+and therefore necessary to keep; 
+as discussed below, various seemingly reasonable arguments
 give different answers for subtle reasons.)
 
 Other changes of note are:
@@ -72,7 +73,15 @@ Other changes of note are:
     This omission was pure laziness on our part,
     which we have rectified; see the new equation~\eqref{eqn:twocase_migrate}.
 
-  \item We have also improved our discussion of the limits to the theory.
+  \item We have also improved our discussion of the limits to the theory,
+    mostly in the (short) section \nameref{ss:assumptions}.
+    The main point of note was that, indeed as Reviewer 3 pointed out,
+    we were running tests in regions where $s_m$ was too small for the theory to apply,
+    resulting in $\migrate$ that was not monotonic with $s_m$.
+    Happily, the natural restriction of $R \sqrt{s_m}/\sigma > 1$ coincides with the condition
+    for $\migrate$ to decrease with $s_m$;
+    we don't have good intuition for why the formula should increase in the region where it is inapplicable,
+    but this seems beside the point.
 
 \end{itemize}
 
@@ -83,8 +92,7 @@ Other changes of note are:
 
 %%%%%%
 \point{}{
-    Am I right that the basic argument is the
-    following:
+    Am I right that the basic argument is the following:
 
     A migrant family in unfavorable territory will be typically of size $n \sim 1/s$
     ($s=s_m$), stick around for a time $\tau \sim 1/s$ and be spread out over $\ell \sim \sigma/\sqrt(s)$. 
@@ -131,7 +139,14 @@ As discussed above, we have incorporated this good point; see around equation~\e
 }
 
 \reply
-    See the response to point 1.1 above.
+    The correspondence in \eqref{eqn:ratio_K} boils down to \eqref{eqn:boils_downto};
+    but rearranging this to $u(x,S) \approx h(x,S) \E[K] g(A)$,
+    this says that the mean occupation density in $S$ due to a family beginning at $x$
+    is the mean number of lineages hitting $S$ ($h(x,S) \E[K]$)
+    multiplied by the mean occupation density of a single lineage starting on the edge of the patch.
+    So, it seems that the missing length (or area) enters through $g(A)$,
+    which in our case is $1/(2s_m)$.
+    We agree, it is not obvious how the units work out here.
 
 %%%%%%%%
 \point{}{ 
@@ -152,7 +167,7 @@ As discussed above, we have incorporated this good point; see around equation~\e
 }
 
 \reply
-This was already discussed in the discussion, but we've added a note about it earlier on, citing Hallatschek \& Fisher.
+This was already discussed in the discussion, but we've added a note about it earlier on, in particular adding a citation to the nice paper of Hallatschek \& Fisher.
 \llname{rr:longtailed}
 
 %%%%%%%%
@@ -166,15 +181,18 @@ Good idea, but we've decided to cut this figure.
 
 %%%%%%%%
 \point{in the discussion on page 10 "probability of parallel adaptation.."}{
-    it should be noted that many of the scenarios at high mutation influx are quite
+    It should be noted that many of the scenarios at high mutation influx are quite
     hypothetical. While the colonization of migrants might dominate over local
     adaptation, this argument assumes that the migrants are at equilibrium
     frequency. The transient to reach this equilibrium might be much longer than
     the time required for de novo local adaptation.
 }
 
-
-
+\reply
+We don't know of even a poor approximation to the time to reach migration-selection equilibrium,
+unfortunately.
+However, we have pointed out in \nameref{ss:assumptions} that we're missing this point,
+and discuss there how the time lag to reach this equilbrium contributes to discrepancies between theory and simulations.
 
 
 
@@ -203,9 +221,13 @@ results. Overly-detailed comments are below.
 }
 
 \reply
-This argument falls in the trap of treating each migrant individual as independent,
-ignoring the correlations of arrival times induced by families;
-see the discussion in which we now set this up as a straw man in XXX.
+This argument implicitly treats each migrant individual as independent,
+ignoring the correlations of arrival times induced by families.
+This is the reason for explicitly defining families to be those who share an ancestor living outside of $r_0$
+more recently than one living inside the patch;
+many of the particles that Fick's law would pick up leaving $r_0$ would be already counted as part of a family.
+However, we think our simplified argument in \nameref{ss:heuristics} gets the same spirit.
+
 
 \point{}{
     However, I think we should also care about the opposite limit, $s_m \ll s p$. In
@@ -223,9 +245,10 @@ see the discussion in which we now set this up as a straw man in XXX.
 }
 
 \reply
-In this argument, the reviewer is taking into account clumpiness for establishment of migrants,
-but still not for the time interval
-between arrivals of families.
+Good point about $s_m \ll s_p$ (also made by reviewer \#1);
+we've modified the key equation \eqref{eqn:migrate}
+and surrounding discussion along these lines.
+
 
 %%%%%%%%
 \point{}{ 
@@ -242,6 +265,10 @@ between arrivals of families.
     you get the same answer either way, except for small or weirdly-shaped
     patches, where either or both can break down.)
 }
+
+\reply
+See the response to reviwer 1's point 3 above.
+
 
 %%%%%%%%
 \point{}{ 
@@ -261,6 +288,9 @@ between arrivals of families.
     that.
 }
 
+\reply
+As discussed above, we've done this.
+
 %%%%%%%%
 \point{}{ 
     It would be nice to have a table of symbol definitions.
@@ -268,7 +298,7 @@ between arrivals of families.
 
 \reply
 We've tried to say in words what each symbol is when we use it as much as possible,
-so we hope this isn't necessary.
+so we hope this isn't still necessary.
 
 %%%%%%%%
 \point{}{ 
@@ -294,7 +324,7 @@ See text added in \nameref{ss:assumptions}.
 \point{"Length of the hitchhiking haplotype"}{
     I would focus more on the asymptotic expressions for $R \gg w  \gg \sigma/ \sqrt{2s_m}$, since that’s the regime
      where the analysis makes the most sense. Then the expressions become
-     simpler and you can treat d = 2 as well. If you want, you could even
+     simpler and you can treat $d = 2$ as well. If you want, you could even
      lead with the intuitive explanation at the end of the section, and save the
      Bessel functions for an appendix.
 }
@@ -304,7 +334,7 @@ See text added in \nameref{ss:assumptions}.
 %%%%%%%%
 \point{}{ 
      I think (24) follows directly from Barton, Heredity 1979. (If you look at
-     the unnumbered equation above Fig. 1 in that paper and plug in $x \sim a$,
+     the unnumbered equation above Fig.\ 1 in that paper and plug in $x \sim a$,
      you find the time scale $r_{eff}$.) I think that the displayed equation should just
      be $r_{eff} \approx r\sigma/\sqrt{s}/a$. (I feel like the extra correction terms and geometric
       factor go against the spirit of the paper, and in any case are probably
@@ -317,6 +347,15 @@ See text added in \nameref{ss:assumptions}.
 }
 
 \reply
+This is a very interesting point,
+and the basic tool of a diffusion approximation seems to be the same in both.
+However, something is not matching up,
+because \citet{barton1979geneflow} finds that the length of the region of differentiated genome 
+decays with $1/\sqrt{T}$,
+whereas with our approximation the length of the differentiated haplotype decays as $1/T$.
+The difference may be that Barton considers LD and we consider a haplotype unbroken by recombination.
+On the balance, and considering the other reviewer's wise comments,
+we've cut most of this from \nameref{ss:patch_haplotype}.
 
 %%%%%%%%
 \point{In “Applications”,}{the authors spend a lot of time introducing the mice
