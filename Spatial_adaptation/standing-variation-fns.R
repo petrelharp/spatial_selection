@@ -22,25 +22,30 @@ everything <- function (mu, rho, sb, sd, sigma) {
         ) )
 }
 
-meanTime <- function (mu, rho, sb, sd, sigma) {
+meanTime <- function (mu, rho, sb, sd, sigma,include.new=TRUE) {
     # mean time til adaptation of a point;
     # E[\tau] is int_0^\infty exp(-lambda0 pi v^2 t^2 - lambda pi v^2 t^3) dt
     if (sd==0) {
         return( list(value=0) )
-    } else if (sd==1) {
+    } else if (sd==1) {  ## no standing var.
         f <- function (t) {
+        	stopifnot(include.new)
             exp( - 4 * mu * rho * sb^2 * sigma^2 * t^3 / 3) 
         }
     } else { 
         f <- function (t) {
-            exp( - 4 * mu * rho * sb^2 * sigma^2 * t^2 * (1/log(1/(1-sd)) + t/3) )
-        }
+            exp( - 4 * mu * rho * sb^2 * sigma^2 * t^2 * (1/log(1/(1-sd)) + include.new*t/3) )
+        }   
     }
+
     xx <- 2^(-30:30)
     yy <- sapply(xx, function(x) { f(x) } )
     scale <- xx[ which.min( abs(10-yy*xx) ) ]
     return( integrate(function(x) { f(x*scale)*scale }, 0, Inf) )
 }
+
+
+
 
 meanNewDensity <- function (mu, rho, sb, sd, sigma) {
     # mean density of patches arising from new mutations
