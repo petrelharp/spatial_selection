@@ -1,0 +1,664 @@
+% \documentclass{article}
+% \usepackage{fullpage}
+% \input{review-response-commands}
+% 
+% \begin{document}
+
+\section*{From the editor}
+
+\begin{minipage}[b]{2.5in}
+  Resubmission Cover Letter \\
+  {\it PLoS Genetics}
+\end{minipage}
+\hfill
+\begin{minipage}[b]{2.5in}
+    Molecular and Computational Biology\\
+    University of Southern California, \\
+    \emph{and} Evolution and Ecology\\
+    University of California at Davis\\
+  \today
+\end{minipage}
+ 
+\vskip 2em
+ 
+\noindent
+{\bf To the Editor(s) -- }
+ 
+\vskip 1em
+
+\begin{quote}
+  As can you see from the reviews, two general points were raised by all
+  reviewers and I feel that thoroughly addressing both of these points poses a
+  prerequisite for further consideration of the manuscript:
+
+  (i) There needs to be some sort of numerical verification (e.g. with
+  individual-based simulations) to test the main conclusions, check their
+  robustness, and identify the parameter ranges for which they hold.
+\end{quote}
+
+We have done a large number of simulations, and compared the results to the theory;
+the main comparison occurs in \ref{fig:sim_times} and figures~\ref{fig:sim_probs};
+we have also added in supplementary section \ref{apx:parameter_tables} 
+visualizations of the simulations at various parameter values
+that we think will help some readers in verifying the assumptions.
+
+
+\begin{quote}
+  (ii) The presentation of the main result needs to be improved. In particular,
+  all reviewers feel that the main result can be derived in a simpler and more
+  intuitive way. I agree with them that at present the manuscript is overly
+  technical and would benefit strongly from a more intuitive derivation of the
+  results and discussion of the assumptions under which they hold. The reviewers
+  provide detailed suggestions on how this can be achieved.
+\end{quote}
+
+We sympathize entirely: we felt the same way ourselves,
+and went around in similar circles for quite some time
+before settling on the argument given in the first draft.
+As suggested by the third reviewer, 
+we have moved the most difficult part of the argument to the Materials \& Methods,
+replacing it in the Results with a more \textit{ad hoc} argument
+along the lines of that suggested by the reviewers.
+(We do think the more formal argument is more solid, however,
+and therefore necessary to keep; 
+as discussed below, various seemingly reasonable arguments
+give different answers for subtle reasons.)
+
+Other changes of note are:
+\begin{itemize}
+
+
+  \item Several reviewers pointed out that in approximating $\E[1-(1-p_e)^K] \approx \E[K] p_e$
+    we were neglecting the case that $s_m \ll s_p$.
+    This omission was pure laziness on our part,
+    which we have rectified; see the new equation~\eqref{eqn:twocase_migrate}.
+
+  \item We have also improved our discussion of the limits to the theory,
+    mostly in the (short) section \nameref{ss:assumptions}.
+    The main point of note was that, indeed as Reviewer 3 pointed out,
+    we were running tests in regions where $s_m$ was too small for the theory to apply,
+    resulting in $\migrate$ that was not monotonic with $s_m$.
+    Happily, the natural restriction of $R \sqrt{s_m}/\sigma > 1$ coincides with the condition
+    for $\migrate$ to decrease with $s_m$;
+    we don't have good intuition for why the formula should increase in the region where it is inapplicable,
+    but this seems beside the point.
+
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%
+\reviewersection
+
+%%%%%%
+\point{}{
+    Am I right that the basic argument is the following:
+
+    A migrant family in unfavorable territory will be typically of size $n \sim 1/s$
+    ($s=s_m$), stick around for a time $\tau \sim 1/s$ and be spread out over $\ell \sim \sigma/\sqrt(s)$. 
+    Given an equilibrium density $\rho*q(x)$, we need an arrival rate
+    of migrant families of
+    \[ k ~ \rho q(x) l/n/\tau \sim \rho q(x) l s^2 \]
+}
+
+\reply
+The factor of $\ell$ shouldn't be there:
+suppose that $X$ is a Poisson process of ``centers'' of rate 1, 
+and that around each center of $X$ we distribute $n$ points uniformly within a circle of radius $\ell$;
+the expected number of points in a set of area 1 is $n$, regardless of $\ell$.
+The right thing to do with the factor of $\tau$ is harder to intuit:
+it is clear that $\rho q(x)$ should be $E[K]$ multiplied by the number of families present;
+and it might be argued that the number of families present should be the influx of families
+multiplied by the time they stick around for,
+but given that the typical size of a family decreases once it arrives,
+the correct way forward becomes non-intuitive, to us, at least.
+
+%%%%%%%%
+\point{}{ 
+    The probability of establishment of at least one member of family is then
+    \[ P_{est} = 1 - \exp(-p n) \sim 1 - \exp(-p_e/s) \]
+    where $p_e$ is the establishment probability of a single individual. The result
+    for $\migrate$ will then depend on whether $p_e/s$ is large or small.
+    For $p_e/s$ large, $\migrate = \rho q(x) s^2 \ell$,
+    otherwise,
+    $\migrate = \rho q(x) s \ell p_e$.
+
+    The latter is the case discussed in the manuscript. The other is important too
+    and should be discussed. 
+}
+
+\reply
+As discussed above, we have incorporated this good point; see around equation~\eqref{eqn:twocase_migrate}.
+
+%%%%%%%%
+\point{}{ 
+    I don't seem to be able to identify the equivalent of
+    $\ell$ in the author's formulae, but I believe it should be there. After all, 
+    $\rho q(x)$ is a density and needs to be multiplied by a length (or area in d=2) to
+    give a meaningful rate.
+}
+
+\reply
+    The correspondence in \eqref{eqn:ratio_K} boils down to \eqref{eqn:boils_downto};
+    but rearranging this to $u(x,S) \approx h(x,S) \E[K] g(A)$,
+    this says that the mean occupation density in $S$ due to a family beginning at $x$
+    is the mean number of lineages hitting $S$ ($h(x,S) \E[K]$)
+    multiplied by the mean occupation density of a single lineage starting on the edge of the patch.
+    So, it seems that the missing length (or area) enters through $g(A)$,
+    which in our case is $1/(2s_m)$.
+    We agree, it is not obvious how the units work out here.
+
+%%%%%%%%
+\point{}{ 
+    To assess the accuracy of the various approximations made, the process should
+    be simulated and the measured rates explicitly compared to analytical
+    predictions.
+}
+
+\reply
+  We've done this; see above.
+
+
+%%%%%%%%
+\point{long range migration}{All results depend exponentially on the distance, which
+      is a consequence of the model only allowing for short range dispersal. Rare
+    long range dispersal will alter all these rates dramatically, see for example
+    recent work by Hallatschek and Fisher.
+}
+
+\reply
+This was already discussed in the discussion, but we've added a note about it earlier on, in particular adding a citation to the nice paper of Hallatschek \& Fisher.
+\llname{rr:longtailed}
+
+%%%%%%%%
+\point{Fig 4:}{ Why not use natural units for the axis of these plots,
+  $R\sqrt(s)/\sigma$, $\rho \mu A/s$.
+  }
+  
+\reply
+Good idea, but we've decided to cut this figure.
+
+
+%%%%%%%%
+\point{in the discussion on page 10 "probability of parallel adaptation.."}{
+    It should be noted that many of the scenarios at high mutation influx are quite
+    hypothetical. While the colonization of migrants might dominate over local
+    adaptation, this argument assumes that the migrants are at equilibrium
+    frequency. The transient to reach this equilibrium might be much longer than
+    the time required for de novo local adaptation.
+}
+
+\reply
+We don't know of even a poor approximation to the time to reach migration-selection equilibrium,
+unfortunately.
+However, we have pointed out in \nameref{ss:assumptions} that we're missing this point,
+and discuss there how the time lag to reach this equilbrium contributes to discrepancies between theory and simulations.
+
+
+
+%%%%%%%%%%%%%%  Reviewer 2
+\reviewersection
+
+\begin{quote}
+Briefly, I think that the derivation of the main results (12), (21), and (25) can
+be made much shorter and easier to understand (for both empiricists and the-
+orists), and that there need to be simulations that quantitatively confirm these
+results. Overly-detailed comments are below.
+\end{quote}
+
+\point{}{
+    I think that the main result (12) can be derived much more simply, and
+    also extended. By writing that the probability that a family that arrives
+    at the patch is successful is approximately $ 2s_p \E [K] /\xi^2$, the authors have
+    implicitly assumed that this quantity is $<\ll 1$. But this implies that the
+    fluctuations in the number of B individuals arriving at the patch can be
+    ignored, since even a large fluctuation does not saturate the probability
+    of success. This is valid for $s_m \gg s_p$. Given that the fluctuations can be
+    ignored, (12) can be derived immediately from $q(y)$ -- simply apply Fick’s
+    Law to $q(y)\rho$ to get that the flux of new B individuals is $\sigma^2 |q'(y)|\rho/2$, and
+    then multiply by the success probability $2s_p/\xi^2$. (Actually, the result is
+    slightly different from (12) -- see X below.)
+}
+
+\reply
+This argument implicitly treats each migrant individual as independent,
+ignoring the correlations of arrival times induced by families.
+This is the reason for explicitly defining families to be those who share an ancestor living outside of $r_0$
+more recently than one living inside the patch;
+many of the particles that Fick's law would pick up leaving $r_0$ would be already counted as part of a family.
+However, we think our simplified argument in \nameref{ss:heuristics} gets the same spirit.
+
+
+\point{}{
+    However, I think we should also care about the opposite limit, $s_m \ll s p$. In
+    this case, the fluctuations do matter -- arrivals typically occur in clumps
+    (families) large enough so that success is almost certain conditioned on
+    arrival. Since on average each family consists of $\E[K]$ individuals, the
+    family flux is just the individual flux divided by $\E[K]$. $\E[K] = \xi^2 /(2s_m)$,
+    so the result is the same as above, except with $s_p$ replaced by an additional
+    factor of $s_m$. (This could be made more formal, but I don’t think that’s
+    what the authors are going for.) In the intermediate case $s_m \approx s_p$ which
+    might be the most relevant for the mice, the two limiting regimes cross
+    over smoothly. So for the first limit ($s_m \gg s_p$), all you need is $q$, and
+    for the second, you only need to add basic facts about branching random
+    walks (ie, limiting number distribution and localization at long times).
+}
+
+\reply
+Good point about $s_m \ll s_p$ (also made by reviewer \#1);
+we've modified the key equation \eqref{eqn:migrate}
+and surrounding discussion along these lines.
+
+
+%%%%%%%%
+\point{}{ 
+    As it stands, $\migrate(y)$ is the rate of successful migrants at an infinitesimal
+    area at distance $y$, so it needs to be integrated over an area to get the rate
+    for a whole patch. The authors don’t do this, and as a result, expressions
+    like (14) are dimensionally inconsistent. It’s a little annoying to define the
+    right area of integration, but it’s straightforward to argue that up to a
+    constant the answer
+     should be given by integrating $\migrate(y)$ over a region
+     of thickness $\sigma/\sqrt{2sm}$ around the boundary of the patch. I think it’s easier
+    to work with fluxes and just integrate over the boundary of the patch, with
+    no worries about thickness, so that’s why I used them above. (Of course,
+    you get the same answer either way, except for small or weirdly-shaped
+    patches, where either or both can break down.)
+}
+
+\reply
+See the response to reviwer 1's point 3 above.
+
+
+%%%%%%%%
+\point{}{ 
+    I think that the authors need to show simulation results confirming the
+    analytic approximations. Spatial simulations are a pain, but it’s important
+    to have a (somewhat) independent check on the math and assumptions. At
+    a minimum, I think that there needs to be a figure showing that they have
+    the right expression for the rate of successful migrants (12) and migration
+    sojourn times (17) over a range of parameter values. If it’s not too much
+    work, I think it would be really nice to have a figure that doubles as a kind
+    of graphical summary, showing a scattering of patches in two dimensions,
+    with one starting as the homeland of the B allele and the rest colored
+    according to their probability in simulations of being colonized by that
+    original allele vs new mutations, and a curve marking the region predicted
+    as being colonized by the analytical approximations, or something like
+    that. But I understand if the authors don’t want to spend their time on
+    that.
+}
+
+\reply
+As discussed above, we've done this.
+
+%%%%%%%%
+\point{}{ 
+    It would be nice to have a table of symbol definitions.
+}
+
+\reply
+We've tried to say in words what each symbol is when we use it as much as possible,
+so we hope this isn't still necessary.
+
+%%%%%%%%
+\point{}{ 
+    And speaking of symbols, I think it’s a bit nicer to write things in terms
+    of the characteristic patch length $a \sim A^{1/d}$, rather than the area. This
+    avoids having to talk about one-dimensional areas \ldots
+}
+
+\reply
+Good point, but $A$ is what shows up naturally in $\mutrate$, so we've left it as-is.
+
+%%%%%%%%
+\point{}{ 
+     It would be nice to have a clear, concise summary of the quantitative
+     assumptions needed for the results (all the stuff like $a \gg \sigma/\sqrt{2s_m}$ or
+     whatever).
+ }
+
+\reply
+See text added in \nameref{ss:assumptions}.
+
+%%%%%%%%
+\point{"Length of the hitchhiking haplotype"}{
+    I would focus more on the asymptotic expressions for $R \gg w  \gg \sigma/ \sqrt{2s_m}$, since that’s the regime
+     where the analysis makes the most sense. Then the expressions become
+     simpler and you can treat $d = 2$ as well. If you want, you could even
+     lead with the intuitive explanation at the end of the section, and save the
+     Bessel functions for an appendix.
+}
+
+ \reply
+
+%%%%%%%%
+\point{}{ 
+     I think (24) follows directly from Barton, Heredity 1979. (If you look at
+     the unnumbered equation above Fig.\ 1 in that paper and plug in $x \sim a$,
+     you find the time scale $r_{eff}$.) I think that the displayed equation should just
+     be $r_{eff} \approx r\sigma/\sqrt{s}/a$. (I feel like the extra correction terms and geometric
+      factor go against the spirit of the paper, and in any case are probably
+      small compared to the inaccuracies introduced just by applying the model
+      to any real system.) I think you can cut essentially everything before
+      the simple explanation just above (24); if people want the mathematical
+      details, they can read Barton. If I am misunderstanding things and there
+    is a new result here, rather than just a good new exposition of an existing
+    result, there should be a figure showing simulations confirming it.
+}
+
+\reply
+This is a very interesting point,
+and the basic tool of a diffusion approximation seems to be the same in both.
+However, something is not matching up,
+because \citet{barton1979geneflow} finds that the length of the region of differentiated genome 
+decays with $1/\sqrt{T}$,
+whereas with our approximation the length of the differentiated haplotype decays as $1/T$.
+The difference may be that Barton considers LD and we consider a haplotype unbroken by recombination.
+On the balance, and considering the other reviewer's wise comments,
+we've cut most of this from \nameref{ss:patch_haplotype}.
+
+%%%%%%%%
+\point{In “Applications”,}{the authors spend a lot of time introducing the mice
+    and calculating the values for Fig. 6, but then they don’t show where the
+    actual data lie on those plots. Is there enough information to do some
+    kind of comparison? How close are the nearest samples to each other?
+    Have no examples of alleles spreading by migration been found? If not,
+    how much of a bound does this put on the parameter values? Is there any
+    data on the genetic map length of the region of reduced diversity around
+    the selected locus?
+}
+
+\reply
+
+%%%%%%%%
+\point{}{ 
+    A few sections or passages seem out of place:
+    \begin{itemize}
+        \item[A.]  I think “Simulation methods” should go in the “Materials and meth-
+            ods” section, or at least not right between “Establishment of a locally
+            adaptive allele due to mutational influx” and “Establishment of a lo-
+            cally adaptive allele due to mutational influx”.
+
+        \item[B.] The sentence on p7 beginning “By our definition of fitness. . . ”.
+
+        \item[C.]  The paragraph starting “Also note that. . . ” on p11.
+    \end{itemize}
+}
+
+\reply
+We moved \nameref{ss:simulations} to Materials and Methods,
+modified the second sentence,
+and rearranged the structure around the third paragraph.
+
+%%%%%%%%
+\point{Fig. 4:}{
+    In the caption, I think it’s misleading to say that $\migrate$ is ``relatively insensitive to $s_m$''. 
+    It’s exponentially sensitive! I don’t understand the blue numbers in the right-hand
+    panel. It might be easier to interpret these if they were contour plots
+    of the total time to adaptation, colored according to the value of (14),
+    although I’m not sure. Also, they aren’t really ``phase diagrams''.
+}
+
+\reply
+Good points; we meant that it was less sensitive to $s_m$ than we'd otherwise think;
+we've replaced this figure with a different one anyhow.
+
+%%%%%%%%
+\point{Top of p11 (just above “Multiple patches”):}{should be $\sqrt{2s_m}/\sigma$.
+}
+
+\reply
+Rephrased. \revref
+
+%%%%%%%%
+\point{Between (49) and (51):}{should be ``Green's''.
+}
+
+\reply
+Always a contentious choice; we're sticking by our position,
+and can cite \citet{borodin2002handbook} as backup. ;)
+
+
+%%%%%%%%
+\point{(51)-(55)}{are missing factors of $\sigma$.
+}
+
+\reply
+
+%%%%%%%%
+\point{}{ 
+ In (56) and following, it would be clearer to use different symbols for scaled
+and unscaled distances.
+
+}
+
+\reply
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%  Reviewer 3
+\reviewersection
+
+
+\point{1a.}{
+        What I miss is a clearer discussion of the scope and limits of the
+    main results. Take Eq. 13: in its revised form, this is a non-monotonic
+    function of the selection coefficient $s_m$. I am almost sure that this is
+    an artefact and that the parameter range of the theory needs to be
+    restricted to the part where the transition probability declines with $s_m$.
+    But it is not easy to see how this needs to be done in a proper way. We
+    certainly need a minimal distance among patches. On top of that, we may
+    need a lower bound for $s_m$. Both these restrictions (or any other) should
+    not be just ad-hoc, but motivated from within the theory (see my remarks at eq. 13).
+}
+
+\reply
+Very good points.  
+We apologize for not catching the nonmonotonicity earlier.
+We've added a section, \nameref{ss:assumptions}, discussing this point,
+as well as a note regarding the nonmonotonicity wrt $s_m$
+\llname{rr:sm_condition}.
+
+\point{1b.}{
+    Linked to this: Figure 4, right panel, shows results in a parameter
+    range where (I think) the theory does not apply.
+}
+
+\point{1c.}{
+    Also linked to this: I believe your theory is sound, but it is really
+    tricky to clearly define its range of application and also to see how good
+    it is quantitatively. Bottom line: we need individual-based simulations to
+    test at least some of the main conclusions. E.g.: do simulations for 2
+    patches in 1d to test the predicted demarcation line between the
+    "mutation" and the "migration" regime. Do this for several parameter
+    choices to test the limits of the theory.
+}
+
+\point{2.}{
+    Section "outflux of migrant alleles": I found this section much less
+    clear than others and have made suggestions for a clearer presentation
+    (see ms).
+}
+
+\point{3.}{
+    Section "length of shared haplotype": This is very handwavy and
+    (without simulation backup) I find it hard to believe that these results
+    are accurate. Since it is also not central to the paper, the section
+    should maybe just be dropped.
+}
+
+%%%%%%
+\point{[beginning comments in the pdf]}{
+``Do you assume a Gaussian kernel? Or is this irrelevant? Which properties of the kernel are required? Only existence of a finite $\sigma^2$?''
+}
+
+\reply
+We've tried to make it more clear here 
+\llname{rr:longtailed}
+exactly what we sweep under the rug later.
+
+%%%%%%
+\point{}{``This is not sufficient: the patch also needs to be large enough that $p_e$ is (almost) reached at its center. Generally, the approximation should over-estimate the true value.''}
+
+\reply
+Good point; we have adjusted this slightly. \llname{rr:p_estab}
+
+%%%%%%
+\point{[more complete information about simulation model]}{}
+
+\reply
+We've added more description of how we did the simulations
+\llname{rr:sim_details},
+and don't think the choice of a bounded kernel is particularly salient
+(given that it's not long-tailed, of course).
+
+%%%%%%
+\point{[comments near equation \eqref{eqn:eqfreq}]}{}
+
+\reply
+Both comments are excellent. 
+We have added discussion of the intuition and the restrictions on $|x|$, as suggested
+\llname{rr:q_form}.
+
+%%%%%%
+\point{The outflux of migrant alleles}{
+    \begin{quote}
+        This section is less clear than the previous one. [...]
+    I think you could devote the formal derivation to the "Methods" and argue on an intuitive level in the main text:
+
+    First, you should clearly spell out what the approximation is. You use the trunk + outgrowth picture of the branching process. Then you assume that the mutant family will only be able to cross to the other patch if the trunk hits this new patch. And when the trunk hits, you assume that all the outgrowth branches also enter it. I.e.: Eventually, either the whole family is "in" and then stays in (as in Fig 3) or no part ever enters. This approximation should be fine if the size of the new patch is sufficiently large.
+
+    As a consequence of this, we can just follow the trunk, which moves by simple Brownian motion with an exponential life span. This defines h(x,y) as probability that the trunk arrives at the new patch.
+
+    Now, how can we relate $h(x,y)$ to $u(x,y)$? - As follows: Once the trunk reaches the new patch (and assuming $s_m$ selection everywhere) it will live there for an exponential time with mean $1/2s_m$. Since it "lives or dies" with its entire outgrowth family (of expected size $\E[K]$) it thus contributes to the density like $u(x,y) = h(x,y) \E[K] / (2s_m)$. This motivates Eq. 11. (no need to introduce $g(A)$ in the main text)
+    \end{quote}
+}
+
+\reply
+   Good suggestion; as discussed above,
+   we've taken what we think is a similar approach, 
+   providing a more intuitive arguemnt (in \nameref{ss:heuristics})
+   and merged the section referred to here with the Methods \llname{rr:moved_argument}.
+   
+%%%%%%%%
+\point{[awkward sentence]}{}
+
+\reply
+Fixed? \llname{rr:awkward}
+
+%%%%%%%%
+\point{[expected total number]}{if y is a point, this number would be 0 (its a density)}
+
+\reply
+We have added the word ``informally''. \llname{rr:density}
+
+
+%%%%%%%%
+\point{[equation \eqref{eqn:migrate}]}{ 
+    \begin{quote}
+    This function is non-monotonic in $s_m$ and I think this needs to be discussed: can it really be that $\migrate$ increases with $s_m$ or is this an artifact?
+
+    In general, we need a clearer idea about the limits of this theory. There are several things to consider:
+    \begin{itemize}
+        \item equation (3) for the expected mutant density is only asymptotic. Therefore, we probably need to require $|y| \gg \sigma / \sqrt(2s_m)$.
+
+        \item the approximation $g(A) \sim 1/2s_m$ in the appendix requires that the patch size is much larger than $1/s_m$
+
+        \item in your arguments, you use the outflow of families from a ball with (large) radius $r_0$ [although I do not see how this figures in]
+
+        \item over short ranges, results must depend on details of the dispersal kernel anyway. [Depending on the shape of the distribution - heavy tail - this even holds for large distances]. As mentioned above: spell out assumptions on the kernel.
+    \end{itemize}
+
+    So: what is the minimal distance $|y|$ for the result to be valid? And: does this minimal distance eliminate the anomaly of an increasing $\migrate$ with $s_m$ for small $s_m?$ Alternatively: is there also a lower limit for $s_m$? I have noted that you do assume above that $s_m$ is large enough to avoid local fixation - but I'm not sure that this comes down to the same thing. 
+\end{quote}
+}
+
+\reply
+
+
+
+%%%%%%%%
+\point{[expression for the outflux of migrants]}{do we need this for anything?}
+
+\reply
+We don't need it for anything else, 
+but we think it adds sufficiently to the intuition about the process
+that we'd like to keep it in.
+In practice it could provide a good reality check.
+\plr{alternatively, compute this for the mice example?}
+
+%%%%%%%%
+\point{[figure 1 showing unimportance of square root term]}{}
+
+\reply
+Clarified. \llname{rr:sqrt_term}
+
+%%%%%%%%
+\point{``the assumption of well-separated patches''}{ 
+}
+
+\reply
+We have changed this. \llname{rr:separated_patches}
+
+
+%%%%%%%%
+\point{[figure 4, the contour plots]}{
+}
+
+\reply
+Good point; we didn't notice that after correcting $\migrate$ the parameter regime on the right didn't make sense.
+We have substituted XXX for these.
+
+%%%%%%%%
+\point{[\eqref{eqn:total_migrate} assumes no interference}{ 
+}
+
+\reply
+Good point, but one we don't think we need to get into; we've added a small caveat.
+\llname{rr:interference}
+
+
+%%%%%%%%
+\point{}{ 
+    One message here seems to be that "migration vs mutation" is independent of the density. As far as the model goes, this is correct. However, in Nature selection will typically be density dependent, usually with stronger deleterious selection (higher $s_m$) at higher densities. One could therefore suspect that higher densities will often favor mutation relative to migration.
+}
+
+\reply
+Interesting point,
+but we think its applicability depends on what densities are being compared.
+If it is in two different species, then $s_m$ must clearly be measured separately in the two,
+so this is not a worry.
+If it is two populations of the same species,
+then one might also argue that lower densities implies worse habitat,
+and so stronger deleterious selection.
+We don't see anything straightforward we can say here, 
+other than adding this caveat later. \llname{rr:popdensity}
+
+%%%%%% p.12
+\point{[justify $\E[K]\approx 1/s_m$]}{}
+
+\reply
+See \eqref{eqn:mean_K}, and modified discussion around \llname{rr:EK}.
+
+%%%%%%%%
+\point{}{ 
+    There is a lot of handwaving in this section. Although each single step has some plausability, the final result seems to depend on a lot of assumptions. There is also an important difference to the other sections. Most of the other results are valid for large distances, where we can safely use asymptotic forms of the distribution (which arguably are quite universal). In contrast, this section relies on short-range dispersal (limited excursions of B-mutant lines to the surrounding area, where b is common). This is far less universal and should depend on details of dispersal.
+
+    Also, it seems to me that another route to break down LD is by b-immigrants to the patch, who will life there for an exponential life span and can recombine before they die out. Note that, in the pocket mouse example below, the frequency of dark mice on the lava flows is only 86\%. This should result in considerable recombination "on site".
+
+    So, in summary: I am sceptical concerning the results of this section. They are preliminary at best and need further study. I therefore suggest to cut them from the paper (or reduce it to some brief remarks).
+}
+
+\reply
+
+%%%%%%%%
+\point{Dominance.}{ 
+    the deleterious effect could be recessive and the beneficial one still (at least partially) domninant.
+}
+
+\reply
+Added that note. \llname{rr:dominance}
+
+
+
+% \end{document}

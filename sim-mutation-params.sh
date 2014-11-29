@@ -8,7 +8,7 @@ for SM in "-.0001" "-.001" "-.01" "-.1"
 do
     for N in 25 100 400 1600
     do
-        THISDIR="migration/sm${SM}/N-${N}/1D"
+        THISDIR="mutation/sm${SM}/N-${N}/1D"
         mkdir -p $THISDIR
         Rscript generate-patchy-run.R \
             "outdir=\"${THISDIR}\"" \
