@@ -191,7 +191,7 @@ Good idea, but we've decided to cut this figure.
 \reply
 We don't know of even a poor approximation to the time to reach migration-selection equilibrium,
 unfortunately.
-However, we have pointed out in \nameref{ss:assumptions} that we're missing this point,
+However, we have pointed out in the section ``\nameref{ss:assumptions}'' that we're missing this point,
 and discuss there how the time lag to reach this equilbrium contributes to discrepancies between theory and simulations.
 
 
@@ -308,7 +308,9 @@ so we hope this isn't still necessary.
 }
 
 \reply
-Good point, but $A$ is what shows up naturally in $\mutrate$, so we've left it as-is.
+Good point; we already have $w$ defined for this purpose;
+and $A$ appears naturally in $\mutrate$,
+but we've tried to make things more intuitive.
 
 %%%%%%%%
 \point{}{ 
@@ -318,7 +320,7 @@ Good point, but $A$ is what shows up naturally in $\mutrate$, so we've left it a
  }
 
 \reply
-See text added in \nameref{ss:assumptions}.
+See text added in ``\nameref{ss:assumptions}''.
 
 %%%%%%%%
 \point{"Length of the hitchhiking haplotype"}{
@@ -330,6 +332,11 @@ See text added in \nameref{ss:assumptions}.
 }
 
  \reply
+As discussed above, we've removed a big chunk of the section on haplotypes,
+which should help make this section feel less heavy.
+However, we don't quite see the reviewer's assertion that $R \gg w$ is important here,
+and we don't see how to make the exposition much simpler with these assumptions.
+
 
 %%%%%%%%
 \point{}{ 
@@ -354,8 +361,10 @@ because \citet{barton1979geneflow} finds that the length of the region of differ
 decays with $1/\sqrt{T}$,
 whereas with our approximation the length of the differentiated haplotype decays as $1/T$.
 The difference may be that Barton considers LD and we consider a haplotype unbroken by recombination.
-On the balance, and considering the other reviewer's wise comments,
-we've cut most of this from \nameref{ss:patch_haplotype}.
+There are also other assumptions in Barton's paper that it's applicability unclear.
+On the balance, and considering the other reviewers' comments,
+we've cut this section and discussed it a bit in the discussion. 
+\llname{rr:haplotype_discussion}
 
 %%%%%%%%
 \point{In “Applications”,}{the authors spend a lot of time introducing the mice
@@ -400,7 +409,7 @@ and rearranged the structure around the third paragraph.
 }
 
 \reply
-Good points; we meant that it was less sensitive to $s_m$ than we'd otherwise think;
+Good points; we meant that it was less sensitive to $s_m$ than if it didn't have the square root;
 we've replaced this figure with a different one anyhow.
 
 %%%%%%%%
@@ -424,6 +433,7 @@ and can cite \citet{borodin2002handbook} as backup. ;)
 }
 
 \reply
+Good point; fixed.
 
 %%%%%%%%
 \point{}{ 
@@ -433,6 +443,8 @@ and unscaled distances.
 }
 
 \reply
+We've put the scaling directly back into the equations here, so this isn't an issue.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -464,6 +476,10 @@ as well as a note regarding the nonmonotonicity wrt $s_m$
     range where (I think) the theory does not apply.
 }
 
+\reply
+Yep, sorry about that
+We've fixed this (and changed the figure).
+
 \point{1c.}{
     Also linked to this: I believe your theory is sound, but it is really
     tricky to clearly define its range of application and also to see how good
@@ -474,11 +490,17 @@ as well as a note regarding the nonmonotonicity wrt $s_m$
     choices to test the limits of the theory.
 }
 
+\reply
+We've done this; see discussion above.
+
 \point{2.}{
     Section "outflux of migrant alleles": I found this section much less
     clear than others and have made suggestions for a clearer presentation
     (see ms).
 }
+
+\reply
+Thanks very much; see below for responses.
 
 \point{3.}{
     Section "length of shared haplotype": This is very handwavy and
@@ -486,6 +508,9 @@ as well as a note regarding the nonmonotonicity wrt $s_m$
     are accurate. Since it is also not central to the paper, the section
     should maybe just be dropped.
 }
+
+\reply
+We have dropped it.
 
 %%%%%%
 \point{[beginning comments in the pdf]}{
@@ -560,7 +585,7 @@ We have added the word ``informally''. \llname{rr:density}
 
     In general, we need a clearer idea about the limits of this theory. There are several things to consider:
     \begin{itemize}
-        \item equation (3) for the expected mutant density is only asymptotic. Therefore, we probably need to require $|y| \gg \sigma / \sqrt(2s_m)$.
+        \item equation (3) for the expected mutant density is only asymptotic. Therefore, we probably need to require $|y| \gg \sigma / \sqrt{2s_m}$.
 
         \item the approximation $g(A) \sim 1/2s_m$ in the appendix requires that the patch size is much larger than $1/s_m$
 
@@ -569,12 +594,16 @@ We have added the word ``informally''. \llname{rr:density}
         \item over short ranges, results must depend on details of the dispersal kernel anyway. [Depending on the shape of the distribution - heavy tail - this even holds for large distances]. As mentioned above: spell out assumptions on the kernel.
     \end{itemize}
 
-    So: what is the minimal distance $|y|$ for the result to be valid? And: does this minimal distance eliminate the anomaly of an increasing $\migrate$ with $s_m$ for small $s_m?$ Alternatively: is there also a lower limit for $s_m$? I have noted that you do assume above that $s_m$ is large enough to avoid local fixation - but I'm not sure that this comes down to the same thing. 
+So: what is the minimal distance $|y|$ for the result to be valid? And: does this minimal distance eliminate the anomaly of an increasing $\migrate$ with $s_m$ for small $s_m?$ Alternatively: is there also a lower limit for $s_m$? I have noted that you do assume above that $s_m$ is large enough to avoid local fixation - but I'm not sure that this comes down to the same thing. 
 \end{quote}
 }
 
 \reply
-
+As discssed above, we've added this discussion to ``\nameref{ss:assumptions}''.
+A few more notes:
+It's not clear to us why the second point requires the patch width to be wider than $1/s_m$, shouldn't it be $\sigma/\sqrt{s_m}$
+(which is covered elsewhere)?
+The appearance of $r_0$ is purely to make families well-defined, and don't think it needs to be discussed here.
 
 
 %%%%%%%%
@@ -607,7 +636,7 @@ We have changed this. \llname{rr:separated_patches}
 
 \reply
 Good point; we didn't notice that after correcting $\migrate$ the parameter regime on the right didn't make sense.
-We have substituted XXX for these.
+We have substituted figures \ref{fig:sim_times} and \ref{fig:sim_prob} for this one.
 
 %%%%%%%%
 \point{[\eqref{eqn:total_migrate} assumes no interference}{ 
@@ -650,6 +679,9 @@ See \eqref{eqn:mean_K}, and modified discussion around \llname{rr:EK}.
 }
 
 \reply
+After scratching our heads and peering at Barton 1979 (as suggested by another reviewer),
+we've seen the wisdom of this
+and cut most of this section.
 
 %%%%%%%%
 \point{Dominance.}{ 

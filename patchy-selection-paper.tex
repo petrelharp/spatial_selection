@@ -694,20 +694,24 @@ i.e.\ where the condition holds.
 
 Now that we have expressions for the mean rates of adaptation by new mutation, \eqref{eqn:mutrate},
 and by migration from an already colonized patch, \eqref{eqn:migrate},
-it seems helpful to step back and review the assumptions we have made and the parameter regime
-we expect the results to apply to.
-For the mutation rate,
-our results will hold best if $s_m \approx s_p$,
+it seems helpful to step back and review the assumptions 
+underlying the asymptotic results we have used.
+Our results should hold exactly in the limit of 
+large, circular patches that are much further apart than they are wide,
+large population density,
+and small selection coefficients of equal magnitude.
+More concretely, the mutation rate results will hold best if $s_m \approx s_p$,
 if the patch diameter is large relative to $\sigma/\sqrt{\min(s_m,s_p)}$,
-the patch is not too far from circular.
+and the patch is not too far from circular.
 If $s_m \ll s_p$ then \eqref{eqn:mutrate} will underestimate the rate,
-and conversely if $s_m \gg s_p$.
+and will overestimate if $s_m \gg s_p$.
 As for the migration rate,
 we assume that 
 \textbf{(a)} each patch is large enough to support a stable population of $B$ alleles
 ($A^{1/d} > (\sigma/\sqrt{2s_p}) \tan^{-1}(\sqrt{s_m/s_p})$).
+The geometry and size of the patch will also affect the approximation of equation \eqref{eqn:gA_1D}.
 Next, in using equation \eqref{eqn:eqfreq}, we assume that 
-\textbf{(b)} the inter-patch distance is at least the characteristic length
+\textbf{(b)} the inter-patch distance is greater than the characteristic length
 ($R > \sigma/\sqrt{s_m}$),
 and that
 \textbf{(c)} local drift is not so strong that the equilibirum frequency is at least approximately attained
@@ -1180,43 +1184,6 @@ and the haplotype halflength $L$ is exponential.
 
 
 
-%%%%%%% %%%%%%%%%%
-\subsection[Haplotypes Shared Within a Patch]{Length of the shared haplotype within a patch}
-\label{ss:patch_haplotype}
-
-The other key issue in thinking about the population genetic signal of adaptation in spatial patches 
-is the process by which haplotypes are whittled down within patches, 
-which plays into a number of aspects of haplotype sharing. 
-The initial haplotype that sweeps within a patch 
-will be dispersed over time by recombination.
-Likewise, the haplotype that is shared between patches coadapted by migration
-(equation~\ref{eqn:haplotype_length}) will also break down. 
-However, a long time after the initial sweep,
-we may still expect to find individuals within the patch sharing longer haplotypes around the selected locus
-than with individuals elsewhere,
-since selection against migrants 
-decreases mean coalescence times within the patch near the selected locus.  %\citep{bartonpaper,charlesworths}. 
-
- 
-Finally we can consider the expected length of haplotype shared within a patch. 
-To do this, we compare the rate of recombination between $B$ and $b$ haplotypes (equation~\ref{eqn:rec_rate_within})
-to the rate of coalescence of $B$ haplotypes within a patch. 
-We will assume that mixing within the patch is fast compared to the rate of drift, 
-so that the rate of coalescence of $B$ alleles within a patch is 
-$\xi^2/(A\rho)$,
-the ``variance effective population size'' of the patch
-(this bypasses the well-known difficulties to spatial coalescence \citep{felsenstein1975pain,barton2002neutral}).
-The rate of recombination and coalescence will be on the same order if
-$\xi^2 /(A\rho) \approx r (\sigma/\sqrt{s}) A^{-1/d}$.
-Hence the genetic length of the haplotype shared between pairs of
-individuals within the same patches at equilibrium is on the order of
-\begin{align} \label{eqn:within_haplotype_length} 
-  r = \frac{\sqrt{s} \xi^2}{\sigma \rho A^{(d-1)/d}}  .
-\end{align}
-This does not depend on $A$ in one dimension,
-but decreases with $\sqrt{A}$ in two dimensions.
-In applications, this can be compared to equation~\eqref{eqn:haplotype_length}
-for the length of shared haplotype between patches.
 
 %%%%%%%%%%
 \subsection{Applications} 
@@ -1379,6 +1346,23 @@ and so shared haplotype lengths between patches will be of order $R/(\sigma \sqr
 
 In developing the set of approximations in the paper we have ignored a
 number of complicating factors. We now briefly discuss these.
+
+\paragraph{Decay of shared haplotypes} \nameref{rr:haplotype_discussion}
+To provide context for the results on shared haplotype length in \nameref{ss:haplotype_length}
+it is important to also understand
+the process by which haplotypes are whittled down within patches.
+The initial haplotype that sweeps within a patch 
+will be dispersed over time by recombination.
+Likewise, the haplotype that is shared between patches coadapted by migration
+(equation~\ref{eqn:haplotype_length}) will also break down. 
+However, a long time after the initial sweep,
+we may still expect to find individuals within the patch sharing longer haplotypes around the selected locus
+than with individuals elsewhere,
+since selection against migrants 
+decreases mean coalescence times within the patch near the selected locus.  %\citep{bartonpaper,charlesworths}. 
+The literature on clines \citep[e.g.]{barton1979geneflow} has important information,
+but a good deal more work is needed
+to provide robust estimates for these processes.
 
 \paragraph{Standing variation} 
 We have focused on relative rates of adaptation,
@@ -1867,19 +1851,19 @@ This is integral of the Green function for the Bessel process of the appropriate
 so using \citet{borodin2002handbook}, % (Appendix 1),
 and letting $w$ be the width of the patch,
 in $d=1$,
-\begin{align}
+\begin{align} \label{eqn:gA_1D}
     g(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
     % &= \int_0^{2w} G_{s_m}(0,y) dy \\
-  &= \int_0^{2w} \frac{ e^{- y \sqrt{2s_m} }}{\sqrt{2s_m}} dy \\
-  &= (1-e^{-2w\sqrt{2s_m}})/(2s_m)
+  &= \int_0^{2w/\sigma} \frac{ e^{- y \sqrt{2s_m}/\sigma }}{\sqrt{2s_m}} dy \\
+  &= (1-e^{-2w\sqrt{2s_m/\sigma}})/(2s_m)
 \end{align}
 and in $d=2$, by \citet{gradshteyn2007table} 5.56.2,
 \begin{align}
     g(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
     % &= \int_0^{2w} G_{s_m}(0,y) dy \\
-  &= \int_0^{2w} 2 y K_0(y \sqrt{2s_m}) dy \\
-  &= \frac{1}{s_m}\int_0^{2w\sqrt{2s_m}} y K_0(y) dy \\
-  &= \frac{1}{2s_m}\left(1- 2w\sqrt{2s_m} K_1(2w\sqrt{2s_m}) \right)  .
+  &= \int_0^{2w/\sigma} 2 y K_0(y \sqrt{2s_m}) dy \\
+  &= \frac{1}{s_m}\int_0^{2w\sqrt{2s_m}/\sigma} y K_0(y) dy \\
+  &= \frac{1}{2s_m}\left(1- \frac{2w\sqrt{2s_m}}{\sigma} K_1(2w\sqrt{2s_m}/\sigma) \right)  .
 \end{align}
 In either case, $g(A) \approx 1/(2s_m)$, which is the approximation we use in the main text.
 
@@ -1899,11 +1883,10 @@ By expression \eqref{eqn:occupation_integral},
     \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
 \]
 for any $y$.  
-Take $y=(r,0)$.
-Note that after scaling by $\sqrt{2s_m}/\sigma$,
+Take $\hat x = (1,0$ and $y=r \hat x$.  Then
 \begin{align}
-    \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\|} }{ \|y\|^{-(d-1)/2} e^{-\|y\|} } \\
-        &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r (\|\hat x - x/r\| - 1)} .
+  \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\| \sqrt{2s_m}/\sigma } }{ \|y\|^{-(d-1)/2} e^{-\|y\| \sqrt{2s_m}/\sigma } } \\
+  &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r \sqrt{2s_m}/\sigma  (\|\hat x - x/r\| - 1)} .
 \end{align}
 Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
 so that the expression in the exponent is to, first order in $1/r$,
@@ -1913,18 +1896,17 @@ so that the expression in the exponent is to, first order in $1/r$,
 \end{align}
 This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
 \begin{align}
-    \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \cos \theta} .
+  \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} .
 \end{align}
 In one dimension we are done.
 In two dimensions,
 by bounded convergence and \citet{gradshteyn2007table} (3.339),
 \begin{align}
   \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
-            &= C' \int_0^{2 \pi} e^{-2 r_0 \cos \theta} d\theta \\
-                         &= 2 \pi C' I_0(-2r_0),
+  &= C' \int_0^{2 \pi} e^{-2 r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} d\theta \\
+  &= 2 \pi C' I_0(-2r_0\sqrt{2 s_m}/\sigma),
 \end{align}
 where $I_0$ is a modified Bessel function of order zero of the first kind.
-The effect of the scaling is to express $r_0$ in natural units, i.e.\ changing the result to $2 \pi C' I_0( - 2 \sqrt{2s_m} r_0 / \sigma ) $.
 
 
 %%%%%%%%%%%
