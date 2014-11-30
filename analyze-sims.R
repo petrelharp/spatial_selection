@@ -4,7 +4,7 @@ source("sim-patchy-selection-fns.R")
 
 maxtime <- 25000  # number of gens these were run for
 
-mutsims <- read.table("mutation-sims-info.tsv",sep='\t',header=TRUE)
+mutsims <- read.table("mutation-sims-info.tsv", sep='\t', header=TRUE )
 
 names(mutsims)[names(mutsims)=="N"] <- "N.name"
 mutsims$N.name <- factor( mutsims$N.name, levels=levels(mutsims$N.name)[order(as.numeric(gsub("N-","",levels(mutsims$N.name))))])
@@ -103,6 +103,13 @@ migsims$adapted <- (
     ( migsims$hit100.2 < 24000 ) &
     ( migsims$time2 >= migsims$hit100.2 ) )
 
+migsims$valid <- with( migsims, 
+        ( R*sqrt(abs(sm))/sigma > 1 ) & 
+        ( size2 > (sigma/sqrt(abs(sm)))*atan(sqrt(abs(sm/gb))) ) &
+        ( abs(sm) * 2 * sigma * N > 1 )
+    )
+
+
 pdf(file="migration-time-predicted.pdf",width=9, height=5, pointsize=10)
 layout(t(1:2))
 with( subset(migsims,adapted), {
@@ -183,12 +190,12 @@ par(mar=c(4,4,1,1)+.1)
                     )
             points( xx,
                     tapply(adapttime,paramstring,median,na.rm=TRUE), 
-                    pch=20+sm.pch, bg=mu.cols, lwd=2, col=N.cols
+                    pch=21+(sm.pch%%5), bg=mu.cols, lwd=2, col=N.cols
             ) 
             abline(0,1,untf=TRUE)
             legend("bottomright", cex=0.5, pt.cex=1,
                 legend=c(sm.labs,N.labs,mu.labs),
-                pch=c( 20+(1:nlevels(sm.name)), rep(1,nlevels(N.name)), rep(21,nlevels(mu.name)) ), 
+                pch=c( 21+((1:nlevels(sm.name))%%5), rep(1,nlevels(N.name)), rep(21,nlevels(mu.name)) ), 
                 col=c("black",N.col.pal)[c(rep(1,nlevels(sm.name)),1+1:nlevels(N.name),rep(1,nlevels(mu.name)))],
                 pt.bg=c(NA,sm.col.pal)[c( rep(1,nlevels(sm.name)), rep(1,nlevels(N.name)), 1+(1:nlevels(mu.name)) ) ] 
             )
@@ -219,11 +226,11 @@ par(mar=c(4,4,1,1)+.1)
                     )
             points( tapply(migtime,paramstring,mean,na.rm=TRUE),
                     tapply(hit100.2,paramstring,median,na.rm=TRUE),
-                    pch=20+sm.pch, col=R.cols, bg=N.cols, lwd=2 )
+                    pch=21+(sm.pch%%5), col=R.cols, bg=N.cols, lwd=2 )
             abline(0,1,untf=TRUE)
             legend("topleft", cex=0.5, pt.cex=1, 
                 legend=c(sm.labs,N.labs,R.labs),
-                pch=c( 20+(1:nlevels(sm.name)), rep(21,nlevels(N.name)), rep(21,nlevels(R.name))), 
+                pch=c( 21+((1:nlevels(sm.name))%%5), rep(21,nlevels(N.name)), rep(21,nlevels(R.name))), 
                 col=c("black",R.col.pal)[c(rep(1,nlevels(sm.name)),rep(1,nlevels(N.name)), 1+1:nlevels(R.name))],
                 pt.bg=c(NA,sm.col.pal)[c( rep(1,nlevels(sm.name)), 1+(1:nlevels(N.name)), rep(1,nlevels(R.name)))] 
             )
@@ -239,10 +246,18 @@ Aval <- 99
 sigmaval <- median(migsims$sigma)  # i.e. most common one, here.
 rval <- 0.3
 sbval <- 0.01
-paramgrid <- expand.grid( N=seq(25,1600,length.out=100), sm=10^(seq(-4,-1,length.out=100)), mu=muval, R=seq(10,160,length.out=100), 
-    A=Aval, sigma=sigmaval, r=rval, sb=sbval )
+paramgrid <- expand.grid( 
+    N=seq(25,1600,length.out=100), 
+    sm=10^(seq(-3,-1,length.out=100)), 
+    R=seq(10,160,length.out=100), 
+    mu=muval, A=Aval, sigma=sigmaval, r=rval, sb=sbval )
 paramgrid$gb <- getgrowth(paramgrid)$gb
 paramgrid$pmut <- with( paramgrid, pmut(sm,mu,R,A,sigma,gb) )
+paramgrid$valid <- with(paramgrid, 
+        ( R*sqrt(abs(sm))/sigma > 1 ) & 
+        ( A > (sigma/sqrt(abs(sm)))*atan(sqrt(abs(sm/gb))) ) &
+        ( abs(sm) * 2 * sigma * N > 1 )
+    )
 
 simgrid <- expand.grid( 
             N=sort(intersect(unique(mutsims$N),unique(migsims$N))), 
@@ -259,8 +274,8 @@ simgrid <- expand.grid(
 simgrid$gb <- getgrowth(simgrid)$gb
 simgrid$theory.pmut <- with(simgrid, pmut( sm, mu, R, A, sigma, gb ) )
 simgrid <- cbind( simgrid, t( sapply( 1:nrow(simgrid), function (k) { params <- simgrid[k,]
-            migtimes <- subset( migsims, (N==params$N) & (sm==params$sm) & (R==params$R) & (dims==params$dims) & adapted )$hit100.2
-            muttimes <- subset( mutsims, (N==params$N) & (sm==params$sm) & (mu==params$mu) & (dims==params$dims) & adapted )$hit100.1
+            migtimes <- subset( migsims, (N==params$N) & (sm==params$sm) & (R==params$R) & (dims==params$dims) )$hit100.2
+            muttimes <- subset( mutsims, (N==params$N) & (sm==params$sm) & (mu==params$mu) & (dims==params$dims) )$hit100.1
             if ( (length(migtimes)>20) & (length(muttimes)>20) ) {
                 pmut <- mean(outer(migtimes,muttimes,">"))
             } else {
@@ -315,7 +330,7 @@ with( subset(paramgrid,usethese), {
         } )
 with( subset(simgrid, !is.na(pmut) ), {
             Rlocs <- R
-            smlocs <- abs(sm)*ifelse(N==1000 & sm>-2e-2, 1+.3, 1)
+            smlocs <- abs(sm) * ifelse(N==1000, ifelse( sm>-2e-2, 1+.3, 1/(1+.3)), 1 )
             points( Rlocs, abs(smlocs), bg=grey(pmut), pch=ifelse(N==1000,21,24), cex=2 ) 
             text( Rlocs, abs(smlocs), formatC(pmut,digits=2,format="f"), 
                     cex=0.5, col='red', pos=ifelse(R>100,2,4) )

@@ -1670,12 +1670,12 @@ where $C$ is a different constant.
 \subsection[Hitting and Occupation]{Hitting and occupation}
 \label{ss:hitting_occupation}
 
-Here we make a more precise argument to back up expression \eqref{eqn:twocase_migrate} for the migration rate.
+Here we make a more precise argument to back up expression \eqref{eqn:migrate} for the migration rate.
 The argument made above in \nameref{ss:heuristics} applies to general migration mechanisms,
 since it relies only on a decomposition of the migrant families upon hitting the new patch;
 but it is also imprecise in a number of subtle ways
 that are difficult to formalize.
-The argument we make here therefore takes a somewhat different tack,
+Here we take a somewhat different tack,
 supposing that it suffices to model the spatial movement of a migrant family
 by following only the motion of the ``trunk''
 (i.e.\ the red line in figure \ref{fig:branching_decomp}),
@@ -1767,29 +1767,14 @@ Recall that $\E[K]$ is the expected family size after a large number of generati
 Since the integrands in expressions \ref{eqn:occupation_integral} and \ref{eqn:migrate_integral} only differ by a factor
 that (at least asymptotically) does not depend on the distance between $x$ and $y$,
 we can obtain the migration rate by multiplying the equilibrium frequency by this factor.
-The probability $f(A)$ that the family does not die out once it arrives at the new patch is
-approximately $\E[1-(1-p_e)^K] \approx 2 s_p \E[K] / \xi^2$,
-if each member arriving has chance $p_e$ of establishing, independently.
-\plr{And if $p_e$ is small?}
-% If we let $w$ be the width of the patch, then the remaining term is
-% \begin{align}
-%   s(w) \simeq \frac{1}{2s_m} \left( 1 - \left( \frac{\pi w \sqrt{2 s_m}}{ 2 \sigma } \right)^{\frac{d-1}{2}} e^{-w \sqrt{2s_m}/\sigma} \right).
-% \end{align}
-Combining with the fact that $g(A)\approx 1/(2s_m)$ (see section~\nameref{ss:hitting_occupation}, in particular equation \eqref{eqn:q_migrate_relation}),
-we obtain that XXX FIX
-\begin{align}
-  \label{eqn:orig_migrate} 
-  \migrate(y) &\approx q(y) \times \frac{ 4 \rho s_p  s_m }{ \xi^2 }  \\
-  &\approx C \frac{ 4 \rho s_p s_m }{ \xi^2 } \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma) .
-\end{align}
-This does not depend on $A$, because although
-$f(A)$ and $g(A)$ in principle depend on the patch size (and geometry),
+
+The result will not depend on $A$, 
+because although $f(A)$ and $g(A)$ in principle depend on the patch size (and geometry),
 the dependence is very weak.
 For instance, the width of a circular patch only very weakly affects the chance 
 of establishment of a new migrant that appears on its edge,
 as long as the patch is large enough.
 For more discussion, including an expression for the outflux of migrants $\gamma(x)$, see section~\nameref{ss:hitting_occupation}.
-
 
 Consider a single migrant family $Z$ beginning at $x$,
 and write $S$ for the new patch, which has area $A$ and is centered at $y$.
@@ -1845,6 +1830,10 @@ then by equations~\eqref{eqn:occupation_integral} and \eqref{eqn:migrate_integra
           &\approx g(A) \E[K] \int_{\partial B(r_0)} \gamma(x) h(x,S) dx \\
           &= \frac{ g(A) \E[K] }{ \rho f(A) } \migrate(y) . \label{eqn:q_migrate_relation}
 \end{align}
+Once we show that $g(A) \approx 1/(2 s_m)$, 
+we will have arrived at the result, equation \eqref{eqn:ratio_K}.
+
+
 The function $g(A)$ is the expected amount of time that a Brownian motion begun on the edge of a disk of area $A$
 is expected to spend inside the disk before $\tau_\dagger$.
 This is integral of the Green function for the Bessel process of the appropriate order, 

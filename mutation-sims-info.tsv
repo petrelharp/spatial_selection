@@ -1,4 +1,4 @@
-sm	R	N	dims	filename	mu	r	m	N	range1	range2	ntypes	sb	sm	nsteps	stepsize	sigma	final0	final1	final2	time0	time1	time2	size0	size1	size2	hit100.0	hit100.1	hit100.2
+mu	sm	N	dims	filename	mu	r	m	N	range1	range2	ntypes	sb	sm	nsteps	stepsize	sigma	final0	final1	final2	time0	time1	time2	size0	size1	size2	hit100.0	hit100.1	hit100.2
 mu1e-5	sm-.0001	N-100	1D	10201-r1-501-sb0.01-sm-1e-04-N100-pophistory-run.Rdata	1e-05	0.3	0.2	100	1	501	2	0.01	-1e-04	1000	25	0.953770108230929	0.586815425360758	0.991373938388864	NA	24975	6300	NA	402	99	NA	1375	3400	NA
 mu1e-5	sm-.0001	N-100	1D	10434-r1-501-sb0.01-sm-1e-04-N100-pophistory-run.Rdata	1e-05	0.3	0.2	100	1	501	2	0.01	-1e-04	1000	25	0.953770108230929	0.502750055691691	0.972843358962762	NA	24975	7700	NA	402	99	NA	6950	5675	NA
 mu1e-5	sm-.0001	N-100	1D	11074-r1-501-sb0.01-sm-1e-04-N100-pophistory-run.Rdata	1e-05	0.3	0.2	100	1	501	2	0.01	-1e-04	1000	25	0.953770108230929	0.381054800623747	0.974934921352832	NA	24975	7750	NA	402	99	NA	6825	5525	NA
