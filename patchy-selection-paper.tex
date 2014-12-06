@@ -9,19 +9,20 @@
 \setcounter{secnumdepth}{0}
 
 
+
+   \newif\iflatexml\latexmlfalse %%%graham added
+
 %We should cite Papers by Slatkin and Wiehe and this, on spatial hitchhiking http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3176130/
 %%%%%
 % Responses to reviews:
 \input{review-response-commands}
 % set this to show line numbers and include responses to reviews or not
-\newif\ifreviewresponses
-\reviewresponsestrue  % include them
+\newif\ifreviewresponses\reviewresponsestrue  % include them
 % \reviewresponsesfalse  % don't include them
 \ifreviewresponses\else\renewcommand{\linelabel}[1]{}\fi
 \iflatexml\reviewresponsesfalse\fi  % they don't work so well in html
 % \newcommand{\responsefile}{pbio-reviews-19sept12-responses.tex}  % name of the review reponses file
 \newcommand{\responsefile}{patchy-review-responses.tex}  % name of the review reponses file
-
 
 
 % % Text layout
@@ -387,7 +388,11 @@ we would like to know the time scale on which copies of $B$ move between patches
 (supposing that no $B$ allele arises independently by mutation in the meantime).
 To determine this, 
 study the fine-scale genealogy of alleles that transit between patches,
-obtaining along the way other useful information about the genealogy of $B$ alleles.
+obtaining along the way other useful information about the genealogy
+of $B$ alleles. \gc{Doing this we arrive at \eqref{eqn:migrate} for
+  the rate at which patches adapt via migration. } %%Thought it good
+                                %%to signpost again where we are
+                                %%going. 
 
 Migration--selection balance ensures that 
 there will be some number of $B$ alleles present in the regions where they are disadvantageous,
@@ -406,7 +411,7 @@ In applications we fit $C$ to the data;
 to get concrete numbers from theory we take $C=1$ if necessary.
 
 From simulations, $C$ seems to be not too far from 1 in practice (see below).
-As J.\ Hermisson pointed out in an earlier draft,
+As J.\ Hermisson pointed out \gc{in comments} on an earlier draft,
 this functional form has a simple intuition:
 local migration leads to the exponential decay,
 since if each migrant at distance $x$ 
@@ -416,7 +421,7 @@ and the square-root term in two dimensions
 enters because the available area grows with $x$.  
 The ``renewal'' aspect of this same argument suggests that for equation~\eqref{eqn:eqfreq} to hold,
 $|x|$ must be larger than only 5--10 multiples of $\sigma$.
-\linelabel{rr:q_form}
+\linelabel{rr:q_form}  \gc{OR WE could just personal ref Hermisson here.}
 
 These asymptotics fit simulations quite well, as shown in Figure~\ref{fig:sim_occupation_freqs}.
 To be clear about the assumptions (especially regarding scaling) implicit here,
@@ -685,11 +690,13 @@ into the constant $C$,
 %     \end{cases} .
 \end{align}
 When we use this below, we set $p_e = 2 s_p / \xi^2$.
-Note that the function increases for small $s_m$, 
-but decreases if $s_m > |y|^2 / 2 \sigma^2$, 
-i.e.\ where the condition holds.
+\gc{Note that the approximation has the undesirable property that it is
+non-monotonic in $s_m$, when we expect the rate of adaptation via
+migration to be a decreasing function of $s_m$. However, it only increases for small $s_m$, 
+and is a decreasing function of $s_m$ for $s_m > |y|^2 / 2 \sigma^2$, 
+i.e.\ the parameter region that we are interested in.}
 \linelabel{rr:sm_condition}
-
+%%GRAHAM felt like we needed to be clearer on this point.
 
 %%%%%%%%%
 \subsection{A review, and a test, of the assumptions}
@@ -703,7 +710,9 @@ Our results should hold exactly in the limit of
 large, circular patches that are much further apart than they are wide,
 large population density,
 and small selection coefficients of equal magnitude.
-More concretely, the mutation rate results will hold best if $s_m \approx s_p$,
+
+%%Graham brokke this paragraph up.
+\gc{To be more precise,} the mutation rate results will hold best if $s_m \approx s_p$,
 if the patch diameter is large relative to $\sigma/\sqrt{\min(s_m,s_p)}$,
 and the patch is not too far from circular.
 If $s_m \ll s_p$ then \eqref{eqn:mutrate} will underestimate the rate,
@@ -728,11 +737,17 @@ if there are sufficient rare, long-distance migration events
 that would move between patches in a single hop,
 this would require a different analysis.
 
+
+
 To test the robustness of our results to the various approximations we used,
 we used individual-based simulations on a one-dimensional lattice of 501 demes,
-run for 25,000 generations.
+run for 25,000 generations. \gc{We simulated $\rho$ diploid
+  individuals per patch, with nearest neighbor migration and
+  multiplicative selection??!? }
 More details are given below in \nameref{ss:simulations},
-and the number of simulations used and parameter values are given in supplementary tables \ref{stab:mutation_params} and \ref{stab:migration_params}.
+and the number of simulations used and parameter values are given in
+supplementary tables \ref{stab:mutation_params} and
+\ref{stab:migration_params}. 
 To estimate the mean time until adaptation by mutation,
 we used one centrally located patch of 99 demes
 and a mutation rate of $\mu=10^{-5}$,
@@ -826,7 +841,9 @@ We work in one dimension, as the square root term appearing for two dimensions i
 (as seen in figure~\ref{fig:sim_occupation_freqs} by the fact that the $d=2$ curve is nearly straight).
 \linelabel{rr:sqrt_term}
 
-Let $\gamma = \min(1,s_m/p_e)$.
+%%felt like we needed a better intro to this paragraph
+\gc{We first consider the order of magnitude that our parameters need to
+be on in order for adaptation via mutation or migration to dominant.} Let $\gamma = \min(1,s_m/p_e)$.
 An important point to notice is that effective migration and mutation rates will be on the same order if 
 $A \mu \approx 2 \gamma s_m \exp(- R \sqrt{2 s_m} / \sigma)$,
 where $R$ is the distance between the patches,
@@ -896,8 +913,9 @@ or if $s_m$ is small enough that local drift is more important.
 %   }
 % \end{figure}
 
-Taking these approximations at face value, 
-and assuming both rates are small, 
+\gc{We can go beyond these orders of magnitude calculations to find
+  the probability of parallel adaptation if we are will to take our approximations at face value, 
+and assuming both rates are small. Doing so } 
 the time until the first of the two patches is colonized by the $B$
 allele will be approximately exponentially distributed with mean $1/(2
 \mutrate)$.
@@ -1033,12 +1051,13 @@ If a patch adapts through new mutation or a rare migrant lineage, the
 genomic region surrounding the selected site will hitchhike along with it \citep{maynardsmith1974hitchhiking},
 so that at least initially, all adapted individuals within a patch
 share a fairly long stretch of haplotype. 
-Pairs of adapted individuals within a patch will share a haplotype of mean genetic length of
+Pairs of adapted individuals within a patch will \gc{initially} share a haplotype of mean genetic length of
 about $\log(\rho A s_p)/s_p$ around the selected site, 
 as long as the patch is reasonably well mixed by dispersal
 (otherwise see \citet{barton2013genetic}).
 This association gets slowly whittled down by recombination during interbreeding at the edge of the patch,
-but there will always be longer LD nearby to the selected site. 
+but there will always be longer LD nearby to the selected site
+\gc{CITATION, BARTON?}. 
 
 When an already adapted patch colonizes another through migration,
  the newly colonized patch will inherit a long piece of haplotype around the selected site from the originating patch.
@@ -1149,10 +1168,21 @@ Then, equation~\eqref{eqn:haplotype_length} means that the haplotype length
 is roughly the length one would expect given the mean transit time.
 Note that we have become used to seeing $\sigma$ divided by $\sqrt{2s_m}$, rather than multiplied;
 it appears here because $\sigma/\sqrt{2s_m}$ is a length scale, 
-and to convert it to a speed this is divided by $1/2s_m$.
-This intuitive picture can be expanded by a central limit theorem:
-for large $R$, the deviation of $\tau$ about its mean is asymptotically Gaussian,
-and the haplotype halflength $L$ is exponential.
+and to convert it to a speed this is divided by $1/2s_m$. 
+
+\gc{In conclusion, the length of shared haplotype drops off quickly with the
+distance between the patches. When $s_m$ is small we expect shorter
+haplotypes as the allele is only weakly deleterious and so 
+traverses the distance between patches relatively slowly compared to
+strongly deleterious alleles. Therefore, when adaptation by migration
+is most likely (small $s_m$) 
+we expect shorter
+shared haplotypes.}
+
+
+%GRAHAM commented out this This intuitive picture can be expanded by a central limit theorem:
+%for large $R$, the deviation of $\tau$ about its mean is asymptotically Gaussian,
+%and the haplotype halflength $L$ is exponential.
 
 % In Appendix~\ref{apx:limiting_dist_of_HH_haplotype}, 
 % we also give some expressions for the limiting distribution of the length of shared haplotype.
@@ -1289,6 +1319,7 @@ However, for the wider cline width ($\sigma/\sqrt{s_m} = 30$km),
 adaptation by migration can still be likely for patches 100km apart, 
 but the shared basis may be hard to detect, as the length of shared haplotype can be quite short. 
 
+\gc{DELETE THIS: 
 Furthermore, given the relatively small radius of the patches of dark substrate (often $<10$km),
 we should expect the haplotype to be rapidly whittled down within
 patches after establishment (equation \ref{eqn:rec_rate_within}). We
@@ -1301,7 +1332,7 @@ is only expected to be on the order of hundreds or thousands of bases
 ($10^{-3}$--$10^{-4}$cM).
 This suggests that unless the migration has happened fairly recently
 then it will be difficult to identify shared haplotypes
-(how recently depends on the background level of LD in the population).
+(how recently depends on the background level of LD in the population).}
 
 
 %%%%%%% %%%%%%% %%%%%%%
