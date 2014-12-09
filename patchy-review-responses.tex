@@ -36,12 +36,13 @@
   robustness, and identify the parameter ranges for which they hold.
 \end{quote}
 
+We agree with this comment, to test the validity of our model we
+coded an individual level model of migration and selection. 
 We have done a large number of simulations, and compared the results to the theory;
 the main comparison occurs in \ref{fig:sim_times} and figures~\ref{fig:sim_probs};
 we have also added in supplementary section \ref{apx:parameter_tables} 
 visualizations of the simulations at various parameter values
 that we think will help some readers in verifying the assumptions.
-
 
 \begin{quote}
   (ii) The presentation of the main result needs to be improved. In particular,
@@ -52,25 +53,26 @@ that we think will help some readers in verifying the assumptions.
   provide detailed suggestions on how this can be achieved.
 \end{quote}
 
-We sympathize entirely: we felt the same way ourselves,
-and went around in similar circles for quite some time
+We have rewritten the method section to simplify the presentation. 
+Before writing the paper, we had initially explored a number of simpler ways of developing the
+argument (along similar the lines to those suggested by the reviewers), 
+and went around in circles for quite some time
 before settling on the argument given in the first draft.
 As suggested by the third reviewer, 
 we have moved the most difficult part of the argument to the Materials \& Methods,
 replacing it in the Results with a more \textit{ad hoc} argument
 along the lines of that suggested by the reviewers.
-(We do think the more formal argument is more solid, however,
+We do think the more formal argument is more solid, however,
 and therefore necessary to keep; 
-as discussed below, various seemingly reasonable arguments
-give different answers for subtle reasons.)
+as discussed below in our response to the reviewers, various seemingly reasonable arguments
+give different answers for subtle reasons.
 
 Other changes of note are:
 \begin{itemize}
 
-
   \item Several reviewers pointed out that in approximating $\E[1-(1-p_e)^K] \approx \E[K] p_e$
     we were neglecting the case that $s_m \ll s_p$.
-    This omission was pure laziness on our part,
+    This omission was sloppy on our part,
     which we have rectified; see the new equation~\eqref{eqn:twocase_migrate}.
 
   \item We have also improved our discussion of the limits to the theory,
@@ -82,6 +84,7 @@ Other changes of note are:
     for $\migrate$ to decrease with $s_m$;
     we don't have good intuition for why the formula should increase in the region where it is inapplicable,
     but this seems beside the point.
+\gc{Graham is not sure what you mean by ``we were running tests in regions'' }
 
 \end{itemize}
 
@@ -176,7 +179,7 @@ This was already discussed in the discussion, but we've added a note about it ea
   }
   
 \reply
-Good idea, but we've decided to cut this figure.
+Good idea, but we've decided to cut this figure in the resubmission.
 
 
 %%%%%%%%
@@ -190,11 +193,12 @@ Good idea, but we've decided to cut this figure.
 
 \reply
 We don't know of even a poor approximation to the time to reach migration-selection equilibrium,
-unfortunately.
-However, we have pointed out in the section ``\nameref{ss:assumptions}'' that we're missing this point,
+unfortunately. However, we now pointed out in the section ``\nameref{ss:assumptions}'' that we're missing this point,
 and discuss there how the time lag to reach this equilbrium contributes to discrepancies between theory and simulations.
 
-
+\gc{seems to graham that we should spread to migration-selection
+  equilibrium as the fisher-kpp. Suggests that patch width$/sqrt{s}
+  \sigma$ wouldn't be a bad guess.}
 
 %%%%%%%%%%%%%%  Reviewer 2
 \reviewersection
@@ -320,7 +324,7 @@ but we've tried to make things more intuitive.
  }
 
 \reply
-See text added in ``\nameref{ss:assumptions}''.
+See text added in Section ``\nameref{ss:assumptions}''.
 
 %%%%%%%%
 \point{"Length of the hitchhiking haplotype"}{
@@ -378,6 +382,18 @@ we've cut this section and discussed it a bit in the discussion.
 }
 
 \reply
+At the moment it is only known that the same MC1R alleles do not
+contribute to color polymorphism on a number of other patches. We know
+from personal discussion with Michael Nachman that another color
+polymorphism allele, in a different gene, has been mapped on another
+patch. We are currently talking to Nachman about a broader-scale
+effort to identify other causal alleles motivated in part by the work described
+in the paper. However, this work is too preliminary to offer any thing
+certain.
+
+ There is no data about the genetic map in this species, but
+as a rough rule of thumb 1cM is roughly 1Mb in a number of mammalian
+species, we have added this guide to the figure caption \llname{rr:cMMb} 
 
 %%%%%%%%
 \point{}{ 
@@ -410,7 +426,8 @@ and rearranged the structure around the third paragraph.
 
 \reply
 Good points; we meant that it was less sensitive to $s_m$ than if it didn't have the square root;
-we've replaced this figure with a different one anyhow.
+in this draft we've replaced this figure with a different one (so
+disgarded this comment).
 
 %%%%%%%%
 \point{Top of p11 (just above “Multiple patches”):}{should be $\sqrt{2s_m}/\sigma$.
@@ -443,7 +460,8 @@ and unscaled distances.
 }
 
 \reply
-We've put the scaling directly back into the equations here, so this isn't an issue.
+We've put the scaling directly back into the equations here in this
+new draft, so this isn't an issue.
 
 
 
@@ -510,7 +528,7 @@ Thanks very much; see below for responses.
 }
 
 \reply
-We have dropped it.
+We have dropped this section.
 
 %%%%%%
 \point{[beginning comments in the pdf]}{
@@ -518,9 +536,8 @@ We have dropped it.
 }
 
 \reply
-We've tried to make it more clear here 
-\llname{rr:longtailed}
-exactly what we sweep under the rug later.
+We've made this more clear here 
+\llname{rr:longtailed}.
 
 %%%%%%
 \point{}{``This is not sufficient: the patch also needs to be large enough that $p_e$ is (almost) reached at its center. Generally, the approximation should over-estimate the true value.''}
@@ -569,7 +586,7 @@ We have added discussion of the intuition and the restrictions on $|x|$, as sugg
 \point{[awkward sentence]}{}
 
 \reply
-Fixed? \llname{rr:awkward}
+Fixed \llname{rr:awkward}
 
 %%%%%%%%
 \point{[expected total number]}{if y is a point, this number would be 0 (its a density)}
@@ -599,7 +616,7 @@ So: what is the minimal distance $|y|$ for the result to be valid? And: does thi
 }
 
 \reply
-As discssed above, we've added this discussion to ``\nameref{ss:assumptions}''.
+As discssed above, we've added this discussion to the Section ``\nameref{ss:assumptions}''.
 A few more notes:
 It's not clear to us why the second point requires the patch width to be wider than $1/s_m$, shouldn't it be $\sigma/\sqrt{s_m}$
 (which is covered elsewhere)?
@@ -690,7 +707,6 @@ and cut most of this section.
 
 \reply
 Added that note. \llname{rr:dominance}
-
 
 
 % \end{document}
