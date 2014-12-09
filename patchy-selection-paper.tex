@@ -168,6 +168,10 @@ and more generally in understanding how species adapt to patchy, heterogeneous l
 }
 
 
+
+\gc{GENERAL GRAHAM comment, every place where we give a section name nameref
+I've made sure that we say section nameref as otherwise it looks weird  }
+
 %%%%%%%%%%% %%%%%%%%%%% 
 \section*{Introduction}
 
@@ -425,8 +429,8 @@ $|x|$ must be larger than only 5--10 multiples of $\sigma$.
 
 These asymptotics fit simulations quite well, as shown in Figure~\ref{fig:sim_occupation_freqs}.
 To be clear about the assumptions (especially regarding scaling) implicit here,
-we provide a derivation below in \nameref{apx:eqfreq}, 
-as well as justification for the asymptotics below in \nameref{apx:asymptotics}.
+we provide a derivation below in section \nameref{apx:eqfreq}, 
+as well as justification for the asymptotics below in section \nameref{apx:asymptotics}.
 In one dimension, the equation can be solved to give $q(x)$ 
 in terms of Jacobi elliptic functions; see appendix \ref{apx:elliptic_integrals}.
 
@@ -641,7 +645,7 @@ i.e.
     } .
 \end{align}
 To make this precise we need to understand what we mean by ``outflux of families'';
-we do this below in \nameref{ss:hitting_occupation},
+we do this below in section \nameref{ss:hitting_occupation},
 and provide a heuristic argument here.
 
 Both numerator and denominator in \eqref{eqn:ratio_gestalt} 
@@ -663,7 +667,7 @@ roughly half of which would stay in the new patch.
 Therefore, the expected contribution of the family to the occupation density is $K/2s_m$.
 (Readers who feel uncomfortable about the geometry of the patch,
 or the distinction between occupation density and number of individuals
-are encouraged to take a detour through \nameref{ss:hitting_occupation}, below.)
+are encouraged to take a detour through section \nameref{ss:hitting_occupation}, below.)
 
 This suggests that 
 \begin{align} \label{eqn:ratio_K}
@@ -744,7 +748,7 @@ we used individual-based simulations on a one-dimensional lattice of 501 demes,
 run for 25,000 generations. \gc{We simulated $\rho$ diploid
   individuals per patch, with nearest neighbor migration and
   multiplicative selection??!? }
-More details are given below in \nameref{ss:simulations},
+More details are given below in section \nameref{ss:simulations},
 and the number of simulations used and parameter values are given in
 supplementary tables \ref{stab:mutation_params} and
 \ref{stab:migration_params}. 
@@ -1383,7 +1387,8 @@ In developing the set of approximations in the paper we have ignored a
 number of complicating factors. We now briefly discuss these.
 
 \paragraph{Decay of shared haplotypes} \nameref{rr:haplotype_discussion}
-To provide context for the results on shared haplotype length in \nameref{ss:haplotype_length}
+To provide context for the results on shared haplotype length in
+section \nameref{ss:haplotype_length}
 it is important to also understand
 the process by which haplotypes are whittled down within patches.
 The initial haplotype that sweeps within a patch 
@@ -1716,7 +1721,7 @@ where $C$ is a different constant.
 \label{ss:hitting_occupation}
 
 Here we make a more precise argument to back up expression \eqref{eqn:migrate} for the migration rate.
-The argument made above in \nameref{ss:heuristics} applies to general migration mechanisms,
+The argument made above in section \nameref{ss:heuristics} applies to general migration mechanisms,
 since it relies only on a decomposition of the migrant families upon hitting the new patch;
 but it is also imprecise in a number of subtle ways
 that are difficult to formalize.
