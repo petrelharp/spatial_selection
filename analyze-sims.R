@@ -28,20 +28,21 @@ mutsims$adapted <- (
     ( mutsims$time1 >= mutsims$hit100.1 ) )
 
 mutsims$adapttime <- mutsims$hit100.1
-pdf(file="mutation-times-predicted.pdf", width=5, height=5, pointsize=10)
+pdf(file="mutation-times-predicted.pdf", width=4, height=5, pointsize=10)
 with( subset(mutsims,adapted), 
         plot( muttime, adapttime, log='xy', xlab="mean time to adaptation by mutation", ylab="time to hit 100 in patch",
-                col=sm.name, pch=as.numeric(N.name) )
+                xlim=c(120,120000), col=sm.name, pch=as.numeric(N.name) )
         )
 abline(0,1,untf=TRUE)
 # abline(coef(muttime.lm),col='blue',lwd=2,untf=TRUE)
 for ( smval in 1:nlevels(mutsims$sm.name) ) {
-    with( subset(mutsims,adapted & as.numeric(sm.name)==smval), 
+    with( subset(mutsims,adapted & as.numeric(sm.name)==smval),  {
+        muttime.fac <- factor(format(muttime,digits=1))
         points( 
-            sort(unique(muttime)), 
-            tapply(adapttime,factor(muttime,levels=sort(unique(muttime))),mean,na.rm=TRUE), 
+            tapply( muttime, muttime.fac, mean, na.rm=TRUE ),
+            tapply(adapttime, muttime.fac, mean,na.rm=TRUE), 
             cex=3, pch=20 )
-    )
+    } )
 }
 legend("bottomright", legend=c(levels(mutsims$sm.name),levels(mutsims$N.name)), pch=c(rep(1,nlevels(mutsims$sm.name)),1:nlevels(mutsims$N.name)), col=c(1:nlevels(mutsims$sm.name),rep(1,nlevels(mutsims$N.name))) )
 dev.off()
@@ -110,19 +111,21 @@ migsims$valid <- with( migsims,
     )
 
 
-pdf(file="migration-time-predicted.pdf",width=9, height=5, pointsize=10)
-layout(t(1:2))
+pdf(file="migration-time-predicted.pdf",width=4, height=8, pointsize=10)
+layout((1:2))
 with( subset(migsims,adapted), {
-        plot( migtime, hit100.2, col=sm.name, pch=as.numeric(N.name), log='xy', xlim=c(10,1e8), ylab="time to hit 100 in second patch", xlab="mean migration time") 
+        plot( migtime, hit100.2, col=sm.name, pch=as.numeric(N.name), log='xy', 
+                xlim=c(10,1e8), ylim=c(5,30000),
+                ylab="time to hit 100 in second patch", xlab="mean migration time") 
         # points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, col=adjustcolor("red",.8), cex=2 )
         points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), median, na.rm=TRUE ), pch=20, cex=2 )
         abline(0,1,untf=TRUE)
-        legend("bottomright",legend=c(levels(sm.name),levels(N.name)), col=c(1:nlevels(sm.name),rep("black",nlevels(N.name))), pch=c(rep(1,nlevels(sm.name)),1:nlevels(N.name)) )
+        legend("bottomright",legend=c(levels(sm.name),levels(N.name)), col=c(1:nlevels(sm.name),rep("black",nlevels(N.name))), pch=c(rep(1,nlevels(sm.name)),1:nlevels(N.name)), bg=adjustcolor("white",.75)  )
     } )
 with( subset(migsims,adapted), {
-        plot( jitter(R), hit100.2, col=sm.name, pch=as.numeric(N.name), log='xy', ylab="time to hit 100 in second patch", xlab="distance between patches")
+        plot( jitter(R), hit100.2, col=sm.name, pch=as.numeric(N.name), log='xy', ylab="time to hit 100 in second patch", xlab="distance between patches", ylim=c(1,30000))
         points( tapply(R,factor(migtime,levels=sort(unique(migtime))),mean),  tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
-        legend("bottomright",legend=c(levels(sm.name),levels(N.name)), col=c(1:nlevels(sm.name),rep("black",nlevels(N.name))), pch=c(rep(1,nlevels(sm.name)),1:nlevels(N.name)) )
+        legend("bottomright",legend=c(levels(sm.name),levels(N.name)), col=c(1:nlevels(sm.name),rep("black",nlevels(N.name))), pch=c(rep(1,nlevels(sm.name)),1:nlevels(N.name)), bg=adjustcolor("white",.75) )
     } )
 dev.off()
 
@@ -291,17 +294,19 @@ simgrid$valid <- with(simgrid,
 
 
 # look at results
-layout(t(1:2))
-with( simgrid, { 
-            plot(pmut, theory.pmut, col=match(sm,sort(unique(sm))) )
-            legend("bottomright", legend=sort(unique(sm)), col=1:length(sort(unique(sm))), pch=1 )
-            abline(0,1)
-        } )
-with( simgrid, { 
-            plot(pmut, with(simgrid,pmut(sm,mu,R,A,sigma,gb,C=5)), col=match(sm,sort(unique(sm))), main="C=5" )
-            legend("bottomright", legend=sort(unique(sm)), col=1:length(sort(unique(sm))), pch=1 )
-            abline(0,1)
-        } )
+if (interactive()) {
+    layout(t(1:2))
+    with( simgrid, { 
+                plot(pmut, theory.pmut, col=match(sm,sort(unique(sm))) )
+                legend("bottomright", legend=sort(unique(sm)), col=1:length(sort(unique(sm))), pch=1 )
+                abline(0,1)
+            } )
+    with( simgrid, { 
+                plot(pmut, with(simgrid,pmut(sm,mu,R,A,sigma,gb,C=5)), col=match(sm,sort(unique(sm))), main="C=5" )
+                legend("bottomright", legend=sort(unique(sm)), col=1:length(sort(unique(sm))), pch=1 )
+                abline(0,1)
+            } )
+}
 
 # helper functions: do contour plots from expand.grid-type setup
 con <- function (xvar, yvar, zvar, ... ) {
@@ -324,7 +329,7 @@ pdf(file="prob-mutation-compared.pdf", width=4, height=3, pointsize=10 )
 par(mar=c(4,4,3,1)+.1)
 usethese <- with(paramgrid, abs(N-100) < mean(diff(sort(unique(N))))/2 )
 with( subset(paramgrid,usethese), {
-            plot( R, sm, col=grey(pmut), pch=20, log='y', 
+            plot( R, sm, col=grey(pmut), pch=20, log='y', xlim=c(10,180),
                     xlab=expression(R), ylab=expression(s[m]), main="probability of parallel adaptation" )
             con( R, sm, pmut, add=TRUE, col='black', levels=c(.01,.05,.25,.5,.75,.95,.99) )
         } )
@@ -333,7 +338,7 @@ with( subset(simgrid, !is.na(pmut) ), {
             smlocs <- abs(sm) * ifelse(N==1000, ifelse( sm>-2e-2, 1+.3, 1/(1+.3)), 1 )
             points( Rlocs, abs(smlocs), bg=grey(pmut), pch=ifelse(N==1000,21,24), cex=2 ) 
             text( Rlocs, abs(smlocs), formatC(pmut,digits=2,format="f"), 
-                    cex=0.5, col='red', pos=ifelse(R>100,2,4) )
+                    cex=0.5, col='red', pos=4 )
         } )
 legend("topright", pch=c(21,24), legend=c(expression(rho==1000),expression(rho==100)), 
         pt.bg=grey(.75), pt.cex=1.5, bg='white' )
@@ -357,9 +362,9 @@ sink(file="mutation-parameters-table.tex")
 print.xtable(
     xtable( cbind(paramtab[1:floor(nrow(paramtab)/2),],paramtab[(floor(nrow(paramtab)/2)+1):nrow(paramtab),]),
         align=c("r","|",rep("r",ncol(paramtab)),"|","|",rep("r",ncol(paramtab)),"|"),
-        format=c("s",rep( c("e","f","e","e","f","e","f"), 2 )),
-        digits=c(0, rep( c(2,0,2,2,0,2,0), 2 )),
         label="stab:mutation_params",
+        digits=c(0, rep( c(2,0,2,2,0,2,0), 2 )),
+        display=c("s",rep( c("g","f","f","f","f","f","f"), 2 )),
         caption="
             Parameter values used in estimates of mean time to adaptation by mutation of figure~\\ref{fig:sim_times}.
             All simulations also used a linear grid of 501 demes with a patch of 99 demes in the center, 
@@ -391,8 +396,8 @@ sink(file="migration-parameters-table.tex")
 print.xtable(
     xtable( cbind(paramtab[1:floor(nrow(paramtab)/2),],paramtab[(floor(nrow(paramtab)/2)+1):nrow(paramtab),]),
         align=c("r","|",rep("r",ncol(paramtab)),"|","|",rep("r",ncol(paramtab)),"|"),
-        format=c("s",rep( c("e","f","e","e","f","e","f"), 2 )),
-        digits=c(0, rep( c(2,0,2,2,0,2,0), 2 )),
+        display=c("s",rep( c("f","f","f","e","f","f","f"), 2 )),
+        digits=c(0, rep( c(0,0,2,0,0,2,0), 2 )),
         label="stab:migration_params",
         caption="
             Parameter values used in estimates of mean time to adaptation by migration of figure~\\ref{fig:sim_times}.

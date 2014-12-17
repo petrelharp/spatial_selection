@@ -27,7 +27,7 @@
 \vskip 1em
 
 We thank the editor and the reviewers for their helpful comment. We
-have substantially revised our paper in response ot these comments,
+have substantially revised our paper in response to these comments,
 and think that it is substantially improved as a consequence. Below we
 have a detailed response point-by-point to the reviewers comments. We
 first address the consensus points highlighted by the editor.
@@ -43,9 +43,9 @@ first address the consensus points highlighted by the editor.
 \end{quote}
 
 We agree with this comment, to test the validity of our model we
-coded an individual level model of migration and selection. 
-We have done a large number of simulations, and compared the results to the theory;
-the main comparison occurs in \ref{fig:sim_times} and figures~\ref{fig:sim_probs};
+ran an additional 21,873 simulations using our individual-based model of migration and selection,
+and compared the results to the theory.
+The main comparison occurs in \ref{fig:sim_times} and figures~\ref{fig:sim_probs};
 we have also added in supplementary section \ref{apx:parameter_tables} 
 visualizations of the simulations at various parameter values
 that we think will help some readers in verifying the assumptions.
@@ -79,12 +79,12 @@ Other changes of note are:
   \item Several reviewers pointed out that in approximating $\E[1-(1-p_e)^K] \approx \E[K] p_e$
     we were neglecting the case that $s_m \ll s_p$.
     This omission was sloppy on our part,
-    which we have rectified; see the new equation~\eqref{eqn:twocase_migrate}.
+    which we have rectified; see the new equation~\eqref{eqn:migrate}.
 
   \item We have also improved our discussion of the limits to the theory,
     mostly in the (short) section \nameref{ss:assumptions}.
     The main point of note was that, indeed as Reviewer 3 pointed out,
-    we were \gc{originally} running \gc{simulations} in regions where $s_m$ was too small for the theory to apply,
+    we were originally running simulations in regions where $s_m$ was too small for the theory to apply,
     resulting in $\migrate$ that was not monotonic with $s_m$.
     Happily, the natural restriction of $R \sqrt{s_m}/\sigma > 1$ coincides with the condition
     for $\migrate$ to decrease with $s_m$;
@@ -93,6 +93,20 @@ Other changes of note are:
 
 \end{itemize}
 
+We hope you find the revised manuscript as improved as we do.
+
+\noindent \hspace{4em}
+\begin{minipage}{3in}
+\noindent
+{\bf Sincerely,}
+
+\vskip 2em
+
+{\bf Peter Ralph, and\\
+Graham Coop.}\\
+\end{minipage}
+
+\vskip 4em
 
 
 %%%%%%%%%%%%%%
@@ -110,8 +124,8 @@ Other changes of note are:
 }
 
 \reply
-The factor of $\ell$ shouldn't be there:
-suppose that $X$ is a Poisson process of ``centers'' of rate 1, 
+We don't think the factor of $\ell$ should be there:
+for example, suppose that $X$ is a Poisson process of ``centers'' of rate 1, 
 and that around each center of $X$ we distribute $n$ points uniformly within a circle of radius $\ell$;
 the expected number of points in a set of area 1 is $n$, regardless of $\ell$.
 The right thing to do with the factor of $\tau$ is harder to intuit:
@@ -136,7 +150,7 @@ the correct way forward becomes non-intuitive, to us, at least.
 }
 
 \reply
-As discussed above, we have incorporated this good point; see around equation~\eqref{eqn:twocase_migrate}.
+As discussed above, we have incorporated this good point; see around equation~\eqref{eqn:migrate}.
 
 %%%%%%%%
 \point{}{ 
@@ -197,13 +211,13 @@ Good idea, but we've decided to cut this figure in the resubmission.
 }
 
 \reply
-We don't know of even a poor approximation to the time to reach migration-selection equilibrium,
-unfortunately. However, we now pointed out in the section ``\nameref{ss:assumptions}'' that we're missing this point,
+We don't know of an approximation to the time to reach migration-selection equilibrium
+that isn't too hand-wavy,
+unfortunately. 
+However, we now point out in the section ``\nameref{ss:assumptions}'' that we're missing this factor,
 and discuss there how the time lag to reach this equilbrium contributes to discrepancies between theory and simulations.
 
-\gc{seems to graham that we should spread to migration-selection
-  equilibrium as the fisher-kpp. Suggests that patch width$/sqrt{s}
-  \sigma$ wouldn't be a bad guess.}
+
 
 %%%%%%%%%%%%%%  Reviewer 2
 \reviewersection
@@ -219,7 +233,7 @@ results. Overly-detailed comments are below.
     I think that the main result (12) can be derived much more simply, and
     also extended. By writing that the probability that a family that arrives
     at the patch is successful is approximately $ 2s_p \E [K] /\xi^2$, the authors have
-    implicitly assumed that this quantity is $<\ll 1$. But this implies that the
+    implicitly assumed that this quantity is $\ll 1$. But this implies that the
     fluctuations in the number of B individuals arriving at the patch can be
     ignored, since even a large fluctuation does not saturate the probability
     of success. This is valid for $s_m \gg s_p$. Given that the fluctuations can be
@@ -239,7 +253,7 @@ However, we think our simplified argument in \nameref{ss:heuristics} gets the sa
 
 
 \point{}{
-    However, I think we should also care about the opposite limit, $s_m \ll s p$. In
+    However, I think we should also care about the opposite limit, $s_m \ll s_p$. In
     this case, the fluctuations do matter -- arrivals typically occur in clumps
     (families) large enough so that success is almost certain conditioned on
     arrival. Since on average each family consists of $\E[K]$ individuals, the
@@ -370,13 +384,13 @@ because \citet{barton1979geneflow} finds that the length of the region of differ
 decays with $1/\sqrt{T}$,
 whereas with our approximation the length of the differentiated haplotype decays as $1/T$.
 The difference may be that Barton considers LD and we consider a haplotype unbroken by recombination.
-There are also other assumptions in Barton's paper that it's applicability unclear.
+There are also other assumptions in Barton's paper that makes its applicability unclear.
 On the balance, and considering the other reviewers' comments,
 we've cut this section and discussed it a bit in the discussion. 
 \llname{rr:haplotype_discussion}
 
 %%%%%%%%
-\point{In “Applications”,}{the authors spend a lot of time introducing the mice
+\point{In ``Applications'',}{the authors spend a lot of time introducing the mice
     and calculating the values for Fig. 6, but then they don’t show where the
     actual data lie on those plots. Is there enough information to do some
     kind of comparison? How close are the nearest samples to each other?
@@ -404,14 +418,13 @@ species, we have added this guide to the physical scale of the shared haplotype 
 \point{}{ 
     A few sections or passages seem out of place:
     \begin{itemize}
-        \item[A.]  I think “Simulation methods” should go in the “Materials and meth-
-            ods” section, or at least not right between “Establishment of a locally
-            adaptive allele due to mutational influx” and “Establishment of a lo-
-            cally adaptive allele due to mutational influx”.
+        \item[A.]  I think ``Simulation methods'' should go in the ``Materials and methods'' section, or at least not right between ``Establishment of a locally
+            adaptive allele due to mutational influx'' and ``Establishment of a lo-
+            cally adaptive allele due to mutational influx''.
 
-        \item[B.] The sentence on p7 beginning “By our definition of fitness. . . ”.
+        \item[B.] The sentence on p7 beginning ``By our definition of fitness. . . ''.
 
-        \item[C.]  The paragraph starting “Also note that. . . ” on p11.
+        \item[C.]  The paragraph starting ``Also note that. . . '' on p11.
     \end{itemize}
 }
 
@@ -431,11 +444,10 @@ and rearranged the structure around the third paragraph.
 
 \reply
 Good points; we meant that it was less sensitive to $s_m$ than if it didn't have the square root;
-in this draft we've replaced this figure with a different one (so
-disgarded this comment).
+in this draft we've replaced this figure with a different one anyhow.
 
 %%%%%%%%
-\point{Top of p11 (just above “Multiple patches”):}{should be $\sqrt{2s_m}/\sigma$.
+\point{Top of p11 (just above ``Multiple patches''):}{should be $\sqrt{2s_m}/\sigma$.
 }
 
 \reply
@@ -541,7 +553,7 @@ We have dropped this section.
 }
 
 \reply
-We've made this more clear here 
+We've made this more clear
 \llname{rr:longtailed}.
 
 %%%%%%
@@ -597,7 +609,7 @@ Fixed \llname{rr:awkward}
 \point{[expected total number]}{if y is a point, this number would be 0 (its a density)}
 
 \reply
-We have added the word ``informally''. \llname{rr:density}
+Rephrased. \llname{rr:density}
 
 
 %%%%%%%%
@@ -636,7 +648,7 @@ We don't need it for anything else,
 but we think it adds sufficiently to the intuition about the process
 that we'd like to keep it in.
 In practice it could provide a good reality check.
-\plr{alternatively, compute this for the mice example?}
+% \plr{alternatively, compute this for the mice example?}
 
 %%%%%%%%
 \point{[figure 1 showing unimportance of square root term]}{}
@@ -658,7 +670,7 @@ We have changed this. \llname{rr:separated_patches}
 
 \reply
 Good point; we didn't notice that after correcting $\migrate$ the parameter regime on the right didn't make sense.
-We have substituted figures \ref{fig:sim_times} and \ref{fig:sim_prob} for this one.
+We have substituted figures \ref{fig:sim_times} and \ref{fig:sim_probs} for this one.
 
 %%%%%%%%
 \point{[\eqref{eqn:total_migrate} assumes no interference}{ 
