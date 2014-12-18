@@ -5,22 +5,51 @@
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage[hidelinks]{hyperref}
+\usepackage{etoolbox}
 
 \setcounter{secnumdepth}{0}
+
+% turn this on to doublespace and put all figures at the very end.
+\newif\ifsubmissionversion
+% \submissionversiontrue
+\submissionversionfalse
 
 \newif\iflatexml\latexmlfalse %%%graham added; remove with latexml package
 
 %%%%%
 % Responses to reviews:
-\input{review-response-commands}
 % set this to show line numbers and include responses to reviews or not
-\newif\ifreviewresponses\reviewresponsestrue  % include them
+\newif\ifreviewresponses
+\reviewresponsestrue  % include them
 % \reviewresponsesfalse  % don't include them
-\ifreviewresponses\else\renewcommand{\linelabel}[1]{}\fi
 \iflatexml\reviewresponsesfalse\fi  % they don't work so well in html
 % \newcommand{\responsefile}{pbio-reviews-19sept12-responses.tex}  % name of the review reponses file
 \newcommand{\responsefile}{patchy-review-responses.tex}  % name of the review reponses file
 
+% override above choices (see makefile)
+\ifdef{\submissionnofigs}{  % for submission, no figures
+  \reviewresponsesfalse
+  \submissionversiontrue
+}{
+}
+\ifdef{\submissionfigs}{  % for reviewers, with figs
+  \reviewresponsestrue
+  \submissionversionfalse
+}{
+}
+\ifdef{\arxiv}{  % for general use
+  \reviewresponsesfalse
+  \submissionversionfalse
+}{
+}
+
+\ifreviewresponses
+  \input{review-response-commands}
+\else
+  \newcommand{\linelabel}[1]{}
+  \newcommand{\revpoint}[2]{}
+  \newcommand{\includereviews}{}
+\fi
 
 % % Text layout
 % \topmargin 0.0cm
@@ -34,13 +63,8 @@
 \usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
 
 
-% turn this on to doublespace and put all figures at the very end.
-\newif\ifsubmissionversion
-% \submissionversiontrue
-\submissionversionfalse
-
 \ifsubmissionversion
-    \usepackage{endfloat}
+    \usepackage[tablesfirst]{endfloat}
     \usepackage{cite}
     % Use the PLoS provided bibtex style
     \bibliographystyle{plos2009}
@@ -73,8 +97,6 @@
 \pagestyle{myheadings}
 %% ** EDIT HERE **
 
-% \newcommand{\var}{\mathop{\mbox{Var}}}
-% \newcommand{\Exp}{\mathop{\mbox{Exp}}}
 \DeclareMathOperator{\var}{Var}
 \DeclareMathOperator{\Exp}{Exp}
 \DeclareMathOperator{\sn}{sn}
@@ -298,7 +320,7 @@ and that the mean squared distance between parent and child is $\sigma^2$
 We will deal with migration by immediately appealing to the central limit theorem,
 treating the total distance traveled across $t$  dispersal events as Gaussian with variance $t \sigma^2$,
 and do not discuss the (interesting) cases where rare, long-distance dispersal events
-are more important \citep[see e.g.][for discussion]{levin2003ecology,ralph2010parallel,hallatschek2014acceleration}.  \linelabel{rr:longtailed}
+are more important (see e.g.\ \citet{levin2003ecology,ralph2010parallel,hallatschek2014acceleration} for discussion).  \linelabel{rr:longtailed}
 %We also aim to describe the scenario where it is sensible to think of large, discrete patches;
 %the case of a fine-scale heterogeneous environment is treated
 %\citep{elsewhere}. \gc{IS THIS LAST SENTENCE NEEDED IF SO GIVE CITATION} \plr{haven't found it yet}
@@ -1430,7 +1452,7 @@ we may still expect to find individuals within the patch sharing longer haplotyp
 than with individuals elsewhere,
 since selection against migrants 
 decreases mean coalescence times within the patch near the selected locus.  %\citep{bartonpaper,charlesworths}. 
-The literature on clines \citep[e.g.][]{barton1979geneflow} has important information,
+The literature on clines (e.g.\ \citet{barton1979geneflow}) has important information,
 but more work is needed
 to provide robust estimates for these processes.
 Questions about the genomic length-scale of signals of
@@ -2095,6 +2117,15 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
 
 \clearpage
 
+\section*{Supplemental material}
+
+% restart figure and table numbering
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\setcounter{table}{0}
+
+
 \begin{figure}
   \begin{center}
     \includegraphics{mutation-times-predicted}
@@ -2196,7 +2227,7 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
   \begin{center}
     \includegraphics{example-migration-sims/89826-r1-501-sb0_01-sm-0_1-N4000-pophistory-run}
     \includegraphics{example-migration-sims/76178-r1-501-sb0_01-sm-0_1-N1000-pophistory-run}
-    \includegraphics{example-migration-sims/97545-r1-501-sb0_01-sm-0_01-N100-pophistory-run}
+    \includegraphics{example-migration-sims/95095-r1-501-sb0_01-sm-0_1-N100-pophistory-run}
   \end{center}
   \caption{
     Randomly chosen simulations of adaptation by migration
@@ -2281,7 +2312,7 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
 \begin{figure}[ht!]
     \begin{center}
         % made in patchy-sim-writeup-plots.R
-        \includegraphics{example-equilibrium}
+        % \includegraphics{example-equilibrium}
     \end{center}
     \label{fig:example_equil}
     \caption{
