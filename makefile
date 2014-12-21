@@ -1,10 +1,4 @@
-
-
-.PHONY : figs patchy clean
-
-all : patchy figs
-
-patchy : patchy-selection-paper-with-figs.pdf patchy-selection-review-responses.pdf patchy-selection-paper-no-figs.pdf patchy-selection-paper-arxiv.pdf
+PATCHY_TARGETS = patchy-selection-paper-with-figs.pdf patchy-selection-review-responses.pdf patchy-selection-paper-no-figs.pdf patchy-selection-paper-arxiv.pdf patchy-tab-S1.pdf patchy-tab-S2.pdf patchy-supp-info.pdf
 
 sfigs = patchy-fig-S3.pdf patchy-fig-S4.pdf patchy-fig-S5.pdf patchy-fig-S6.pdf patchy-fig-S7.pdf patchy-fig-S8.pdf patchy-fig-S9.pdf patchy-fig-S10.pdf
 
@@ -12,10 +6,48 @@ PATCHY_FIGS = $(shell grep "^ *[^%].*includegr" patchy-selection-paper.tex | sed
 PATCHY_EPS = $(patsubst %,%.eps,$(PATCHY_FIGS))
 SFIG_EPS = $(patsubst %.pdf,%.eps,$(sfigs))
 
+.PHONY : figs patchy clean
+
+all : patchy figs
+	tar -cvzhf patchy-suppmat.tar.gz patchy-supp-info.pdf S*_Table.pdf S*_Figure.pdf
+
+patchy : $(PATCHY_TARGETS)
+
 clean :
-	-rm -f *.{aux,log,bbl,blg,fff,lof,lot,out,ttt}
+	-rm -f *.aux
+	-rm -f *.log
+	-rm -f *.bbl
+	-rm -f *.blg
+	-rm -f *.fff
+	-rm -f *.lof
+	-rm -f *.lot
+	-rm -f *.out
+	-rm -f *.ttt
+
+superclean : clean
+	rm -f $(PATCHY_TARGETS)
 
 figs : $(PATCHY_EPS) $(SFIG_EPS)
+	-ln -f -s sim-occupation-freqs.eps Fig1.eps
+	-ln -f -s sim-snapshots.eps Fig2.eps
+	-ln -f -s branching-concept.eps  Fig3.eps
+	-ln -f -s phase-diagram-log.eps Fig4.eps
+	-ln -f -s sim-transit.eps Fig5.eps
+	-ln -s -f prob-mutation-compared.eps Fig6.eps
+	-ln -f -s Lava_flow_mice_prob_parallel.eps Fig7.eps
+	-ln -f -s prob-establishment.eps Fig8.eps
+	-ln -f -s mutation-times-predicted.pdf S1_Figure.pdf
+	-ln -f -s migration-time-predicted.pdf S2_Figure.pdf
+	-ln -f -s patchy-fig-S3.pdf S3_Figure.pdf
+	-ln -f -s patchy-fig-S4.pdf S4_Figure.pdf
+	-ln -f -s patchy-fig-S5.pdf S5_Figure.pdf
+	-ln -f -s patchy-fig-S6.pdf S6_Figure.pdf
+	-ln -f -s patchy-fig-S7.pdf S7_Figure.pdf
+	-ln -f -s patchy-fig-S8.pdf S8_Figure.pdf
+	-ln -f -s patchy-fig-S9.pdf S9_Figure.pdf
+	-ln -f -s patchy-fig-S10.pdf S10_Figure.pdf
+	-ln -f -s patchy-tab-S1.pdf S1_Table.pdf
+	-ln -f -s patchy-tab-S2.pdf S2_Table.pdf
 
 patchy-selection-paper-submission-no-figs.pdf : patchy-selection-paper.tex standing_patches_refs.bib patchy-review-responses.tex
 	-rm -f *.{aux,bbl}
@@ -47,8 +79,17 @@ patchy-selection-paper-with-figs.pdf : patchy-selection-paper-submission-figs.pd
 patchy-selection-review-responses.pdf : patchy-selection-paper-submission-figs.pdf
 	pdfjam --outfile $@ $< 43-
 
-patchy-selection-paper-no-figs.pdf : patchy-selection-paper-submission-version.pdf
-	pdfjam --outfile $@ $< 1-31
+patchy-selection-paper-no-figs.pdf : patchy-selection-paper-submission-no-figs.pdf
+	pdfjam --outfile $@ $< 1-28
+
+patchy-supp-info.pdf : patchy-selection-paper-submission-no-figs.pdf
+	pdfjam --outfile $@ $< 29-30
+
+patchy-tab-S1.pdf : patchy-selection-paper-submission-no-figs.pdf
+	pdfjam --outfile $@ $< 39
+
+patchy-tab-S2.pdf : patchy-selection-paper-submission-no-figs.pdf
+	pdfjam --outfile $@ $< 40
 
 patchy-fig-S3.pdf : example-mutation-sims/18885-r1-501-sb0_01-sm-0_1-N1200-pophistory-run.pdf example-mutation-sims/56325-r1-501-sb0_01-sm-0_1-N600-pophistory-run.pdf example-mutation-sims/28432-r1-501-sb0_01-sm-0_1-N50-pophistory-run.pdf
 	pdfjam --outfile $@ $? --noautoscale false --nup 1x3

@@ -7,6 +7,10 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{etoolbox}
 
+% make supp figures separate
+\usepackage{caption}
+\DeclareCaptionType{sfigure}[Figure]
+
 \setcounter{secnumdepth}{0}
 
 % turn this on to doublespace and put all figures at the very end.
@@ -62,10 +66,10 @@
 % Captions will be left justified
 \usepackage[labelfont=bf,labelsep=period,justification=raggedright]{caption}
 
-
 \ifsubmissionversion
-    \usepackage[tablesfirst]{endfloat}
+    \usepackage[nolists,nomarkers,nohead]{endfloat}
     \usepackage{cite}
+    \DeclareDelayedFloat{sfigure}[sss]{Supplementary Figure}
     % Use the PLoS provided bibtex style
     \bibliographystyle{plos2009}
     \newcommand{\citep}[1]{\cite{#1}}
@@ -73,14 +77,6 @@
 \else
     \usepackage{natbib}
     \bibliographystyle{abbrvnat}
-\fi
-
-
-
-\ifsubmissionversion
-% \linespread{1.6}
-%\usepackage{setspace} 
-%\doublespacing
 \fi
 
 
@@ -94,7 +90,7 @@
 % Leave date blank
 \date{}
 
-\pagestyle{myheadings}
+% \pagestyle{myheadings}
 %% ** EDIT HERE **
 
 \DeclareMathOperator{\var}{Var}
@@ -145,7 +141,7 @@ University of California -- Davis, Davis, CA, 95616
 % convergent evolution; parallel evolution; MC1r; local adaptation; landscape genetics; branching processes; reaction-diffusion equations
 
 %%%%%%%%%%%
-\abstract{
+\section*{Abstract}
 Species often encounter, and adapt to, many patches of locally similar environmental conditions across their range. 
 Such adaptation can occur through convergent evolution if different alleles arise and spread in different patches, 
 or through the spread of shared alleles by migration
@@ -169,7 +165,7 @@ This provides a way to understand the role of geographic separation between patc
 in promoting convergent adaptation and the genomic signals it leaves behind.
 We illustrate these ideas using the convergent evolution of cryptic coloration in the rock pocket mouse, \textit{Chaetodipus intermedius}, as an empirical example.
 
-\textbf{Author Summary:}
+\section*{Author Summary}
 Often, a large species range will include patches where the species differs because it has adapted to locally differing conditions.
 For instance, rock pocket mice are often found with a coat color that matches the rocks they live in,
 these color differences are controlled genetically,
@@ -184,7 +180,6 @@ through new mutation and through migration from other patches,
 and study in more detail what we would expect successful migrations between patches to look like.
 The results are useful for determining whether similar adaptations in different locations are likely to have the same genetic basis or not,
 and more generally in understanding how species adapt to patchy, heterogeneous landscapes.
-}
 
 
 
@@ -1515,14 +1510,6 @@ well together \citep{Kondrashov:03}.
 % discuss mixing of types; 
 % Graph: from simulation showing local proportions in a single patch showing initial fixation of a single type and later mixing converging toward more than one type.  (and eventual loss of one?)
 
-\subsection*{Acknowledgements}
-We would like to heartily thank Joachim Hermisson for a number of insightful suggestions,
-and catching the algebra error present in the first version of this paper on the bioRxiv,
-as well as the two anonymous reviewers.
-We would also like to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandvain for useful discussions, 
-as well as Gideon Bradburd, and Simon Aeschbacher and the rest of the Coop lab
-for helpful comments and discussion of the manuscript.
-
 %%%%%
 \section*{Materials \& Methods}
 
@@ -1593,8 +1580,8 @@ These solutions are shown, and parameters described, in figure~\ref{fig:prob_est
 Here (and at other parameter choices) we see that the probability of establishment $p(x)$ goes to the equilibrium value
 (approximately $p_e = 2s/\xi^2$) within the patch;
 the transition is fairly symmetrical about the edge of the patch, even if the edge of the patch is not sharp.
-The fit is equally good for other parameter values,
-even if migration can move further than one deme and offspring numbers are not Poisson (results not shown).
+Additional experimentation indicated that the fit remains equally good for other parameter values,
+even if migration can move further than one deme and offspring numbers are not Poisson.
 This lends credence to our approximation that the integral of $p(x)$ over the entire range
 is close to $p_e$ multiplied by the area of the patch.
 
@@ -1975,14 +1962,53 @@ where $I_0$ is a modified Bessel function of order zero of the first kind.
 %%%%%%%%%%%
 
 
+\section*{Acknowledgements}
+We would like to heartily thank Joachim Hermisson for a number of insightful suggestions,
+and catching the algebra error present in the first version of this paper on the bioRxiv,
+as well as the two anonymous reviewers.
+We would also like to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandvain for useful discussions, 
+as well as Gideon Bradburd, and Simon Aeschbacher and the rest of the Coop lab
+for helpful comments and discussion of the manuscript.
+
 \bibliography{standing_patches_refs}
 
+
+\ifsubmissionversion
+\clearpage
+\renewcommand*\listfigurename{Figure Legends}
+\listoffigures
+\fi
+
+\clearpage
+
+% endfloat uses different names
+\ifsubmissionversion
+  \renewcommand{\thesfigure}{S\arabic{sfigure}}
+  \renewcommand{\thepostsfigure}{S\arabic{postsfigure}}
+  % \renewcommand{\thefigure}{S\arabic{figure}}
+  % \renewcommand{\thepostfigure}{S\arabic{postfig}}
+  % \setcounter{postfig}{0}
+  \renewcommand{\thetable}{S\arabic{table}}
+  \renewcommand{\theposttable}{S\arabic{posttable}}
+  \setcounter{posttable}{0}
+\fi
+
+%% list of supplementary figures
+\ifsubmissionversion
+  \renewcommand*\listsfigurename{Supplementary Figure Legends}
+  \listofsfigures
+  \renewcommand*\listtablename{Supplementary Table Legends}
+  \listoftables
+  \pagebreak
+\fi
+
 \appendix
+\section{Supporting Information}
 
 \setcounter{secnumdepth}{2}
 
 %%%%%%%
-\section{The exact solution to the equilibrium frequency}
+\subsection{The exact solution to the equilibrium frequency}
 \label{apx:elliptic_integrals}
 
 
@@ -2101,13 +2127,15 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 % \end{align*}
 
 
-
 %%%%%%%
-\section{More information about the simulations}
+\subsection{More information about the simulations}
 \label{apx:parameter_tables}
 
 Here we provide additional details regarding the simulations we used
 to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
+
+%%%
+% Tables
 
 % table of parameters, produced by analyze-sims.R
 \input{mutation-parameters-table.tex}
@@ -2115,18 +2143,10 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
 % table of parameters, produced by analyze-sims.R
 \input{migration-parameters-table.tex}
 
-\clearpage
+%%%
+% Supplementary Figures
 
-\section*{Supplemental material}
-
-% restart figure and table numbering
-\renewcommand{\thefigure}{S\arabic{figure}}
-\setcounter{figure}{0}
-\renewcommand{\thetable}{S\arabic{table}}
-\setcounter{table}{0}
-
-
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{mutation-times-predicted}
   \end{center}
@@ -2135,9 +2155,9 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     but all times shown (not just the interquartile ranges),
     and including those parameter values at which most of the simulations did not adapt by 25,000 generations.
   } \label{sfig:sim_migration_times}
-\end{figure}
+\end{sfigure}
 
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{migration-time-predicted}
   \end{center}
@@ -2149,12 +2169,12 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     and the lower panel has, for comparison, the raw distance between patches 
     (which predicts time to adaptation, but not as well).
   } \label{sfig:sim_mutation_times}
-\end{figure}
+\end{sfigure}
 
 % example trace plots
 
 % sm=0.1
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{example-mutation-sims/18885-r1-501-sb0_01-sm-0_1-N1200-pophistory-run}
     \includegraphics{example-mutation-sims/56325-r1-501-sb0_01-sm-0_1-N600-pophistory-run}
@@ -2168,10 +2188,10 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     (i.e.\ each line represents a vertical slice through the plot on the left);
     dotted black lines indicate the patches where $B$ is advantageous.
   } \label{sfig:sims_1}
-\end{figure}
+\end{sfigure}
 
 % sm=0.01
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{example-mutation-sims/43099-r1-501-sb0_01-sm-0_01-N1200-pophistory-run}
     \includegraphics{example-mutation-sims/69787-r1-501-sb0_01-sm-0_01-N600-pophistory-run}
@@ -2185,10 +2205,10 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     (i.e.\ each line represents a vertical slice through the plot on the left);
     dotted black lines indicate the patches where $B$ is advantageous.
   } \label{sfig:sims_2}
-\end{figure}
+\end{sfigure}
 
 % sm=0.001
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{example-mutation-sims/59611-r1-501-sb0_01-sm-0_001-N1200-pophistory-run}
     \includegraphics{example-mutation-sims/93713-r1-501-sb0_01-sm-0_001-N600-pophistory-run}
@@ -2202,10 +2222,10 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     (i.e.\ each line represents a vertical slice through the plot on the left);
     dotted black lines indicate the patches where $B$ is advantageous.
   } \label{sfig:sims_3}
-\end{figure}
+\end{sfigure}
 
 % sm=0.0001
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{example-mutation-sims/15449-r1-501-sb0_01-sm-1e-04-N1600-pophistory-run}
     \includegraphics{example-mutation-sims/5582-r1-501-sb0_01-sm-1e-04-N400-pophistory-run}
@@ -2219,11 +2239,11 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     (i.e.\ each line represents a vertical slice through the plot on the left);
     dotted black lines indicate the patches where $B$ is advantageous.
   } \label{sfig:sims_4}
-\end{figure}
+\end{sfigure}
 
 
 % sm=0.1, R=80
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{example-migration-sims/89826-r1-501-sb0_01-sm-0_1-N4000-pophistory-run}
     \includegraphics{example-migration-sims/76178-r1-501-sb0_01-sm-0_1-N1000-pophistory-run}
@@ -2237,10 +2257,10 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     (i.e.\ each line represents a vertical slice through the plot on the left);
     dotted black lines indicate the patches where $B$ is advantageous.
   } \label{sfig:sims_5}
-\end{figure}
+\end{sfigure}
 
 % sm=0.01, R=80
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{example-migration-sims/42080-r1-501-sb0_01-sm-0_01-N4000-pophistory-run}
     \includegraphics{example-migration-sims/82698-r1-501-sb0_01-sm-0_01-N1000-pophistory-run}
@@ -2254,10 +2274,10 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     (i.e.\ each line represents a vertical slice through the plot on the left);
     dotted black lines indicate the patches where $B$ is advantageous.
   } \label{sfig:sims_6}
-\end{figure}
+\end{sfigure}
 
 % sm=0.001, R=80
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{example-migration-sims/88079-r1-501-sb0_01-sm-0_001-N4000-pophistory-run}
     \includegraphics{example-migration-sims/3464-r1-501-sb0_01-sm-0_001-N1000-pophistory-run}
@@ -2271,10 +2291,10 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     (i.e.\ each line represents a vertical slice through the plot on the left);
     dotted black lines indicate the patches where $B$ is advantageous.
   } \label{sfig:sims_7}
-\end{figure}
+\end{sfigure}
 
 % sm=0.0001, R=80
-\begin{figure}
+\begin{sfigure}
   \begin{center}
     \includegraphics{example-migration-sims/26044-r1-501-sb0_01-sm-1e-04-N4000-pophistory-run}
     \includegraphics{example-migration-sims/85750-r1-501-sb0_01-sm-1e-04-N1000-pophistory-run}
@@ -2288,15 +2308,11 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     (i.e.\ each line represents a vertical slice through the plot on the left);
     dotted black lines indicate the patches where $B$ is advantageous.
   } \label{sfig:sims_8}
-\end{figure}
+\end{sfigure}
 
 
 
 
-
-\ifsubmissionversion
-\processdelayedfloats
-\fi
 
 
 %%%% Reviews
