@@ -440,7 +440,7 @@ To be clear about the assumptions (especially regarding scaling) implicit here,
 below provide a derivation of \eqref{eqn:eqfreq} in section \secref{apx:eqfreq}, 
 as well as justification for the asymptotics below in section \secref{apx:asymptotics}.
 In one dimension, the equation can be solved to give $q(x)$ 
-in terms of Jacobi elliptic functions; see appendix \ref{apx:elliptic_integrals}.
+in terms of Jacobi elliptic functions; see the Supporting Information.
 
 \begin{figure}[ht!]
   \begin{center}
@@ -947,7 +947,7 @@ is
     \frac{\mutrate}{\mutrate+\migrate(R)} = \frac{ A \mu / (2s_m) }{ A \mu / (2s_m) + C \gamma \left(R \sqrt{2 s_m} /\sigma \right)^{-(d-1)/2}\exp\left(- \sqrt{2 s_m} R / \sigma \right) },  
 \end{equation}
 so that the probability of parallel mutation should increase
-approximately logistically with the distance between the patches, on the spatial scale $\sigma/\sqrt{s_m}$. \revpoint{2}{13}
+approximately logistically with the distance between the patches, on the spatial scale $\sigma/\sqrt{2 s_m}$. \revpoint{2}{13}
 
 We tested this using the same simulations as figure \ref{fig:sim_times},
 by using the empirical distributions of the respective times to adaptation
@@ -1675,7 +1675,7 @@ the process $\Phi_t$ is an irreducible, aperiodic finite-state Markov chain with
 therefore, the inevitable outcome is extinction of one type or another,
 which is not the regime we want to study.
 
-In one dimension, we are done (and discuss exact solutions in Appendix~\ref{apx:elliptic_integrals});
+In one dimension, we are done (and discuss exact solutions in the Supporting Information);
 in higher dimensions, we are more interested in the mean frequency at a given distance $r$ from a patch.
 If we take a radially symmetric patch centered at the origin (so $s$ only depends on $r$), 
 and let $\xi(t,r)$ denote the mean occupation frequency at distance $r$,
@@ -2003,12 +2003,12 @@ for helpful comments and discussion of the manuscript.
 \fi
 
 \appendix
-\section{Supporting Information}
+\section*{Supporting Information}
 
 \setcounter{secnumdepth}{2}
 
 %%%%%%%
-\subsection{The exact solution to the equilibrium frequency}
+\subsection*{The exact solution to the equilibrium frequency}
 \label{apx:elliptic_integrals}
 
 
@@ -2089,7 +2089,7 @@ In some cases, such as \citet{slatkin1973geneflow}, we can infer $\phi(0)$ and $
 In other cases, we are only given $\phi(-\infty)$ and $\phi(\infty)$, and have to work inwards from the ends.
 
 
-\subsection{Doing the integrals}
+\subsection*{Doing the integrals}
 \label{apx:some_integrals}
 
 An important ingredient in the above method is the integral \eqref{eqn:elliptic_function},
@@ -2128,7 +2128,7 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 
 
 %%%%%%%
-\subsection{More information about the simulations}
+\subsection*{More information about the simulations}
 \label{apx:parameter_tables}
 
 Here we provide additional details regarding the simulations we used
@@ -2342,7 +2342,7 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     }
 \end{figure}
 
-\section{Temporary work: hitting probs}
+\section*{Temporary work: hitting probs}
 
 Now consider the probability that a migrant family from $x$ will ever establish in the new patch,
 which we assume has relatively small area $A$ and is centered at position $y$.

@@ -9,7 +9,7 @@ SFIG_EPS = $(patsubst %.pdf,%.eps,$(sfigs))
 .PHONY : figs patchy clean
 
 all : patchy figs
-	tar -cvzhf patchy-suppmat.tar.gz patchy-supp-info.pdf S*_Table.pdf S*_Figure.pdf
+	# tar -cvzhf patchy-suppmat.tar.gz patchy-supp-info.pdf S*_Table.pdf S*_Figure.pdf
 
 patchy : $(PATCHY_TARGETS)
 
@@ -73,21 +73,27 @@ patchy-selection-paper-arxiv.pdf : patchy-selection-paper.tex standing_patches_r
 	pdflatex -jobname patchy-selection-paper-arxiv '\def\arxiv{a} \input{patchy-selection-paper}'
 	pdflatex -jobname patchy-selection-paper-arxiv '\def\arxiv{a} \input{patchy-selection-paper}'
 
+# Submit: paper with figures in reasonable order, and page and line numbers referred to in review-reponses below.
 patchy-selection-paper-with-figs.pdf : patchy-selection-paper-submission-figs.pdf
-	pdfjam --outfile $@ $< 1-42
+	pdfjam --outfile $@ $< 1-44
 
+# Submit: responses to reviews
 patchy-selection-review-responses.pdf : patchy-selection-paper-submission-figs.pdf
-	pdfjam --outfile $@ $< 43-
+	pdfjam --outfile $@ $< 45-
 
+# Submit: the paper without figures but lists of figure legends
 patchy-selection-paper-no-figs.pdf : patchy-selection-paper-submission-no-figs.pdf
 	pdfjam --outfile $@ $< 1-28
 
+# Submit: the "appendix" text
 patchy-supp-info.pdf : patchy-selection-paper-submission-no-figs.pdf
 	pdfjam --outfile $@ $< 29-30
 
+# Submit: table S1
 patchy-tab-S1.pdf : patchy-selection-paper-submission-no-figs.pdf
 	pdfjam --outfile $@ $< 39
 
+# Submit: table S2
 patchy-tab-S2.pdf : patchy-selection-paper-submission-no-figs.pdf
 	pdfjam --outfile $@ $< 40
 
