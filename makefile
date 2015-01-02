@@ -31,9 +31,9 @@ figs : $(PATCHY_EPS) $(SFIG_EPS)
 	-ln -f -s sim-occupation-freqs.eps Fig1.eps
 	-ln -f -s sim-snapshots.eps Fig2.eps
 	-ln -f -s branching-concept.eps  Fig3.eps
-	-ln -f -s phase-diagram-log.eps Fig4.eps
-	-ln -f -s sim-transit.eps Fig5.eps
-	-ln -s -f prob-mutation-compared.eps Fig6.eps
+	-ln -f -s times-predicted-observed.eps Fig4.eps
+	-ln -s -f prob-mutation-compared.eps Fig5.eps
+	-ln -f -s sim-transit.eps Fig6.eps
 	-ln -f -s Lava_flow_mice_prob_parallel.eps Fig7.eps
 	-ln -f -s prob-establishment.eps Fig8.eps
 	-ln -f -s mutation-times-predicted.pdf S1_Figure.pdf
