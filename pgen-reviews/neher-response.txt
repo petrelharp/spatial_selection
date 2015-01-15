@@ -1,0 +1,30 @@
+Greetings, Richard (and others) --
+
+Thanks very much for the thoughts; it's been helpful for us to work through them.  Here's our current thoughts, more or less broken up by the points you've raised, as we see them.
+
+The quick summary is: The first point was our oops!; the second and fourth points seem like useful things to say, but we're not sure how or where they should be added; and we're confused about some aspects of the third point, so it would be helpful to have some clarification before hashing that one out more.
+
+1. (error in equation 56 and subsequent ones) 
+
+2. (saddle point approximation for the time in transit) 
+It is a good point that the mean and variance can be derived without referring to Borodin & Salminen.  We are of two minds as to whether this will help the reader more: on the one hand, it does seem helpful to readers familiar with saddle point approximations to have a simple, explicit argument that doesn't appeal to other references; on the other hand we feel that the argument as written may provide more physical intuition (our aesthetic biases showing through no doubt).
+
+On the other hand, the method we have gives the entire limiting distribution, rather than just the mean and variance, and in both dimensions, without in our view much fuss.  Since the distribution is a transform of an exponential (rather than a Gaussian), this adds significant information.
+
+In summary, it seems to us that this would be useful to some readers as an additional method, although we'd like to not make the paper longer, and would like to keep in the current version.  One option would be to add a section to the appendix where we write down the expressions that we currently appeal to Borodin & Salminen for (we've already got this written up, from earlier drafts), and also mention the saddle point approximation there.
+
+3. (dimension and geometry)
+Here we had a bit of trouble following the argument.  Could you correct us on the following points?
+ - We don't think families of size K live for K generations: For a branching process, the scaling be log K; two arguments: since the process decays as K e^{-st}; or, the time to extinction is the maximum of K independent times.  
+ - We're confused about why "families only reach size K with probability s": the families we consider are conditioned on nonextinction, so they have a well-defined distribution whose mean is K, but we don't know of an argument why this distribution is small with high probability?
+ - We now see why we had disagreement previously about why there should be a factor of \ell^d dividing K: you are defining \lambda_{arr} to be in units of (individuals/time); while we were thinking of \lambda as a density, in units of (indiv/time/area).  However, the exact definition of \lambda_{arr} seems slippery to us; can you help?
+
+We're still giving the point about geometry a think; at the least, we certainly agree that some more discussion about how the geometry affects the probability, as you have, would be useful intuition.
+
+4. (Fluxes)
+This seems to us similar to point (2) above: this is a good point, that will be helpful for some readers; and we can certainly work it in in one form or another if it seems helpful.  However, we don't want to make too big a deal about it, because this calculation of the flux gives only the *mean* flux, ignoring correlations induced by families; so using this to calculate the rate \lambda_{mig} would produce an overestimate.
+
+
+
+Sincerely, 
+Peter and Graham
