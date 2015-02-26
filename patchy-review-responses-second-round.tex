@@ -1,0 +1,276 @@
+% \documentclass{article}
+% \usepackage{fullpage}
+% \input{review-response-commands}
+% 
+% \begin{document}
+
+\section*{From the editor}
+
+\begin{minipage}[b]{2.5in}
+  Resubmission Cover Letter \\
+  {\it PLoS Genetics}
+\end{minipage}
+\hfill
+\begin{minipage}[b]{2.5in}
+    Molecular and Computational Biology\\
+    University of Southern California, \\
+    \emph{and} Evolution and Ecology\\
+    University of California at Davis\\
+  \today
+\end{minipage}
+ 
+\vskip 2em
+ 
+\noindent
+{\bf To the Editor(s) -- }
+ 
+\vskip 1em
+
+
+\begin{quote}
+    Both reviewer 1 and reviewer 2 still question your main result presented in Eq. 1 and I do agree with them that there is definitely something wrong with the dimensions. This was already pointed in the first round of reviews and both reviewers feel that this issue has not been satisfactorily addressed. Both reviewer also argued in the first round that the derivations in the paper are overly complicated and that the problem can in fact be intuitively understood via much simpler arguments (both came up with very similar approaches independently). You stated in your replies that you prefer to stick with your derivation because you consider it more solid. However, I am not even fully convinced that your Eq. 11 is more correct than the reviewers’ intuitive results. Reviewer 1 points out that there are quite substantial deviations in your numerical results (Fig. 4) and reviewer 2 stresses that the 1D simulations won’t even be able to catch the potential problems associated with the boundary of the target area. Clearly, something is not yet fully understood here and I don’t see how the paper can be accepted without having settled these issues.
+\end{quote}
+
+\begin{quote}
+    It would be easy to simply reject the paper at this point. However, as I expressed earlier, I still think that this is an extremely interesting problem that could be of great relevance for future studies, given that the authors can convincingly resolve the issues raised above. The dimensionality problem clearly needs to be resolved, and it needs to be explained how their result and the intuitive results from the reviewers compare with each other.
+\end{quote}
+
+\begin{quote}
+    I also think that presenting and discussing the intuitive results really would be important for the paper, as originally suggested by reviewers 1 and 2. There is a tendency in population genetics to derive complicated “exact” results that are nonetheless of only limited usefulness in reality because it’s unclear how realistic the underlying models are in the first place. I won’t hide here that I strongly prefer a heuristic approach that reveals what’s actually going on, over a lengthy technical calculation that may be formally more correct, yet it’s unclear whether this really matters in reality. I feel the majority of the audience of PLoS Genetics is probably with me on this.
+\end{quote}
+
+\begin{quote}
+    Should you decide to tackle these problems in a major revision, please also address the remaining comments raised by the reviewers. Sorry that I can’t bring you better news at this point but I think you will agree that the reviews are pretty clear in what needs to be done in order to get this paper accepted in PLoS Genetics.
+\end{quote}
+
+\noindent \hspace{4em}
+\begin{minipage}{3in}
+\noindent
+{\bf Sincerely,}
+
+\vskip 2em
+
+{\bf Peter Ralph, and\\
+Graham Coop.}\\
+\end{minipage}
+
+\vskip 4em
+
+
+%%%%%%%%%%%%%%
+\reviewersection
+
+%%%%%%
+\point{}{
+    The issue of dimensions and geometry of the target patch is the main difficulty I have with the paper. I just don't see how your equation 11 can be correct. It has dimensions of 1/time/area when it should be 1/time. Somehow the target area needs to play a role. Reviewer 2 has raised similar issues.
+}
+
+\reply
+
+%%%%%%
+\point{}{
+Regarding the simulations presented in Fig 4, I don't think they strongly support the functional form of $\migrate$. Points with very similar observed migration time have predicted migration times that differ by a factor of a 100 (the more extreme are outside the validity of the approximations, but still the I don't think this figure is strong evidence that the math is correct.)
+}
+
+\reply
+
+%%%%%%
+\point{eq.~S6 is wrong}{
+    as easily seen with $\Theta=0$ \ldots
+    so eq.~S6 has an extra 2, resulting from a wrong expansion of $\sqrt{1+x}$,
+    and so eq.~57--61 are also wrong.
+}
+
+\reply
+
+
+%%%%%%
+\point{time in transit}{
+    One can obtain these results by a simple saddle point approximation:
+    \begin{align*}
+        \P\{ \text{getting to $x$ in time $t$} \} &= \P\{\text{diffusion to $x$ in time $t$}\} \P\{\text{surviving}\} \\
+                                                  &= \frac{1}{(2\pi\sigma^2)^{d/2}} e^{-\frac{x^2}{2\sigma^2 t}-st}
+    \end{align*}
+    the exponent is minimal when
+    \[
+        \frac{x^2}{2\sigma^2 t^2} = s \quad \Rightarrow \quad t^* = \frac{x}{\sigma\sqrt{2s}},
+    \]
+    this gives your eq.~17.
+    The variance is simply the inverse of the second derivative of the exponent
+    \[
+        \frac{1}{\var[\tau]} = \frac{x^2}{\sigma^2 (t^*)^3} = \frac{\sigma}{x(2s)^{3/2}} .
+    \]
+}
+
+\reply
+
+%%%%%%
+\point{now to the thornier issues of dimension, geometry, and fluxes}{
+    \begin{itemize}
+        \item [with $\ell = \sigma/\sqrt{2s}$, $r$ the radius of the patch, $R$ the distance between patches, and $\ell \ll r \ll R$]
+        \item the average density is $q(x) \sim e^{-x\sqrt{2s}/\sigma} = e^{-x/\ell}$
+        \item but fluctuates far from the source as [families of size $K$, with local density $k/\ell^d$]
+        \item families of size $1/s$ live for $1/s$ generations and hence contribute $1/s^2$ to the time-averaged density $q(x)$
+        \item \[ q(x) = \lambda_\text{arr}(x) / s^2 \ell^d, \]
+            where $\lambda_\text{arr}(x)$ is the rate at which families arrive that overlap with $x$
+        \item \[ \lambda_\text{arr}(x) = q(x) s^2 \ell^d \]
+            and
+            \[ \Lambda_\text{arr}(x) = \lambda(x) \ell^d = q(x) s^2 \]
+            would be an ``arrival density''
+        \item to get at $\migrate$, arrival needs to be integrated over the relevant area. In $d=1$ this is simply a stretch of length $\ell$,
+            in $d=2$ it should be $\sqrt{\ell^3 r}$,
+            hence one should get
+            \[ \migrate \sim \rho q(x) s^2 \ell^d \sqrt{r/\ell} (1-e^-{p_0/s}) \]
+        \item result does depend on target geometry
+        \item formulation in terms of fluxes might be easier
+    \end{itemize}
+}
+
+\reply
+
+
+%%%%%%%%%%%%%%
+\reviewersection
+
+\begin{quote}
+I think that the manuscript has been improved, but I don't think that all the reviewers' points have been adequately addressed. As I wrote in my previous review, I really like the authors' approach of giving simple, intuitive explanations. But writing this kind of paper actually requires a much better understanding of the model and dynamics than one needs to write a paper with the standard formal derivations, and I'm not sure that the authors are there yet.
+\end{quote}
+
+
+%%%%%%
+\point{1.}{
+I still think that the main result (11) is dimensionally inconsistent -- it needs to be integrated over the boundary layer of the patch. In their response to my original review, the authors just referred to their response to a similar point by reviewer 1, but I don't think that this addresses my concern -- reviewer 1 was talking about integrating over a different area, the one occupied by a family, which I agree is not correct. (Note that the 1D simulations aren't going to be able to catch this issue, since you can't play with the length of the boundary.)
+}
+
+\reply
+
+
+%%%%%%
+\point{2.}{
+I do think that reviewer 1 raises a good point though. Looking back through the manuscript, I can't find where the authors show that the family is localized within a lengthscale ~ sigma/\sqrt{s_m} << A^{1/d}. This is important, since it's needed to justify the approximation that the whole family arrives at the patch together. This seems like a basic fact about subcritical branching random walks/Brownian motions, so there's probably a formal proof of it somewhere in the literature, but I think that it's straightforward to give an intuitive explanation.
+}
+
+\reply
+
+
+%%%%%%
+\point{3.}{
+Speaking of the literature, what's known about hitting probabilities for subcritical branching random walks/Brownian motions?
+}
+
+\reply
+
+
+%%%%%%
+\point{4.}{
+I still think that the derivation of the main result is too complicated, and could be made much simpler along the lines of the suggestion in my previous review. The extra complications introduced in the current version do not actually make the result any more rigorous -- they just take a less direct route to introducing the same approximations.
+}
+
+\reply
+
+
+%%%%%%
+\point{Minor, 1.}{
+I don't totally understand the simulation methods. The authors say that individuals first chose whether or not to reproduce with probability depending on their fitness, and then produced a Poisson-distributed number of offspring. So the selection is all in whether or not individuals reproduce, not in the number of offspring conditioned on reproduction? What exactly was the function for the probability of reproduction, and what was the mean of the offspring distribution? I'm just wondering if there's a detail here that would account for the discrepancy between the analysis and the simulations. Also, it would be helpful to say exactly what the value of sigma is in the chosen migration model.
+}
+
+\reply
+
+
+%%%%%%
+\point{Minor, 2.}{
+I'm not sure that the description of the valid parameter range in "A review, and a test of the assumptions" is entirely correct. For the mutation results, it's fine if $s_m$ and $s_p$ have very different magnitudes, as long as the patches are sufficiently big/migration is sufficiently weak. What precisely is the condition here?
+}
+
+\reply
+
+
+%%%%%%
+\point{Minor, 3.}{
+In the Applications, I understand that there's still a lot to learn about this system, but the authors need to at least say how far apart the actual lava flow patches are, so we have a sense of what their estimate of "tens to a few hundred kilometers" means for mutation vs migration.
+}
+
+\reply
+
+
+%%%%%%
+\point{Minor, 4.}{
+In their response to my comments, the authors said that they did not see why the assumption $R \gg w$ was neceessary. I think that it is needed in order to talk sensibly about a single "distance to a patch" $R$: if $w \simgt R$, then generally some parts of the patch will be much closer than others, right?
+}
+
+\reply
+
+
+%%%%%%
+\point{Minor, 5.}{
+I still think that including any sub-leading terms in the length of the shared haplotype is falsely precise.
+}
+
+\reply
+
+
+
+
+%%%%%%%%%%%%%%
+\reviewersection
+
+\begin{quote}
+I appreciate the careful and thorough revision - and especially the exhaustive simulation work. It is an impressive and truly content-rich manuscript. I have only a few minor points:
+\end{quote}
+
+%%%%%
+\point{Figure 1:}{
+    point panel, $s_m = -0.02$ appears twice and $s_b$ should rather be $s_p$?
+}
+
+\reply
+
+
+%%%%%
+\revpoint{Figure 4:}{
+    The new figure is a bit hard to read: the grey symbols are hardly visible, square symbols appear with two meanings, the colours for the filling do not match the legend ... Maybe reduce the number of parameter combinations shown (drop some intermediate values) to focus on the "main message" and get a clearer picture? - Details can still be given in the supplement.
+}
+
+\reply
+
+
+%%%%%
+\point{Figure 4:}{
+    Mention all simulation parameters in the legend (eg: what is $p_d$?)
+}
+
+\reply
+
+
+%%%%%
+\point{point 169:}{
+}{
+    my name in acknowledgements is enough, cut here
+}
+
+\point
+
+
+%%%%%
+\revpoint{line 176:}{
+    *we* provide (?)
+}
+
+\point
+
+
+%%%%%
+\revpoint{line 262:}{
+    cut "depends" (?)
+}
+
+\reply
+
+
+%%%%%
+\revpoint{line 263:}{
+    time to reach 100 B alleles: simulations should show how long this takes $\to$ can this explain anything or is it irrelevant? (Unclear in Fig 4 since value for $s_p$ is not provided).
+}
+
+\reply
+
