@@ -28,7 +28,7 @@
 % \reviewresponsesfalse  % don't include them
 \iflatexml\reviewresponsesfalse\fi  % they don't work so well in html
 % \newcommand{\responsefile}{pbio-reviews-19sept12-responses.tex}  % name of the review reponses file
-\newcommand{\responsefile}{patchy-review-responses.tex}  % name of the review reponses file
+\newcommand{\responsefile}{patchy-review-responses-second-round.tex}  % name of the review reponses file
 
 % override above choices (see makefile)
 \ifdef{\submissionnofigs}{  % for submission, no figures
@@ -590,12 +590,13 @@ This suggests that families can be well-described by motion of a central ``trunk
 which dies at a random time whose distribution is given by $k_e(t)$,
 and conditional on survival of this trunk, the family is composed of side ``branches'' off of this trunk,
 as depicted in Figure~\ref{fig:branching_decomp}.
-We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary} (see also \citet{chauvin1991growing}).
+We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary} (see also \citet{chauvin1991growing}). 
+% (lyons1995conceptual deals with conditioned on eventual nonextinction)
 When we condition on survival until $t$, we condition on existence of
 at least one trunk lineage surviving from time $0$ to time $t$ (the long red
 lineage in Figure \ref{fig:branching_decomp}).
 Given this lineage, nothing distinguishes any of the other reproduction events --
-each individual along the trunk lineage must give birth to at least one offspring,
+each individual along the trunk lineage must give birth to at least one offspring that survives until time $t$,
 and all other reproduction events are unconditioned.
 In other words, the genealogy of a family that survives until $t$
 can be decomposed into a trunk that lasts until $t$
@@ -608,7 +609,7 @@ then this gives the following decomposition:
 \end{align}
 where each $Z^{(s,k)}$ is an independent copy of $Z$ 
 that arose from the main branch in generation $s$,
-and each $W_s$ is an independent copy of the offspring distribution $W$, conditioned on $W_s \ge 1$.
+and each $W_s$ is independent with distribution $\P\{ W_s = k\} = \P\{ W = k \} (1-k_e(t-s)^k)/(1-k_e(t-s+1))$. \linelabel{ll:branching_process_fix}
 Since each subfamily $Z^{(s,k)}$ is a branching process with mean offspring number less than one,
 most of these die out quickly,
 and so $Z_t$ is composed of a cluster of recently split subfamilies.
@@ -617,7 +618,6 @@ since $\E[Z_t] = e^{-s_m t}$,
 we get the limiting mean family size conditioned on nonextinction:
 \begin{align} \label{eqn:mean_K}
     \E[K] 
-    % = 1 + \E[W-1 \given W \ge 1] \lim_{t \to \infty} \sum_{u=0}^t e^{-s_m u} = 1 + \E[W-1 \given W \ge 1] \lim_{t \to \infty} \frac{1-e^{-s_m (t+1)}}{1-e^{-s_m}}
     = 1 + \E[W-1 \given W \ge 1] /(1-e^{-s_m}) \approx \E[W-1 \given W \ge 1] / s_m .
 \end{align}
 
@@ -1899,12 +1899,12 @@ so using \citet{borodin2002handbook}, % (Appendix 1),
 and letting $w$ be the width of the patch,
 in $d=1$,
 \begin{align} \label{eqn:gA_1D}
+  \begin{split}
     g(A) % &= \E^w[ \int_0^\tau \one_A(B_t) dt ] 
     % &= \int_0^{2w} G_{s_m}(0,y) dy \\
-    \begin{split}
       &= \int_0^{2w/\sigma} \frac{ e^{- y \sqrt{2s_m}/\sigma }}{\sqrt{2s_m}} dy \\
       &= (1-e^{-2w\sqrt{2s_m}/\sigma})/(2s_m)
-    \end{split}
+  \end{split}
 \end{align}
 and in $d=2$, by \citet{gradshteyn2007table} 5.56.2,
 \begin{align}
@@ -1942,19 +1942,19 @@ Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
 so that the expression in the exponent is to, first order in $1/r$,
 \begin{align}
     r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
-            &= - 2 r_0 \cos \theta + O(1/r) .
+            &= - r_0 \cos \theta + O(1/r) .
 \end{align}
 This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
 \begin{align}
-  \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-2 r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} .
+  \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} .
 \end{align}
 In one dimension we are done.
 In two dimensions,
 by bounded convergence and \citet{gradshteyn2007table} (3.339),
 \begin{align}
   \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
-  &= C' \int_0^{2 \pi} e^{-2 r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} d\theta \\
-  &= 2 \pi C' I_0(-2r_0\sqrt{2 s_m}/\sigma),
+  &= C' \int_0^{2 \pi} e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} d\theta \\
+  &= 2 \pi C' I_0(-r_0\sqrt{2 s_m}/\sigma),
 \end{align}
 where $I_0$ is a modified Bessel function of order zero of the first kind.
 
@@ -1969,6 +1969,11 @@ as well as the two anonymous reviewers.
 We would also like to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandvain for useful discussions, 
 as well as Gideon Bradburd, and Simon Aeschbacher and the rest of the Coop lab
 for helpful comments and discussion of the manuscript.
+This work was supported by grants from the
+National Science Foundation under Grant No. 1262645 to PLR and GC and by the
+National Institute of General Medical Sciences of the National
+Institutes of Health under award numbers NIH RO1GM83098 and
+RO1GM107374 to GC.
 
 \bibliography{standing_patches_refs}
 

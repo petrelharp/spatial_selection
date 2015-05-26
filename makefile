@@ -49,7 +49,7 @@ figs : $(PATCHY_EPS) $(SFIG_EPS)
 	-ln -f -s patchy-tab-S1.pdf S1_Table.pdf
 	-ln -f -s patchy-tab-S2.pdf S2_Table.pdf
 
-patchy-selection-paper-submission-no-figs.pdf : patchy-selection-paper.tex standing_patches_refs.bib patchy-review-responses.tex
+patchy-selection-paper-submission-no-figs.pdf : patchy-selection-paper.tex standing_patches_refs.bib patchy-review-responses-second-round.tex
 	-rm -f *.{aux,bbl}
 	pdflatex -jobname patchy-selection-paper-submission-no-figs '\def\submissionnofigs{a} \input{patchy-selection-paper}'
 	bibtex patchy-selection-paper-submission-no-figs
@@ -57,7 +57,7 @@ patchy-selection-paper-submission-no-figs.pdf : patchy-selection-paper.tex stand
 	pdflatex -jobname patchy-selection-paper-submission-no-figs '\def\submissionnofigs{c} \input{patchy-selection-paper}'
 	pdflatex -jobname patchy-selection-paper-submission-no-figs '\def\submissionnofigs{d} \input{patchy-selection-paper}'
 
-patchy-selection-paper-submission-figs.pdf : patchy-selection-paper.tex standing_patches_refs.bib patchy-review-responses.tex
+patchy-selection-paper-submission-figs.pdf : patchy-selection-paper.tex standing_patches_refs.bib patchy-review-responses-second-round.tex
 	-rm -f *.{aux,bbl}
 	pdflatex -jobname patchy-selection-paper-submission-figs '\def\submissionfigs{a} \input{patchy-selection-paper}'
 	bibtex patchy-selection-paper-submission-figs
@@ -65,7 +65,7 @@ patchy-selection-paper-submission-figs.pdf : patchy-selection-paper.tex standing
 	pdflatex -jobname patchy-selection-paper-submission-figs '\def\submissionfigs{a} \input{patchy-selection-paper}'
 	pdflatex -jobname patchy-selection-paper-submission-figs '\def\submissionfigs{a} \input{patchy-selection-paper}'
 
-patchy-selection-paper-arxiv.pdf : patchy-selection-paper.tex standing_patches_refs.bib patchy-review-responses.tex
+patchy-selection-paper-arxiv.pdf : patchy-selection-paper.tex standing_patches_refs.bib patchy-review-responses-second-round.tex
 	-rm -f *.{aux,bbl}
 	pdflatex -jobname patchy-selection-paper-arxiv '\def\arxiv{a} \input{patchy-selection-paper}'
 	bibtex patchy-selection-paper-arxiv
