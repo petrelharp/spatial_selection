@@ -111,8 +111,10 @@ true, depends if you think ``saddle point approximation'' or ``laplace transform
     \begin{itemize}
         \item {} [with $\ell = \sigma/\sqrt{2s}$, $r$ the radius of the patch, $R$ the distance between patches, and $\ell \ll r \ll R$]
         \item the average density is $q(x) \sim e^{-x\sqrt{2s}/\sigma} = e^{-x/\ell}$
-        \item but fluctuates far from the source as [families of size $K$, with local density $k/\ell^d$]
-        \item families of size $1/s$ live for $1/s$ generations and hence contribute $1/s^2$ to the time-averaged density $q(x)$
+        \item but fluctuates far from the source as 
+          [families of size $K$, fluctuations of duration $1/s$]
+        \item local density of a family: $K/\ell^d$
+        \item families of size $K$ live for $K$ generations and hence contribute $K^2$ to the time-averaged density $q(x)$, which is hence dominated by the largest families, $K \sim 1/s$, but families reach this size only with probability $s$
         \item \[ q(x) = \lambda_\text{arr}(x) / s^2 \ell^d, \]
             where $\lambda_\text{arr}(x)$ is the rate at which families arrive that overlap with $x$
         \item \[ \lambda_\text{arr}(x) = q(x) s^2 \ell^d \]
@@ -127,6 +129,7 @@ true, depends if you think ``saddle point approximation'' or ``laplace transform
         \item formulation in terms of fluxes might be easier
     \end{itemize}
 }
+
 
 \reply
 
