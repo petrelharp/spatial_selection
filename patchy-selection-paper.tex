@@ -516,19 +516,23 @@ by a collection of independent spatial branching processes
 whose members are ignored if they enter the original patch.
 (This can be made formal in the limit of large population density, also taking $r_0$ large enough that the chance of reaching the original patch is small.)
 This decomposition is illustrated in figure~\ref{fig:branching_decomp}.
-The opportunity for adaptation depends on the number $B$ alleles present at migration-selection balance:
-in terms of these families, the time-averaged equilibrium number of $B$ alleles
-present in the area of the new patch \emph{without} their selective advantage is,
-writing $q(S) = \int_S q(y) dy$,
-XXX PHRASE BETTER XXX
+The opportunity for adaptation depends on how often these families of $B$ alleles encounter the new patch under
+migration-selection equilibrium.
+Suppose that the area occupied by the new patch is $S$.
+We can learn about the rate of arrival of families at $S$ from
+the time-averaged number of $B$ alleles expected in $S$ were it not a patch
+(i.e., if $B$ was still maladaptive in $S$),
+which from equation \eqref{eqn:eqfreq}
+is 
 \begin{align}
     \label{eqn:gestalt_q}
     \begin{split}
         \rho q(S) &= \text{ ( outflux of families ) } \times \text{ ( mean occupation in new patch per family ) } ,
 \end{split}
 \end{align}
-and the quantity we wish to compute,
-the effective rate at which \emph{families of} migrant $B$ alleles establish in the new patch
+where $q(S) = \int_S q(y) dy$.
+The quantity we wish to compute,
+the effective rate at which \emph{families of} migrant $B$ alleles establish in the new patch,
 is
 \begin{align}
     \label{eqn:gestalt_migrate}
