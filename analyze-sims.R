@@ -4,6 +4,16 @@ source("sim-patchy-selection-fns.R")
 
 maxtime <- 25000  # number of gens these were run for
 
+###
+# mutation:
+#
+# All simulations also used a linear grid of 501 demes with a patch of 99 demes in the center, the migration
+# model described in Simulation methods, μ = 10 −5 , and s p = .0023 (calculated as the growth rate as
+# described in the text). T adapt is the mean time until 100 B alleles were present in the patch, and p adapted is
+# the proportion of the simulations that adapted by the 25,000 generations. The simulation began with no B
+# alleles.
+
+## made with collate-sims.R
 mutsims <- read.table("mutation-sims-info.tsv", sep='\t', header=TRUE )
 
 names(mutsims)[names(mutsims)=="N"] <- "N.name"
@@ -79,7 +89,14 @@ if (interactive()) {
 
 ################
 # migration
+#
+# "All simulations also used a linear grid of 501 demes with two patches of 99 demes each, separated by R demes
+# in the center; the migration model described in Simulation methods, μ = 10 −5 , and s p = .0023 (calculated
+# as the growth rate as described in the text). T adapt is the mean time until 100 B alleles were present in the
+# patch, and p adapted is the proportion of the simulations that adapted by the 25,000 generations. At the start
+# of the simulation, one patch was initialized with a frequency of 0.8 B alleles, which were absent elsewhere.
 
+## made with collate-sims.R
 migsims <- read.table("migration-sims-info.tsv",sep='\t',header=TRUE)
 
 names(migsims)[names(migsims)=="N"] <- "N.name"
@@ -98,7 +115,8 @@ migsims$paramstring <- with(migsims, factor( paste(sm.name,R.name,N.name,dims,se
 
 migsims$adjust <- 0  # with( migsims, log(N)/gb + size1/2 / ( sigma * sqrt(gb) ) )
 # migsims$migtime <- with( migsims, 0.5/( 4 * N * gb * abs(sm) * exp(- R * sqrt(2*abs(sm))/sigma ) ) + adjust )
-migsims$migtime <- with( migsims, 1/( 5 * ((1+gb)/(1-exp(-(1+gb)))) * N * pmin(2*gb/(1+gb),abs(sm)) * abs(sm) * exp(- R * sqrt(2*abs(sm))/sigma ) ) + adjust )
+# migsims$migtime <- with( migsims, 1/( 5 * ((1+gb)/(1-exp(-(1+gb)))) * N * pmin(2*gb/(1+gb),abs(sm)) * abs(sm) * exp(- R * sqrt(2*abs(sm))/sigma ) ) + adjust )
+migsims$migtime <- with( migsims, 1/( 1 * N * pmin(2*gb/(1+gb),abs(sm)) * abs(sm) * rowSums( exp(- outer(R,0:98,"+")*sqrt(2*abs(sm))/sigma ) ) ) + adjust )
 migsims$adapted <- ( 
     ( migsims$dims == "1D" ) &
     ( migsims$hit100.2 < 24000 ) &
@@ -120,6 +138,7 @@ with( subset(migsims,adapted), {
         # points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, col=adjustcolor("red",.8), cex=2 )
         points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), median, na.rm=TRUE ), pch=20, cex=2 )
         abline(0,1,untf=TRUE)
+        abline(v=24000, lty=2)
         legend("bottomright",legend=c(levels(sm.name),levels(N.name)), col=c(1:nlevels(sm.name),rep("black",nlevels(N.name))), pch=c(rep(1,nlevels(sm.name)),1:nlevels(N.name)), bg=adjustcolor("white",.75)  )
     } )
 with( subset(migsims,adapted), {
@@ -136,14 +155,17 @@ if (interactive()) {
             plot( migtime, hit100.2, col=R.name, log='xy', xlim=c(10,1e8)) 
             points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
             abline(0,1,untf=TRUE)
+            abline(v=24000)
             legend("bottomright",pch=1,legend=levels(R.name), col=1:nlevels(R.name) )
             plot( migtime, hit100.2, col=N.name, log='xy', xlim=c(10,1e8))
             points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
             abline(0,1,untf=TRUE)
+            abline(v=24000)
             legend("bottomright",pch=1,legend=levels(N.name), col=1:nlevels(N.name) )
             plot( migtime, hit100.2, col=sm.name, log='xy', xlim=c(10,1e8)) 
             points( sort(unique(migtime)), tapply( hit100.2, factor(migtime,levels=sort(unique(migtime))), mean, na.rm=TRUE ), pch=20, cex=2 )
             abline(0,1,untf=TRUE)
+            abline(v=24000)
             legend("bottomright",pch=1,legend=levels(sm.name), col=1:nlevels(sm.name) )
         } )
 
