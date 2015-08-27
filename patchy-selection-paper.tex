@@ -96,6 +96,7 @@
 \DeclareMathOperator{\var}{Var}
 \DeclareMathOperator{\Exp}{Exp}
 \DeclareMathOperator{\sn}{sn}
+\DeclareMathOperator{\erf}{erf}
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
@@ -704,6 +705,15 @@ If $\P\{K>1/p_e\}$ is small, then each family has a small chance of establishmen
 and the numerator is approximately $p_e \E[K]$.
 On the other hand, if $p_e$ is not too small,
 then the numerator would be close to 1, as any family that arrives will likely establish.
+
+The remaining term is $q(S)$, the integral of equation \eqref{eqn:eqfreq} over the patch.
+Suppose the new patch has width $w$, and is at distance $x$ from the original patch.
+If the new patch is small ($w \ll \sigma/\sqrt{2s_m}$), 
+then $q(S)$ is approximately $q(x)$ multiplied by the area of the new patch.
+If the new patch is a long rectangle with width $u$ with long axis pointed towards the old patch,
+$q(S)$ is approximately $u C \sqrt{\sigma/\sqrt{2s_m}} \erf(\sqrt{x\sqrt{2s_m}/\sigma})$,
+where $\erf()$ is the error function.
+
 
 On the other hand, XXX WHAT IS $q(S)$ XXX.
 
