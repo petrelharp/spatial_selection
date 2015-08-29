@@ -56,23 +56,58 @@ Graham Coop.}\\
 
 \vskip 4em
 
+\reply
+
+
+The main change,
+which addresses most of the concerns,
+is that we uncovered an error in the derivation of equation \eqref{eqn:migrate},
+that supplied the missing factor of area noted by the reviewers.
+The error occurred in the transition between section \nameref{ss:heuristics} 
+and section \nameref{ss:hitting_occupation}
+because in the former we had tried to keep things simple
+by not including shape of the patch in
+gestalt equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate},
+but then (more correctly) treated the shape in the latter;
+effectively we were treating the patch as very small in one place
+and large in another.
+We've rewritten the argument in \nameref{ss:heuristics} 
+to deal explicitly with the integral over the whole patch,
+which also necessitated adding a new (short) appendix \nameref{apx:qS}.
+Section \nameref{ss:hitting_occupation} required very little change.
+
 
 %%%%%%%%%%%%%%
 \reviewersection
 
 %%%%%%
 \point{}{
-    The issue of dimensions and geometry of the target patch is the main difficulty I have with the paper. I just don't see how your equation 11 can be correct. It has dimensions of 1/time/area when it should be 1/time. Somehow the target area needs to play a role. Reviewer 2 has raised similar issues.
+    The issue of dimensions and geometry of the target patch is the main difficulty I have with the paper. I just don't see how your equation \eqref{eqn:migrate} can be correct. It has dimensions of 1/time/area when it should be 1/time. Somehow the target area needs to play a role. Reviewer 2 has raised similar issues.
 }
 
 \reply
+Now that we've found the problem in the derivation,
+we heartily agree;
+the missing factor was, indeed, a multiplicative factor of area.
+(See above for more on this.)
+
 
 %%%%%%
 \point{}{
-Regarding the simulations presented in Fig 4, I don't think they strongly support the functional form of $\migrate$. Points with very similar observed migration time have predicted migration times that differ by a factor of a 100 (the more extreme are outside the validity of the approximations, but still the I don't think this figure is strong evidence that the math is correct.)
+Regarding the simulations presented in Fig 4, I don't think they strongly support the functional form of $\migrate$. Points with very similar observed migration time have predicted migration times that differ by a factor of a 100 (the more extreme are outside the validity of the approximations, but still I don't think this figure is strong evidence that the math is correct.)
 }
 
 \reply
+We think the main issue here was inclusion of points outside the validity of the approximations,
+since of the parameters falling in the range of validity discussed in \nameref{ss:assumptions},
+the largest discrepancy was a factor of 7, not 100.
+We've re-made this figure only using parameter combinations that fall within the range of validity
+($R > \sigma/\sqrt{s_m}$, patch width larger than $\sigma/\sqrt{s_m} \atan(\sqrt{s_m/s_b})$, and $2 s_m \sigma N > 1$);
+%         ( R*sqrt(abs(sm))/sigma > 1 ) & 
+%         ( size2 > (sigma/sqrt(abs(sm)))*atan(sqrt(abs(sm/gb))) ) &
+%         ( abs(sm) * 2 * sigma * N > 1 )
+the figures that include all simulation results are still included in the supplement
+(and hopefully will inspire theory that is applicable in the other regions).
 
 %%%%%%
 \point{eq.~56 is wrong}{
@@ -104,17 +139,19 @@ Thanks for catching that mistake.  We removed the extra factor of 2 (section~\na
 }
 
 \reply
-true, depends if you think ``saddle point approximation'' or ``laplace transform'' is a simpler idea?  this way avoids writing down more integrals; I hate to add more equations...
+This is a nice point;
+perhaps which approach should be included
+comes down to personal taste
+as to whether ``saddle point approximation'' or ``Laplace transform'' is a simpler idea?  
+We've left this as-is.
 
 %%%%%%
 \point{now to the thornier issues of dimension, geometry, and fluxes}{
     \begin{itemize}
         \item {} [with $\ell = \sigma/\sqrt{2s}$, $r$ the radius of the patch, $R$ the distance between patches, and $\ell \ll r \ll R$]
         \item the average density is $q(x) \sim e^{-x\sqrt{2s}/\sigma} = e^{-x/\ell}$
-        \item but fluctuates far from the source as 
-          [families of size $K$, fluctuations of duration $1/s$]
-        \item local density of a family: $K/\ell^d$
-        \item families of size $K$ live for $K$ generations and hence contribute $K^2$ to the time-averaged density $q(x)$, which is hence dominated by the largest families, $K \sim 1/s$, but families reach this size only with probability $s$
+        \item but fluctuates far from the source as [families of size $K$, with local density $k/\ell^d$]
+        \item families of size $1/s$ live for $1/s$ generations and hence contribute $1/s^2$ to the time-averaged density $q(x)$
         \item \[ q(x) = \lambda_\text{arr}(x) / s^2 \ell^d, \]
             where $\lambda_\text{arr}(x)$ is the rate at which families arrive that overlap with $x$
         \item \[ \lambda_\text{arr}(x) = q(x) s^2 \ell^d \]
@@ -130,9 +167,7 @@ true, depends if you think ``saddle point approximation'' or ``laplace transform
     \end{itemize}
 }
 
-
 \reply
-
 
 
 %%%%%%%%%%%%%%
