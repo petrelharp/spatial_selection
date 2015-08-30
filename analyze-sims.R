@@ -36,8 +36,8 @@ mutsims$adapted <- (
     ( mutsims$dims == "1D" ) &
     ( mutsims$final1 > 0.5 ) &
     ( mutsims$time1 >= mutsims$hit100.1 ) )
-
 mutsims$adapttime <- mutsims$hit100.1
+
 pdf(file="mutation-times-predicted.pdf", width=4, height=5, pointsize=10)
 with( subset(mutsims,adapted), 
         plot( muttime, adapttime, log='xy', xlab="mean time to adaptation by mutation", ylab="time to hit 100 in patch",
@@ -123,6 +123,7 @@ migsims$adapted <- (
     ( migsims$time2 >= migsims$hit100.2 ) )
 
 migsims$valid <- with( migsims, 
+        ( migtime < 24000 ) &
         ( R*sqrt(abs(sm))/sigma > 1 ) & 
         ( size2 > (sigma/sqrt(abs(sm)))*atan(sqrt(abs(sm/gb))) ) &
         ( abs(sm) * 2 * sigma * N > 1 )
@@ -227,7 +228,7 @@ par(mar=c(4,4,1,1)+.1)
         } )
 
 # MIGRATION
-    usethese <- with( migsims, adapted  & ( migtime < maxtime ) ) 
+    usethese <- with( migsims, adapted  & valid & ( migtime < maxtime ) ) 
     with( droplevels(subset(migsims,usethese)), {
             sm.vals <- (levels(droplevels(sm.name))); sm.col.pal <- sequential_hcl(length(sm.vals))
             sm.pch <- match( levels(sm.name)[tapply(sm.name,paramstring,"[",1)], sm.vals ) 
@@ -247,8 +248,7 @@ par(mar=c(4,4,1,1)+.1)
             segments( x0=tapply(migtime,paramstring,mean,na.rm=TRUE),
                     y0=tapply(hit100.2,paramstring,quantile,.25,na.rm=TRUE),
                     y1=tapply(hit100.2,paramstring,quantile,.75,na.rm=TRUE),
-                    col=N.cols
-                    )
+                    col=N.cols )
             points( tapply(migtime,paramstring,mean,na.rm=TRUE),
                     tapply(hit100.2,paramstring,median,na.rm=TRUE),
                     pch=21+(sm.pch%%5), col=R.cols, bg=N.cols, lwd=2 )
@@ -259,6 +259,7 @@ par(mar=c(4,4,1,1)+.1)
                 col=c("black",R.col.pal)[c(rep(1,nlevels(sm.name)),rep(1,nlevels(N.name)), 1+1:nlevels(R.name))],
                 pt.bg=c(NA,sm.col.pal)[c( rep(1,nlevels(sm.name)), 1+(1:nlevels(N.name)), rep(1,nlevels(R.name)))] 
             )
+            list(x=tapply(migtime,paramstring,mean,na.rm=TRUE),y=tapply(hit100.2,paramstring,median,na.rm=TRUE))
     } )
 dev.off()
 

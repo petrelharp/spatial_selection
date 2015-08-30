@@ -97,6 +97,7 @@
 \DeclareMathOperator{\Exp}{Exp}
 \DeclareMathOperator{\sn}{sn}
 \DeclareMathOperator{\erf}{erf}
+\DeclareMathOperator{\atan}{atan}
 \renewcommand{\P}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\R}{\mathbb{R}}
@@ -687,9 +688,9 @@ each of the $K$ newly arrived individuals would leave behind a lineage with
 mean total size $\sum_{t=0}^\infty e^{-t s_m} \approx 1/s_m$,
 roughly half of which would stay in the new patch.
 Therefore, the expected contribution of the family to the occupation density is $K/2s_m$.
-(Readers who feel uncomfortable about the geometry of the patch,
-or the distinction between occupation density and number of individuals
-are encouraged to take a detour through section \secref{ss:hitting_occupation}, below.)
+(For more careful consideration of the geometry of the patch
+and the distinction between occupation density and number of individuals,
+see section \secref{ss:hitting_occupation}, below.)
 
 This suggests that 
 \begin{align} \label{eqn:ratio_K}
@@ -841,6 +842,13 @@ and at migration-selection equilibrium, the two patches act as a single meta-pat
       shown are the median (points) and interquartile range (lines)
       of the time until the patch had at least 100 adapted individuals,
       for each unique parameter combination.
+      Only parameter combinations to which the theory here is applicable were used
+      (precisely, if
+      $R > \sigma/\sqrt{s_m}$, 
+      patch width larger than $\sigma/\sqrt{s_m} \atan(\sqrt{s_m/s_p})$, 
+      and $s_m > 2 \sigma \rho$);
+      the remaining combinations are shown in figures
+      \ref{sfig:sim_migration_times} and \ref{sfig:sim_mutation_times}.
   }   \label{fig:sim_times}
 \end{figure}
 
@@ -1783,7 +1791,7 @@ First consider equation \eqref{eqn:gestalt_q} for the equilibrium frequency.
 Suppose that $Z$ is one such spatial branching process as above in section \secref{ss:migrant_math}, 
 started at time 0 with a single individual at $x$,
 and write $S$ for the new patch, which has area $A$ and is centered at $y$.
-The \emph{mean occupation measure} of $Z$ in the region $S$
+The \emph{mean occupation measure} of $Z$ in the region $S$,
 which we denote $u(x,S)$,
 % and denote by $Z_t(A)$ is the number of descendant individuals alive at time $t$ living in the spatial region $A$.
 % The \emph{mean occupation density} of $Z$ at location $y$
@@ -1837,7 +1845,7 @@ by the strong Markov property this is equal to
 where now $\E^\mu$ denotes expectations for Brownian motion for which the distribution of $B_0$ is $\mu$, 
 % provided $S$ is not pathological.
 and $g(A)$ is defined to be the latter expectation,
-which does not depend on $x$ since $S$ is circular with area $A$.
+which does not depend on $x$ if $S$ is circular (with area $A$).
 
 This form we can now compare to 
 the expression \eqref{eqn:gestalt_migrate} for the outflux of successful migrants.
@@ -1861,7 +1869,6 @@ As for $q(S)$ above, expression \eqref{eqn:gestalt_migrate} is properly an integ
   \migrate(S) &= \int_{\partial B(r_0)} \gamma(x) h(x,S) f(S) dx .
 \end{align}
 
-XXX CHECK FACTORS OF $\rho$ BELOW XXX
 
 If we make the approximation that $Z$ hits the new patch only if the trunk of $Z$ does,
 and recall that $1-k_e(t)$ is the chance that $Z$ survives for $t$ generations,
@@ -1896,8 +1903,7 @@ Therefore, we have that
 Since the integrands in expressions \eqref{eqn:occupation_integral} and \eqref{eqn:migrate_integral} only differ by a factor
 that (at least asymptotically) does not depend on the distance between $x$ and $y$,
 we can obtain the migration rate by multiplying the equilibrium frequency by this factor.
-XXX NOT RIGHT XXX
-The result will not depend on $A$, 
+This factor will not depend on $A$, 
 because although $f(A)$ and $g(A)$ in principle depend on the patch size (and geometry),
 the dependence is very weak.
 For instance, the width of a circular patch only very weakly affects the chance 
@@ -1987,45 +1993,6 @@ Lower bounds could be obtained,
 but we stick with this rough approximation.
 
 
-%%%%%%% %%%%%%%%%%%%
-\subsection[Outflux of Families]{The outflux of families}
-\label{apx:outflux}
-
-It is of interest to have an expression for the ``outflux of families'',
-$\gamma(r_0)$, 
-defined to be the mean proportion of $B$ alleles at distance $r_0$
-whose lineage traces back to the original patch without venturing further away than $r_0$.
-By expression \eqref{eqn:occupation_integral},
-\[
-    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
-\]
-for any $y$.  
-Take $\hat x = (1,0)$ and $y=r \hat x$.  Then
-\begin{align}
-  \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\| \sqrt{2s_m}/\sigma } }{ \|y\|^{-(d-1)/2} e^{-\|y\| \sqrt{2s_m}/\sigma } } \\
-  &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r \sqrt{2s_m}/\sigma  (\|\hat x - x/r\| - 1)} .
-\end{align}
-Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
-so that the expression in the exponent is to, first order in $1/r$,
-\begin{align}
-    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
-            &= - r_0 \cos \theta + O(1/r) .
-\end{align}
-This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
-\begin{align}
-  \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} .
-\end{align}
-In one dimension we are done.
-In two dimensions,
-by bounded convergence and \citet{gradshteyn2007table} (3.339),
-\begin{align}
-  \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
-  &= C' \int_0^{2 \pi} e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} d\theta \\
-  &= 2 \pi C' I_0(-r_0\sqrt{2 s_m}/\sigma),
-\end{align}
-where $I_0$ is a modified Bessel function of order zero of the first kind.
-
-
 %%%%%%%%%%%
 
 
@@ -2037,7 +2004,7 @@ We would also like to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandv
 as well as Gideon Bradburd, and Simon Aeschbacher and the rest of the Coop lab
 for helpful comments and discussion of the manuscript.
 This work was supported by grants from the
-National Science Foundation under Grant No. 1262645 to PLR and GC and by the
+National Science Foundation under Grant No.\ 1262645 to PLR and GC and by the
 National Institute of General Medical Sciences of the National
 Institutes of Health under award numbers NIH RO1GM83098 and
 RO1GM107374 to GC.
@@ -2707,4 +2674,44 @@ This does not depend on $A$ in one dimension,
 but decreases with $\sqrt{A}$ in two dimensions.
 In applications, this can be compared to equation~\eqref{eqn:haplotype_length}
 for the length of shared haplotype between patches.
+
+
+
+%%%%%%% %%%%%%%%%%%%
+\subsection[Outflux of Families]{The outflux of families}
+\label{apx:outflux}
+
+It is of interest to have an expression for the ``outflux of families'',
+$\gamma(r_0)$, 
+defined to be the mean proportion of $B$ alleles at distance $r_0$
+whose lineage traces back to the original patch without venturing further away than $r_0$.
+By expression \eqref{eqn:occupation_integral},
+\[
+    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
+\]
+for any $y$.  
+Take $\hat x = (1,0)$ and $y=r \hat x$.  Then
+\begin{align}
+  \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\| \sqrt{2s_m}/\sigma } }{ \|y\|^{-(d-1)/2} e^{-\|y\| \sqrt{2s_m}/\sigma } } \\
+  &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r \sqrt{2s_m}/\sigma  (\|\hat x - x/r\| - 1)} .
+\end{align}
+Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
+so that the expression in the exponent is to, first order in $1/r$,
+\begin{align}
+    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
+            &= - r_0 \cos \theta + O(1/r) .
+\end{align}
+This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
+\begin{align}
+  \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} .
+\end{align}
+In one dimension we are done.
+In two dimensions,
+by bounded convergence and \citet{gradshteyn2007table} (3.339),
+\begin{align}
+  \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
+  &= C' \int_0^{2 \pi} e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} d\theta \\
+  &= 2 \pi C' I_0(-r_0\sqrt{2 s_m}/\sigma),
+\end{align}
+where $I_0$ is a modified Bessel function of order zero of the first kind.
 
