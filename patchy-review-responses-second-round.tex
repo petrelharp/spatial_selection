@@ -76,6 +76,12 @@ to deal explicitly with the integral over the whole patch,
 which also necessitated adding a new (short) appendix \nameref{apx:qS}.
 Section \nameref{ss:hitting_occupation} required very little change.
 
+We also turned up a minor bug in the discussion of conditioned branching processes:
+the exact picture is not quite so simple,
+but the approximate picture is still the same --
+see around \llname{ll:branching_process_fix}.
+
+
 
 %%%%%%%%%%%%%%
 \reviewersection
@@ -117,7 +123,8 @@ the figures that include all simulation results are still included in the supple
 }
 
 \reply
-Thanks for catching that mistake.  We removed the extra factor of 2 (section~\nameref{apx:outflux}).
+Thanks for catching that mistake.  
+We removed the extra factor of 2 (section~\secref{apx:outflux}).
 
 
 %%%%%%
@@ -143,7 +150,7 @@ This is a nice point;
 perhaps which approach should be included
 comes down to personal taste
 as to whether ``saddle point approximation'' or ``Laplace transform'' is a simpler idea?  
-We've left this as-is.
+We decided to stick with the Laplace transform.
 
 %%%%%%
 \point{now to the thornier issues of dimension, geometry, and fluxes}{
@@ -161,14 +168,25 @@ We've left this as-is.
         \item to get at $\migrate$, arrival needs to be integrated over the relevant area. In $d=1$ this is simply a stretch of length $\ell$,
             in $d=2$ it should be $\sqrt{\ell^3 r}$,
             hence one should get
-            \[ \migrate \sim \rho q(x) s^2 \ell^d \sqrt{r/\ell} (1-e^-{p_0/s}) \]
+            \[ \migrate \sim \rho q(x) s^2 \ell^d \sqrt{r/\ell} (1-e^{-p_e/s}) \]
         \item result does depend on target geometry
-        \item formulation in terms of fluxes might be easier
     \end{itemize}
 }
 
 \reply
+As discussed above,
+we've debugged the issue about dimensions,
+so that the argument now correctly does integrate over the new patch.
+The result does depend on target geometry, just as the reviewer points out.
+The other part of this sketch
+makes further simplifications to \eqref{eqn:migrate}
+based on 
 
+
+\point{fluxes}{
+}
+
+\reply
 
 %%%%%%%%%%%%%%
 \reviewersection

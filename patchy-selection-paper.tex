@@ -620,7 +620,8 @@ then this gives the following decomposition:
 \end{align}
 where each $Z^{(s,k)}$ is an independent copy of $Z$ 
 that arose from the main branch in generation $s$,
-and each $W_s$ is independent with distribution $\P\{ W_s = k\} = \P\{ W = k \} (1-k_e(t-s)^k)/(1-k_e(t-s+1))$. \linelabel{ll:branching_process_fix}
+and each $W_s$ is independent with distribution $\P\{ W_s = k\} = \P\{ W = k \} (1-k_e(t-s)^k)/(1-k_e(t-s+1))$, 
+where $W$ is the unconditioned offspring number distribution.  \linelabel{ll:branching_process_fix}
 Since each subfamily $Z^{(s,k)}$ is a branching process with mean offspring number less than one,
 most of these die out quickly,
 and so $Z_t$ is composed of a cluster of recently split subfamilies.
@@ -629,7 +630,9 @@ since $\E[Z_t] = e^{-s_m t}$,
 we get the limiting mean family size conditioned on nonextinction:
 \begin{align} \label{eqn:mean_K}
     \E[K] 
-    = 1 + \E[W-1 \given W \ge 1] /(1-e^{-s_m}) \approx \E[W-1 \given W \ge 1] / s_m .
+    % = 1 + \E[W-1 \given W \ge 1] /(1-e^{-s_m}) 
+    = 1 + \sum_{s=0}^\infty \E[W_s-1] e^{-s_m t}
+    \approx \E[W-1 \given W \ge 1] / s_m .
 \end{align}
 
 
@@ -718,7 +721,7 @@ see section \ref{apx:qS} for more details.
 In either case, denote this area $A$.
 
 
-Combining these, and absorbing the term $\E[W|W>1]$ from equation \eqref{eqn:mean_K} 
+Combining these, and absorbing the term $\E[W-1|W>1]$ from equation \eqref{eqn:mean_K} 
 into the constant $C$,
 \begin{align} \label{eqn:migrate}
   \migrate(x) &\approx C A \rho s_m \min(s_m,p_e) \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma)  \qquad \text{for } |y| > \sigma/\sqrt{2 s_m}  ,
@@ -1992,6 +1995,45 @@ where $A$ is the area of the parts of $S$ that are no more than $x+\sigma/\sqrt{
 Lower bounds could be obtained,
 but we stick with this rough approximation.
 
+%%%%%%% %%%%%%%%%%%%
+\subsection[Outflux of Families]{The outflux of families}
+\label{apx:outflux}
+
+It is of interest to have an expression for the ``outflux of families'',
+$\gamma(r_0)$, 
+defined to be the mean density of $B$ alleles at distance $r_0$
+whose lineage traces back to the original patch without venturing further away than $r_0$.
+By expression \eqref{eqn:occupation_integral},
+taking $S$ to be a small area located at $y$,
+\[
+    \gamma(r_0) = \frac{\rho q(y)}{\int_{B(r_0)} u(x,y) dx}
+\]
+for any $y$.  
+Take $\hat x = (1,0)$ and $y=r \hat x$.  Then
+\begin{align}
+  \frac{ q(y) }{ u(x,y) } &\simeq C' \frac{ \|y\|^{-(d-1)/2} e^{-\|y\| \sqrt{2s_m}/\sigma } }{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\| \sqrt{2s_m}/\sigma } } \\
+  &= C' \| \hat x - x/r \|^{(d-1)/2} e^{ r \sqrt{2s_m}/\sigma  (\|\hat x - x/r\| - 1)} .
+\end{align}
+Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
+so that the expression in the exponent is to, first order in $1/r$,
+\begin{align}
+    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
+            &= - r_0 \cos \theta + O(1/r) .
+\end{align}
+This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
+\begin{align}
+\frac{q(y)}{u(x,y)} \longrightarrow C' e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} \qquad \text{ as } r \to \infty .
+\end{align}
+In one dimension we are done (since $\cos \theta=1$).
+In two dimensions,
+by bounded convergence and \citet{gradshteyn2007table} (3.339),
+\begin{align}
+  \int_{B(r_0)} \frac{q(y)}{u(x,y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
+  &= C' \int_0^{2 \pi} e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} d\theta \\
+  &= 2 \pi C' I_0(-r_0\sqrt{2 s_m}/\sigma),
+\end{align}
+where $I_0$ is a modified Bessel function of order zero of the first kind.
+
 
 %%%%%%%%%%%
 
@@ -2164,6 +2206,7 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 %     \phi(x) &= \frac{3}{2}\left( 1 - \tanh^2 ( x \sqrt{2s} / 2 \sigma + C ) \right) \\
 %         &\simeq C' \exp\left( - \frac{ x \sqrt{2s} }{ \sigma } \right) .
 % \end{align*}
+
 
 
 %%%%%%%
@@ -2675,43 +2718,4 @@ but decreases with $\sqrt{A}$ in two dimensions.
 In applications, this can be compared to equation~\eqref{eqn:haplotype_length}
 for the length of shared haplotype between patches.
 
-
-
-%%%%%%% %%%%%%%%%%%%
-\subsection[Outflux of Families]{The outflux of families}
-\label{apx:outflux}
-
-It is of interest to have an expression for the ``outflux of families'',
-$\gamma(r_0)$, 
-defined to be the mean proportion of $B$ alleles at distance $r_0$
-whose lineage traces back to the original patch without venturing further away than $r_0$.
-By expression \eqref{eqn:occupation_integral},
-\[
-    \gamma(r_0) = \frac{q(y)}{\int_{B(r_0)} u(x,y) dx}
-\]
-for any $y$.  
-Take $\hat x = (1,0)$ and $y=r \hat x$.  Then
-\begin{align}
-  \frac{ u(x,y) }{ q(y) } &\simeq C' \frac{ \|y-x\|^{-(d-1)/2} e^{-\|y-x\| \sqrt{2s_m}/\sigma } }{ \|y\|^{-(d-1)/2} e^{-\|y\| \sqrt{2s_m}/\sigma } } \\
-  &= C' \| \hat x - x/r \|^{-(d-1)/2} e^{-r \sqrt{2s_m}/\sigma  (\|\hat x - x/r\| - 1)} .
-\end{align}
-Now let $x = (r_0 \cos \theta, r_0 \sin \theta)$,
-so that the expression in the exponent is to, first order in $1/r$,
-\begin{align}
-    r (\|\hat x - x/r\| - 1) &= r \left( \sqrt{ \left( 1 - \frac{r_0}{r} \cos \theta \right)^2 + \frac{r_0^2}{r^2} \sin^2 \theta } - 1 \right ) \\
-            &= - r_0 \cos \theta + O(1/r) .
-\end{align}
-This implies that, still with $r$, $r_0$, and $\theta$ defined as above,
-\begin{align}
-  \frac{u(x,y)}{q(y)} \longrightarrow_{r \to \infty} C' e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} .
-\end{align}
-In one dimension we are done.
-In two dimensions,
-by bounded convergence and \citet{gradshteyn2007table} (3.339),
-\begin{align}
-  \int_{B(r_0)} \frac{u(x,y)}{q(y)} dx &\to \gamma(r_0) \quad \text{as } y \to \infty\\
-  &= C' \int_0^{2 \pi} e^{-r_0 \frac{\sqrt{2s_m}}{\sigma} \cos \theta} d\theta \\
-  &= 2 \pi C' I_0(-r_0\sqrt{2 s_m}/\sigma),
-\end{align}
-where $I_0$ is a modified Bessel function of order zero of the first kind.
 
