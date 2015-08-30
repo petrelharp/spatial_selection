@@ -399,7 +399,8 @@ the time scale on which new patches become colonized by the $B$ allele from new 
 \subsection[Establishment by Migration]{Establishment of a locally adaptive allele due to migrational influx}
 \label{ss:patchymigration}
 
-Now suppose that there are two patches, each of area $A$ and separated by distance $R$. 
+Now suppose that there are two patches, each of area $A$ and separated by distance $R$
+(i.e., the shortest distance between the two is $R$). \revpoint{2}{9}
 If the $B$ allele has arisen and become established in the first patch, but has not yet appeared in the second,
 we would like to know the time scale on which copies of $B$ move between patches by migration
 (supposing that no $B$ allele arises independently by mutation in the meantime).
@@ -440,7 +441,7 @@ $|x|$ must be larger than a few multiples of $\sigma$.
 
 These asymptotics fit simulations quite well, as shown in Figure~\ref{fig:sim_occupation_freqs}.
 To be clear about the assumptions (especially regarding scaling) implicit here,
-below provide a derivation of \eqref{eqn:eqfreq} in section \secref{apx:eqfreq}, 
+below we provide a derivation of \eqref{eqn:eqfreq} in section \secref{apx:eqfreq},  \revpoint{3}{5}
 as well as justification for the asymptotics below in section \secref{apx:asymptotics}.
 In one dimension, the equation can be solved to give $q(x)$ 
 in terms of Jacobi elliptic functions; see the Supporting Information.
@@ -620,8 +621,14 @@ then this gives the following decomposition:
 \end{align}
 where each $Z^{(s,k)}$ is an independent copy of $Z$ 
 that arose from the main branch in generation $s$,
-and each $W_s$ is independent with distribution $\P\{ W_s = k\} = \P\{ W = k \} (1-k_e(t-s)^k)/(1-k_e(t-s+1))$, 
+and each $W_s$ is independent with distribution 
+%% equation (2.3) in Geiger:
+%% $\P\{ W_s = k\} = \sum_{j=k}^\infty \P\{ W = j \} k_e(t-s-1)^{j-k} (1-k_e(t-s-1))/(1-k_e(t-s))$, 
+%% and equation (2.5) in Geiger:
+that tends to $\P\{W_s=k\} \simeq \P\{W\ge k\}/\E[W]$ as $s \to \infty$,
 where $W$ is the unconditioned offspring number distribution.  \linelabel{ll:branching_process_fix}
+In particular, $\E[W_s-1] \sim \E[W(W-1)]/\E[W]$;
+if $W$ is Poisson then this is equal to $e^{-s_m}$.
 Since each subfamily $Z^{(s,k)}$ is a branching process with mean offspring number less than one,
 most of these die out quickly,
 and so $Z_t$ is composed of a cluster of recently split subfamilies.
@@ -630,11 +637,14 @@ since $\E[Z_t] = e^{-s_m t}$,
 we get the limiting mean family size conditioned on nonextinction:
 \begin{align} \label{eqn:mean_K}
     \E[K] 
-    % = 1 + \E[W-1 \given W \ge 1] /(1-e^{-s_m}) 
     = 1 + \sum_{s=0}^\infty \E[W_s-1] e^{-s_m t}
-    \approx \E[W-1 \given W \ge 1] / s_m .
+    \approx \E[W(W-1)] / ( \E[W] s_m  )
 \end{align}
 
+This decomposition also tells us
+that the $K$ individuals in a family
+have most recent common ancestor on order of $1/s_m$ generations ago,
+and so are spread out over a region of order $\sigma/\sqrt{s_m}$.  \revpoint{2}{2}
 
 \begin{figure}[ht!!]
   \begin{center}
@@ -721,7 +731,7 @@ see section \ref{apx:qS} for more details.
 In either case, denote this area $A$.
 
 
-Combining these, and absorbing the term $\E[W-1|W>1]$ from equation \eqref{eqn:mean_K} 
+Combining these, and absorbing the term $\E[W(W-1)]/\E[W]$ from equation \eqref{eqn:mean_K} 
 into the constant $C$,
 \begin{align} \label{eqn:migrate}
   \migrate(x) &\approx C A \rho s_m \min(s_m,p_e) \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma)  \qquad \text{for } |y| > \sigma/\sqrt{2 s_m}  ,
@@ -753,11 +763,12 @@ large, circular patches that are much further apart than they are wide,
 large population density,
 and small selection coefficients of equal magnitude.
 
-To be more precise, the mutation rate results will hold best if $s_m \approx s_p$,
+To be more precise, the mutation rate results most obviously apply if $s_m \approx s_p$,
 if the patch diameter is large relative to $\sigma/\sqrt{\min(s_m,s_p)}$,
 and the patch is not too far from circular.
-If $s_m \ll s_p$ then \eqref{eqn:mutrate} will underestimate the rate,
-and will overestimate if $s_m \gg s_p$.
+If $s_m \ll s_p$ then a strip of width $\sigma/\sqrt{s_m}$
+should be added to the outside of the patch in computing $A$ for equation \eqref{eqn:mutrate},
+and if $s_m \gg s_p$, a strip of width $\sigma/s_p$ should be subtracted from the patch. \revpoint{2}{6}
 As for the migration rate,
 we assume that 
 each patch is large enough to support a stable population of $B$ alleles
@@ -808,7 +819,7 @@ and depictions of typical simulation runs are shown in supplementary figures
 
 The agreement is reasonable for both.
 The theoretical value $1/\mutrate$ underestimates the mean time to mutation
-by a factor of around 2 that depends increases with $s_m$.
+by a factor of around 2 that increases slightly with $s_m$.
 This is to be expected for two reasons:
 First, we compute the time to reach 100 $B$ alleles, while theory predicts
 the time until the progenitor of those 100 $B$ alleles arose.
@@ -832,10 +843,14 @@ and at migration-selection equilibrium, the two patches act as a single meta-pat
   \end{center}
   \caption{
       \textbf{(left)} 
-      % XXX HERE
-      Time until adaptation by mutation in an isolated patch for different parameter combinations,
+      Time until adaptation by mutation in an isolated patch for different combinations
+      of selection coefficient on patches ($s_m$), 
+      population density ($\rho$),
+      mutation rate ($\mu$),
+      and distance between patches ($R$), \revpoint{3}{3}
       as observed in simulations (vertical axis),
       and as predicted from equation~\eqref{eqn:mutrate} (horizontal axis).
+      In all simulations, $s_p=0.01$.
       \textbf{(right)} 
       Time until adaptation by migration from an already occupied patch to a new patch,
       as observed in simulations (vertical axis),
@@ -851,7 +866,7 @@ and at migration-selection equilibrium, the two patches act as a single meta-pat
       patch width larger than $\sigma/\sqrt{s_m} \atan(\sqrt{s_m/s_p})$, 
       and $s_m > 2 \sigma \rho$);
       the remaining combinations are shown in figures
-      \ref{sfig:sim_migration_times} and \ref{sfig:sim_mutation_times}.
+      S\ref{sfig:sim_migration_times} and S\ref{sfig:sim_mutation_times}.
   }   \label{fig:sim_times}
 \end{figure}
 
@@ -1295,6 +1310,7 @@ and generally have a light pelage similar to the predominant rock color.
 However, in some regions these mice live on darker substrates (e.g.\ old lava flows),
 and in these patches have much darker pigmentation, 
 presumably to avoid visual predators.
+These regions of darker substrate are typically tens of kilometers wide and hundreds of kilometers apart. \revpoint{5}{7}
 \citet{nachman2003genetic} demonstrated that on one of these flows (Pinacate), 
 much of the change in coloration is due to an allele at the MC1R locus.
 This dark allele differs from the light allele by four amino acid changes, 
@@ -1555,24 +1571,25 @@ well together \citep{Kondrashov:03}.
 First we briefly describe the simulations we used for illustration and validation
 (the \texttt{R} code used is provided as a supplement).
 We simulated forward-time dynamics of the number of alleles of each type in a rectangular grid (either one- or two-dimensional) of demes with fixed size $N$.
-Each generation, each individual independently chose to reproduce or not with a probability depending on her type and location in the grid;
+Each generation, each individual independently chose to reproduce or not with a probability $r$ depending on her type and location in the grid;
 locally beneficial alleles were more likely to reproduce.
-Each then produced a random, Poisson distributed number of offspring that each, independently, 
-either remained in the same location with probability $1-m$ or
+Each extant individual then either remained in the same location with probability $1-m$ or
 migrated a random number of steps with probability $m$
-in a uniformly chosen cardinal direction;
+in a uniformly chosen cardinal direction; 
 for most simulations $m=0.2$ and
 the probability of migrating $k$ steps was proportional to $2^{-k}$ for $1\le k \le 5$.
+This gave us values of $\sigma=0.95$ deme spacings in 1D
+and $\sigma=0.74$ in 2D.
 \linelabel{rr:sim_details}
 Once migrants were distributed, each deme was uniformly resampled back down to $N$ individuals.
 (Although we described the simulation in terms of individuals,
 we kept track only of total numbers in an equivalent way.)
 
-The probability of reproduction in each generation in simulations for type $b$ alleles was 30\%; 
+The base probability of reproduction in each generation in simulations for type $b$ alleles was $r=0.3$;
 this was then multiplied by $1+s$ to get the probability of reproduction for type $B$,
 where the value of $s$ is either $s_m$ or $s_p$ depending on the individual's location.
 This determines the values of $s_m$ and $s_p$ reported in the figures, 
-and do not depend on the basic rate of reproduction.
+and do not depend on the basic rate of reproduction. \revpoint{2}{5}
 However, to obtain values for $s_p$ and $s_m$ when comparing theory to simulation,
 we computed the rate of intrinsic growth, 
 i.e.\ the $s$ so that the numbers of $B$ alleles when rare would change by $e^{st}$ after $t$ generations
@@ -2039,9 +2056,9 @@ where $I_0$ is a modified Bessel function of order zero of the first kind.
 
 
 \section*{Acknowledgements}
-We would like to heartily thank Joachim Hermisson for a number of insightful suggestions,
-and catching the algebra error present in the first version of this paper on the bioRxiv,
-as well as the two anonymous reviewers.
+We would like to heartily thank Joachim Hermisson, Richard Neher, and an anonymous reviewer
+for a number of insightful suggestions,
+and catching several errors present in earlier drafts. \revpoint{3}{4}
 We would also like to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandvain for useful discussions, 
 as well as Gideon Bradburd, and Simon Aeschbacher and the rest of the Coop lab
 for helpful comments and discussion of the manuscript.

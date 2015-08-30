@@ -70,7 +70,7 @@ sliced <- pophist$pophist[,,2,timeslice]/pophist$pop$params$N
 # plot
 matplot( sliced, type='l', xlab='deme number (space)', ylab='allele frequency', col=adjustcolor(2:10,.5) )
 abline(v=0.5 + which(diff(as.vector(pophist$pop$params$s))!=0), lty=2 )
-text( mean(which(as.vector(pophist$pop$params$s)>0)), .05, labels=as.expression(substitute(s[b]==sb,list(sb=max(pophist$pop$params$s)))) )
+text( mean(which(as.vector(pophist$pop$params$s)>0)), .05, labels=as.expression(substitute(s[p]==sb,list(sb=max(pophist$pop$params$s)))) )
 text( c(.15,.85)*dim(pophist$pophist)[2], .900, labels=as.expression(substitute(s[m]==sm,list(sm=min(pophist$pop$params$s)))) )
 lines( rowMeans(pophist$pophist[,,2,min(timeslice):max(timeslice)])/pophist$pop$params$N, lwd=2 )
 # done

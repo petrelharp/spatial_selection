@@ -190,16 +190,16 @@ layout(t(1:2))
 par(mar=c(4,4,1,1)+.1)
 # MUTATION
     # remove simulation configurations where a substantial portion haven't yet adapted
-    usethese <- with( mutsims, adapted & ( muttime < maxtime/10 ) ) 
+    usethese <- with( mutsims, adapted & ( muttime < maxtime/10 ) & ( abs(sm) > 1e-4 ) )   # remove sm=1e-4 to reduce number of plotting types
     with( droplevels(subset(mutsims,usethese)), {
             sm.vals <- (levels(droplevels(sm.name))); sm.col.pal <- sequential_hcl(length(sm.vals))
             sm.pch <- match( levels(sm.name)[tapply(sm.name,paramstring,"[",1)], sm.vals )
             sm.cols <- sm.col.pal[ sm.pch ]
             sm.labs <- parse( text=gsub("sm-","s[m]==",levels(sm.name)) )
-            N.vals <- (levels(droplevels(N.name))); N.col.pal <- terrain_hcl(length(N.vals))
+            N.vals <- (levels(droplevels(N.name))); N.col.pal <- terrain_hcl(length(N.vals),l=c(40,60))
             N.cols <- N.col.pal[ match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals ) ]
             N.labs <- parse( text=gsub("N-","rho ==",levels(N.name)) )
-            mu.vals <- (levels(droplevels(mu.name))); mu.col.pal <- sequential_hcl(length(mu.vals))
+            mu.vals <- (levels(droplevels(mu.name))); mu.col.pal <- sequential_hcl(length(mu.vals),l=c(20,60))
             mu.pch <- match( levels(mu.name)[tapply(mu.name,paramstring,"[",1)], mu.vals )
             mu.cols <- mu.col.pal[ mu.pch ]
             mu.labs <- parse( text=gsub("mu","mu == ",levels(mu.name)) )
@@ -223,7 +223,7 @@ par(mar=c(4,4,1,1)+.1)
                 legend=c(sm.labs,N.labs,mu.labs),
                 pch=c( 21+((1:nlevels(sm.name))%%5), rep(1,nlevels(N.name)), rep(21,nlevels(mu.name)) ), 
                 col=c("black",N.col.pal)[c(rep(1,nlevels(sm.name)),1+1:nlevels(N.name),rep(1,nlevels(mu.name)))],
-                pt.bg=c(NA,sm.col.pal)[c( rep(1,nlevels(sm.name)), rep(1,nlevels(N.name)), 1+(1:nlevels(mu.name)) ) ] 
+                pt.bg=c(NA,mu.col.pal)[c( rep(1,nlevels(sm.name)), rep(1,nlevels(N.name)), 1+(1:nlevels(mu.name)) ) ] 
             )
         } )
 
@@ -234,11 +234,11 @@ par(mar=c(4,4,1,1)+.1)
             sm.pch <- match( levels(sm.name)[tapply(sm.name,paramstring,"[",1)], sm.vals ) 
             sm.cols <- sm.col.pal[ sm.pch ]
             sm.labs <- parse( text=gsub("sm-","s[m]==",levels(sm.name)) )
-            R.vals <- (levels(droplevels(R.name))); R.col.pal <- terrain_hcl(length(R.vals))
+            R.vals <- (levels(droplevels(R.name))); R.col.pal <- terrain_hcl(length(R.vals),l=c(40,60))
             R.pch <- match( levels(R.name)[tapply(R.name,paramstring,"[",1)], R.vals )
             R.cols <- R.col.pal[ R.pch ]
             R.labs <- parse( text=gsub("R-","R==",levels(R.name)) )
-            N.vals <- (levels(droplevels(N.name))); N.col.pal <- sequential_hcl(length(N.vals))
+            N.vals <- (levels(droplevels(N.name))); N.col.pal <- sequential_hcl(length(N.vals),l=c(20,70))
             N.pch <- match( levels(N.name)[tapply(N.name,paramstring,"[",1)], N.vals )
             N.cols <- N.col.pal[ N.pch ]
             N.labs <- parse( text=gsub("N-","rho ==",levels(N.name)) )
@@ -257,9 +257,9 @@ par(mar=c(4,4,1,1)+.1)
                 legend=c(sm.labs,N.labs,R.labs),
                 pch=c( 21+((1:nlevels(sm.name))%%5), rep(21,nlevels(N.name)), rep(21,nlevels(R.name))), 
                 col=c("black",R.col.pal)[c(rep(1,nlevels(sm.name)),rep(1,nlevels(N.name)), 1+1:nlevels(R.name))],
-                pt.bg=c(NA,sm.col.pal)[c( rep(1,nlevels(sm.name)), 1+(1:nlevels(N.name)), rep(1,nlevels(R.name)))] 
+                pt.bg=c(NA,N.col.pal)[c( rep(1,nlevels(sm.name)), 1+(1:nlevels(N.name)), rep(1,nlevels(R.name)))] 
             )
-            list(x=tapply(migtime,paramstring,mean,na.rm=TRUE),y=tapply(hit100.2,paramstring,median,na.rm=TRUE))
+            invisible( list(x=tapply(migtime,paramstring,mean,na.rm=TRUE),y=tapply(hit100.2,paramstring,median,na.rm=TRUE)) )
     } )
 dev.off()
 

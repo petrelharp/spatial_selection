@@ -156,8 +156,8 @@ We decided to stick with the Laplace transform.
 \point{now to the thornier issues of dimension, geometry, and fluxes}{
     \begin{itemize}
         \item {} [with $\ell = \sigma/\sqrt{2s}$, $r$ the radius of the patch, $R$ the distance between patches, and $\ell \ll r \ll R$]
-        \item the average density is $q(x) \sim e^{-x\sqrt{2s}/\sigma} = e^{-x/\ell}$
-        \item but fluctuates far from the source as [families of size $K$, with local density $k/\ell^d$]
+        \item the average density is $q(x) \sim e^{-x/\ell}$
+        \item but fluctuates far from the source as [families of size $K$, with local density $K/\ell^d$]
         \item families of size $1/s$ live for $1/s$ generations and hence contribute $1/s^2$ to the time-averaged density $q(x)$
         \item \[ q(x) = \lambda_\text{arr}(x) / s^2 \ell^d, \]
             where $\lambda_\text{arr}(x)$ is the rate at which families arrive that overlap with $x$
@@ -177,26 +177,25 @@ We decided to stick with the Laplace transform.
 As discussed above,
 we've debugged the issue about dimensions,
 so that the argument now correctly does integrate over the new patch.
-The result does depend on target geometry, just as the reviewer points out.
-The other part of this sketch
-makes further simplifications to \eqref{eqn:migrate}
-based on 
+The result does depend on target geometry, just as the reviewer points out (thanks!);
+this is now discussed in section \secref{apx:qS}.
+The other part of this argument, as we understand it,
+modifies terms in \eqref{eqn:migrate}
+by specifying a form for $A$, the relevant area of the new patch,
+and postulating a specific form for $K$.
+We've opted not to make these changes,
+since these require additional assumptions,
+and it feels easier on the reader to not require them to parse such assumptions.
 
 
-\point{fluxes}{
-}
+\point{Formulation in terms of fluxes}{(suggested by reviewer 2) might be easier.}
 
 \reply
+Perhaps; we've gone the even easier route of working with $q(S)$ and $\migrate(S)$ rather than densities.
 
-%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%  Reviewer 2
 \reviewersection
-
-\begin{quote}
-I think that the manuscript has been improved, but I don't think that all the reviewers' points have been adequately addressed. As I wrote in my previous review, I really like the authors' approach of giving simple, intuitive explanations. But writing this kind of paper actually requires a much better understanding of the model and dynamics than one needs to write a paper with the standard formal derivations, and I'm not sure that the authors are there yet.
-\end{quote}
-
-perhaps the reviewer is mistaking a different set of terminology and basic concepts for a lack of understanding?
-in this process we have apparently too quickly judging physics-style arguments to be incorrect, some of the time.
 
 %%%%%%
 \point{}{
@@ -204,6 +203,8 @@ I still think that the main result (11) is dimensionally inconsistent -- it need
 }
 
 \reply
+As discussed above, we fixed this.
+And, apologies for not catching on in the first round of reviews.
 
 
 %%%%%%
@@ -212,6 +213,7 @@ I do think that reviewer 1 raises a good point though. Looking back through the 
 }
 
 \reply
+Good point; this works out nicely: \revref.
 
 
 %%%%%%
@@ -220,6 +222,30 @@ Speaking of the literature, what's known about hitting probabilities for subcrit
 }
 
 \reply
+In general, we could write down differential equations
+that tell us what we want to know.
+There are at least two approaches: 
+ignore the old patch, and simply ask for the probability of establishment;
+or include the old patch, and ask about the transform of the occupation time in the new patch,
+$\E[\exp(-\int_0^t \langle Z_s, p_e \rangle ds)]$.
+For instance,
+if $Z$ is a continuous-time Markovian branching process
+whose spatial motion has generator $A$,
+that when at location $x$, branches at rate $r(x)$,
+producing a number of 
+offspring whose distribution has generating function $\Psi_x(u)=\E^x[u^W]$.
+Then if $f(x)$ denotes the probability of nonextinction
+of a process beginning with a single individual at $x$,
+\begin{align*}
+    Af(x) + r(x) (\Psi_x(f(x))-f(x)) = 0 .
+\end{align*}
+This is the approach taken by \citep{barton1987establishment};
+we chose not to go this route because thinking explicitly about the decomposition into families
+seems much more interesting and useful.
+There is a large and diverse literature on branching Brownian motion,
+but the majority of it is devoted to critical or supercritical Brownian motion.
+We haven't been able to dig up anything that gives the sort of asymptotics that we need;
+but it may well be out there; pointers are welcome.
 
 
 %%%%%%
@@ -228,6 +254,16 @@ I still think that the derivation of the main result is too complicated, and cou
 }
 
 \reply
+It's true, that in the case that $p_e < s_m$ we get the same result
+as what is obtained ignoring correlations in arrivals
+(e.g., by the Fick's law argument of the previous review).
+To our taste, the "complications" make the paper more digestible,
+since it is more clear what's going on,
+especially to those who are less familiar with branching processes.
+
+That said, we do go beyond these approximations, since we include the case $p_e > s_m$,
+where family structure matters --
+so, we're not clear how to address this.
 
 
 %%%%%%
@@ -236,7 +272,13 @@ I don't totally understand the simulation methods. The authors say that individu
 }
 
 \reply
-
+Whoops -- we had erroneously left in that statement that the number of offspring each step was Poisson;
+in fact, the number of offspring produced in a generation is either 0 or 1.
+The exact function is given in the next paragraph \revref,
+and as detailed there, we don't naively assume
+that whatever we labeled \texttt{sm} in the code
+is actually what we mean by $s_m$ in the theory.
+We've also added a note about what $\sigma$ is \llname{rr:sim_details}.
 
 %%%%%%
 \point{}{
@@ -244,6 +286,7 @@ I'm not sure that the description of the valid parameter range in "A review, and
 }
 
 \reply
+Good point; we've been more precise about these conditions. \revref
 
 
 %%%%%%
@@ -252,14 +295,21 @@ In the Applications, I understand that there's still a lot to learn about this s
 }
 
 \reply
+That's a trickier question than it at first seems,
+but we've added a rough idea \revref.
 
 
 %%%%%%
 \point{}{
-In their response to my comments, the authors said that they did not see why the assumption $R \gg w$ was neceessary. I think that it is needed in order to talk sensibly about a single "distance to a patch" $R$: if $w \gtrsim R$, then generally some parts of the patch will be much closer than others, right?
+In their response to my comments, the authors said that they did not see why the assumption $R \gg w$ was necessary. I think that it is needed in order to talk sensibly about a single "distance to a patch" $R$: if $w \gtrsim R$, then generally some parts of the patch will be much closer than others, right?
 }
 
 \reply
+Ah, right.
+By "distance to a patch" we mean the length of the shortest path beginning in one and ending in the other.
+We've clarified this \revref.
+Given this, and the caveats around how to calculate $A$ in \eqref{eqn:migrate},
+we still don't think the assumption is necessary?
 
 
 %%%%%%
@@ -268,6 +318,10 @@ I still think that including any sub-leading terms in the length of the shared h
 }
 
 \reply
+We would agree, but it's not certain which of the various terms 
+in \eqref{eqn:haplotype_length} and the subsequent equation for $\var[L]$
+are the leading ones,
+depending on how $s_m$ compares to $R/\sigma$.
 
 
 
@@ -285,6 +339,7 @@ I appreciate the careful and thorough revision - and especially the exhaustive s
 }
 
 \reply
+We intended for $s_m$ to appear twice, since the selection coefficient is -0.02 on both sides.  Good point about $s_b$; fixed.
 
 
 %%%%%
@@ -293,14 +348,18 @@ I appreciate the careful and thorough revision - and especially the exhaustive s
 }
 
 \reply
+Good catch about the colors and the squares; we've fixed that.
+Also, as noted above, we've dropped the simulations that don't fall within the range of validity;
+hopefully this unclutters things sufficiently?
 
 
 %%%%%
 \point{Figure 4:}{
-    Mention all simulation parameters in the legend (eg: what is $p_d$?)
+    Mention all simulation parameters in the legend.
 }
 
 \reply
+This is done. \revref
 
 
 %%%%%
@@ -310,6 +369,7 @@ I appreciate the careful and thorough revision - and especially the exhaustive s
 }
 
 \reply
+OK as revised? \revref
 
 
 %%%%%
@@ -318,6 +378,7 @@ I appreciate the careful and thorough revision - and especially the exhaustive s
 }
 
 \reply
+Yes!  Thanks. \revref
 
 
 %%%%%
@@ -326,6 +387,7 @@ I appreciate the careful and thorough revision - and especially the exhaustive s
 }
 
 \reply
+Also done.
 
 
 %%%%%
