@@ -106,6 +106,7 @@
 \newcommand{\dconv}{\xrightarrow{d}}
 \newcommand{\deq}{\stackrel{\scriptscriptstyle{d}}{=}}
 \newcommand{\given}{\,\vert\,}
+\newcommand{\st}{\,\colon\,}
 
 \newcommand{\migrate}{\lambda_\text{mig}}
 \newcommand{\mutrate}{\lambda_\text{mut}}
@@ -707,25 +708,25 @@ On the other hand, if $p_e$ is not too small,
 then the numerator would be close to 1, as any family that arrives will likely establish.
 
 The remaining term is $q(S)$, the integral of equation \eqref{eqn:eqfreq} over the patch.
-Suppose the new patch has width $w$, and is at distance $x$ from the original patch.
-If the new patch is small ($w \ll \sigma/\sqrt{2s_m}$), 
+Suppose the new patch is at distance $x$ from the original patch.
+If the new patch has width smaller than $\sigma/\sqrt{2s_m}$, 
 then $q(S)$ is approximately $q(x)$ multiplied by the area of the new patch.
-If the new patch is a long rectangle with width $u$ with long axis pointed towards the old patch,
-$q(S)$ is approximately $u C \sqrt{\sigma/\sqrt{2s_m}} \erf(\sqrt{x\sqrt{2s_m}/\sigma})$,
-where $\erf()$ is the error function.
+If $S$ is larger, then we should use the area of the closest strip
+of width $\sigma/\sqrt{2s_m}$ to the original patch;
+see section \ref{apx:qS} for more details.
+In either case, denote this area $A$.
 
-
-On the other hand, XXX WHAT IS $q(S)$ XXX.
 
 Combining these, and absorbing the term $\E[W|W>1]$ from equation \eqref{eqn:mean_K} 
 into the constant $C$,
 \begin{align} \label{eqn:migrate}
-  \migrate(x) &\approx C \rho s_m \min(s_m,p_e) \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma)  \qquad \text{for } |y| > \sigma/\sqrt{2 s_m} 
+  \migrate(x) &\approx C A \rho s_m \min(s_m,p_e) \left( |y| \sqrt{2 s_m}/\sigma \right)^{-(d-1)/2} \exp( - |y| \sqrt{2 s_m} / \sigma)  \qquad \text{for } |y| > \sigma/\sqrt{2 s_m}  ,
 %     \begin{cases}
 %         q(x) \times 4 \rho s_m s_p / \xi^2  \qquad & \text{ if } s_p < s_m \\
 %         q(x) \times 2 \rho s_m^2 \qquad & \text{ if } s_p > s_m 
 %     \end{cases} .
 \end{align}
+where $A$ is the area of the new patch if that is no larger than $\sigma/\sqrt{2s_m}$.
 When we use this below, we set $p_e = 2 s_p / \xi^2$.
 Note that the approximation has the undesirable property that it is
 non-monotonic in $s_m$, when we expect the rate of adaptation via
@@ -1939,6 +1940,51 @@ where $K_0$ and $K_1$ are modified Bessel functions of the second kind.
 In either case, $g(A) \approx 1/(2s_m)$, which is the approximation we use in the main text.
 
 
+%%%%%%% %%%%%%%%%%%%
+\subsection[The Integral $q(S)$]{The integral $q(S)$}
+\label{apx:qS}
+
+In the developement above
+we need to approximate the integral of equation \eqref{eqn:eqfreq}
+across the area occupied by the new patch,
+$q(S) = \int_S q(z) dz$.
+The precise answer depends on the shape and orientation of the patches;
+but we aim for a usable approximation,
+primarily in terms of the shortest distance from the old patch to the new patch, denoted $x$,
+and assuming $x$ is large enough we can take equation \eqref{eqn:eqfreq} as an equality.
+
+Since $q(x)$ decreases as $|x|$ increases,
+\begin{align}
+    q(S) \le |S| q(x) % C \left( \frac{x\sqrt{2s_m}}{\sigma} \right)^{(d-1)/2} e^{-x\sqrt{2s_m}/\sigma} ,
+\end{align}
+where $|S|$ is the area of $S$.
+This will be a good approximation if $S$ is small.
+
+In one dimension, if $S$ has length $\ell$,
+\begin{align}
+    q(S) &= \int_x^{x+\ell} C e^{-u\sqrt{2s_m}/\sigma} du \\
+         &= C e^{-x\sqrt{2s_m}/\sigma} \frac{\sigma}{\sqrt{2s_m}} \left( 1 - e^{-\ell\sqrt{2s_m}/\sigma} \right) \\
+         &\le C e^{-x\sqrt{2s_m}/\sigma} \frac{\sigma}{\sqrt{2s_m}} .
+\end{align}
+
+In two dimensions, 
+suppose that $T$ is a rectangle enclosing $S$ with one axis aligned towards the original patch and transverse width $w$.
+Then
+\begin{align}
+    q(S) &\le \int_T q(x) dx \\
+        &\le w \int_x^\infty q(r) r dr \\
+        &= w C \int_x^\infty \left( \frac{r\sqrt{2s_m}}{\sigma} \right)^{-1/2} e^{-r\sqrt{2s_m}/\sigma} dr \\
+        &\le w \frac{\sigma}{\sqrt{2s_m}} C \sqrt{\pi} \left( \frac{x\sqrt{2s_m}}{\sigma} \right)^{-1/2} e^{-x\sqrt{2s_m}/\sigma} dr .
+\end{align}
+If we absorb $\sqrt{\pi}$ into the constant $C$,
+this is of the form $(\text{width}) \times (\sigma/\sqrt{2s_m}) \times q(x)$,
+i.e., roughly the area, after replacing the length by $\sigma/\sqrt{2s_m}$.
+
+In both cases,
+the upper bound is $q(S) \le A q(x)$,
+where $A$ is the area of the parts of $S$ that are no more than $x+\sigma/\sqrt{2s_m}$ away from the original patch.
+Lower bounds could be obtained,
+but we stick with this rough approximation.
 
 
 %%%%%%% %%%%%%%%%%%%
