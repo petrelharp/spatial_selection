@@ -28,20 +28,31 @@
 
 
 \begin{quote}
-    Both reviewer 1 and reviewer 2 still question your main result presented in Eq. 1 and I do agree with them that there is definitely something wrong with the dimensions. This was already pointed in the first round of reviews and both reviewers feel that this issue has not been satisfactorily addressed. Both reviewer also argued in the first round that the derivations in the paper are overly complicated and that the problem can in fact be intuitively understood via much simpler arguments (both came up with very similar approaches independently). You stated in your replies that you prefer to stick with your derivation because you consider it more solid. However, I am not even fully convinced that your Eq. 11 is more correct than the reviewers’ intuitive results. Reviewer 1 points out that there are quite substantial deviations in your numerical results (Fig. 4) and reviewer 2 stresses that the 1D simulations won’t even be able to catch the potential problems associated with the boundary of the target area. Clearly, something is not yet fully understood here and I don’t see how the paper can be accepted without having settled these issues.
+    Both reviewer 1 and reviewer 2 still question your main result presented in Eq. 11 and I do agree with them that there is definitely something wrong with the dimensions. 
+    % This was already pointed in the first round of reviews and both reviewers feel that this issue has not been satisfactorily addressed. 
 \end{quote}
 
 \begin{quote}
-    It would be easy to simply reject the paper at this point. However, as I expressed earlier, I still think that this is an extremely interesting problem that could be of great relevance for future studies, given that the authors can convincingly resolve the issues raised above. The dimensionality problem clearly needs to be resolved, and it needs to be explained how their result and the intuitive results from the reviewers compare with each other.
+    Both reviewer also argued in the first round that the derivations in the paper are overly complicated and that the problem can in fact be intuitively understood via much simpler arguments (both came up with very similar approaches independently). 
+    You stated in your replies that you prefer to stick with your derivation because you consider it more solid. 
+    However, I am not even fully convinced that your Eq. 11 is more correct than the reviewers' intuitive results. 
 \end{quote}
 
 \begin{quote}
-    I also think that presenting and discussing the intuitive results really would be important for the paper, as originally suggested by reviewers 1 and 2. There is a tendency in population genetics to derive complicated “exact” results that are nonetheless of only limited usefulness in reality because it’s unclear how realistic the underlying models are in the first place. I won’t hide here that I strongly prefer a heuristic approach that reveals what’s actually going on, over a lengthy technical calculation that may be formally more correct, yet it’s unclear whether this really matters in reality. I feel the majority of the audience of PLoS Genetics is probably with me on this.
+    Reviewer 1 points out that there are quite substantial deviations in your numerical results (Fig. 4) and reviewer 2 stresses that the 1D simulations won't even be able to catch the potential problems associated with the boundary of the target area. Clearly, something is not yet fully understood here and I don't see how the paper can be accepted without having settled these issues.
 \end{quote}
 
+% \begin{quote}
+    % It would be easy to simply reject the paper at this point.  However, as I expressed earlier, I still think that this is an extremely interesting problem that could be of great relevance for future studies, given that the authors can convincingly resolve the issues raised above. The dimensionality problem clearly needs to be resolved, and it needs to be explained how their result and the intuitive results from the reviewers compare with each other.
+% \end{quote}
+
 \begin{quote}
-    Should you decide to tackle these problems in a major revision, please also address the remaining comments raised by the reviewers. Sorry that I can’t bring you better news at this point but I think you will agree that the reviews are pretty clear in what needs to be done in order to get this paper accepted in PLoS Genetics.
+    I also think that presenting and discussing the intuitive results really would be important for the paper, as originally suggested by reviewers 1 and 2. There is a tendency in population genetics to derive complicated ``exact'' results that are nonetheless of only limited usefulness in reality because it's unclear how realistic the underlying models are in the first place. I won't hide here that I strongly prefer a heuristic approach that reveals what's actually going on, over a lengthy technical calculation that may be formally more correct, yet it's unclear whether this really matters in reality. I feel the majority of the audience of PLoS Genetics is probably with me on this.
 \end{quote}
+
+% \begin{quote}
+%     Should you decide to tackle these problems in a major revision, please also address the remaining comments raised by the reviewers. Sorry that I can't bring you better news at this point but I think you will agree that the reviews are pretty clear in what needs to be done in order to get this paper accepted in PLoS Genetics.
+% \end{quote}
 
 \noindent \hspace{4em}
 \begin{minipage}{3in}
@@ -73,7 +84,7 @@ effectively we were treating the patch as very small in one place
 and large in another.
 We've rewritten the argument in \nameref{ss:heuristics} 
 to deal explicitly with the integral over the whole patch,
-which also necessitated adding a new (short) appendix \nameref{apx:qS}.
+which also necessitated adding a new (short) section \nameref{apx:qS}.
 Section \nameref{ss:hitting_occupation} required very little change.
 
 We also turned up a minor bug in the discussion of conditioned branching processes:
@@ -359,7 +370,7 @@ hopefully this unclutters things sufficiently?
 }
 
 \reply
-This is done. \revref
+Done.
 
 
 %%%%%
@@ -387,7 +398,7 @@ Yes!  Thanks. \revref
 }
 
 \reply
-Also done.
+Also done, thanks.
 
 
 %%%%%
@@ -396,4 +407,13 @@ Also done.
 }
 
 \reply
+In all the simulations, we fixed $s_p=0.01$ (now stated),
+which measured in terms of instantaneous growth is a selection coefficient of about 0.002.
+It's not at all straightforward to determine when the originating mutation arose,
+since this would require tracing lineages back -- doable, but a lot more work.
+Also, it seems that the second issue -- not really treating the boundary correctly
+-- is more significant than the time the numbers take to go from 1 to 100.
+Taking these two together,
+and not wanting to further complicate the paper,
+we decided to not try to pursue this farther.
 
