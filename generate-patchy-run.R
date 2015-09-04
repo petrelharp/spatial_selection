@@ -83,6 +83,7 @@ source("sim-patchy-selection-fns.R")
 source("lineages.R")
 
 # postcompute
+#  didn't mean to have sqrt(n) below, meant n/sqrt(2); but that's what we simulated with...
 if (is.null(params$migrsteps)) {
     if (min(params$range)>1) { # 2D
         params$migrsteps <- c( lapply( 1:5, function (n) { c( 2^(-(n+2)), n, 0 ) } ),  ## 2D
