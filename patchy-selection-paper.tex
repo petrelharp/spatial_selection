@@ -27,8 +27,8 @@
 \reviewresponsestrue  % include them
 % \reviewresponsesfalse  % don't include them
 \iflatexml\reviewresponsesfalse\fi  % they don't work so well in html
-% \newcommand{\responsefile}{pbio-reviews-19sept12-responses.tex}  % name of the review reponses file
-\newcommand{\responsefile}{patchy-review-responses-second-round.tex}  % name of the review reponses file
+% \newcommand{\responsefile}{pbio-reviews-19sept12-responses.tex}  % name of the review responses file
+\newcommand{\responsefile}{patchy-review-responses-second-round.tex}  % name of the review responses file
 
 % override above choices (see makefile)
 \ifdef{\submissionnofigs}{  % for submission, no figures
@@ -106,7 +106,7 @@
 \newcommand{\calC}{\mathcal{C}}
 \newcommand{\dconv}{\xrightarrow{d}}
 \newcommand{\deq}{\stackrel{\scriptscriptstyle{d}}{=}}
-\newcommand{\given}{\,\mid\,}
+\newcommand{\given}{\mid}
 \newcommand{\st}{\,\colon\,}
 
 \newcommand{\migrate}{\lambda_\text{mig}}
@@ -400,7 +400,7 @@ the time scale on which new patches become colonized by the $B$ allele from new 
 \label{ss:patchymigration}
 
 Now suppose that there are two patches separated by distance $R$
-(i.e., the shortest distance between the two is $R$). \revpoint{2}{9}
+(i.e., the shortest distance between the two is $R$). \revpoint{2}{8}
 If the $B$ allele has arisen and become established in the first patch, but has not yet appeared in the second,
 we would like to know the time scale on which copies of $B$ move between patches by migration
 (supposing that no $B$ allele arises independently by mutation in the meantime).
@@ -564,15 +564,14 @@ we drop the individual from the family.
 Since the $B$ allele is uniformly deleterious elsewhere,
 we can decouple reproduction and migration
 by first forming a tree in which each individual has a random number of offspring,
-then recursively assigning spatial locations to each individual in the tree,
-and finally pruning any branches that happen to wander into a patch.
-By our definition of fitness, 
-in this tree the mean number of offspring per individual is $e^{-s_m} < 1$.
+then assigning spatial locations to each individual in the tree,
+and finally pruning any branches that wander into a patch.
 This pruning removes both branches leading back into the already established patch (which are irrelevant)
 and branches leading into the new patch (we will need to count these).
 Since we are concerned with the rare migrant families that transit quickly between patches, 
-back migrants to the already established patch will contribute little, since they are going the wrong direction;
-so to simplify the analysis we ignore this detail.  % but could add this detail in an appendix
+we ignore back migrants to the already established patch. 
+% will contribute little, since they are going the wrong direction;
+% so to simplify the analysis we ignore this detail.  % but could add this detail in an appendix
 
 Since each individual has on average $e^{-s_m}$ offspring,
 the expected family size after time $t$ is $e^{- t s_m}$.
@@ -592,23 +591,24 @@ and conditional on survival, the family size is given by a fixed distribution.
 
 This suggests that families can be well-described by motion of a central ``trunk'',
 which dies at a random time whose distribution is given by $k_e(t)$,
-and conditional on survival of this trunk, the family is composed of side ``branches'' off of this trunk,
+surrounded by ``branches'',
+% and conditional on survival of this trunk, the family is composed of side ``branches'' off of this trunk,
 as depicted in Figure~\ref{fig:branching_decomp}.
-We can understand this quite concretely, by a method described rigorously by \citet{geiger1999elementary}.
+We can understand this with a decomposition described by \citet{geiger1999elementary}.
 % (see also \citet{chauvin1991growing}). 
 % (lyons1995conceptual deals with conditioned on eventual nonextinction)
-When we condition on survival until $t$, we condition on existence of
-at least one trunk lineage surviving from time $0$ to time $t$ (the long red
-lineage in Figure \ref{fig:branching_decomp}).
-Given this lineage, nothing distinguishes any of the other reproduction events --
-each individual along the trunk lineage must give birth to at least one offspring that survives until time $t$,
-and all other reproduction events are unconditioned.
-In other words, the genealogy of a family that survives until $t$
+When we condition on survival until $t$, we condition on survival of at least one trunk lineage
+(the long red lineage in Figure \ref{fig:branching_decomp}).
+Given this lineage, the other reproduction events are undistinguished --
+% each individual along the trunk lineage must give birth to at least one offspring that survives until time $t$,
+% and all other reproduction events are unconditioned.
+% In other words, 
+the genealogy of a family that survives until $t$
 can be decomposed into a trunk that lasts until $t$
-and that sprouts independent branches that may or may not survive until $t$.
-Specifically, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$,
+and that sprouts independent, unconditioned branches that may or may not survive until $t$.
+Concretely, if we write $Z_t$ for the number of offspring in the branching process alive at time $t$,
 % (so $\P\{Z_t = 0\} = k_e(t)$),
-then this gives the following decomposition:
+then
 \begin{align} \label{eqn:Zt_decomposition}
   \left( Z_t \; \vert \; Z_t>0 \right) \deq 1 + \sum_{s=0}^t \sum_{k=1}^{W_s-1} Z^{(s,k)}_{t-s},
 \end{align}
@@ -652,15 +652,22 @@ so the entire family is spread slightly wider.
   \begin{center}
     \includegraphics{branching-concept}
   \end{center}
-\caption{Cartoon of the decomposition described in the text. 
-Migrants families that get further than $r_0$ from the already-established patch (grey circle)
-are each composed of a ``trunk'' lineage (in red), whose spatial motion we follow,
-embellished by transient branches.
-For the depicted long-lived family, these are further distinguished by those still alive at time $t$ (in black)
-and those that did not survive until $t$ (in grey).
-Figure~\ref{fig:sim_snapshots} has a depiction of such a family, from a simulation. 
-Note that the spatial motions of lineages are independent random walks
-(and hence should be much wigglier than in this cartoon, which confounds space and time).
+  \caption{
+      \textbf{(a)} 
+      Cartoon of the decomposition described in the text. 
+    Migrants families that get further than $r_0$ from the already-established patch (grey circle)
+    are each composed of a ``trunk'' lineage (in red), whose spatial motion we follow,
+    embellished by transient branches.
+    For the depicted long-lived family, these are further distinguished by those still alive at time $t$ (in black)
+    and those that did not survive until $t$ (in grey).
+    Figure~\ref{fig:sim_snapshots} has a depiction of such a family, from a simulation. 
+    Note that the spatial motions of lineages are independent random walks
+    (and hence should be much wigglier than in this cartoon, which confounds space and time).
+      \textbf{(b)} 
+      Diagram of the area $A'$ used in equation \eqref{eqn:migrate}:
+      $R$ is the shortest distance from the old patch to the new,
+      and $A'$ is the area of the portion of the new patch that is no more than distance $R+\sigma/\sqrt{2s_m}$
+      from the old patch.
 } \label{fig:branching_decomp}
 \end{figure}
 
@@ -729,7 +736,7 @@ if the new patch has width smaller than $\sigma/\sqrt{2s_m}$,
 then $q(S)$ is approximately $q(R)$ multiplied by the area of the new patch.
 If $S$ is larger, then we should use the area of the closest strip
 of width $\sigma/\sqrt{2s_m}$ to the original patch;
-see section \ref{apx:qS} for more details.
+see figure \ref{fig:branching_decomp}, and section \secref{apx:qS} for more details.
 In either case, denote this area $A'$;
 for numerical examples we compute $q(S)$ directly.
 
@@ -1199,13 +1206,17 @@ $\P\{\tau < \infty\} = \lim_{\ell \to 0} \E \left[\exp(-\ell \tau) \right]$.
 To keep the expressions simple, in the remainder of this section we only compute quantities for one dimension.
 By Bayes' rule, 
 \begin{equation} \label{eqn:haplen_cdf}
-\E[e^{-\ell \tau}|\tau<\infty]  = \exp\left\{{-\frac{R}{\sigma}\left(\sqrt{2(\ell+s_m)} - \sqrt{2s_m}\right)}\right\} .
+    % \E[e^{-\ell \tau}|\tau<\infty]  =
+    \P\{ L > \ell \}
+    = 
+    \exp\left\{{-\frac{R}{\sigma}\left(\sqrt{2(\ell+s_m)} - \sqrt{2s_m}\right)}\right\} .
 \end{equation}
 This can be differentiated to find that the expected transit time is
 \begin{equation} 
   \E[\tau \given \tau<\infty ] = (R\sqrt{2s_m}/\sigma)\times 1/(2s_m) \label{eqn:mean_tau}
 \end{equation}
 and that $\var[\tau \given \tau<\infty ] = (R\sqrt{2s_m}/\sigma) \times 1/(2s_m)^2$.
+(A saddle point approximation provides an alternative route to these expressions.) \revpoint{1}{4}
 
 % \simeq (R/w+1)^{-(d-1)/2} \exp(- R \sqrt{2s_m}/\sigma)$.
 
@@ -1319,7 +1330,7 @@ Some of the largest patches of dark rock range from 10km to 100km wide
 and lie 50--400km from each other,
 and dark-colored populations of \emph{C.\ intermedius} have been found on many of these.
 (However, patches of all sizes occur across all scales in a heterogeneous manner.)
-\revpoint{5}{7}
+\revpoint{2}{7}
 \citet{nachman2003genetic} demonstrated that on one of these flows (Pinacate), 
 much of the change in coloration is due to an allele at the MC1R locus.
 This dark allele differs from the light allele by four amino acid changes, 
@@ -1960,7 +1971,7 @@ In either case, $g(A) \approx 1/(2s_m)$, which is the approximation we use in th
 \subsection[The Integral $q(S)$]{The integral $q(S)$}
 \label{apx:qS}
 
-In the developement above
+In the development above
 we need to approximate the integral of equation \eqref{eqn:eqfreq}
 across the area occupied by the new patch,
 $q(S) = \int_S q(x) dx$.

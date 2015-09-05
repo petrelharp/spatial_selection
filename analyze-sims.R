@@ -38,7 +38,7 @@ mutsims$adapted <- (
     ( mutsims$time1 >= mutsims$hit100.1 ) )
 mutsims$adapttime <- mutsims$hit100.1
 
-pdf(file="mutation-times-predicted.pdf", width=4, height=5, pointsize=10)
+pdf(file="mutation-times-predicted.pdf", width=6, height=5, pointsize=10)
 with( subset(mutsims,adapted), 
         plot( muttime, adapttime, log='xy', xlab="mean time to adaptation by mutation", ylab="time to hit 100 in patch",
                 xlim=c(120,120000), col=sm.name, pch=as.numeric(N.name) )
@@ -130,7 +130,7 @@ migsims$valid <- with( migsims,
     )
 
 
-pdf(file="migration-time-predicted.pdf",width=4, height=8, pointsize=10)
+pdf(file="migration-time-predicted.pdf",width=6, height=8, pointsize=10)
 layout((1:2))
 with( subset(migsims,adapted), {
         plot( migtime, hit100.2, col=sm.name, pch=as.numeric(N.name), log='xy', 

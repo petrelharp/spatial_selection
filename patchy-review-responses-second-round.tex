@@ -26,33 +26,37 @@
  
 \vskip 1em
 
+We would like to submit
+a revised version of our manuscript,
+``Convergent Evolution During Local Adaptation to Patchy Landscapes'',
+for consideration for publication in PLoS Genetics.
+We have dealt with all the reviewer's comments
+(which were useful),
+as detailed below,
+and have further edited the text for readability.
 
-\begin{quote}
-    Both reviewer 1 and reviewer 2 still question your main result presented in Eq. 11 and I do agree with them that there is definitely something wrong with the dimensions. 
-    % This was already pointed in the first round of reviews and both reviewers feel that this issue has not been satisfactorily addressed. 
-\end{quote}
+The main change was that we found where
+the missing factor of area pointed out by the reviewers
+had slipped through the cracks in our argument;
+this required fairly minor re-writing,
+and improved somewhat the fit of the theory to simulations.
 
-\begin{quote}
-    Both reviewer also argued in the first round that the derivations in the paper are overly complicated and that the problem can in fact be intuitively understood via much simpler arguments (both came up with very similar approaches independently). 
-    You stated in your replies that you prefer to stick with your derivation because you consider it more solid. 
-    However, I am not even fully convinced that your Eq. 11 is more correct than the reviewers' intuitive results. 
-\end{quote}
+We also turned up a minor bug in the discussion of conditioned branching processes:
+the exact picture is not quite so simple as was previously implied,
+but the approximate picture is still the same --
+see around \llname{ll:branching_process_fix}.
 
-\begin{quote}
-    Reviewer 1 points out that there are quite substantial deviations in your numerical results (Fig. 4) and reviewer 2 stresses that the 1D simulations won't even be able to catch the potential problems associated with the boundary of the target area. Clearly, something is not yet fully understood here and I don't see how the paper can be accepted without having settled these issues.
-\end{quote}
+Finally, we have further endeavored to bring the intuitive picture to the fore
+and otherwise cut down on needless words.
+In particular, we have 
+re-written parts of the section \secref{ss:heuristics},
+substantially shortened the discussion of branching processes
+in the section \secref{ss:migrant_math},
+and cut entirely the trailing section on ``outflux of migrant families''.
 
-% \begin{quote}
-    % It would be easy to simply reject the paper at this point.  However, as I expressed earlier, I still think that this is an extremely interesting problem that could be of great relevance for future studies, given that the authors can convincingly resolve the issues raised above. The dimensionality problem clearly needs to be resolved, and it needs to be explained how their result and the intuitive results from the reviewers compare with each other.
-% \end{quote}
+We hope you find the paper as improved as we do.
 
-\begin{quote}
-    I also think that presenting and discussing the intuitive results really would be important for the paper, as originally suggested by reviewers 1 and 2. There is a tendency in population genetics to derive complicated ``exact'' results that are nonetheless of only limited usefulness in reality because it's unclear how realistic the underlying models are in the first place. I won't hide here that I strongly prefer a heuristic approach that reveals what's actually going on, over a lengthy technical calculation that may be formally more correct, yet it's unclear whether this really matters in reality. I feel the majority of the audience of PLoS Genetics is probably with me on this.
-\end{quote}
-
-% \begin{quote}
-%     Should you decide to tackle these problems in a major revision, please also address the remaining comments raised by the reviewers. Sorry that I can't bring you better news at this point but I think you will agree that the reviews are pretty clear in what needs to be done in order to get this paper accepted in PLoS Genetics.
-% \end{quote}
+\vspace{1in}
 
 \noindent \hspace{4em}
 \begin{minipage}{3in}
@@ -65,32 +69,67 @@
 Graham Coop.}\\
 \end{minipage}
 
-\vskip 4em
+\pagebreak
+
+\textbf{Response to Letter from the Guest Editor:}
+
+\begin{quote}
+    \it
+    Both reviewer 1 and reviewer 2 still question your main result presented in Eq. 11 and I do agree with them that there is definitely something wrong with the dimensions. 
+    % This was already pointed in the first round of reviews and both reviewers feel that this issue has not been satisfactorily addressed. 
+\end{quote}
 
 \reply
-
-
-The main change,
-which addresses most of the concerns,
-is that we uncovered an error in the derivation of equation \eqref{eqn:migrate},
-that supplied the missing factor of area noted by the reviewers.
-The error occurred in the transition between section \nameref{ss:heuristics} 
-and section \nameref{ss:hitting_occupation}
-because in the former we had tried to keep things simple
-by not including shape of the patch in
-gestalt equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate},
-but then (more correctly) treated the shape in the latter;
+Thanks to the reviewers for sticking to this;
+on revision we uncovered the error in the derivation of equation \eqref{eqn:migrate},
+that supplied the missing factor of area.
+The error occurred in the transition between section \secref{ss:heuristics} 
+and section \secref{ss:hitting_occupation}
+because in the former section we had tried to keep things simple
+by working with densities in gestalt equations \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate},
+but then (more correctly) treated the shape in the latter section;
 effectively we were treating the patch as very small in one place
 and large in another.
-We've rewritten the argument in \nameref{ss:heuristics} 
+We've rewritten the argument (section \secref{ss:heuristics})
 to deal explicitly with the integral over the whole patch,
-which also necessitated adding a new (short) section \nameref{apx:qS}.
-Section \nameref{ss:hitting_occupation} required very little change.
+which also necessitated adding a new (short) section (\secref{apx:qS})
+that deals with the geometry of the patch.
+Section \secref{ss:hitting_occupation} required very little change.
 
-We also turned up a minor bug in the discussion of conditioned branching processes:
-the exact picture is not quite so simple,
-but the approximate picture is still the same --
-see around \llname{ll:branching_process_fix}.
+\begin{quote}
+    \it
+    Both reviewers also argued in the first round that the derivations in the paper are overly complicated and that the problem can in fact be intuitively understood via much simpler arguments (both came up with very similar approaches independently). 
+    % You stated in your replies that you prefer to stick with your derivation because you consider it more solid. 
+    % However, I am not even fully convinced that your Eq. 11 is more correct than the reviewers' intuitive results. 
+    [\ldots] I also think that presenting and discussing the intuitive results really would be important for the paper, as originally suggested by reviewers 1 and 2. 
+\end{quote}
+
+\reply
+We agree; the main argument around these results (in section \secref{ss:heuristics})
+we think follows the arguments of the reviewers closely
+(and arrives at the same answer; see below).
+We also still provide a more detailed argument towards the end of the paper;
+in our view, this gives the best of both worlds.
+
+
+% \begin{quote}
+%     Reviewer 1 points out that there are quite substantial deviations in your numerical results (Fig. 4) and reviewer 2 stresses that the 1D simulations won't even be able to catch the potential problems associated with the boundary of the target area. Clearly, something is not yet fully understood here and I don't see how the paper can be accepted without having settled these issues.
+% \end{quote}
+
+% \begin{quote}
+    % It would be easy to simply reject the paper at this point.  However, as I expressed earlier, I still think that this is an extremely interesting problem that could be of great relevance for future studies, given that the authors can convincingly resolve the issues raised above. The dimensionality problem clearly needs to be resolved, and it needs to be explained how their result and the intuitive results from the reviewers compare with each other.
+% \end{quote}
+
+% \begin{quote}
+%     I also think that presenting and discussing the intuitive results really would be important for the paper, as originally suggested by reviewers 1 and 2. There is a tendency in population genetics to derive complicated ``exact'' results that are nonetheless of only limited usefulness in reality because it's unclear how realistic the underlying models are in the first place. I won't hide here that I strongly prefer a heuristic approach that reveals what's actually going on, over a lengthy technical calculation that may be formally more correct, yet it's unclear whether this really matters in reality. I feel the majority of the audience of PLoS Genetics is probably with me on this.
+% \end{quote}
+
+% \begin{quote}
+%     Should you decide to tackle these problems in a major revision, please also address the remaining comments raised by the reviewers. Sorry that I can't bring you better news at this point but I think you will agree that the reviews are pretty clear in what needs to be done in order to get this paper accepted in PLoS Genetics.
+% \end{quote}
+
+
+
 
 
 
@@ -116,7 +155,7 @@ Regarding the simulations presented in Fig 4, I don't think they strongly suppor
 
 \reply
 We think the main issue here was inclusion of points outside the validity of the approximations,
-since of the parameters falling in the range of validity discussed in \nameref{ss:assumptions},
+since of the parameters falling in the range of validity discussed in \secref{ss:assumptions},
 the largest discrepancy was a factor of 7, not 100.
 We've re-made this figure only using parameter combinations that fall within the range of validity
 ($R > \sigma/\sqrt{s_m}$, patch width larger than $\sigma/\sqrt{s_m} \atan(\sqrt{s_m/s_b})$, and $2 s_m \sigma N > 1$);
@@ -136,7 +175,7 @@ the figures that include all simulation results are still included in the supple
 \reply
 Thanks for catching that mistake.  
 % We removed the extra factor of 2 (section~\secref{apx:outflux}).
-However, in the interest of shortening the paper, we decided to remove that section.
+However, in the interest of making the paper less complex, we decided to remove that section.
 
 
 %%%%%%
@@ -158,14 +197,15 @@ However, in the interest of shortening the paper, we decided to remove that sect
 }
 
 \reply
-This is a nice point;
-perhaps which approach should be included
-comes down to personal taste
-as to whether ``saddle point approximation'' or ``Laplace transform'' is a simpler idea?  
-We decided to stick with the Laplace transform.
+This is a nice point,
+and we've added a note to this effect \revref.
+We also rewrote this section somewhat to flow more naturally:
+since $\P\{L>\ell\}=\E[e^{-\ell\tau}]$ is more properly the quantity we're interested in,
+we start with it.
+
 
 %%%%%%
-\point{now to the thornier issues of dimension, geometry, and fluxes}{
+\point{now to the thornier issues}{
     \begin{itemize}
         \item {} [with $\ell = \sigma/\sqrt{2s}$, $r$ the radius of the patch, $R$ the distance between patches, and $\ell \ll r \ll R$]
         \item the average density is $q(x) \sim e^{-x/\ell}$
@@ -180,25 +220,24 @@ We decided to stick with the Laplace transform.
         \item to get at $\migrate$, arrival needs to be integrated over the relevant area. In $d=1$ this is simply a stretch of length $\ell$,
             in $d=2$ it should be $\sqrt{\ell^3 r}$,
             hence one should get
-            \[ \migrate \sim \rho q(x) s^2 \ell^d \sqrt{r/\ell} (1-e^{-p_e/s}) \]
+            \[ \migrate \sim \rho q(R) s^2 \ell^d \sqrt{r/\ell} (1-e^{-p_e/s}) \]
         \item result does depend on target geometry
     \end{itemize}
 }
 
 \reply
-As discussed above,
-we've debugged the issue about dimensions,
-so that the argument now correctly does integrate over the new patch.
-The result does depend on target geometry, just as the reviewer points out (thanks!);
-this is now discussed in section \secref{apx:qS}.
-The other part of this argument, as we understand it,
-modifies terms in \eqref{eqn:migrate}
-by specifying a form for $A$, the relevant area of the new patch,
-and postulating a specific form for $K$.
-We've opted not to make these changes,
-since these require additional assumptions,
-and it feels easier on the reader to not require them to parse such assumptions.
-
+As discussed above, we fixed the bug in our argument here.
+Now, \eqref{eqn:migrate} agrees with the reviewer's:
+Both have $\rho q(R)$.
+We have $A'$ for the area of the nearest $\ell=\sigma/\sqrt{2s_m}$ portion of the patch;
+this corresponds above to $\ell^{d} \sqrt{r/\ell}$
+since (see figure in reviewer report) assuming a circular patch, the transverse dimension of $A'$ is $\sqrt{r\ell}$.
+The remaining term is $\E[1-(1-p_e)^K]/(\E[K]/2s_m)$;
+we approximate this by $s_m \min(s_m,p_e)$; 
+above it is $s^2 (1-e^{-p_e/s})$;
+the two agree to first order (and they are both first order approximations).
+The result does, indeed, depend on target geometry;
+we've added a subfigure to figure \ref{fig:branching_decomp} to illustrate this point.
 
 \point{Formulation in terms of fluxes}{(suggested by reviewer 2) might be easier.}
 
@@ -226,6 +265,7 @@ I do think that reviewer 1 raises a good point though. Looking back through the 
 
 \reply
 Good point; this works out nicely: \revref.
+We have looked a fair bit for a formal proof in the literature and not turned it up.
 
 
 %%%%%%
@@ -241,7 +281,7 @@ ignore the old patch, and simply ask for the probability of establishment;
 or include the old patch, and ask about the transform of the occupation time in the new patch,
 $\E[\exp(-\int_0^t \langle Z_s, p_e \rangle ds)]$.
 For instance,
-if $Z$ is a continuous-time Markovian branching process
+suppose $Z$ is a continuous-time Markovian branching process
 whose spatial motion has generator $A$,
 that when at location $x$, branches at rate $r(x)$,
 producing a number of 
@@ -253,7 +293,7 @@ of a process beginning with a single individual at $x$,
 \end{align*}
 This is the approach taken by \citep{barton1987establishment};
 we chose not to go this route because thinking explicitly about the decomposition into families
-seems much more interesting and useful.
+seems more interesting and useful.
 There is a large and diverse literature on branching Brownian motion,
 but the majority of it is devoted to critical or supercritical Brownian motion.
 We haven't been able to dig up anything that gives the sort of asymptotics that we need;
@@ -266,16 +306,15 @@ I still think that the derivation of the main result is too complicated, and cou
 }
 
 \reply
+We have gone back over the section surrounding \eqref{eqn:migrate},
+aiming for maximal simplicity along these lines.
 It's true, that in the case that $p_e < s_m$ we get the same result
 as what is obtained ignoring correlations in arrivals
 (e.g., by the Fick's law argument of the previous review).
-To our taste, the "complications" make the paper more digestible,
-since it is more clear what's going on,
-especially to those who are less familiar with branching processes.
-
-That said, we do go beyond these approximations, since we include the case $p_e > s_m$,
+However, we do go beyond these approximations, since we include the case $p_e > s_m$,
 where family structure matters --
-so, we're not clear how to address this.
+so, we think we've addressed this,
+and hope we're not missing further simplifications.
 
 
 %%%%%%
@@ -285,7 +324,8 @@ I don't totally understand the simulation methods. The authors say that individu
 
 \reply
 Whoops -- we had erroneously left in that statement that the number of offspring each step was Poisson;
-in fact, the number of offspring produced in a generation is either 0 or 1.
+in fact, the number of offspring produced in a generation is either 0 or 1
+(but, individuals may live for many generations).
 The exact function is given in the next paragraph \revref,
 and as detailed there, we don't naively assume
 that whatever we labeled \texttt{sm} in the code
@@ -307,8 +347,13 @@ In the Applications, I understand that there's still a lot to learn about this s
 }
 
 \reply
-That's a trickier question than it at first seems,
-but we've added a rough idea \revref.
+That's a trickier question than it seems --
+in particular, there doesn't exist a map of rock color
+(just rock type, and the map to color is not one-to-one).
+This is further complicated by the fact the mice live on rocky outcrops (only),
+not on sandy or otherwise flat areas.
+After consulting with Michael Nachman,
+we've added a rough idea the relevant scales \revref.
 
 
 %%%%%%
@@ -317,11 +362,11 @@ In their response to my comments, the authors said that they did not see why the
 }
 
 \reply
-Ah, right.
+Ah: now we see what the misunderstanding was.
 By "distance to a patch" we mean the length of the shortest path beginning in one and ending in the other.
 We've clarified this \revref.
-Given this, and the caveats around how to calculate $A$ in \eqref{eqn:migrate},
-we still don't think the assumption is necessary?
+Given this, and the discussion of how to calculate $A'$,
+we still don't think the assumption is necessary.
 
 
 %%%%%%
@@ -333,7 +378,7 @@ I still think that including any sub-leading terms in the length of the shared h
 We would agree, but it's not certain which of the various terms 
 in \eqref{eqn:haplotype_length} and the subsequent equation for $\var[L]$
 are the leading ones,
-depending on how $s_m$ compares to $R/\sigma$.
+depending on how $s_m$ compares to $\sigma/R$.
 
 
 

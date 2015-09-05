@@ -75,11 +75,11 @@ patchy-selection-paper-arxiv.pdf : patchy-selection-paper.tex standing_patches_r
 
 # Submit: paper with figures in reasonable order, and page and line numbers referred to in review-reponses below.
 patchy-selection-paper-with-figs.pdf : patchy-selection-paper-submission-figs.pdf
-	pdfjam --outfile $@ $< 1-44
+	pdfjam --outfile $@ $< 1-43
 
 # Submit: responses to reviews
 patchy-selection-review-responses.pdf : patchy-selection-paper-submission-figs.pdf
-	pdfjam --outfile $@ $< 45-
+	pdfjam --outfile $@ $< 44-
 
 # Submit: the paper without figures but lists of figure legends
 patchy-selection-paper-no-figs.pdf : patchy-selection-paper-submission-no-figs.pdf
@@ -128,6 +128,12 @@ examples.tex: Spatial_adaptation/compute-things.R
 
 $(panmixia): Spatial_adaptation/panmixia.R
 	nice -19 R --vanilla < $<
+
+%.pdf : %.svg
+	inkscape --without-gui --export-pdf=$@ $<
+
+%.eps : %.svg
+	inkscape --without-gui --export-eps=$@ $<
 
 %.eps : %.pdf
 	inkscape --without-gui --export-eps=$@ $<
