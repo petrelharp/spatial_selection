@@ -447,6 +447,7 @@ in terms of Jacobi elliptic functions; see the Supporting Information.
 
 \begin{figure}[ht!]
   \begin{center}
+    % made in patchy-sim-writeup-plots.R
     \includegraphics{sim-occupation-freqs}
   \end{center}
   \caption{
@@ -2063,11 +2064,15 @@ and catching several errors present in earlier drafts. \revpoint{3}{4}
 We would also like to acknowledge Michael Nachman, Steve Evans, and Yaniv Brandvain for useful discussions, 
 as well as Gideon Bradburd, and Simon Aeschbacher and the rest of the Coop lab
 for helpful comments and discussion of the manuscript.
+\ifsubmissionversion
+% PLoS puts this somewhere else
+\else
 This work was supported by grants from the
 National Science Foundation under Grant No.\ 1262645 to PLR and GC and by the
 National Institute of General Medical Sciences of the National
 Institutes of Health under award numbers NIH RO1GM83098 and
 RO1GM107374 to GC.
+\fi
 
 \bibliography{standing_patches_refs}
 
@@ -2081,13 +2086,13 @@ RO1GM107374 to GC.
 \clearpage
 
 % endfloat uses different names
+\renewcommand{\thesfigure}{S\arabic{sfigure}}
+\renewcommand{\thetable}{S\arabic{table}}
 \ifsubmissionversion
-  \renewcommand{\thesfigure}{S\arabic{sfigure}}
   \renewcommand{\thepostsfigure}{S\arabic{postsfigure}}
   % \renewcommand{\thefigure}{S\arabic{figure}}
   % \renewcommand{\thepostfigure}{S\arabic{postfig}}
   % \setcounter{postfig}{0}
-  \renewcommand{\thetable}{S\arabic{table}}
   \renewcommand{\theposttable}{S\arabic{posttable}}
   \setcounter{posttable}{0}
 \fi

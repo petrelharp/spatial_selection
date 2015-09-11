@@ -83,19 +83,19 @@ patchy-selection-review-responses.pdf : patchy-selection-paper-submission-figs.p
 
 # Submit: the paper without figures but lists of figure legends
 patchy-selection-paper-no-figs.pdf : patchy-selection-paper-submission-no-figs.pdf
-	pdfjam --outfile $@ $< 1-28
+	pdfjam --outfile $@ $< 1-27
 
 # Submit: the "appendix" text
 patchy-supp-info.pdf : patchy-selection-paper-submission-no-figs.pdf
-	pdfjam --outfile $@ $< 29-30
+	pdfjam --outfile $@ $< 28-29
 
 # Submit: table S1
 patchy-tab-S1.pdf : patchy-selection-paper-submission-no-figs.pdf
-	pdfjam --outfile $@ $< 39
+	pdfjam --outfile $@ $< 38
 
 # Submit: table S2
 patchy-tab-S2.pdf : patchy-selection-paper-submission-no-figs.pdf
-	pdfjam --outfile $@ $< 40
+	pdfjam --outfile $@ $< 39
 
 patchy-fig-S3.pdf : example-mutation-sims/18885-r1-501-sb0_01-sm-0_1-N1200-pophistory-run.pdf example-mutation-sims/56325-r1-501-sb0_01-sm-0_1-N600-pophistory-run.pdf example-mutation-sims/28432-r1-501-sb0_01-sm-0_1-N50-pophistory-run.pdf
 	pdfjam --outfile $@ $? --noautoscale false --nup 1x3

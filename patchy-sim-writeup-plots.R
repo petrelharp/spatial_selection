@@ -52,6 +52,7 @@ par(mar=c(5,4,1,1)+.1)
 # averaged
 plot( 1, 1, xlim=range(unlist(lapply(plotinfo,"[[","patchloc"))), ylim=range(unlist(lapply(plotinfo,"[[","obs.freqs"))), 
         log='y', xlab='distance from patch', ylab='allele frequency', type='n' )
+mtext("A",side=3,line=0.1,cex=1.5,adj=-0.3,padj=1)
 abline(v=0,lty=2)
 lapply( plotinfo, function (x) { with(x, {
         lines( patchloc, obs.freqs, pch=20, cex=.5, col=grey(.7) )
@@ -69,6 +70,7 @@ timeslice <- floor( seq( .05*dim(pophist$pophist)[4], dim(pophist$pophist)[4], l
 sliced <- pophist$pophist[,,2,timeslice]/pophist$pop$params$N
 # plot
 matplot( sliced, type='l', xlab='deme number (space)', ylab='allele frequency', col=adjustcolor(2:10,.5) )
+mtext("B",side=3,line=0.1,cex=1.5,adj=-0.3,padj=1)
 abline(v=0.5 + which(diff(as.vector(pophist$pop$params$s))!=0), lty=2 )
 text( mean(which(as.vector(pophist$pop$params$s)>0)), .05, labels=as.expression(substitute(s[p]==sb,list(sb=max(pophist$pop$params$s)))) )
 text( c(.15,.85)*dim(pophist$pophist)[2], .900, labels=as.expression(substitute(s[m]==sm,list(sm=min(pophist$pop$params$s)))) )
