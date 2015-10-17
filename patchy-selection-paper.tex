@@ -10,7 +10,7 @@
 
 % make supp figures separate
 \usepackage{caption}
-\DeclareCaptionType{sfigure}[Figure]
+\DeclareCaptionType{sfigure}[Fig]
 
 \setcounter{secnumdepth}{0}
 
@@ -21,40 +21,40 @@
 
 \newif\iflatexml\latexmlfalse %%%graham added; remove with latexml package
 
-%%%%%
-% Responses to reviews:
-% set this to show line numbers and include responses to reviews or not
-\newif\ifreviewresponses
-\reviewresponsestrue  % include them
-% \reviewresponsesfalse  % don't include them
-\iflatexml\reviewresponsesfalse\fi  % they don't work so well in html
-% \newcommand{\responsefile}{pbio-reviews-19sept12-responses.tex}  % name of the review responses file
-\newcommand{\responsefile}{patchy-review-responses-second-round.tex}  % name of the review responses file
-
-% override above choices (see makefile)
-\ifdef{\submissionnofigs}{  % for submission, no figures
-  \reviewresponsesfalse
-  \submissionversiontrue
-}{
-}
-\ifdef{\submissionfigs}{  % for reviewers, with figs
-  \reviewresponsestrue
-  \submissionversionfalse
-}{
-}
-\ifdef{\arxiv}{  % for general use
-  \reviewresponsesfalse
-  \submissionversionfalse
-}{
-}
-
-\ifreviewresponses
-  \input{review-response-commands}
-\else
-  \newcommand{\linelabel}[1]{}
-  \newcommand{\revpoint}[2]{}
-  \newcommand{\includereviews}{}
-\fi
+%  %%%%%
+%  % Responses to reviews:
+%  % set this to show line numbers and include responses to reviews or not
+%  \newif\ifreviewresponses
+%  \reviewresponsestrue  % include them
+%  % \reviewresponsesfalse  % don't include them
+%  \iflatexml\reviewresponsesfalse\fi  % they don't work so well in html
+%  % \newcommand{\responsefile}{pbio-reviews-19sept12-responses.tex}  % name of the review responses file
+%  % \newcommand{\responsefile}{patchy-review-responses-second-round.tex}  % name of the review responses file
+%  
+%  % override above choices (see makefile)
+%  \ifdef{\submissionnofigs}{  % for submission, no figures
+%    \reviewresponsesfalse
+%    \submissionversiontrue
+%  }{
+%  }
+%  \ifdef{\submissionfigs}{  % for reviewers, with figs
+%    \reviewresponsestrue
+%    \submissionversionfalse
+%  }{
+%  }
+%  \ifdef{\arxiv}{  % for general use
+%    \reviewresponsesfalse
+%    \submissionversionfalse
+%  }{
+%  }
+%  
+%  \ifreviewresponses
+%    \input{review-response-commands}
+%  \else
+    \newcommand{\linelabel}[1]{}
+    \newcommand{\revpoint}[2]{}
+    \newcommand{\includereviews}{}
+%  \fi
 
 % % Text layout
 % \topmargin 0.0cm
@@ -446,12 +446,13 @@ The ``renewal'' aspect of this same argument suggests that for equation~\eqref{e
 $|x|$ must be larger than a few multiples of $\sigma$.
 \linelabel{rr:q_form}
 
-These asymptotics fit simulations quite well, as shown in Figure~\ref{fig:sim_occupation_freqs}.
+These asymptotics fit simulations quite well, as shown in Fig~\ref{fig:sim_occupation_freqs}.
 To be clear about the assumptions implicit here,
 below we provide a derivation of \eqref{eqn:eqfreq} in section \secref{apx:eqfreq},  \revpoint{3}{5}
 as well as justification for the asymptotics below in section \secref{apx:asymptotics}.
 In one dimension, the equation can be solved to give $q(x)$ 
-in terms of Jacobi elliptic functions; see the Supporting Information.
+in terms of Jacobi elliptic functions \citep{NEQwiki}; 
+see the Supporting Information.
 
 \begin{figure}[ht!]
   \begin{center}
@@ -491,7 +492,7 @@ close to the original patch, the ``equilibrium frequency'' $q(x)$ describes well
 but far away from the patch, 
 the equilibrium is composed of rare excursions of families of $B$
 alleles, interspersed by long periods of absence. 
-An example of one of these rare excursions is shown in Figure~\ref{fig:sim_snapshots}.
+An example of one of these rare excursions is shown in Fig~\ref{fig:sim_snapshots}.
 The relevant time scale on which $B$ alleles migrate between patches is given by the rate of appearance of such families.
 % To compute the rate of establishment by such migration,
 % we argue that these families (suitably defined) can be approximated by
@@ -505,7 +506,7 @@ The relevant time scale on which $B$ alleles migrate between patches is given by
     \includegraphics{sim-snapshots}
   \end{center}
   \caption{
-  A segment of the temporal dynamics of the same simulation as Figure~\ref{fig:sim_occupation_freqs}B.
+  A segment of the temporal dynamics of the same simulation as Fig~\ref{fig:sim_occupation_freqs}B.
   Space is again shown across the horizontal axis, with time on the vertical axis; 
   demes are colored darker red the greater their allele frequency at the corresponding time.
   The 50\% and 5\% frequency contour lines are in grey,
@@ -526,7 +527,7 @@ and interactions between family members are weak,
 then these families can be approximated 
 by a collection of independent spatial branching processes
 whose members are ignored if they enter the original patch,
-illustrated in figure~\ref{fig:branching_decomp}.
+illustrated in Fig~\ref{fig:branching_decomp}.
 (This can be made formal in the limit of large population density, also taking $r_0$ large enough that the chance of reaching the original patch is small.)
 The opportunity for adaptation depends on how often these families of $B$ alleles encounter the new patch.
 Suppose that the area occupied by the new patch is $S$.
@@ -557,7 +558,7 @@ but their product does not.
 
 
 %%%% %%%%
-\subsubsection{The genealogy of migrant families}
+\paragraph{The genealogy of migrant families}
 \label{ss:migrant_math}
 
 To understand the process of adaptation by migration,
@@ -602,12 +603,12 @@ This suggests that families can be well-described by motion of a central ``trunk
 which dies at a random time whose distribution is given by $k_e(t)$,
 surrounded by ``branches'',
 % and conditional on survival of this trunk, the family is composed of side ``branches'' off of this trunk,
-as depicted in Figure~\ref{fig:branching_decomp}.
+as depicted in Fig~\ref{fig:branching_decomp}.
 We can understand this with a decomposition described by \citet{geiger1999elementary}.
 % (see also \citet{chauvin1991growing}). 
 % (lyons1995conceptual deals with conditioned on eventual nonextinction)
 When we condition on survival until $t$, we condition on survival of at least one trunk lineage
-(the long red lineage in Figure \ref{fig:branching_decomp}).
+(the long red lineage in Fig \ref{fig:branching_decomp}).
 Given this lineage, the other reproduction events are undistinguished --
 % each individual along the trunk lineage must give birth to at least one offspring that survives until time $t$,
 % and all other reproduction events are unconditioned.
@@ -669,7 +670,7 @@ so the entire family is spread slightly wider.
     embellished by transient branches.
     For the depicted long-lived family, these are further distinguished by those still alive at time $t$ (in black)
     and those that did not survive until $t$ (in grey).
-    Figure~\ref{fig:sim_snapshots} has a depiction of such a family, from a simulation. 
+    Fig~\ref{fig:sim_snapshots} has a depiction of such a family, from a simulation. 
     Note that the spatial motions of lineages are independent random walks
     (and hence should be much wigglier than in this cartoon, which confounds space and time).
       \textbf{(b)} 
@@ -682,7 +683,7 @@ so the entire family is spread slightly wider.
 
 
 %%%% %%%%
-\subsubsection{Heuristics}
+\paragraph{Heuristics}
 \label{ss:heuristics}
 
 The parallel form suggested by \eqref{eqn:gestalt_q} and \eqref{eqn:gestalt_migrate}
@@ -745,7 +746,7 @@ if the new patch has width smaller than $\sigma/\sqrt{2s_m}$,
 then $q(S)$ is approximately $q(R)$ multiplied by the area of the new patch.
 If $S$ is larger, then we should use the area of the closest strip
 of width $\sigma/\sqrt{2s_m}$ to the original patch;
-see figure \ref{fig:branching_decomp}, and section \secref{apx:qS} for more details.
+see Fig \ref{fig:branching_decomp}, and section \secref{apx:qS} for more details.
 In either case, denote this area $A'$;
 for numerical examples we compute $q(S)$ directly.
 
@@ -824,15 +825,15 @@ separated by a varying number of demes,
 with one patch initialized to have the $B$ allele at frequency 0.8.
 In each case, we measured the ``time to adaptation'' as the amount of time until at least 100 $B$ alleles
 were present in the previously unadapted patch.
-Figure~\ref{fig:sim_times}
+Fig~\ref{fig:sim_times}
 summarizes how the results compare to theory,
 excluding parameter combinations 
 that violate the assumptions discussed above, 
 or where a majority of simulations did not adapt by 25,000 generations.
-Supplementary figures \ref{sfig:sim_migration_times} and \ref{sfig:sim_mutation_times} 
+\ref{sfig:sim_migration_times} and \ref{sfig:sim_mutation_times} Fig
 show all times, 
-and depictions of typical simulation runs are shown in supplementary figures
-\ref{sfig:sims_1}, \ref{sfig:sims_2}, \ref{sfig:sims_3}, \ref{sfig:sims_4}, \ref{sfig:sims_5}, \ref{sfig:sims_6}, \ref{sfig:sims_7}, and \ref{sfig:sims_8}.
+and depictions of typical simulation runs are shown in 
+\ref{sfig:sims_1}, \ref{sfig:sims_2}, \ref{sfig:sims_3}, \ref{sfig:sims_4}, \ref{sfig:sims_5}, \ref{sfig:sims_6}, \ref{sfig:sims_7}, and \ref{sfig:sims_8} Fig.
 
 The agreement is reasonable for both.
 The theoretical value $1/\mutrate$ underestimates the mean time to mutation
@@ -848,7 +849,7 @@ The theoretical values $1/\migrate$ again has a margin of error of a factor of a
 % which adapt much more quickly than predicted by theory.
 % However, these simulations fall outside the region where we expect the model to do well,
 % since $R < \sigma/\sqrt{s_m} \approx 100$.
-Supplementary figure \ref{sfig:sims_8} shows simulations at more parameter values.
+\ref{sfig:sims_8} Fig shows simulations at more parameter values.
 % since $s_m$ is so small, the second patch is reached by migrants before the migration-selection equilibrium is reached,
 % and at migration-selection equilibrium, the two patches act as a single meta-patch.
 
@@ -882,8 +883,8 @@ Supplementary figure \ref{sfig:sims_8} shows simulations at more parameter value
       $R > \sigma/\sqrt{s_m}$, 
       patch width larger than $\sigma/\sqrt{s_m} \atan(\sqrt{s_m/s_p})$, 
       and $s_m > 2 \sigma \rho$);
-      the remaining combinations are shown in figures
-      S\ref{sfig:sim_migration_times} and S\ref{sfig:sim_mutation_times}.
+      the remaining combinations are shown in 
+      S\ref{sfig:sim_migration_times} and S\ref{sfig:sim_mutation_times} Fig.
   }   \label{fig:sim_times}
 \end{figure}
 
@@ -918,7 +919,7 @@ To work out how adaptation is likely to proceed,
 we can compare expressions \eqref{eqn:mutrate} and \eqref{eqn:migrate} above
 for the effective rates of adaptation by new mutation and by migration.
 We work in one dimension, as the square root term appearing for two dimensions is relatively unimportant.
-% (as seen in figure~\ref{fig:sim_occupation_freqs} by the fact that the $d=2$ curve is nearly straight).
+% (as seen in Fig~\ref{fig:sim_occupation_freqs} by the fact that the $d=2$ curve is nearly straight).
 \linelabel{rr:sqrt_term}
 
 %%felt like we needed a better intro to this paragraph
@@ -971,7 +972,7 @@ or if $s_m$ is small enough that local drift is more important.
 \linelabel{rr:separated_patches}
 
 % One way to visualize this is by a phase diagram.
-% In figure \ref{fig:phase_diagram},
+% In Fig \ref{fig:phase_diagram},
 % we give a contour plot for the time until adaptation by migration ($\Tmig = 1/\migrate$) and by new mutation ($\Tmut=1/\mutrate$)
 % as a function of various parameters. 
 % This gives us an idea of not only the parameter space where parallel adaptation is likely ($\Tmig \ll \Tmut$),
@@ -1019,14 +1020,14 @@ is
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches, on the spatial scale $\sigma/\sqrt{2 s_m}$. \revpoint{2}{13}
 
-We tested this using the same simulations as figure \ref{fig:sim_times},
+We tested this using the same simulations as Fig \ref{fig:sim_times},
 by using the empirical distributions of the respective times to adaptation
 to estimate the probability,
 for each parameter combination,
 that a new, successful mutation appears 
 before a successful migrant arrives from another, already adapted patch.
 The results are compared to \eqref{eqn:parallel_prob}
-in figure~\ref{fig:sim_probs}.
+in Fig~\ref{fig:sim_probs}.
 
 
 \begin{figure}[ht!]
@@ -1041,7 +1042,7 @@ in figure~\ref{fig:sim_probs}.
       and the strength of selection between patches ($s_m$).
       The background shades of grey and contours
       give the probability predicted by theory (equation~\eqref{eqn:parallel_prob}, with $C=5$).
-      Points correspond to parameter combinations of the simulations in figure \ref{fig:sim_times},
+      Points correspond to parameter combinations of the simulations in Fig \ref{fig:sim_times},
       with the shade of grey and the red numeric label indicating the same probability
       estimated from these simulations (see text for details).
       The two densities, $\rho=100$ and $\rho=1000$ would lie directly on top of each other, so the $\rho=1000$ points have been shifted vertically.
@@ -1050,7 +1051,7 @@ in figure~\ref{fig:sim_probs}.
 
 
 %%%%%%%%%%%%
-\subsubsection{Multiple patches}
+\paragraph{Multiple patches}
 
 Suppose that instead of patches there are many,
 each patch adapting through either migration or mutation.
@@ -1114,7 +1115,7 @@ where the local nature of dispersal means that doubling the species range will d
   An initially unadapted patch (10 demes at the left end of the range) is colonized around generation 5000;
   a representative lineage is shown in the new patch, which follows the original migrant ``trunk'' lineage
   between the patches and coalesces with a lineage in the unadapted patch.
-  In the left panel, as in Figure~\ref{fig:sim_snapshots}, color and contours show allele frequency across space and time;
+  In the left panel, as in Fig~\ref{fig:sim_snapshots}, color and contours show allele frequency across space and time;
   other simulation parameters are as in Figures~\ref{fig:sim_occupation_freqs}B and \ref{fig:sim_snapshots}.
   The right panel shows (in red) the extent of the shared haplotype between the two lineages around the selected locus (at position 0),
   which decreases as time progresses. 
@@ -1149,10 +1150,10 @@ because while very rare, the allele will be mostly in heterozygotes,
 and so each generation provides another opportunity for a different haplotype to recombine closer to the transiting $B$ allele.
 A large, linked haplotype may still arrive and fix in the new patch,
 in which case the haplotype has literally hitchhiked across geography!
-Figure~\ref{fig:lineagesmotion} shows a simulation of such an event,
+Fig~\ref{fig:lineagesmotion} shows a simulation of such an event,
 including the lineage that founds an adaptive population on a second patch,
 and the length of the haplotype shared between this lineage and one in the original patch.
-The time that the lineage is outside the region where the $B$ allele is common (dark red in Figure~\ref{fig:lineagesmotion}), 
+The time that the lineage is outside the region where the $B$ allele is common (dark red in Fig~\ref{fig:lineagesmotion}), 
 the haplotype that accompanies it is broken down rapidly. 
 After the lineage establishes on the patch, the rate of decay of the haplotype is slowed significantly, 
 since most others with which it recombines have similar haplotypic backgrounds. 
@@ -1397,7 +1398,7 @@ and a high mutation rate $\mu= 10^{-5}$
 (a kilobase).
 Finally, we set $A=100\text{km}^2$ (roughly the size of the Pinacate
 patch). In
-Figure~\ref{fig:mice_prob_parallel} we show the dependence of the probability
+Fig~\ref{fig:mice_prob_parallel} we show the dependence of the probability
 of parallel mutation on the distance between lava flow patches using these parameters, 
 showing that parallel mutation should become
 likely over a scale of tens to a few hundred kilometers between patches. 
@@ -1405,7 +1406,7 @@ likely over a scale of tens to a few hundred kilometers between patches.
 Given the large selection coefficient associated with the dark allele
 on the dark substrate, we expect the initial haplotype associated with
 either a new mutation or migrant allele to be large. 
-Figure~\ref{fig:mice_prob_parallel} also shows how long the founding haplotype 
+Fig~\ref{fig:mice_prob_parallel} also shows how long the founding haplotype 
 shared between populations is expected to be,
 from equation \eqref{eqn:haplotype_length}.
 The initial length can be quite long between geographically close patches (tens of kilometers). 
@@ -1653,7 +1654,7 @@ and iterated this forward to convergence to obtain $1-p(x)$, the probability a s
 We considered two situations:
 where $s$ is a step function,
 and where it has a linear transition.
-These solutions are shown, and parameters described, in figure~\ref{fig:prob_estab_calcs}.
+These solutions are shown, and parameters described, in Fig~\ref{fig:prob_estab_calcs}.
 
 Here (and at other parameter choices) we see that the probability of establishment $p(x)$ goes to the equilibrium value
 (approximately $p_e = 2s/\xi^2$) within the patch;
@@ -1810,7 +1811,7 @@ that are difficult to formalize.
 Here we take a somewhat different tack,
 supposing that it suffices to model the spatial movement of a migrant family
 by following only the motion of the ``trunk''
-(i.e., the red line in figure \ref{fig:branching_decomp}),
+(i.e., the red line in Fig \ref{fig:branching_decomp}),
 and supposing this motion is Brownian, with variance $\sigma^2$ per generation.
 (Recall $\sigma$ is the dispersal distance.)
 We then use facts about Brownian motion and branching processes, 
@@ -1819,7 +1820,7 @@ to compute more precise versions of equations \eqref{eqn:gestalt_q} and \eqref{e
 
 We are approximating the dynamics of the focal allele in the region further away than $r_0$ from the patch
 as the sum of independent migrant families, each of whose dynamics are
-given by a spatial branching process (as depicted in Figure \ref{fig:branching_decomp}).
+given by a spatial branching process (as depicted in Fig \ref{fig:branching_decomp}).
 Call $B(r_0)$ the region closer than $r_0$ to the patch, and $\partial B(r_0)$ its boundary.
 Denote by $\gamma(x)$ the mean rate of outflux of migrant families from a point $x \in \partial B(r_0)$,
 i.e., the time-averaged density of individuals near a point $x$ in $\partial B(r_0)$ 
@@ -2244,8 +2245,10 @@ As $k \to 0$, $\sn(x;k) \to \sin(x)$, while as $k \to 1$, $\sn(x;k) \to \sinh(x)
 \subsection*{More information about the simulations}
 \label{apx:parameter_tables}
 
-Here we provide additional details regarding the simulations we used
-to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
+In tables \ref{sfig:sim_migration_times}
+and \ref{sfig:sim_mutation_times}
+we provide additional details regarding the simulations we used
+to validate the theory in \ref{fig:sim_times} and \ref{fig:sim_probs} Fig.
 
 %%%
 % Tables
@@ -2264,7 +2267,7 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     \includegraphics{mutation-times-predicted}
   \end{center}
   \caption{
-    The same data shown in the left panel of figure~\ref{fig:sim_times},
+    The same data shown in the left panel of Fig~\ref{fig:sim_times},
     but all times shown (not just the interquartile ranges),
     and including those parameter values at which most of the simulations did not adapt by 25,000 generations.
   } \label{sfig:sim_migration_times}
@@ -2275,10 +2278,10 @@ to validate the theory in figures \ref{fig:sim_times} and \ref{fig:sim_probs}.
     \includegraphics{migration-time-predicted}
   \end{center}
   \caption{
-    The same data shown in the right panel of figure~\ref{fig:sim_times},
+    The same data shown in the right panel of Fig~\ref{fig:sim_times},
     but all times shown (not just the interquartile ranges),
     and including those parameter values at which most of the simulations did not adapt by 25,000 generations.
-    The upper panel has the predicted time to adaptation on the horizontal axis as in figure~\ref{fig:sim_times},
+    The upper panel has the predicted time to adaptation on the horizontal axis as in Fig~\ref{fig:sim_times},
     and the lower panel has, for comparison, the raw distance between patches 
     (which predicts time to adaptation, but not as well).
   } \label{sfig:sim_mutation_times}
@@ -2581,7 +2584,7 @@ Furthermore, if $L$ is large, then $S/L$ has probability density approximately
 \end{equation}
 namely, is a $\mathrm{Beta}((\mu/m), 1)$ distribution--- see \cite{donnelly1989continuity} and \cite{perman1992sizebiased}.
 
-% In Figure \ref{fig:discbyratio} we plot mean number of types and size (number of demes occupied) of a sampled type,
+% In Fig \ref{fig:discbyratio} we plot mean number of types and size (number of demes occupied) of a sampled type,
 % for a model with 20 interconnected demes, across different parameter values.  
 % This indicates that we need the population-scaled mutation and migration rates to be within a factor of about 100 of each other for parallel adaptation to leave an interesting pattern. If migration is faster, then a single type is likely to take over, while if migration is weaker, each deme is likely to come up with its own type.
 
@@ -2631,7 +2634,7 @@ decreases mean coalescence times within the patch near the selected locus.  %\ci
 We first develop a simple approximation to the rate 
 at which recombination breaks down haplotypes within patches. 
 
-Refer again to Figure~\ref{fig:lineagesmotion}. 
+Refer again to Fig~\ref{fig:lineagesmotion}. 
 When a lineage is in a region with high frequency of $B$ alleles (dark red), 
 it is very unlikely to recombine off the $B$ background. 
 However, when it wanders out of the patch,
