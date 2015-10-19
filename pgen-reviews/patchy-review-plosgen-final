@@ -1,0 +1,34 @@
+Dear Peter and Graham,
+
+All reviewers are now happy with the manuscript, and so am I. It's great that
+you found the remaining error in the formula. You can incorporate the comment
+from Reviewer 1 when you submit the final version. Congrats on this nice piece
+of work.
+
+Philipp
+
+----------------------------------------------------
+
+Comments from the reviewers (if applicable):
+
+Reviewer's Responses to Questions
+
+Comments to the Authors:
+Please note here if the review is uploaded as an attachment.
+
+Reviewer #1: I am glad the authors found the problem in their argument. I think
+the paper could still benefit from additional simplifications, for example
+saying clearly that the distance beyond which mutation becomes more probable
+than migration scales as
+
+R^* ~ - l \log (C w\mu/s_m)
+
+where C captures some subleading corrections (including the A/A' area dependence)
+
+Reviewer #2: Looks good to me! I'd like to apologize to the authors for not
+doing a better job reviewing. I should have focused solely on the main factual
+issues (like the factor of area), and not distracted myself and them with so
+much about presentation.
+
+
+----------------------------------------------------

@@ -5,13 +5,32 @@ sfigs = patchy-fig-S3.pdf patchy-fig-S4.pdf patchy-fig-S5.pdf patchy-fig-S6.pdf 
 PATCHY_FIGS = $(shell grep "^ *[^%].*includegr" patchy-selection-paper.tex | sed -e 's/.*{\([^}]*\).*/\1/' )
 PATCHY_EPS = $(patsubst %,%.eps,$(PATCHY_FIGS))
 SFIG_EPS = $(patsubst %.pdf,%.eps,$(sfigs))
+PATCHY_TIFF = $(patsubst %,%.tiff,$(PATCHY_FIGS))
 
-.PHONY : figs patchy clean
+.PHONY : figs patchy clean final
 
 all : patchy figs
 	# tar -cvzhf patchy-suppmat.tar.gz patchy-supp-info.pdf S*_Table.pdf S*_Figure.pdf
 
 patchy : $(PATCHY_TARGETS)
+
+final : patchy-selection-paper-for-PLoS.pdf $(PATCHY_TIFF)
+	-ln -f -s sim-occupation-freqs.tiff Fig1.tiff  # from patchy-sim-writeup-plots.R
+	-ln -f -s sim-snapshots.tiff Fig2.tiff  # from patchy-sim-writeup-plots.R
+	-ln -f -s branching-concept.tiff  Fig3.tiff
+	-ln -f -s times-predicted-observed.tiff Fig4.tiff
+	-ln -s -f prob-mutation-compared.tiff Fig5.tiff
+	-ln -f -s sim-transit.tiff Fig6.tiff  # from patchy-sim-writeup-plots.R
+	-ln -f -s Lava_flow_mice_prob_parallel.tiff Fig7.tiff
+	-ln -f -s prob-establishment.tiff Fig8.tiff
+	-ln -f -s patchy-supp-info.pdf supp-text1.pdf
+	tar -cvzf supplement-scripts.tar.gz makefile *.R *.sh
+
+patchy-selection-paper-for-PLoS.dvi : patchy-selection-paper-for-PLoS.tex
+	while ( latex $<;  grep -q "Rerun to get" $(patsubst %.tex,%.log,$<) ) do true ; done
+
+patchy-selection-paper-for-PLoS.pdf : patchy-selection-paper-for-PLoS.dvi
+	dvipdf $<
 
 clean :
 	-rm -f *.aux
@@ -83,19 +102,19 @@ patchy-selection-review-responses.pdf : patchy-selection-paper-submission-figs.p
 
 # Submit: the paper without figures but lists of figure legends
 patchy-selection-paper-no-figs.pdf : patchy-selection-paper-submission-no-figs.pdf
-	pdfjam --outfile $@ $< 1-28
+	pdfjam --outfile $@ $< 1-27
 
 # Submit: the "appendix" text
 patchy-supp-info.pdf : patchy-selection-paper-submission-no-figs.pdf
-	pdfjam --outfile $@ $< 29-30
+	pdfjam --outfile $@ $< 28-29
 
 # Submit: table S1
 patchy-tab-S1.pdf : patchy-selection-paper-submission-no-figs.pdf
-	pdfjam --outfile $@ $< 39
+	pdfjam --outfile $@ $< 38
 
 # Submit: table S2
 patchy-tab-S2.pdf : patchy-selection-paper-submission-no-figs.pdf
-	pdfjam --outfile $@ $< 40
+	pdfjam --outfile $@ $< 39
 
 patchy-fig-S3.pdf : example-mutation-sims/18885-r1-501-sb0_01-sm-0_1-N1200-pophistory-run.pdf example-mutation-sims/56325-r1-501-sb0_01-sm-0_1-N600-pophistory-run.pdf example-mutation-sims/28432-r1-501-sb0_01-sm-0_1-N50-pophistory-run.pdf
 	pdfjam --outfile $@ $? --noautoscale false --nup 1x3
@@ -133,8 +152,10 @@ $(panmixia): Spatial_adaptation/panmixia.R
 	inkscape --without-gui --export-pdf=$@ $<
 
 %.eps : %.svg
-	inkscape --without-gui --export-eps=$@ $<
+	inkscape --without-gui -T --export-eps=$@ $<
 
 %.eps : %.pdf
-	inkscape --without-gui --export-eps=$@ $<
+	inkscape --without-gui -T --export-eps=$@ $<
 
+%.tiff : %.pdf
+	gs -dNOPAUSE -dBATCH -sDEVICE=tiff24nc -sCompression=lzw -r1200x1200  -sOutputFile="$@" $<
