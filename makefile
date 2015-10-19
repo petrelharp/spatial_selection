@@ -13,6 +13,12 @@ all : patchy figs
 
 patchy : $(PATCHY_TARGETS)
 
+patchy-selection-paper-for-PLoS.dvi : patchy-selection-paper-for-PLoS.tex
+	while ( latex $<;  grep -q "Rerun to get" $(patsubst %.tex,%.log,$<) ) do true ; done
+
+patchy-selection-paper-for-PLoS.pdf : patchy-selection-paper-for-PLoS.dvi
+	dvipdf $<
+
 clean :
 	-rm -f *.aux
 	-rm -f *.log
@@ -133,8 +139,8 @@ $(panmixia): Spatial_adaptation/panmixia.R
 	inkscape --without-gui --export-pdf=$@ $<
 
 %.eps : %.svg
-	inkscape --without-gui --export-eps=$@ $<
+	inkscape --without-gui -T --export-eps=$@ $<
 
 %.eps : %.pdf
-	inkscape --without-gui --export-eps=$@ $<
+	inkscape --without-gui -T --export-eps=$@ $<
 
