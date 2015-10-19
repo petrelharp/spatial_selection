@@ -5,13 +5,26 @@ sfigs = patchy-fig-S3.pdf patchy-fig-S4.pdf patchy-fig-S5.pdf patchy-fig-S6.pdf 
 PATCHY_FIGS = $(shell grep "^ *[^%].*includegr" patchy-selection-paper.tex | sed -e 's/.*{\([^}]*\).*/\1/' )
 PATCHY_EPS = $(patsubst %,%.eps,$(PATCHY_FIGS))
 SFIG_EPS = $(patsubst %.pdf,%.eps,$(sfigs))
+PATCHY_TIFF = $(patsubst %,%.tiff,$(PATCHY_FIGS))
 
-.PHONY : figs patchy clean
+.PHONY : figs patchy clean final
 
 all : patchy figs
 	# tar -cvzhf patchy-suppmat.tar.gz patchy-supp-info.pdf S*_Table.pdf S*_Figure.pdf
 
 patchy : $(PATCHY_TARGETS)
+
+final : patchy-selection-paper-for-PLoS.pdf $(PATCHY_TIFF)
+	-ln -f -s sim-occupation-freqs.tiff Fig1.tiff  # from patchy-sim-writeup-plots.R
+	-ln -f -s sim-snapshots.tiff Fig2.tiff  # from patchy-sim-writeup-plots.R
+	-ln -f -s branching-concept.tiff  Fig3.tiff
+	-ln -f -s times-predicted-observed.tiff Fig4.tiff
+	-ln -s -f prob-mutation-compared.tiff Fig5.tiff
+	-ln -f -s sim-transit.tiff Fig6.tiff  # from patchy-sim-writeup-plots.R
+	-ln -f -s Lava_flow_mice_prob_parallel.tiff Fig7.tiff
+	-ln -f -s prob-establishment.tiff Fig8.tiff
+	-ln -f -s patchy-supp-info.pdf supp-text1.pdf
+	tar -cvzf supplement-scripts.tar.gz makefile *.R *.sh
 
 patchy-selection-paper-for-PLoS.dvi : patchy-selection-paper-for-PLoS.tex
 	while ( latex $<;  grep -q "Rerun to get" $(patsubst %.tex,%.log,$<) ) do true ; done
@@ -144,3 +157,5 @@ $(panmixia): Spatial_adaptation/panmixia.R
 %.eps : %.pdf
 	inkscape --without-gui -T --export-eps=$@ $<
 
+%.tiff : %.pdf
+	gs -dNOPAUSE -dBATCH -sDEVICE=tiff24nc -sCompression=lzw -r1200x1200  -sOutputFile="$@" $<

@@ -252,14 +252,12 @@ underlying migration--selection equilibrium
 surrounding an already adapted patch,
 treating those rare families that reach new patches
 as spatial branching processes.
-A main result is that locally adapted alleles in different patches
-are likely to be of independent origin
-if the distance between the patches is larger than
-$(\sigma/s_m)\log(Cs_m/\mu)$, 
-where $\sigma$ is the dispersal distance, 
-$s_m$ is the selective disadvantage of these alleles between patches,
-$\mu$ is the mutation rate, 
-and $C$ depends on the probability of establishment and patch geometry.
+A main result is that patches further apart than a critical distance will
+likely evolve independent locally adapted alleles;
+this distance is proportional to the spatial scale of selection
+($\sigma/\sqrt{s_m}$, where $\sigma$ is the dispersal distance and
+$s_m$ is the selective disadvantage of these alleles between patches),
+and depends linearly on $\log(s_m/\mu)$, where $\mu$ is the mutation rate.
 This provides a way to understand the role of geographic separation between patches 
 in promoting convergent adaptation and the genomic signals it leaves behind.
 We illustrate these ideas using the convergent evolution of cryptic coloration in the rock pocket mouse, \textit{Chaetodipus intermedius}, as an empirical example.
@@ -1636,7 +1634,7 @@ well together \citep{Kondrashov:03}.
 \label{ss:simulations}
 
 First we briefly describe the simulations we used for illustration and validation
-(the \texttt{R} code used is provided as a supplement).
+(the \texttt{R} code used is provided in S1 Scripts and at \url{http://github.com/petrelharp/spatial_selection}).
 We simulated forward-time dynamics of the number of alleles of each type in a rectangular grid (either one- or two-dimensional) of demes with fixed size $N$.
 Each generation, each individual independently chose to reproduce or not with a probability $r$ depending on her type and location in the grid;
 locally beneficial alleles were more likely to reproduce.
@@ -2115,7 +2113,7 @@ Lower bounds could be obtained along similar lines.
 
 
 \textbf{
-Here we describe how to solve \eqref{eqn:radial_eqfreq_diffeq} exactly in one dimension,
+Description of how to solve \eqref{eqn:radial_eqfreq_diffeq} exactly in one dimension,
 i.e., the Fisher-KPP equation with piecewise constant selection.
 }
 % Let $p(t,x)$ be the proportion of the allele under spatially varying selection $s(x)$ in one dimension,
@@ -2237,34 +2235,158 @@ i.e., the Fisher-KPP equation with piecewise constant selection.
 %%%
 % Tables
 
+\subsection*{S1 Scripts}
+
+\textbf{Scripts used in producing this manuscript.}
+These can also be found at \url{http://github.com/petrelharp/spatial_selection}.
+
 \subsection*{S1 Table}
-\label{stab:mutation_params}
+ \label{stab:mutation_params}
 
 % table of parameters, produced by analyze-sims.R
 %\input{mutation-parameters-table.tex}
 
-\textbf{Parameter values used in estimates of mean time to adaptation by mutation of figure~\ref{fig:sim_times}.}
-All simulations also used a linear grid of 501 demes with a patch of 99 demes in the center, 
-the migration model described in \nameref{ss:simulations},
-$\mu=10^{-5}$, and $s_p=.0023$ (calculated as the growth rate as described in the text).
-$T_\text{adapt}$ is the mean time until 100 $B$ alleles were present in the patch,
-and $p_\text{adapted}$ is the proportion of the simulations that adapted by the 25,000 generations.
-The simulation began with no $B$ alleles.
 
-\subsection*{S1 Table}
-\label{stab:migration_params}
+% % latex table generated in R 3.1.2 by xtable 1.7-4 package
+% % Wed Dec 17 14:13:09 2014
+% % \begin{table}[ht]
+% \begin{center}
+% {\tiny
+% \begin{tabular}{|rrrrrrr||rrrrrrr|}
+%   \hline
+% $\mu$ & $\rho$ & $s_p$ & $s_m$ & $T_\text{adapt}$ & $p_\text{adapted}$ & n & $\mu$ & $\rho$ & $s_p$ & $s_m$ & $T_\text{adapt}$ & $p_\text{adapted}$ & n \\ 
+%   \hline
+% 1e-05 & 25 & 0.01 & -0.10 & 19630 & 0.06 & 100 & 1e-05 & 600 & 0.01 & -0.10 & 1082 & 1.00 & 40 \\ 
+%   1e-05 & 25 & 0.01 & -0.01 & 15533 & 0.55 & 100 & 1e-05 & 600 & 0.01 & -0.01 & 924 & 1.00 & 40 \\ 
+%   1e-05 & 25 & 0.01 & -0.00 & 14353 & 0.72 & 100 & 1e-05 & 600 & 0.01 & -0.01 & 828 & 1.00 & 40 \\ 
+%   1e-05 & 25 & 0.01 & -0.00 & 13282 & 0.74 & 100 & 1e-05 & 600 & 0.01 & -0.00 & 846 & 1.00 & 40 \\ 
+%   1e-05 & 50 & 0.01 & -0.10 & 11587 & 0.33 & 40 & 1e-05 & 600 & 0.01 & -0.00 & 966 & 1.00 & 40 \\ 
+%   1e-05 & 50 & 0.01 & -0.10 & 11586 & 0.38 & 40 & 1e-05 & 800 & 0.01 & -0.10 & 802 & 1.00 & 40 \\ 
+%   1e-05 & 50 & 0.01 & -0.01 & 9419 & 0.88 & 40 & 1e-05 & 800 & 0.01 & -0.10 & 1182 & 1.00 & 40 \\ 
+%   1e-05 & 50 & 0.01 & -0.01 & 8848 & 0.82 & 40 & 1e-05 & 800 & 0.01 & -0.01 & 846 & 1.00 & 40 \\ 
+%   1e-05 & 50 & 0.01 & -0.00 & 6529 & 0.95 & 40 & 1e-05 & 800 & 0.01 & -0.01 & 607 & 1.00 & 40 \\ 
+%   1e-05 & 50 & 0.01 & -0.00 & 9986 & 0.90 & 40 & 1e-05 & 800 & 0.01 & -0.00 & 646 & 1.00 & 40 \\ 
+%   1e-05 & 100 & 0.01 & -0.10 & 7425 & 0.91 & 316 & 1e-05 & 800 & 0.01 & -0.00 & 507 & 1.00 & 40 \\ 
+%   1e-06 & 100 & 0.01 & -0.10 & 21010 & 0.23 & 217 & 1e-05 & 1000 & 0.01 & -0.10 & 615 & 1.00 & 256 \\ 
+%   1e-05 & 100 & 0.01 & -0.03 & 6036 & 0.98 & 195 & 2.4e-06 & 1000 & 0.01 & -0.10 & 5309 & 0.96 & 257 \\ 
+%   1e-06 & 100 & 0.01 & -0.03 & 19859 & 0.31 & 194 & 1e-05 & 1000 & 0.01 & -0.03 & 523 & 1.00 & 194 \\ 
+%   1e-05 & 100 & 0.01 & -0.01 & 5408 & 0.98 & 315 & 1e-06 & 1000 & 0.01 & -0.03 & 6425 & 0.95 & 195 \\ 
+%   1e-06 & 100 & 0.01 & -0.01 & 20606 & 0.28 & 216 & 1e-05 & 1000 & 0.01 & -0.01 & 449 & 1.00 & 254 \\ 
+%   1e-05 & 100 & 0.01 & -0.00 & 4745 & 0.99 & 195 & 2.4e-06 & 1000 & 0.01 & -0.01 & 4806 & 0.96 & 256 \\ 
+%   1e-06 & 100 & 0.01 & -0.00 & 19564 & 0.33 & 195 & 1e-05 & 1000 & 0.01 & -0.00 & 460 & 1.00 & 193 \\ 
+%   1e-05 & 100 & 0.01 & -0.00 & 4894 & 0.99 & 315 & 1e-06 & 1000 & 0.01 & -0.00 & 5203 & 0.98 & 194 \\ 
+%   1e-06 & 100 & 0.01 & -0.00 & 19417 & 0.33 & 216 & 1e-05 & 1000 & 0.01 & -0.00 & 444 & 1.00 & 255 \\ 
+%   1e-05 & 100 & 0.01 & -0.00 & 4940 & 0.99 & 316 & 2.4e-06 & 1000 & 0.01 & -0.00 & 4037 & 1.00 & 257 \\ 
+%   1e-06 & 100 & 0.01 & -0.00 & 18025 & 0.40 & 217 & 1e-05 & 1000 & 0.01 & -0.00 & 404 & 1.00 & 216 \\ 
+%   1e-05 & 200 & 0.01 & -0.10 & 4296 & 0.97 & 40 & 1e-06 & 1000 & 0.01 & -0.00 & 4567 & 1.00 & 216 \\ 
+%   1e-05 & 200 & 0.01 & -0.10 & 3736 & 1.00 & 40 & 1e-05 & 1200 & 0.01 & -0.10 & 501 & 1.00 & 40 \\ 
+%   1e-05 & 200 & 0.01 & -0.01 & 2943 & 1.00 & 40 & 1e-05 & 1200 & 0.01 & -0.10 & 460 & 1.00 & 40 \\ 
+%   1e-05 & 200 & 0.01 & -0.01 & 2402 & 1.00 & 40 & 1e-05 & 1200 & 0.01 & -0.01 & 336 & 1.00 & 40 \\ 
+%   1e-05 & 200 & 0.01 & -0.00 & 1899 & 1.00 & 40 & 1e-05 & 1200 & 0.01 & -0.01 & 431 & 1.00 & 40 \\ 
+%   1e-05 & 200 & 0.01 & -0.00 & 1992 & 1.00 & 40 & 1e-05 & 1200 & 0.01 & -0.00 & 390 & 1.00 & 40 \\ 
+%   1e-05 & 400 & 0.01 & -0.10 & 1740 & 1.00 & 100 & 1e-05 & 1200 & 0.01 & -0.00 & 372 & 1.00 & 40 \\ 
+%   1e-05 & 400 & 0.01 & -0.01 & 1471 & 1.00 & 100 & 1e-05 & 1600 & 0.01 & -0.10 & 299 & 1.00 & 100 \\ 
+%   1e-05 & 400 & 0.01 & -0.00 & 1446 & 1.00 & 100 & 1e-05 & 1600 & 0.01 & -0.01 & 462 & 0.99 & 100 \\ 
+%   1e-05 & 400 & 0.01 & -0.00 & 1224 & 1.00 & 100 & 1e-05 & 1600 & 0.01 & -0.00 & 241 & 1.00 & 100 \\ 
+%   1e-05 & 600 & 0.01 & -0.10 & 1276 & 1.00 & 40 & 1e-05 & 1600 & 0.01 & -0.00 & 274 & 1.00 & 100 \\ 
+%    \hline
+% \end{tabular}
+% }
+%\caption
+{
+    \textbf{Parameter values used in estimates of mean time to adaptation by mutation of figure~\ref{fig:sim_times}.}
+            All simulations also used a linear grid of 501 demes with a patch of 99 demes in the center, 
+            the migration model described in \nameref{ss:simulations},
+            $\mu=10^{-5}$, and $s_p=.0023$ (calculated as the growth rate as described in the text).
+            $T_\text{adapt}$ is the mean time until 100 $B$ alleles were present in the patch,
+            and $p_\text{adapted}$ is the proportion of the simulations that adapted by the 25,000 generations.
+            The simulation began with no $B$ alleles.
+            } 
+% \label{stab:mutation_params}
+% \end{center}
+%\end{table}
+
+\subsection*{S2 Table}
+ \label{stab:migration_params}
 
 % table of parameters, produced by analyze-sims.R
 %\input{migration-parameters-table.tex}
 
-\textbf{Parameter values used in estimates of mean time to adaptation by migration of figure~\ref{fig:sim_times}.}
-All simulations also used a linear grid of 501 demes with two patches of 99 demes each,
-separated by $R$ demes in the center;
-the migration model described in \nameref{ss:simulations},
-$\mu=10^{-5}$, and $s_p=.0023$ (calculated as the growth rate as described in the text).
-$T_\text{adapt}$ is the mean time until 100 $B$ alleles were present in the patch,
-and $p_\text{adapted}$ is the proportion of the simulations that adapted by the 25,000 generations.
-At the start of the simulation, one patch was initialized with a frequency of 0.8 $B$ alleles, which were absent elsewhere.
+
+% latex table generated in R 3.1.2 by xtable 1.7-4 package
+% Wed Dec 17 14:14:44 2014
+%\begin{table}[ht]
+%\begin{center}
+%{\tiny
+%\begin{tabular}{|rrrrrrr||rrrrrrr|}
+%  \hline
+%R & $\rho$ & $s_p$ & $s_m$ & $T_\text{adapt}$ & $p_\text{adapted}$ & n & R & $\rho$ & $s_p$ & $s_m$ & $T_\text{adapt}$ & $p_\text{adapted}$ & n \\ 
+%  \hline
+%100 & 100 & 0.01 & -1e-01 & 24975 & 0.00 & 300 & 60 & 1000 & 0.01 & -3e-02 & 22224 & 0.21 & 200 \\ 
+%  10 & 100 & 0.01 & -1e-01 & 24975 & 0.00 & 40 & 100 & 1000 & 0.01 & -1e-02 & 18098 & 0.55 & 299 \\ 
+%  120 & 100 & 0.01 & -1e-01 & 24975 & 0.00 & 295 & 10 & 1000 & 0.01 & -1e-02 & 14 & 1.00 & 100 \\ 
+%  160 & 100 & 0.01 & -1e-01 & 24975 & 0.00 & 40 & 120 & 1000 & 0.01 & -1e-02 & 23242 & 0.14 & 297 \\ 
+%  20 & 100 & 0.01 & -1e-01 & 24975 & 0.00 & 40 & 160 & 1000 & 0.01 & -1e-02 & 24762 & 0.01 & 100 \\ 
+%  40 & 100 & 0.01 & -1e-01 & 24975 & 0.00 & 40 & 20 & 1000 & 0.01 & -1e-02 & 136 & 1.00 & 100 \\ 
+%  60 & 100 & 0.01 & -1e-01 & 24975 & 0.00 & 300 & 40 & 1000 & 0.01 & -1e-02 & 874 & 1.00 & 99 \\ 
+%  80 & 100 & 0.01 & -1e-01 & 24975 & 0.00 & 40 & 60 & 1000 & 0.01 & -1e-02 & 3485 & 1.00 & 300 \\ 
+%  100 & 100 & 0.01 & -3e-02 & 24975 & 0.00 & 200 & 80 & 1000 & 0.01 & -1e-02 & 9204 & 0.96 & 100 \\ 
+%  120 & 100 & 0.01 & -3e-02 & 24975 & 0.00 & 199 & 100 & 1000 & 0.01 & -3e-03 & 4168 & 1.00 & 200 \\ 
+%  60 & 100 & 0.01 & -3e-02 & 24903 & 0.01 & 200 & 120 & 1000 & 0.01 & -3e-03 & 6304 & 1.00 & 200 \\ 
+%  100 & 100 & 0.01 & -1e-02 & 24354 & 0.04 & 300 & 60 & 1000 & 0.01 & -3e-03 & 1273 & 1.00 & 199 \\ 
+%  10 & 100 & 0.01 & -1e-02 & 1705 & 0.95 & 40 & 100 & 1000 & 0.01 & -1e-03 & 2813 & 1.00 & 299 \\ 
+%  120 & 100 & 0.01 & -1e-02 & 24802 & 0.01 & 299 & 10 & 1000 & 0.01 & -1e-03 & 12 & 1.00 & 100 \\ 
+%  160 & 100 & 0.01 & -1e-02 & 24975 & 0.00 & 40 & 120 & 1000 & 0.01 & -1e-03 & 4002 & 1.00 & 300 \\ 
+%  20 & 100 & 0.01 & -1e-02 & 3601 & 0.95 & 40 & 160 & 1000 & 0.01 & -1e-03 & 7386 & 1.00 & 100 \\ 
+%  40 & 100 & 0.01 & -1e-02 & 9463 & 0.88 & 40 & 20 & 1000 & 0.01 & -1e-03 & 121 & 1.00 & 100 \\ 
+%  60 & 100 & 0.01 & -1e-02 & 18674 & 0.45 & 299 & 40 & 1000 & 0.01 & -1e-03 & 507 & 1.00 & 100 \\ 
+%  80 & 100 & 0.01 & -1e-02 & 23899 & 0.12 & 40 & 60 & 1000 & 0.01 & -1e-03 & 1115 & 1.00 & 300 \\ 
+%  100 & 100 & 0.01 & -3e-03 & 14601 & 0.80 & 200 & 80 & 1000 & 0.01 & -1e-03 & 1941 & 1.00 & 100 \\ 
+%  120 & 100 & 0.01 & -3e-03 & 18645 & 0.53 & 199 & 100 & 1000 & 0.01 & -1e-04 & 2528 & 1.00 & 300 \\ 
+%  60 & 100 & 0.01 & -3e-03 & 5424 & 0.98 & 200 & 10 & 1000 & 0.01 & -1e-04 & 11 & 1.00 & 99 \\ 
+%  100 & 100 & 0.01 & -1e-03 & 8992 & 0.96 & 299 & 120 & 1000 & 0.01 & -1e-04 & 3590 & 1.00 & 298 \\ 
+%  10 & 100 & 0.01 & -1e-03 & 522 & 1.00 & 40 & 160 & 1000 & 0.01 & -1e-04 & 5648 & 1.00 & 100 \\ 
+%  120 & 100 & 0.01 & -1e-03 & 11375 & 0.93 & 300 & 20 & 1000 & 0.01 & -1e-04 & 122 & 1.00 & 100 \\ 
+%  160 & 100 & 0.01 & -1e-03 & 16930 & 0.68 & 40 & 40 & 1000 & 0.01 & -1e-04 & 498 & 1.00 & 100 \\ 
+%  20 & 100 & 0.01 & -1e-03 & 1518 & 0.97 & 40 & 60 & 1000 & 0.01 & -1e-04 & 1051 & 1.00 & 298 \\ 
+%  40 & 100 & 0.01 & -1e-03 & 2234 & 1.00 & 40 & 80 & 1000 & 0.01 & -1e-04 & 1796 & 1.00 & 100 \\ 
+%  60 & 100 & 0.01 & -1e-03 & 4277 & 0.98 & 300 & 10 & 4000 & 0.01 & -1e-01 & 0 & 1.00 & 20 \\ 
+%  80 & 100 & 0.01 & -1e-03 & 5328 & 1.00 & 40 & 160 & 4000 & 0.01 & -1e-01 & 24975 & 0.00 & 20 \\ 
+%  100 & 100 & 0.01 & -1e-04 & 6867 & 0.99 & 299 & 20 & 4000 & 0.01 & -1e-01 & 4406 & 1.00 & 20 \\ 
+%  10 & 100 & 0.01 & -1e-04 & 461 & 1.00 & 40 & 40 & 4000 & 0.01 & -1e-01 & 24975 & 0.00 & 20 \\ 
+%  120 & 100 & 0.01 & -1e-04 & 9347 & 0.99 & 300 & 80 & 4000 & 0.01 & -1e-01 & 24975 & 0.00 & 20 \\ 
+%  160 & 100 & 0.01 & -1e-04 & 12731 & 0.90 & 40 & 10 & 4000 & 0.01 & -1e-02 & 3746 & 0.85 & 20 \\ 
+%  20 & 100 & 0.01 & -1e-04 & 860 & 1.00 & 40 & 160 & 4000 & 0.01 & -1e-02 & 24975 & 0.00 & 20 \\ 
+%  40 & 100 & 0.01 & -1e-04 & 2031 & 1.00 & 40 & 20 & 4000 & 0.01 & -1e-02 & 58 & 1.00 & 20 \\ 
+%  60 & 100 & 0.01 & -1e-04 & 3529 & 0.99 & 300 & 40 & 4000 & 0.01 & -1e-02 & 362 & 1.00 & 20 \\ 
+%  80 & 100 & 0.01 & -1e-04 & 4839 & 1.00 & 40 & 80 & 4000 & 0.01 & -1e-02 & 4025 & 1.00 & 20 \\ 
+%  100 & 1000 & 0.01 & -1e-01 & 24975 & 0.00 & 300 & 10 & 4000 & 0.01 & -1e-03 & 6244 & 0.75 & 20 \\ 
+%  10 & 1000 & 0.01 & -1e-01 & 1004 & 0.99 & 100 & 160 & 4000 & 0.01 & -1e-03 & 4399 & 1.00 & 20 \\ 
+%  120 & 1000 & 0.01 & -1e-01 & 24975 & 0.00 & 298 & 20 & 4000 & 0.01 & -1e-03 & 52 & 1.00 & 20 \\ 
+%  160 & 1000 & 0.01 & -1e-01 & 24975 & 0.00 & 100 & 40 & 4000 & 0.01 & -1e-03 & 281 & 1.00 & 20 \\ 
+%  20 & 1000 & 0.01 & -1e-01 & 18403 & 0.42 & 100 & 80 & 4000 & 0.01 & -1e-03 & 1209 & 1.00 & 20 \\ 
+%  40 & 1000 & 0.01 & -1e-01 & 24965 & 0.00 & 100 & 10 & 4000 & 0.01 & -1e-04 & 3746 & 0.85 & 20 \\ 
+%  60 & 1000 & 0.01 & -1e-01 & 24975 & 0.00 & 300 & 160 & 4000 & 0.01 & -1e-04 & 3798 & 1.00 & 20 \\ 
+%  80 & 1000 & 0.01 & -1e-01 & 24975 & 0.00 & 100 & 20 & 4000 & 0.01 & -1e-04 & 52 & 1.00 & 20 \\ 
+%  100 & 1000 & 0.01 & -3e-02 & 24975 & 0.00 & 200 & 40 & 4000 & 0.01 & -1e-04 & 279 & 1.00 & 20 \\ 
+%  120 & 1000 & 0.01 & -3e-02 & 24975 & 0.00 & 200 & 80 & 4000 & 0.01 & -1e-04 & 1039 & 1.00 & 20 \\ 
+%   \hline
+%\end{tabular}
+%}
+%%\caption
+{
+    \textbf{Parameter values used in estimates of mean time to adaptation by migration of figure~\ref{fig:sim_times}.}
+            All simulations also used a linear grid of 501 demes with two patches of 99 demes each,
+            separated by $R$ demes in the center;
+            the migration model described in \nameref{ss:simulations},
+            $\mu=10^{-5}$, and $s_p=.0023$ (calculated as the growth rate as described in the text).
+            $T_\text{adapt}$ is the mean time until 100 $B$ alleles were present in the patch,
+            and $p_\text{adapted}$ is the proportion of the simulations that adapted by the 25,000 generations.
+            At the start of the simulation, one patch was initialized with a frequency of 0.8 $B$ alleles, which were absent elsewhere.
+            } 
+% \label{stab:migration_params}
+% \end{center}
+%\end{table}
 
 %%%
 % Supplementary Figures
@@ -2473,7 +2595,6 @@ with $s_m=0.0001$, $R=80$, $\sigma\approx 1$, and $\rho$ varying.}
 %   } \label{sfig:sims_8}
 % \end{sfigure}
 
-\subsection*{Text S1}
 
 \section*{Acknowledgements}
 We would like to heartily thank Joachim Hermisson, Richard Neher, and an anonymous reviewer
@@ -2486,558 +2607,481 @@ for helpful comments and discussion of the manuscript.
 \nolinenumbers
 
 % \bibliography{standing_patches_refs}
-\begin{thebibliography}{68}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\url}[1]{\texttt{#1}}
-\expandafter\ifx\csname urlstyle\endcsname\relax
-  \providecommand{\doi}[1]{doi: #1}\else
-  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+\begin{thebibliography}{10}
 
-\bibitem[Aldous(1985)]{aldous1985exchangeability}
-D.~J. Aldous.
-\newblock Exchangeability and related topics.
-\newblock In \emph{École d'été de probabilités de {S}aint-{F}lour,
-  {XIII}---1983}, volume 1117 of \emph{Lecture Notes in Math.}, pages 1--198.
-  Springer, Berlin, 1985.
-\newblock URL
-  \url{http://www.springerlink.com/content/c31v17440871210x/fulltext.pdf}.
+\bibitem{stern2013genetic}
+Stern DL.
+\newblock The genetic causes of convergent evolution.
+\newblock Nat Rev Genet. 2013 Nov;14(11):751--764.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/24105273}.
 
-\bibitem[Allred and Beck(1963)]{allred1963range}
-D.~M. Allred and D.~E. Beck.
-\newblock Range of movement and dispersal of some rodents at the {Nevada}
-  atomic test site.
-\newblock \emph{Journal of Mammalogy}, 44\penalty0 (2):\penalty0 pp. 190--200,
-  1963.
-\newblock ISSN 00222372.
-\newblock URL \url{http://www.jstor.org/stable/1377452}.
+\bibitem{zhen2012parallel}
+Zhen Y, Aardema ML, Medina EM, Schumer M, Andolfatto P.
+\newblock Parallel Molecular Evolution in an Herbivore Community.
+\newblock Science. 2012;337(6102):1634--1637.
+\newblock Available from:
+  \url{http://www.sciencemag.org/content/337/6102/1634.abstract}.
 
-\bibitem[Arendt and Reznick(2008)]{Arendt:08}
-J.~Arendt and D.~Reznick.
+\bibitem{martin2013repeated}
+Martin A, Orgogozo V.
+\newblock The loci of repeated evolution: a catalog of genetic hotspots of
+  phenotypic variation.
+\newblock Evolution. 2013;67(5):1235--1250.
+\newblock Available from: \url{http://dx.doi.org/10.1111/evo.12081}.
+
+\bibitem{Arendt:08}
+Arendt J, Reznick D.
 \newblock Convergence and parallelism reconsidered: what have we learned about
   the genetics of adaptation?
-\newblock \emph{Trends Ecol Evol}, 23\penalty0 (1):\penalty0 26--32, Jan. 2008.
-\newblock \doi{10.1016/j.tree.2007.09.011}.
+\newblock Trends Ecol Evol. 2008 Jan;23(1):26--32.
 
-\bibitem[Barton(1979)]{barton1979geneflow}
-N.~Barton.
-\newblock Gene flow past a cline.
-\newblock \emph{Heredity}, 43\penalty0 (3):\penalty0 333--339, Dec. 1979.
-\newblock ISSN 0018-067X.
-\newblock URL \url{http://dx.doi.org/10.1038/hdy.1979.86}.
+\bibitem{softsweepsII}
+Pennings PS, Hermisson J.
+\newblock Soft Sweeps {II} - Molecular Population Genetics of Adaptation from
+  Recurrent Mutation or Migration.
+\newblock Mol Biol Evol. 2006;p. msj117.
+\newblock Available from:
+  \url{http://mbe.oxfordjournals.org/cgi/content/abstract/msj117v1}.
 
-\bibitem[Barton(1987)]{barton1987establishment}
-N.~H. Barton.
-\newblock The probability of establishment of an advantageous mutant in a
-  subdivided population.
-\newblock \emph{Genetics Research}, 50\penalty0 (1):\penalty0 35--40, 1987.
-\newblock \doi{10.1017/S0016672300023314}.
-\newblock URL \url{http://dx.doi.org/10.1017/S0016672300023314}.
+\bibitem{ralph2010parallel}
+Ralph P, Coop G.
+\newblock Parallel Adaptation: One or Many Waves of Advance of an Advantageous
+  Allele?
+\newblock Genetics. 2010;186(2):647--668.
+\newblock Available from:
+  \url{http://www.genetics.org/cgi/content/abstract/186/2/647}.
 
-\bibitem[Barton(2000)]{barton2000genetic}
-N.~H. Barton.
-\newblock Genetic hitchhiking.
-\newblock \emph{Philos Trans R Soc Lond B Biol Sci}, 355\penalty0
-  (1403):\penalty0 1553--1562, Nov. 2000.
-\newblock \doi{10.1098/rstb.2000.0716}.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1692896/}.
+\bibitem{orr2001sieve}
+Orr HA, Betancourt AJ.
+\newblock Haldane's sieve and adaptation from the standing genetic variation.
+\newblock Genetics. 2001 Feb;157(2):875--884.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/11157004}.
 
-\bibitem[Barton et~al.(2013)Barton, Etheridge, Kelleher, and
-  Véber]{barton2013genetic}
-N.~H. Barton, A.~M. Etheridge, J.~Kelleher, and A.~Véber.
-\newblock Genetic hitchhiking in spatially extended populations.
-\newblock \emph{Theoretical Population Biology}, \penalty0 (0):\penalty0 --,
-  2013.
-\newblock ISSN 0040-5809.
-\newblock \doi{10.1016/j.tpb.2012.12.001}.
-\newblock URL
-  \url{http://www.sciencedirect.com/science/article/pii/S0040580912001359}.
-
-\bibitem[Benson(1933)]{benson1933concealing}
-S.~B. Benson.
-\newblock \emph{Concealing coloration among some desert rodents of the
-  southwestern United States}.
-\newblock Number v. 40 in University of California publications in zoology.
-  University of California Press, 1933.
-\newblock URL \url{http://books.google.com/books?id=Lis-AQAAIAAJ}.
-
-\bibitem[Borodin and Salminen(2002)]{borodin2002handbook}
-A.~N. Borodin and P.~Salminen.
-\newblock \emph{Handbook of Brownian motion: facts and formulae}.
-\newblock Springer, 2002.
-
-\bibitem[Cantrell and Cosner(1989)]{cantrell1989diffusive}
-R.~S. Cantrell and C.~Cosner.
-\newblock Diffusive logistic equations with indefinite weights: population
-  models in disrupted environments.
-\newblock \emph{Proceedings of the Royal Society of Edinburgh, Section: A
-  Mathematics}, 112\penalty0 (3-4):\penalty0 293--318, 0 1989.
-\newblock ISSN 1473-7124.
-\newblock \doi{10.1017/S030821050001876X}.
-\newblock URL \url{http://journals.cambridge.org/article_S030821050001876X}.
-
-\bibitem[Cantrell and Cosner(1991)]{cantrell1991diffusive}
-R.~S. Cantrell and C.~Cosner.
-\newblock Diffusive logistic equations with indefinite weights: population
-  models in disrupted environments. {II}.
-\newblock \emph{SIAM J. Math. Anal.}, 22\penalty0 (4):\penalty0 1043--1064,
-  1991.
-\newblock ISSN 0036-1410.
-\newblock \doi{10.1137/0522068}.
-\newblock URL \url{http://dx.doi.org/10.1137/0522068}.
-
-\bibitem[Censky et~al.(1998)Censky, Hodge, and Dudley]{censky1998overwater}
-E.~J. Censky, K.~Hodge, and J.~Dudley.
-\newblock Over-water dispersal of lizards due to hurricanes.
-\newblock \emph{Nature}, 395\penalty0 (6702):\penalty0 556--556, Oct. 1998.
-\newblock ISSN 00280836.
-\newblock URL \url{http://dx.doi.org/10.1038/26886}.
-
-\bibitem[Cherry and Wakeley(2003)]{cherry2003diffusion}
-J.~L. Cherry and J.~Wakeley.
-\newblock A diffusion approximation for selection and drift in a subdivided
-  population.
-\newblock \emph{Genetics}, 163\penalty0 (1):\penalty0 421--428, Jan. 2003.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/12586727}.
-
-\bibitem[Conley(1975)]{conley1975application}
-C.~Conley.
-\newblock An application of {Wazewski}'s method to a non-linear boundary value
-  problem which arises in population genetics.
-\newblock \emph{Journal of Mathematical Biology}, 2\penalty0 (3):\penalty0
-  241--249, 1975.
-\newblock ISSN 0303-6812.
-\newblock \doi{10.1007/BF00277153}.
-\newblock URL \url{http://dx.doi.org/10.1007/BF00277153}.
-
-\bibitem[Dawson(1993)]{dawson1993measurevalued}
-D.~A. Dawson.
-\newblock Measure-valued {Markov} processes.
-\newblock In \emph{École d'Été de Probabilités de Saint-Flour XXI---1991},
-  volume 1541 of \emph{Lecture Notes in Math.}, pages 1--260. Springer, Berlin,
-  1993.
-
-\bibitem[Dice(1940)]{dice1940ecologic}
-L.~R. Dice.
-\newblock Ecologic and genetic variability within species of
-  \textit{{Peromyscus}}.
-\newblock \emph{The American Naturalist}, 74\penalty0 (752):\penalty0 pp.
-  212--221, 1940.
-\newblock ISSN 00030147.
-\newblock URL \url{http://www.jstor.org/stable/2457573}.
-
-\bibitem[Dice and Blossom(1937)]{DiceBlossom1937}
-L.~R. Dice and P.~M. Blossom.
-\newblock \emph{Studies of Mammalian Ecology in Southwestern North America With
-  Special Attention to the Colors of Desert Mammals}.
-\newblock Carnegie Institution, 1937.
-
-\bibitem[Donnelly and Joyce(1989)]{donnelly1989continuity}
-P.~Donnelly and P.~Joyce.
-\newblock Continuity and weak convergence of ranked and size-biased
-  permutations on the infinite simplex.
-\newblock \emph{Stochastic Process. Appl.}, 31\penalty0 (1):\penalty0 89--103,
-  1989.
-\newblock ISSN 0304-4149.
-\newblock URL
-  \url{http://www.sciencedirect.com/science/article/pii/030441498990104X}.
-
-\bibitem[Etheridge(2000)]{etheridge2000introduction}
-A.~M. Etheridge.
-\newblock \emph{An introduction to superprocesses}, volume~20 of
-  \emph{University Lecture Series}.
-\newblock American Mathematical Society, Providence, RI, 2000.
-\newblock ISBN 0-8218-2706-5.
-
-\bibitem[Fisher(1937)]{fisher1937wave}
-R.~Fisher.
-\newblock {The wave of advance of advantageous genes}.
-\newblock \emph{Ann. Eugenics}, 7:\penalty0 353--369, 1937.
-\newblock URL
-  \url{http://digital.library.adelaide.edu.au/coll/special/fisher/152.pdf}.
-
-\bibitem[Fisher(1930)]{fisher1930genetical}
-R.~A. Fisher.
-\newblock \emph{The genetical theory of natural selection}.
-\newblock Oxford University Press, Oxford, 1930.
-\newblock ISBN 0-19-850440-3.
-\newblock URL \url{http://www.archive.org/details/geneticaltheoryo031631mbp}.
-
-\bibitem[Fisher(1950)]{fisher1950frequencies}
-R.~A. Fisher.
-\newblock Gene frequencies in a cline determined by selection and diffusion.
-\newblock \emph{Biometrics}, 6\penalty0 (4):\penalty0 pp. 353--361, 1950.
-\newblock ISSN 0006341X.
-\newblock URL \url{http://www.jstor.org/stable/3001780}.
-
-\bibitem[French et~al.(1968)French, Tagami, and Hayden]{french1968dispersal}
-N.~R. French, T.~Y. Tagami, and P.~Hayden.
-\newblock Dispersal in a population of desert rodents.
-\newblock \emph{Journal of Mammalogy}, 49\penalty0 (2):\penalty0 pp. 272--280,
-  1968.
-\newblock ISSN 00222372.
-\newblock URL \url{http://www.jstor.org/stable/1377984}.
-
-\bibitem[Geiger(1999)]{geiger1999elementary}
-J.~Geiger.
-\newblock Elementary new proofs of classical limit theorems for
-  {Galton}-{Watson} processes.
-\newblock \emph{Journal of Applied Probability}, 36\penalty0 (2):\penalty0 pp.
-  301--309, 1999.
-\newblock URL \url{http://www.jstor.org/stable/3215457}.
-
-\bibitem[Gradshteyn and Ryzhik(2007)]{gradshteyn2007table}
-I.~S. Gradshteyn and I.~M. Ryzhik.
-\newblock \emph{Table of integrals, series, and products}.
-\newblock Elsevier/Academic Press, Amsterdam, seventh edition, 2007.
-\newblock ISBN 978-0-12-373637-6; 0-12-373637-4.
-\newblock Translated from the Russian, Translation edited and with a preface by
-  Alan Jeffrey and Daniel Zwillinger.
-
-\bibitem[Haldane(1927)]{haldane1927mathematical}
-J.~B.~S. Haldane.
-\newblock A mathematical theory of natural and artificial selection, part {V}:
-  Selection and mutation.
-\newblock \emph{Mathematical Proceedings of the Cambridge Philosophical
-  Society}, 23\penalty0 (07):\penalty0 838--844, 7 1927.
-\newblock ISSN 1469-8064.
-\newblock \doi{10.1017/S0305004100015644}.
-\newblock URL \url{http://journals.cambridge.org/article_S0305004100015644}.
-
-\bibitem[Haldane(1948)]{haldane1948theory}
-J.~B.~S. Haldane.
-\newblock The theory of a cline.
-\newblock \emph{J Genet}, 48\penalty0 (3):\penalty0 277--284, Jan. 1948.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/18905075}.
-
-\bibitem[Hallatschek and Fisher(2014)]{hallatschek2014acceleration}
-O.~Hallatschek and D.~S. Fisher.
-\newblock Acceleration of evolutionary spread by long-range dispersal.
-\newblock \emph{Proc Natl Acad Sci U S A}, 111\penalty0 (46):\penalty0
-  4911--4919, Nov. 2014.
-\newblock \doi{10.1073/pnas.1404663111}.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/25368183}.
-
-\bibitem[Hermisson and Pennings(2005)]{softsweepsI}
-J.~Hermisson and P.~S. Pennings.
+\bibitem{softsweepsI}
+Hermisson J, Pennings PS.
 \newblock Soft sweeps: molecular population genetics of adaptation from
   standing genetic variation.
-\newblock \emph{Genetics}, 169\penalty0 (4):\penalty0 2335--2352, Apr. 2005.
-\newblock \doi{10.1534/genetics.104.036947}.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/15716498}.
+\newblock Genetics. 2005 Apr;169(4):2335--2352.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/15716498}.
 
-\bibitem[Hoekstra(2006)]{Hoekstra:06}
-H.~E. Hoekstra.
-\newblock {Genetics, development and evolution of adaptive pigmentation in
-  vertebrates}.
-\newblock \emph{Heredity (Edinb)}, 97\penalty0 (3):\penalty0 222--234, Sep
-  2006.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/16823403}.
+\bibitem{slatkin1973geneflow}
+Slatkin M.
+\newblock Gene Flow and Selection in a Cline.
+\newblock Genetics. 1973;75(4):733--756.
+\newblock Available from:
+  \url{http://www.genetics.org/cgi/content/abstract/75/4/733}.
 
-\bibitem[Hoekstra and Nachman(2003)]{hoekstra2003different}
-H.~E. Hoekstra and M.~W. Nachman.
+\bibitem{kruckeberg1951intraspecific}
+Kruckeberg AR.
+\newblock Intraspecific Variability in the Response of Certain Native Plant
+  Species to Serpentine Soil.
+\newblock American Journal of Botany. 1951;38(6):pp. 408--419.
+\newblock Available from: \url{http://www.jstor.org/stable/2438248}.
+
+\bibitem{macnair1991evolution}
+Macnair MR.
+\newblock Why the evolution of resistance to anthropogenic toxins normally
+  involves major gene changes: the limits to natural selection.
+\newblock Genetica. 1991;84(3):213--219.
+\newblock Available from: \url{http://dx.doi.org/10.1007/BF00127250}.
+
+\bibitem{schat1996identical}
+Schat H, Vooijs R, Kuiper E.
+\newblock Identical Major Gene Loci for Heavy Metal Tolerances that Have
+  Independently Evolved in Different Local Populations and Subspecies of
+  \textit{{Silene} vulgaris}.
+\newblock Evolution. 1996;50(5):pp. 1888--1895.
+\newblock Available from: \url{http://www.jstor.org/stable/2410747}.
+
+\bibitem{turner2010serpentine}
+Turner TL, Bourne EC, Von~Wettberg EJ, Hu TT, Nuzhdin SV.
+\newblock Population resequencing reveals local adaptation of
+  \textit{{Arabidopsis} lyrata} to serpentine soils.
+\newblock Nat Genet. 2010 Jan;42(3):260--3.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/20101244}.
+
+\bibitem{benson1933concealing}
+Benson SB.
+\newblock Concealing coloration among some desert rodents of the southwestern
+  United States.
+\newblock No. v. 40 in University of California publications in zoology.
+  University of California Press; 1933.
+\newblock Available from: \url{http://books.google.com/books?id=Lis-AQAAIAAJ}.
+
+\bibitem{DiceBlossom1937}
+Dice LR, Blossom PM.
+\newblock Studies of Mammalian Ecology in Southwestern North America With
+  Special Attention to the Colors of Desert Mammals.
+\newblock Carnegie Institution; 1937.
+
+\bibitem{kaufman1974adaptive}
+Kaufman DW.
+\newblock Adaptive Coloration in \textit{{Peromyscus} polionotus}: Experimental
+  Selection by Owls.
+\newblock Journal of Mammalogy. 1974;55(2):pp. 271--283.
+\newblock Available from: \url{http://www.jstor.org/stable/1378997}.
+
+\bibitem{hoekstra2003different}
+Hoekstra HE, Nachman MW.
 \newblock Different genes underlie adaptive melanism in different populations
   of rock pocket mice.
-\newblock \emph{Mol. Ecol.}, 12:\penalty0 1185--1194, May 2003.
-\newblock URL
+\newblock Mol Ecol. 2003 May;12:1185--1194.
+\newblock Available from:
   \url{http://www3.interscience.wiley.com/journal/118890526/abstract}.
 
-\bibitem[Hoekstra et~al.(2004)Hoekstra, Drumm, and
-  Nachman]{hoekstra2004ecological}
-H.~E. Hoekstra, K.~E. Drumm, and M.~W. Nachman.
-\newblock Ecological genetics of adaptive color polymorphism in pocket mice:
-  geographic variation in selected and neutral genes.
-\newblock \emph{Evolution}, 58\penalty0 (6):\penalty0 1329--1341, June 2004.
-\newblock URL
-  \url{http://onlinelibrary.wiley.com/doi/10.1111/j.0014-3820.2004.tb01711.x/abstract}.
+\bibitem{dice1940ecologic}
+Dice LR.
+\newblock Ecologic and Genetic Variability within Species of
+  \textit{{Peromyscus}}.
+\newblock The American Naturalist. 1940;74(752):pp. 212--221.
+\newblock Available from: \url{http://www.jstor.org/stable/2457573}.
 
-\bibitem[Hoekstra et~al.(2005)Hoekstra, Krenz, and Nachman]{hoekstra2004local}
-H.~E. Hoekstra, J.~G. Krenz, and M.~W. Nachman.
-\newblock Local adaptation in the rock pocket mouse (\textit{{Chaetodipus}
-  intermedius}): natural selection and phylogenetic history of populations.
-\newblock \emph{Heredity}, 94\penalty0 (2):\penalty0 217--228, Nov. 2005.
-\newblock ISSN 0018067X.
-\newblock URL \url{http://dx.doi.org/10.1038/sj.hdy.6800600}.
+\bibitem{steiner2009genetic}
+Steiner CC, Rompler H, Boettger LM, Schoneberg T, Hoekstra HE.
+\newblock The Genetic Basis of Phenotypic Convergence in Beach Mice: Similar
+  Pigment Patterns but Different Genes.
+\newblock Mol Biol Evol. 2009;26(1):35--45.
+\newblock Available from:
+  \url{http://mbe.oxfordjournals.org/cgi/content/abstract/26/1/35}.
 
-\bibitem[Jagers(1975)]{jagers1975branching}
-P.~Jagers.
-\newblock \emph{Branching processes with biological applications}.
-\newblock Wiley Series in Probability and Statistics: Applied Probability and
-  Statistics Section Series. Wiley, 1975.
-\newblock ISBN 9780471436522.
-
-\bibitem[Kaufman(1974)]{kaufman1974adaptive}
-D.~W. Kaufman.
-\newblock Adaptive coloration in \textit{{Peromyscus} polionotus}: Experimental
-  selection by owls.
-\newblock \emph{Journal of Mammalogy}, 55\penalty0 (2):\penalty0 pp. 271--283,
-  1974.
-\newblock ISSN 00222372.
-\newblock URL \url{http://www.jstor.org/stable/1378997}.
-
-\bibitem[Kim and Maruki(2011)]{kim2011hitchhiking}
-Y.~Kim and T.~Maruki.
-\newblock Hitchhiking effect of a beneficial mutation spreading in a subdivided
-  population.
-\newblock \emph{Genetics}, 189\penalty0 (1):\penalty0 213--226, Sept. 2011.
-\newblock \doi{10.1534/genetics.111.130203}.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3176130/}.
-
-\bibitem[Kingsley et~al.(2009)Kingsley, Manceau, Wiley, and
-  Hoekstra]{kingsley2009melanism}
-E.~P. Kingsley, M.~Manceau, C.~D. Wiley, and H.~E. Hoekstra.
+\bibitem{kingsley2009melanism}
+Kingsley EP, Manceau M, Wiley CD, Hoekstra HE.
 \newblock Melanism in \textit{{Peromyscus}} is caused by independent mutations
   in agouti.
-\newblock \emph{PLoS ONE}, 4:\penalty0 e6435, 2009.
-\newblock URL \url{http://dx.doi.org/10.1371%2Fjournal.pone.0006435}.
+\newblock PLoS ONE. 2009;4:e6435.
+\newblock Available from:
+  \url{http://dx.doi.org/10.1371%2Fjournal.pone.0006435}.
 
-\bibitem[Kolmogorov et~al.(1991)Kolmogorov, Petrovskii, and
-  Piscunov]{KPP1937book}
-A.~Kolmogorov, I.~Petrovskii, and N.~Piscunov.
-\newblock A study of the equation of diffusion with increase in the quantity of
-  matter, and its application to a biological problem.
-\newblock In \emph{Selected Works of A.N. Kolmogorov: Mathematics and
-  mechanics}, volume~25 of \emph{Mathematics and its Applications (Soviet
-  Series)}, pages 1--25. Kluwer Academic Publishers Group, Dordrecht, 1991.
+\bibitem{rosenblum2010molecular}
+Rosenblum EB, Römpler H, Schöneberg T, Hoekstra HE.
+\newblock Molecular and functional basis of phenotypic convergence in white
+  lizards at {W}hite {S}ands.
+\newblock Proceedings of the National Academy of Sciences.
+  2010;107(5):2113--2117.
+\newblock Available from:
+  \url{http://www.pnas.org/content/107/5/2113.abstract}.
 
-\bibitem[Kondrashov(2003)]{Kondrashov:03}
-A.~S. Kondrashov.
-\newblock {Accumulation of {Dobzhansky}--{Muller} incompatibilities within a
-  spatially structured population}.
-\newblock \emph{Evolution}, 57\penalty0 (1):\penalty0 151--153, Jan 2003.
-
-\bibitem[Kruckeberg(1951)]{kruckeberg1951intraspecific}
-A.~R. Kruckeberg.
-\newblock Intraspecific variability in the response of certain native plant
-  species to serpentine soil.
-\newblock \emph{American Journal of Botany}, 38\penalty0 (6):\penalty0 pp.
-  408--419, 1951.
-\newblock URL \url{http://www.jstor.org/stable/2438248}.
-
-\bibitem[Lenormand(2002)]{lenormand2002limits}
-T.~Lenormand.
-\newblock Gene flow and the limits to natural selection.
-\newblock \emph{Trends in Ecology \& Evolution}, 17\penalty0 (4):\penalty0 183
-  -- 189, 2002.
-\newblock ISSN 0169-5347.
-\newblock \doi{DOI: 10.1016/S0169-5347(02)02497-7}.
-\newblock URL
-  \url{http://www.sciencedirect.com/science/article/pii/S0169534702024977}.
-
-\bibitem[Levin et~al.(2003)Levin, Muller-Landau, Nathan, and
-  Chave]{levin2003ecology}
-S.~A. Levin, H.~C. Muller-Landau, R.~Nathan, and J.~Chave.
-\newblock The ecology and evolution of seed dispersal: a theoretical
+\bibitem{levin2003ecology}
+Levin SA, Muller-Landau HC, Nathan R, Chave J.
+\newblock The Ecology and Evolution of Seed Dispersal: a theoretical
   perspective.
-\newblock \emph{Annu. Rev. Ecol. Evol. Syst.}, 34:\penalty0 575--604, 2003.
-\newblock URL
+\newblock Annu Rev Ecol Evol Syst. 2003;34:575--604.
+\newblock Available from:
   \url{http://arjournals.annualreviews.org/doi/pdf/10.1146/annurev.ecolsys.34.011802.132428}.
 
-\bibitem[Lou and Yanagida(2006)]{lou2006minimization}
-Y.~Lou and E.~Yanagida.
+\bibitem{hallatschek2014acceleration}
+Hallatschek O, Fisher DS.
+\newblock Acceleration of evolutionary spread by long-range dispersal.
+\newblock Proc Natl Acad Sci U S A. 2014 Nov;111(46):4911--4919.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/25368183}.
+
+\bibitem{haldane1948theory}
+Haldane JBS.
+\newblock The theory of a cline.
+\newblock J Genet. 1948 Jan;48(3):277--284.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/18905075}.
+
+\bibitem{fisher1950frequencies}
+Fisher RA.
+\newblock Gene Frequencies in a Cline Determined by Selection and Diffusion.
+\newblock Biometrics. 1950;6(4):pp. 353--361.
+\newblock Available from: \url{http://www.jstor.org/stable/3001780}.
+
+\bibitem{nagylaki1975conditions}
+Nagylaki T.
+\newblock Conditions for the existence of clines.
+\newblock Genetics. 1975;80(3):595--615.
+\newblock Available from:
+  \url{http://www.genetics.org/content/80/3/595.abstract}.
+
+\bibitem{conley1975application}
+Conley C.
+\newblock An application of {Wazewski}'s method to a non-linear boundary value
+  problem which arises in population genetics.
+\newblock Journal of Mathematical Biology. 1975;2(3):241--249.
+\newblock Available from: \url{http://dx.doi.org/10.1007/BF00277153}.
+
+\bibitem{lenormand2002limits}
+Lenormand T.
+\newblock Gene flow and the limits to natural selection.
+\newblock Trends in Ecology \& Evolution. 2002;17(4):183 -- 189.
+\newblock Available from:
+  \url{http://www.sciencedirect.com/science/article/pii/S0169534702024977}.
+
+\bibitem{barton1987establishment}
+Barton NH.
+\newblock The probability of establishment of an advantageous mutant in a
+  subdivided population.
+\newblock Genetics Research. 1987;50(1):35--40.
+\newblock Available from: \url{http://dx.doi.org/10.1017/S0016672300023314}.
+
+\bibitem{pollak1966survival}
+Pollak E.
+\newblock On the Survival of a Gene in a Subdivided Population.
+\newblock Journal of Applied Probability. 1966;3(1):142--155.
+\newblock Available from: \url{http://www.jstor.org/stable/3212043}.
+
+\bibitem{haldane1927mathematical}
+Haldane JBS.
+\newblock A Mathematical Theory of Natural and Artificial Selection, Part {V}:
+  Selection and Mutation.
+\newblock Mathematical Proceedings of the Cambridge Philosophical Society. 1927
+  7;23(07):838--844.
+\newblock Available from:
+  \url{http://journals.cambridge.org/article_S0305004100015644}.
+
+\bibitem{fisher1930genetical}
+Fisher RA.
+\newblock The genetical theory of natural selection.
+\newblock Oxford: Oxford University Press; 1930.
+\newblock Available from:
+  \url{http://www.archive.org/details/geneticaltheoryo031631mbp}.
+
+\bibitem{maruyama1970fixation}
+Maruyama T.
+\newblock On the fixation probability of mutant genes in a subdivided
+  population.
+\newblock Genetics Research. 1970;15(02):221--225.
+\newblock Available from: \url{http://dx.doi.org/10.1017/S0016672300001543}.
+
+\bibitem{cherry2003diffusion}
+Cherry JL, Wakeley J.
+\newblock A diffusion approximation for selection and drift in a subdivided
+  population.
+\newblock Genetics. 2003 Jan;163(1):421--428.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/12586727}.
+
+\bibitem{cantrell1989diffusive}
+Cantrell RS, Cosner C.
+\newblock Diffusive logistic equations with indefinite weights: population
+  models in disrupted environments.
+\newblock Proceedings of the Royal Society of Edinburgh, Section: A
+  Mathematics. 1989 0;112(3-4):293--318.
+\newblock Available from:
+  \url{http://journals.cambridge.org/article_S030821050001876X}.
+
+\bibitem{lou2006minimization}
+Lou Y, Yanagida E.
 \newblock Minimization of the principal eigenvalue for an elliptic boundary
   value problem with indefinite weight, and applications to population
   dynamics.
-\newblock \emph{Japan J. Indust. Appl. Math.}, 23\penalty0 (3):\penalty0
-  275--292, 2006.
-\newblock ISSN 0916-7005.
-\newblock URL \url{http://projecteuclid.org/euclid.jjiam/1197390801}.
+\newblock Japan J Indust Appl Math. 2006;23(3):275--292.
+\newblock Available from:
+  \url{http://projecteuclid.org/euclid.jjiam/1197390801}.
 
-\bibitem[Macnair(1991)]{macnair1991evolution}
-M.~R. Macnair.
-\newblock Why the evolution of resistance to anthropogenic toxins normally
-  involves major gene changes: the limits to natural selection.
-\newblock \emph{Genetica}, 84\penalty0 (3):\penalty0 213--219, 1991.
-\newblock ISSN 0016-6707.
-\newblock \doi{10.1007/BF00127250}.
-\newblock URL \url{http://dx.doi.org/10.1007/BF00127250}.
+\bibitem{NEQwiki}
+NEQwiki. {NEQwiki}, the nonlinear equations encyclopedia; 2013.
+\newblock Accessed December 17, 2014.
+\newblock Available from:
+  \url{http://www.primat.mephi.ru/wiki/ow.asp?Korteweg-de_Vries_equation}.
 
-\bibitem[Martin and Orgogozo(2013)]{martin2013repeated}
-A.~Martin and V.~Orgogozo.
-\newblock The loci of repeated evolution: a catalog of genetic hotspots of
-  phenotypic variation.
-\newblock \emph{Evolution}, 67\penalty0 (5):\penalty0 1235--1250, 2013.
-\newblock ISSN 1558-5646.
-\newblock \doi{10.1111/evo.12081}.
-\newblock URL \url{http://dx.doi.org/10.1111/evo.12081}.
+\bibitem{jagers1975branching}
+Jagers P.
+\newblock Branching processes with biological applications.
+\newblock Wiley Series in Probability and Statistics: Applied Probability and
+  Statistics Section Series. Wiley; 1975.
 
-\bibitem[Maruyama(1970)]{maruyama1970fixation}
-T.~Maruyama.
-\newblock On the fixation probability of mutant genes in a subdivided
-  population.
-\newblock \emph{Genetics Research}, 15\penalty0 (02):\penalty0 221--225, 1970.
-\newblock \doi{10.1017/S0016672300001543}.
-\newblock URL \url{http://dx.doi.org/10.1017/S0016672300001543}.
+\bibitem{geiger1999elementary}
+Geiger J.
+\newblock Elementary New Proofs of Classical Limit Theorems for
+  {Galton}-{Watson} Processes.
+\newblock Journal of Applied Probability. 1999;36(2):pp. 301--309.
+\newblock Available from: \url{http://www.jstor.org/stable/3215457}.
 
-\bibitem[{Maynard Smith} and Haigh(1974)]{maynardsmith1974hitchhiking}
-J.~{Maynard Smith} and J.~Haigh.
+\bibitem{aldous1985exchangeability}
+Aldous DJ.
+\newblock Exchangeability and related topics.
+\newblock In: École d'été de probabilités de {S}aint-{F}lour,
+  {XIII}---1983. vol. 1117 of Lecture Notes in Math. Berlin: Springer; 1985. p.
+  1--198.
+\newblock Available from:
+  \url{http://www.springerlink.com/content/c31v17440871210x/fulltext.pdf}.
+
+\bibitem{donnelly1989continuity}
+Donnelly P, Joyce P.
+\newblock Continuity and weak convergence of ranked and size-biased
+  permutations on the infinite simplex.
+\newblock Stochastic Process Appl. 1989;31(1):89--103.
+\newblock Available from:
+  \url{http://www.sciencedirect.com/science/article/pii/030441498990104X}.
+
+\bibitem{maynardsmith1974hitchhiking}
+{Maynard Smith} J, Haigh J.
 \newblock The hitch-hiking effect of a favourable gene.
-\newblock \emph{Genet Res}, 23\penalty0 (1):\penalty0 23--35, Feb. 1974.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/4407212}.
+\newblock Genet Res. 1974 Feb;23(1):23--35.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/4407212}.
 
-\bibitem[Messer and Petrov(2013)]{MesserPetrov}
-P.~W. Messer and D.~A. Petrov.
-\newblock {{P}opulation genomics of rapid adaptation by soft selective sweeps}.
-\newblock \emph{Trends Ecol. Evol. (Amst.)}, 28\penalty0 (11):\penalty0
-  659--669, Nov 2013.
+\bibitem{barton2013genetic}
+Barton NH, Etheridge AM, Kelleher J, Véber A.
+\newblock Genetic hitchhiking in spatially extended populations.
+\newblock Theoretical Population Biology. 2013;(0):--.
+\newblock Available from:
+  \url{http://www.sciencedirect.com/science/article/pii/S0040580912001359}.
 
-\bibitem[Nachman et~al.(2003)Nachman, Hoekstra, and
-  D'Agostino]{nachman2003genetic}
-M.~W. Nachman, H.~E. Hoekstra, and S.~L. D'Agostino.
+\bibitem{barton1979geneflow}
+Barton N.
+\newblock Gene flow past a cline.
+\newblock Heredity. 1979 Dec;43(3):333--339.
+\newblock Available from: \url{http://dx.doi.org/10.1038/hdy.1979.86}.
+
+\bibitem{borodin2002handbook}
+Borodin AN, Salminen P.
+\newblock Handbook of Brownian motion: facts and formulae.
+\newblock Springer; 2002.
+
+\bibitem{nachman2003genetic}
+Nachman MW, Hoekstra HE, D'Agostino SL.
 \newblock The genetic basis of adaptive melanism in pocket mice.
-\newblock \emph{Proc Natl Acad Sci U S A}, 100\penalty0 (9):\penalty0
-  5268--5273, Apr. 2003.
-\newblock \doi{10.1073/pnas.0431157100}.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/12704245}.
+\newblock Proc Natl Acad Sci U S A. 2003 Apr;100(9):5268--5273.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/12704245}.
 
-\bibitem[Nagylaki(1975)]{nagylaki1975conditions}
-T.~Nagylaki.
-\newblock Conditions for the existence of clines.
-\newblock \emph{Genetics}, 80\penalty0 (3):\penalty0 595--615, 1975.
-\newblock URL \url{http://www.genetics.org/content/80/3/595.abstract}.
+\bibitem{hoekstra2004local}
+Hoekstra HE, Krenz JG, Nachman MW.
+\newblock Local adaptation in the rock pocket mouse (\textit{{Chaetodipus}
+  intermedius}): natural selection and phylogenetic history of populations.
+\newblock Heredity. 2005 Nov;94(2):217--228.
+\newblock Available from: \url{http://dx.doi.org/10.1038/sj.hdy.6800600}.
 
-\bibitem[Nathan et~al.(2008)Nathan, Schurr, Spiegel, Steinitz, Trakhtenbrot,
-  and Tsoar]{nathan2008mechanisms}
-R.~Nathan, F.~M. Schurr, O.~Spiegel, O.~Steinitz, A.~Trakhtenbrot, and
-  A.~Tsoar.
+\bibitem{hoekstra2004ecological}
+Hoekstra HE, Drumm KE, Nachman MW.
+\newblock Ecological genetics of adaptive color polymorphism in pocket mice:
+  geographic variation in selected and neutral genes.
+\newblock Evolution. 2004 Jun;58(6):1329--1341.
+\newblock Available from:
+  \url{http://onlinelibrary.wiley.com/doi/10.1111/j.0014-3820.2004.tb01711.x/abstract}.
+
+\bibitem{french1968dispersal}
+French NR, Tagami TY, Hayden P.
+\newblock Dispersal in a Population of Desert Rodents.
+\newblock Journal of Mammalogy. 1968;49(2):pp. 272--280.
+\newblock Available from: \url{http://www.jstor.org/stable/1377984}.
+
+\bibitem{allred1963range}
+Allred DM, Beck DE.
+\newblock Range of Movement and Dispersal of Some Rodents at the {Nevada}
+  Atomic Test Site.
+\newblock Journal of Mammalogy. 1963;44(2):pp. 190--200.
+\newblock Available from: \url{http://www.jstor.org/stable/1377452}.
+
+\bibitem{Hoekstra:06}
+Hoekstra HE.
+\newblock {Genetics, development and evolution of adaptive pigmentation in
+  vertebrates}.
+\newblock Heredity (Edinb). 2006 Sep;97(3):222--234.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/16823403}.
+
+\bibitem{MesserPetrov}
+Messer PW, Petrov DA.
+\newblock {{P}opulation genomics of rapid adaptation by soft selective sweeps}.
+\newblock Trends Ecol Evol (Amst). 2013 Nov;28(11):659--669.
+
+\bibitem{wilson2014selective}
+Wilson BA, Petrov DA, Messer PW.
+\newblock Soft selective sweeps in complex demographic scenarios.
+\newblock Genetics. 2014 Oct;198(2):669--684.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/25060100}.
+
+\bibitem{ralph2014standing}
+Ralph PL, Coop G.
+\newblock The role of standing variation in geographic convergent adaptation.
+\newblock The American Naturalist. 2015;.
+
+\bibitem{slatkin1998hitchhiking}
+Slatkin M, Wiehe T.
+\newblock Genetic hitch-hiking in a subdivided population.
+\newblock Genet Res. 1998 Apr;71(2):155--160.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/9717437}.
+
+\bibitem{kim2011hitchhiking}
+Kim Y, Maruki T.
+\newblock Hitchhiking effect of a beneficial mutation spreading in a subdivided
+  population.
+\newblock Genetics. 2011 Sep;189(1):213--226.
+\newblock Available from:
+  \url{http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3176130/}.
+
+\bibitem{barton2000genetic}
+Barton NH.
+\newblock Genetic hitchhiking.
+\newblock Philos Trans R Soc Lond B Biol Sci. 2000 Nov;355(1403):1553--1562.
+\newblock Available from:
+  \url{http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1692896/}.
+
+\bibitem{reynolds2009levy}
+Reynolds AM, Rhodes CJ.
+\newblock The {L{é}vy} flight paradigm: random search patterns and mechanisms.
+\newblock Ecology. 2009 Apr;90(4):877--887.
+\newblock Available from:
+  \url{http://www.esajournals.org/doi/abs/10.1890/08-0153.1}.
+
+\bibitem{censky1998overwater}
+Censky EJ, Hodge K, Dudley J.
+\newblock Over-water dispersal of lizards due to hurricanes.
+\newblock Nature. 1998 Oct;395(6702):556--556.
+\newblock Available from: \url{http://dx.doi.org/10.1038/26886}.
+
+\bibitem{nathan2008mechanisms}
+Nathan R, Schurr FM, Spiegel O, Steinitz O, Trakhtenbrot A, Tsoar A.
 \newblock Mechanisms of long-distance seed dispersal.
-\newblock \emph{Trends in Ecology \& Evolution}, 23\penalty0 (11):\penalty0 638
-  -- 647, 2008.
-\newblock ISSN 0169-5347.
-\newblock \doi{http://dx.doi.org/10.1016/j.tree.2008.08.003}.
-\newblock URL
+\newblock Trends in Ecology \& Evolution. 2008;23(11):638 -- 647.
+\newblock Available from:
   \url{http://www.sciencedirect.com/science/article/pii/S0169534708002723}.
 
-\bibitem[NEQwiki(2013)]{NEQwiki}
-NEQwiki.
-\newblock {NEQwiki}, the nonlinear equations encyclopedia, 2013.
-\newblock URL
-  \url{http://www.primat.mephi.ru/wiki/ow.asp?Korteweg-de_Vries_equation}.
-\newblock Accessed December 17, 2014.
+\bibitem{cantrell1991diffusive}
+Cantrell RS, Cosner C.
+\newblock Diffusive logistic equations with indefinite weights: population
+  models in disrupted environments. {II}.
+\newblock SIAM J Math Anal. 1991;22(4):1043--1064.
+\newblock Available from: \url{http://dx.doi.org/10.1137/0522068}.
 
-\bibitem[Orr and Betancourt(2001)]{orr2001sieve}
-H.~A. Orr and A.~J. Betancourt.
-\newblock Haldane's sieve and adaptation from the standing genetic variation.
-\newblock \emph{Genetics}, 157\penalty0 (2):\penalty0 875--884, Feb. 2001.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/11157004}.
-
-\bibitem[Pennings and Hermisson(2006)]{softsweepsII}
-P.~S. Pennings and J.~Hermisson.
-\newblock Soft sweeps {II} - molecular population genetics of adaptation from
-  recurrent mutation or migration.
-\newblock \emph{Mol Biol Evol}, page msj117, 2006.
-\newblock \doi{10.1093/molbev/msj117}.
-\newblock URL
-  \url{http://mbe.oxfordjournals.org/cgi/content/abstract/msj117v1}.
-
-\bibitem[Pollak(1966)]{pollak1966survival}
-E.~Pollak.
-\newblock On the survival of a gene in a subdivided population.
-\newblock \emph{Journal of Applied Probability}, 3\penalty0 (1):\penalty0
-  142--155, 1966.
-\newblock ISSN 00219002.
-\newblock URL \url{http://www.jstor.org/stable/3212043}.
-
-\bibitem[Ralph and Coop(2010)]{ralph2010parallel}
-P.~Ralph and G.~Coop.
-\newblock Parallel adaptation: One or many waves of advance of an advantageous
-  allele?
-\newblock \emph{Genetics}, 186\penalty0 (2):\penalty0 647--668, 2010.
-\newblock \doi{10.1534/genetics.110.119594}.
-\newblock URL \url{http://www.genetics.org/cgi/content/abstract/186/2/647}.
-
-\bibitem[Ralph and Coop(2015)]{ralph2014standing}
-P.~L. Ralph and G.~Coop.
-\newblock The role of standing variation in geographic convergent adaptation.
-\newblock \emph{The American Naturalist}, 2015.
-\newblock \doi{10.1101/009803}.
-
-\bibitem[Reynolds and Rhodes(2009)]{reynolds2009levy}
-A.~M. Reynolds and C.~J. Rhodes.
-\newblock The {L{é}vy} flight paradigm: random search patterns and mechanisms.
-\newblock \emph{Ecology}, 90\penalty0 (4):\penalty0 877--887, Apr. 2009.
-\newblock URL \url{http://www.esajournals.org/doi/abs/10.1890/08-0153.1}.
-
-\bibitem[Rosenblum et~al.(2010)Rosenblum, Römpler, Schöneberg, and
-  Hoekstra]{rosenblum2010molecular}
-E.~B. Rosenblum, H.~Römpler, T.~Schöneberg, and H.~E. Hoekstra.
-\newblock Molecular and functional basis of phenotypic convergence in white
-  lizards at {W}hite {S}ands.
-\newblock \emph{Proceedings of the National Academy of Sciences}, 107\penalty0
-  (5):\penalty0 2113--2117, 2010.
-\newblock \doi{10.1073/pnas.0911042107}.
-\newblock URL \url{http://www.pnas.org/content/107/5/2113.abstract}.
-
-\bibitem[Schat et~al.(1996)Schat, Vooijs, and Kuiper]{schat1996identical}
-H.~Schat, R.~Vooijs, and E.~Kuiper.
-\newblock Identical major gene loci for heavy metal tolerances that have
-  independently evolved in different local populations and subspecies of
-  \textit{{Silene} vulgaris}.
-\newblock \emph{Evolution}, 50\penalty0 (5):\penalty0 pp. 1888--1895, 1996.
-\newblock URL \url{http://www.jstor.org/stable/2410747}.
-
-\bibitem[Sexton et~al.(2013)Sexton, Hangartner, and
-  Hoffmann]{sexton2013genetic}
-J.~P. Sexton, S.~B. Hangartner, and A.~A. Hoffmann.
+\bibitem{sexton2013genetic}
+Sexton JP, Hangartner SB, Hoffmann AA.
 \newblock Genetic isolation by environment or distance: Which pattern of gene
   flow is most common?
-\newblock \emph{Evolution}, 2013.
-\newblock ISSN 1558-5646.
-\newblock \doi{10.1111/evo.12258}.
-\newblock URL \url{http://dx.doi.org/10.1111/evo.12258}.
+\newblock Evolution. 2013;Available from:
+  \url{http://dx.doi.org/10.1111/evo.12258}.
 
-\bibitem[Slatkin(1973)]{slatkin1973geneflow}
-M.~Slatkin.
-\newblock Gene flow and selection in a cline.
-\newblock \emph{Genetics}, 75\penalty0 (4):\penalty0 733--756, 1973.
-\newblock URL \url{http://www.genetics.org/cgi/content/abstract/75/4/733}.
+\bibitem{Kondrashov:03}
+Kondrashov AS.
+\newblock {Accumulation of {Dobzhansky}--{Muller} incompatibilities within a
+  spatially structured population}.
+\newblock Evolution. 2003 Jan;57(1):151--153.
 
-\bibitem[Slatkin and Wiehe(1998)]{slatkin1998hitchhiking}
-M.~Slatkin and T.~Wiehe.
-\newblock Genetic hitch-hiking in a subdivided population.
-\newblock \emph{Genet Res}, 71\penalty0 (2):\penalty0 155--160, Apr. 1998.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/9717437}.
+\bibitem{KPP1937book}
+Kolmogorov A, Petrovskii I, Piscunov N.
+\newblock A study of the equation of diffusion with increase in the quantity of
+  matter, and its application to a biological problem.
+\newblock In: Selected Works of A.N. Kolmogorov: Mathematics and mechanics.
+  vol.~25 of Mathematics and its Applications (Soviet Series). Dordrecht:
+  Kluwer Academic Publishers Group; 1991. p. 1--25.
 
-\bibitem[Steiner et~al.(2009)Steiner, Rompler, Boettger, Schoneberg, and
-  Hoekstra]{steiner2009genetic}
-C.~C. Steiner, H.~Rompler, L.~M. Boettger, T.~Schoneberg, and H.~E. Hoekstra.
-\newblock The genetic basis of phenotypic convergence in beach mice: Similar
-  pigment patterns but different genes.
-\newblock \emph{Mol Biol Evol}, 26\penalty0 (1):\penalty0 35--45, 2009.
-\newblock \doi{10.1093/molbev/msn218}.
-\newblock URL \url{http://mbe.oxfordjournals.org/cgi/content/abstract/26/1/35}.
+\bibitem{fisher1937wave}
+Fisher R.
+\newblock {The wave of advance of advantageous genes}.
+\newblock Ann Eugenics. 1937;7:353--369.
+\newblock Available from:
+  \url{http://digital.library.adelaide.edu.au/coll/special/fisher/152.pdf}.
 
-\bibitem[Stern(2013)]{stern2013genetic}
-D.~L. Stern.
-\newblock The genetic causes of convergent evolution.
-\newblock \emph{Nat Rev Genet}, 14\penalty0 (11):\penalty0 751--764, Nov. 2013.
-\newblock \doi{10.1038/nrg3483}.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/24105273}.
+\bibitem{etheridge2000introduction}
+Etheridge AM.
+\newblock An introduction to superprocesses. vol.~20 of University Lecture
+  Series.
+\newblock Providence, RI: American Mathematical Society; 2000.
 
-\bibitem[Turner et~al.(2010)Turner, Bourne, Von~Wettberg, Hu, and
-  Nuzhdin]{turner2010serpentine}
-T.~L. Turner, E.~C. Bourne, E.~J. Von~Wettberg, T.~T. Hu, and S.~V. Nuzhdin.
-\newblock Population resequencing reveals local adaptation of
-  \textit{{Arabidopsis} lyrata} to serpentine soils.
-\newblock \emph{Nat. Genet.}, 42\penalty0 (3):\penalty0 260--3, Jan. 2010.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/20101244}.
+\bibitem{dawson1993measurevalued}
+Dawson DA.
+\newblock Measure-valued {Markov} processes.
+\newblock In: École d'Été de Probabilités de Saint-Flour XXI---1991. vol.
+  1541 of Lecture Notes in Math. Berlin: Springer; 1993. p. 1--260.
 
-\bibitem[Wilson et~al.(2014)Wilson, Petrov, and Messer]{wilson2014selective}
-B.~A. Wilson, D.~A. Petrov, and P.~W. Messer.
-\newblock Soft selective sweeps in complex demographic scenarios.
-\newblock \emph{Genetics}, 198\penalty0 (2):\penalty0 669--684, Oct. 2014.
-\newblock \doi{10.1534/genetics.114.165571}.
-\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/25060100}.
-
-\bibitem[Zhen et~al.(2012)Zhen, Aardema, Medina, Schumer, and
-  Andolfatto]{zhen2012parallel}
-Y.~Zhen, M.~L. Aardema, E.~M. Medina, M.~Schumer, and P.~Andolfatto.
-\newblock Parallel molecular evolution in an herbivore community.
-\newblock \emph{Science}, 337\penalty0 (6102):\penalty0 1634--1637, 2012.
-\newblock \doi{10.1126/science.1226630}.
-\newblock URL \url{http://www.sciencemag.org/content/337/6102/1634.abstract}.
+\bibitem{gradshteyn2007table}
+Gradshteyn IS, Ryzhik IM.
+\newblock Table of integrals, series, and products.
+\newblock Seventh ed. Elsevier/Academic Press, Amsterdam; 2007.
+\newblock Translated from the Russian, Translation edited and with a preface by
+  Alan Jeffrey and Daniel Zwillinger.
 
 \end{thebibliography}
-
 
 
 
