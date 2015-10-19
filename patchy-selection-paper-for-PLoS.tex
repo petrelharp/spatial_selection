@@ -702,7 +702,7 @@ We can understand this with a decomposition described by \citet{geiger1999elemen
 % (see also \citet{chauvin1991growing}). 
 % (lyons1995conceptual deals with conditioned on eventual nonextinction)
 When we condition on survival until $t$, we condition on survival of at least one trunk lineage
-(the long red lineage in Fig \ref{fig:branching_decomp}).
+(the long red lineage in Fig~\ref{fig:branching_decomp}).
 Given this lineage, the other reproduction events are undistinguished --
 % each individual along the trunk lineage must give birth to at least one offspring that survives until time $t$,
 % and all other reproduction events are unconditioned.
@@ -839,7 +839,7 @@ if the new patch has width smaller than $\sigma/\sqrt{2s_m}$,
 then $q(S)$ is approximately $q(R)$ multiplied by the area of the new patch.
 If $S$ is larger, then we should use the area of the closest strip
 of width $\sigma/\sqrt{2s_m}$ to the original patch;
-see Fig \ref{fig:branching_decomp}, and section \secref{apx:qS} for more details.
+see Fig~\ref{fig:branching_decomp}, and section \secref{apx:qS} for more details.
 In either case, denote this area $A'$;
 for numerical examples we compute $q(S)$ directly.
 
@@ -978,7 +978,7 @@ The theoretical values $1/\migrate$ again has a margin of error of a factor of a
       patch width larger than $\sigma/\sqrt{s_m} \atan(\sqrt{s_m/s_p})$, 
       and $s_m > 2 \sigma \rho$);
       the remaining combinations are shown in 
-      S\ref{sfig:sim_migration_times} and S\ref{sfig:sim_mutation_times} Fig.
+      \ref{sfig:sim_migration_times} and \ref{sfig:sim_mutation_times} Fig.
   }   \label{fig:sim_times}
 \end{figure}
 
@@ -1088,7 +1088,7 @@ is
 so that the probability of parallel mutation should increase
 approximately logistically with the distance between the patches, on the spatial scale $\sigma/\sqrt{2 s_m}$.
 
-We tested this using the same simulations as Fig \ref{fig:sim_times},
+We tested this using the same simulations as Fig~\ref{fig:sim_times},
 by using the empirical distributions of the respective times to adaptation
 to estimate the probability,
 for each parameter combination,
@@ -1110,7 +1110,7 @@ in Fig~\ref{fig:sim_probs}.
       and the strength of selection between patches ($s_m$).}
       The background shades of grey and contours
       give the probability predicted by theory (equation~\eqref{eqn:parallel_prob}, with $C=5$).
-      Points correspond to parameter combinations of the simulations in Fig \ref{fig:sim_times},
+      Points correspond to parameter combinations of the simulations in Fig~\ref{fig:sim_times},
       with the shade of grey and the red numeric label indicating the same probability
       estimated from these simulations (see text for details).
       The two densities, $\rho=100$ and $\rho=1000$ would lie directly on top of each other, so the $\rho=1000$ points have been shifted vertically.
@@ -1854,7 +1854,7 @@ that are difficult to formalize.
 Here we take a somewhat different tack,
 supposing that it suffices to model the spatial movement of a migrant family
 by following only the motion of the ``trunk''
-(i.e., the red line in Fig \ref{fig:branching_decomp}),
+(i.e., the red line in Fig~\ref{fig:branching_decomp}),
 and supposing this motion is Brownian, with variance $\sigma^2$ per generation.
 (Recall $\sigma$ is the dispersal distance.)
 We then use facts about Brownian motion and branching processes, 
@@ -1863,7 +1863,7 @@ to compute more precise versions of equations \eqref{eqn:gestalt_q} and \eqref{e
 
 We are approximating the dynamics of the focal allele in the region further away than $r_0$ from the patch
 as the sum of independent migrant families, each of whose dynamics are
-given by a spatial branching process (as depicted in Fig \ref{fig:branching_decomp}).
+given by a spatial branching process (as depicted in Fig~\ref{fig:branching_decomp}).
 Call $B(r_0)$ the region closer than $r_0$ to the patch, and $\partial B(r_0)$ its boundary.
 Denote by $\gamma(x)$ the mean rate of outflux of migrant families from a point $x \in \partial B(r_0)$,
 i.e., the time-averaged density of individuals near a point $x$ in $\partial B(r_0)$ 
@@ -2099,10 +2099,10 @@ Lower bounds could be obtained along similar lines.
 %   \pagebreak
 % \fi
 % 
-% \appendix
-% \section*{Supporting Information}
-% 
-% \setcounter{secnumdepth}{2}
+
+\appendix
+\renewcommand{\thesubsection}{S\arabic{subsection}}
+\setcounter{secnumdepth}{2}
 
 \section*{Supporting Information}
 
@@ -2391,7 +2391,8 @@ These can also be found at \url{http://github.com/petrelharp/spatial_selection}.
 %%%
 % Supplementary Figures
 
-\subsection*{S1 Fig}
+% S1
+\subsection{Fig}
 \label{sfig:sim_migration_times}
 
 % \begin{sfigure}
@@ -2407,8 +2408,8 @@ These can also be found at \url{http://github.com/petrelharp/spatial_selection}.
 %   } \label{sfig:sim_migration_times}
 % \end{sfigure}
 
-
-\subsection*{S2 Fig}
+% S2 
+\subsection{Fig}
 \label{sfig:sim_mutation_times}
 
 % \begin{sfigure}
@@ -2428,8 +2429,8 @@ These can also be found at \url{http://github.com/petrelharp/spatial_selection}.
 % \end{sfigure}
 
 % example trace plots
-
-\subsection*{S3 Fig}
+% S3 
+\subsection{Fig}
 \label{sfig:sims_1}
 
 % % sm=0.1
@@ -2450,8 +2451,8 @@ with $s_m=0.1$, $\sigma\approx 1$, and $\rho$ varying.}
 % \end{sfigure}
 
 
-
-\subsection*{S4 Fig}
+% S4 
+\subsection{Fig}
 \label{sfig:sims_2}
 
 % % sm=0.01
@@ -2471,8 +2472,8 @@ with $s_m=0.01$, $\sigma\approx 1$, and $\rho$ varying.}
 %   } \label{sfig:sims_2}
 % \end{sfigure}
 
-
-\subsection*{S5 Fig}
+% S5 
+\subsection{Fig}
 \label{sfig:sims_3}
 
 % % sm=0.001
@@ -2492,8 +2493,8 @@ with $s_m=0.001$, $\sigma\approx 1$, and $\rho$ varying.}
 %   } \label{sfig:sims_3}
 % \end{sfigure}
 
-
-\subsection*{S6 Fig}
+% S6 
+\subsection{Fig}
 \label{sfig:sims_4}
 
 % % sm=0.0001
@@ -2513,8 +2514,8 @@ with $s_m=0.001$, $\sigma\approx 1$, and $\rho$ varying.}
 %   } \label{sfig:sims_4}
 % \end{sfigure}
 
-
-\subsection*{S7 Fig}
+% S7 
+\subsection{Fig}
 \label{sfig:sims_5}
 
 % % sm=0.1, R=80
@@ -2534,8 +2535,8 @@ with $s_m=0.1$, $R=80$, $\sigma\approx 1$, and $\rho$ varying.}
 %   } \label{sfig:sims_5}
 % \end{sfigure}
 
-
-\subsection*{S8 Fig}
+% S8 
+\subsection{Fig}
 \label{sfig:sims_6}
 
 % % sm=0.01, R=80
@@ -2554,8 +2555,8 @@ with $s_m=0.01$, $R=80$, $\sigma\approx 1$, and $\rho$ varying.}
     dotted black lines indicate the patches where $B$ is advantageous.
 %   } \label{sfig:sims_6}
 % \end{sfigure}
-
-\subsection*{S9 Fig}
+% S9 
+\subsection{Fig}
 \label{sfig:sims_7}
 
 % % sm=0.001, R=80
@@ -2574,8 +2575,8 @@ with $s_m=0.001$, $R=80$, $\sigma\approx 1$, and $\rho$ varying.}
     dotted black lines indicate the patches where $B$ is advantageous.
 %   } \label{sfig:sims_7}
 % \end{sfigure}
-
-\subsection*{S10 Fig}
+% S10 
+\subsection{Fig}
 \label{sfig:sims_8}
 
 % % sm=0.0001, R=80
